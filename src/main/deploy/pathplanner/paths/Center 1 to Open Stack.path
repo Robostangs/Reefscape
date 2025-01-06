@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.831977603310033,
+        "y": 4.0294350071957235
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.7478628058182566,
+        "y": 5.2122610824614695
+      },
+      "isLocked": false,
+      "linkedName": "Center 1"
+    },
+    {
+      "anchor": {
+        "x": 1.8675138774671052,
+        "y": 5.838917943050986
+      },
+      "prevControl": {
+        "x": 3.0474888851768087,
+        "y": 6.1328687165912825
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Open Stack"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3115348592836259,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Stack Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}
