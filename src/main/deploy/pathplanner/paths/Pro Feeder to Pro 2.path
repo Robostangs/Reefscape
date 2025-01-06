@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.556931887963974,
-        "y": 4.091708600573144
+        "x": 1.492536333242358,
+        "y": 1.0982038073144098
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.921699334423785,
-        "y": 4.090808331560716
+        "x": 3.450785514465065,
+        "y": 0.64461525996179
       },
       "isLocked": false,
-      "linkedName": "Center Start"
+      "linkedName": "Pro Feeder"
     },
     {
       "anchor": {
         "x": 5.278048321759258,
-        "y": 5.495650679976852
+        "y": 2.5591825810185185
       },
       "prevControl": {
-        "x": 6.2782355892707855,
-        "y": 5.697569708628536
+        "x": 5.3951142023744545,
+        "y": 1.4929171499727067
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Open 2"
+      "linkedName": "Pro 2"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -118.9256376251655
+    "rotation": 123.84002452783966
   },
   "reversed": false,
-  "folder": "Start to Reef Paths",
+  "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 176.9737462221893
+    "rotation": -130.30246705754894
   },
   "useDefaultConstraints": true
 }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.163156609786183,
-        "y": 4.076829448499177
+        "x": 6.196365822871179,
+        "y": 4.091708600573144
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.221413060238486,
-        "y": 1.521175344366776
+        "x": 6.254622273323482,
+        "y": 1.5360544964407423
       },
       "isLocked": false,
       "linkedName": "Center 2"
@@ -45,7 +45,7 @@
     "rotation": 177.32434214199714
   },
   "reversed": false,
-  "folder": "Stack Paths",
+  "folder": "Reef to Stack Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 178.62131701464324

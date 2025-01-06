@@ -13,31 +13,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center 2 to Open Stack"
+            "pathName": "Center 2 to Pro Feeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open Stack to Open 1"
+            "pathName": "Pro Feeder to Pro 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open 1 to Center Stack"
+            "pathName": "Pro 1 to Pro Feeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Center Stack to Center 1"
+            "pathName": "Pro Feeder to Pro 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pro 2 to Pro Feeder"
           }
         }
       ]
     }
   },
-  "resetOdom": false,
-  "folder": null,
+  "resetOdom": true,
+  "folder": "Center Start",
   "choreoAuto": false
 }

@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Start to Center 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 2 to Open Stack"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Stack to Open 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 1 to Center Stack"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Stack to Center 1"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "Center Start",
+  "choreoAuto": false
+}

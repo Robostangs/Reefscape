@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.773816189236111,
-        "y": 4.730190248842592
+        "x": 7.592755953193232,
+        "y": 0.37733180949781514
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.735648386101973,
-        "y": 4.428623239617599
+        "x": 6.554588150059094,
+        "y": 0.07576480027282156
       },
       "isLocked": false,
       "linkedName": "Pro Start"
@@ -52,7 +52,7 @@
     "rotation": 117.20549367451754
   },
   "reversed": false,
-  "folder": "Starting Paths",
+  "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 179.00748713027215

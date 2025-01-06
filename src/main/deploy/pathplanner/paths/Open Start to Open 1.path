@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.773816189236111,
-        "y": 7.313888527199074
+        "x": 7.569854496451964,
+        "y": 7.261090594295852
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.653140190972222,
-        "y": 7.3385206886574075
+        "x": 6.449178498188075,
+        "y": 7.285722755754185
       },
       "isLocked": false,
       "linkedName": "Open Start"
@@ -45,7 +45,7 @@
     "rotation": -60.00596806753527
   },
   "reversed": false,
-  "folder": "Starting Paths",
+  "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 177.01302629969354

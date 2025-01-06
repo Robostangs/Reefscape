@@ -7,25 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Start to Pro 2"
+            "pathName": "Center Start to Open 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro 2 to Pro Stack"
+            "pathName": "Open 2 to Open Stack"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Stack to Pro 1"
+            "pathName": "Open Stack to Open 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro 1 to Center Stack"
+            "pathName": "Open 1 to Center Stack"
           }
         },
         {
@@ -37,7 +37,7 @@
       ]
     }
   },
-  "resetOdom": true,
-  "folder": null,
+  "resetOdom": false,
+  "folder": "Center Start",
   "choreoAuto": false
 }
