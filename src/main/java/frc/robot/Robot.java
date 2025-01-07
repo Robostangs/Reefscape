@@ -12,7 +12,7 @@ import java.util.List;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -24,6 +24,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  public XboxController xDrive = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
+  public XboxController xManip = new XboxController(Constants.OperatorConstants.kManipControllerPort);
+
 
   private final RobotContainer m_robotContainer;
 
@@ -144,9 +147,9 @@ public class Robot extends TimedRobot {
 				lastCounts[i] = gcCount;
 			}
 
-			SmartDashboard.putNumber("GC Time MS", (double) accumTime);
-			SmartDashboard.putNumber("GCCounts", (double) accumCounts);
-			SmartDashboard.putNumber("Memory Usage", (double) memBean.getHeapMemoryUsage().getUsed());
+			SmartDashboard.putNumber("Memory/GC Time MS", (double) accumTime);
+			SmartDashboard.putNumber("Memory/GCCounts", (double) accumCounts);
+			SmartDashboard.putNumber("Memory/Usage", (double) memBean.getHeapMemoryUsage().getUsed());
 
       //TODO remake alerts
 			// if (accumTime > (100)) {

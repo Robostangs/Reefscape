@@ -17,5 +17,14 @@ public final class Constants {
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kManipControllerPort = 0;
+
+  }
+  public static class IntakeConstants {
+    public static final int kTopIntakeMotorId = 0;
+    public static final int kBottomIntakeMotorId = 0;
+
+    public static final boolean kTopIntakeMotorInverted = false;
+    public static final boolean kBottomIntakeMotorInverted = false;
   }
 }
