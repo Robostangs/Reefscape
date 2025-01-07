@@ -4,7 +4,16 @@
 
 package frc.robot;
 
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.util.List;
+
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -44,6 +53,24 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
+  @Override
+	public void driverStationConnected() {
+
+
+		// other than if a motor or cancoder fails to verify (position isnt available),
+		// only once driverstation connects should we start logging stuff
+		DataLogManager.start(Constants.logDirectory);
+		DataLogManager.log("Driverstation connected");
+		DriverStation.startDataLog(DataLogManager.getLog());
+
+		CommandScheduler.getInstance()
+				.onCommandInitialize((action) -> DataLogManager.log(action.getName() + " Command Initialized"));
+		CommandScheduler.getInstance()
+
+				.onCommandInterrupt((action) -> DataLogManager.log(action.getName() + " Command Interrupted"));
+		CommandScheduler.getInstance()
+				.onCommandFinish((action) -> DataLogManager.log(action.getName() + " Command Finished"));
+	}
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}
@@ -98,4 +125,37 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+  	private static final class GcStatsCollector {
+		private List<GarbageCollectorMXBean> gcBeans = ManagementFactory.getGarbageCollectorMXBeans();
+		private MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
+		private final long[] lastTimes = new long[gcBeans.size()];
+		private final long[] lastCounts = new long[gcBeans.size()];
+
+		public void update() {
+			long accumTime = 0;
+			long accumCounts = 0;
+			for (int i = 0; i < gcBeans.size(); i++) {
+				long gcTime = gcBeans.get(i).getCollectionTime();
+				long gcCount = gcBeans.get(i).getCollectionCount();
+				accumTime += gcTime - lastTimes[i];
+				accumCounts += gcCount - lastCounts[i];
+
+				lastTimes[i] = gcTime;
+				lastCounts[i] = gcCount;
+			}
+
+			SmartDashboard.putNumber("GC Time MS", (double) accumTime);
+			SmartDashboard.putNumber("GCCounts", (double) accumCounts);
+			SmartDashboard.putNumber("Memory Usage", (double) memBean.getHeapMemoryUsage().getUsed());
+
+      //TODO remake alerts
+			// if (accumTime > (100)) {
+			// 	gcAlert.set(true);
+			// } else {
+			// 	gcAlert.set(false);
+
+			// }
+
+		}
+	}
 }
