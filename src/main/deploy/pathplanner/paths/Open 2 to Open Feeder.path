@@ -20,8 +20,8 @@
         "y": 6.960477790665939
       },
       "prevControl": {
-        "x": 0.42158672216157234,
-        "y": 6.960477790665939
+        "x": 2.600138595114629,
+        "y": 6.696537254366811
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Feeder Intake",
+      "waypointRelativePos": 0.6252539435946461,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
