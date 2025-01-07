@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2741795169213974,
-        "y": 5.632941713291484
+        "x": 2.2741742803149614,
+        "y": 5.6329398916686575
       },
       "isLocked": false,
       "linkedName": "Center 1"
@@ -49,7 +49,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 123.96191542192405
+    "rotation": -143.44101596471344
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",

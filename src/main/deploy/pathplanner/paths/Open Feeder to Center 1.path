@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4215867221615723,
-        "y": 6.960477790665939
+        "x": 2.088273573962882,
+        "y": 5.177107925081877
       },
       "isLocked": false,
       "linkedName": "Open Feeder"
@@ -20,8 +20,8 @@
         "y": 4.0294350071957235
       },
       "prevControl": {
-        "x": 1.8319776033100328,
-        "y": 4.0294350071957235
+        "x": 2.5253970216975983,
+        "y": 4.831241044623362
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 129.46752335355512
+    "rotation": -146.26746278882737
   },
   "useDefaultConstraints": true
 }

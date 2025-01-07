@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4925363332423576,
-        "y": 1.0982038073144094
+        "x": 2.200136462882096,
+        "y": 2.1947295476255455
       },
       "isLocked": false,
       "linkedName": "Pro Feeder"
@@ -48,7 +48,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -129.13202802909385
+    "rotation": 143.85414028889687
   },
   "useDefaultConstraints": true
 }
