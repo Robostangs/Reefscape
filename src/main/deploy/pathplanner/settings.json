@@ -4,15 +4,17 @@
   "holonomicMode": true,
   "pathFolders": [
     "Feeder to Reef Paths",
+    "Goofy Paths",
     "Reef to Feeder Paths",
     "Reef to Stack Paths",
     "Stack to Reef Paths",
     "Start to Reef Paths"
   ],
   "autoFolders": [
+    "Center Start",
+    "Misc & 1 Pieces",
     "Open Start",
-    "Pro Start",
-    "Center Start"
+    "Pro Start"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
