@@ -26,7 +26,8 @@ public class Intake {
         intakeMotortop = new TalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
         intakeMotorbottom = new TalonFX(Constants.IntakeConstants.kBottomIntakeMotorId);
 
-
+        intakeMotortop.getConfigurator().apply(talonFXConfigs);
+        intakeMotorbottom.getConfigurator().apply(talonFXConfigs);
 
     
     }

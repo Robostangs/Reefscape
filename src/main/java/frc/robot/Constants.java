@@ -34,6 +34,8 @@ public final class Constants {
     public static final int kElevatorD = 0;
     public static final int kElevatorFF = 0;
     public static final double kElevatorMotorCurrentLimit = 0; 
+    public static final double kmaxElevatorHeight = 0;
+    public static final double kminElevatorHeight = 0;
   
     
   }
