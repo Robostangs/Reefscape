@@ -1,13 +1,16 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class Intake {
-    PWMTalonFX intakeMotortop, intakeMotorbottom;
-    Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
+    private TalonFX intakeMotortop, intakeMotorbottom;
+    private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
 
     public static Intake getInstance() {
@@ -18,24 +21,24 @@ public class Intake {
 
     public Intake() {
 
-        intakeMotortop = new PWMTalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
-        intakeMotorbottom = new PWMTalonFX(Constants.IntakeConstants.kBottomIntakeMotorId);
+        var talonFXConfigs = new TalonFXConfiguration();
 
-        intakeMotortop.addFollower(intakeMotorbottom);
+        intakeMotortop = new TalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
+        intakeMotorbottom = new TalonFX(Constants.IntakeConstants.kBottomIntakeMotorId);
 
-        intakeMotortop.setInverted(Constants.IntakeConstants.kTopIntakeMotorInverted);
-        intakeMotorbottom.setInverted(Constants.IntakeConstants.kBottomIntakeMotorInverted);
 
+
+    
     }
 
-    public void runIntake(double speed) {
-        intakeMotortop.set(speed);
-        // intakeMotorbottom.set(speed);
+    public void runIntake(double IntakeDutyCycle) {
+        intakeMotortop.set(IntakeDutyCycle);
+        intakeMotorbottom.set(IntakeDutyCycle);
     }
 
     public void stopIntake() {
         intakeMotortop.stopMotor();
-        // intakeMotorbottom.stopMotor();
+        intakeMotorbottom.stopMotor();
     }
 
     public void periodic() {

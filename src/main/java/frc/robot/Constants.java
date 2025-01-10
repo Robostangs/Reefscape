@@ -27,4 +27,15 @@ public final class Constants {
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
   }
+  public static class ElevatorConstants {
+    public static final int kElevatorMotorId = 0;
+    public static final int kElevatorP = 0;
+    public static final int kElevatorI = 0;
+    public static final int kElevatorD = 0;
+    public static final int kElevatorFF = 0;
+    public static final double kElevatorMotorCurrentLimit = 0; 
+  
+    
+  }
+
 }
