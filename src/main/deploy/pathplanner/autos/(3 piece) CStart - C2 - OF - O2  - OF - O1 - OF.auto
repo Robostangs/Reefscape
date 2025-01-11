@@ -13,7 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center 2 to Open Feeder"
+            "pathName": "Center 2L to Open Feeder"
           }
         },
         {
@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open 2 to Open Feeder"
+            "pathName": "Open 2L to Open Feeder"
           }
         },
         {
@@ -37,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open 1 to Open Feeder"
+            "pathName": "Open 1L to Open Feeder"
           }
         }
       ]

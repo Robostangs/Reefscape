@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5827717028166113,
-        "y": 5.4359712299547684
+        "x": 3.525263310185184,
+        "y": 2.7399931278935186
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3112509381823143,
-        "y": 6.509084589929039
+        "x": 2.5331702159651464,
+        "y": 2.006821651542029
       },
       "isLocked": false,
-      "linkedName": "Open 1"
+      "linkedName": "Pro 1L"
     },
     {
       "anchor": {
-        "x": 1.4215867221615721,
-        "y": 6.960477790665939
+        "x": 2.490058925430616,
+        "y": 1.8562252546517408
       },
       "prevControl": {
-        "x": 2.519555308165776,
-        "y": 5.9098415716394435
+        "x": 2.654753958421781,
+        "y": 1.6681413741408395
+      },
+      "nextControl": {
+        "x": 2.325363892439451,
+        "y": 2.044309135162642
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.492536333242358,
+        "y": 1.0982038073144098
+      },
+      "prevControl": {
+        "x": 2.4565928629912657,
+        "y": 1.9047941116266371
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Open Feeder"
+      "linkedName": "Pro Feeder"
     }
   ],
   "rotationTargets": [],
@@ -34,7 +50,7 @@
   "eventMarkers": [
     {
       "name": "Feeder Intake",
-      "waypointRelativePos": 0.3719003943594646,
+      "waypointRelativePos": 0.85,
       "endWaypointRelativePos": 1.0,
       "command": null
     }
@@ -49,13 +65,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 129.12703645499826
+    "rotation": -130.83182079937436
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -61.572949553499065
+    "rotation": 56.276664673003005
   },
   "useDefaultConstraints": true
 }

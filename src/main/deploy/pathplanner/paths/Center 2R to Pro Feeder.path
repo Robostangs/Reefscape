@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.278048321759258,
-        "y": 2.5591825810185185
+        "x": 6.148501157407407,
+        "y": 4.247621166087963
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.5772674160753275,
-        "y": 1.6782243620360247
+        "x": 6.970238959466203,
+        "y": 2.764824878069134
       },
       "isLocked": false,
-      "linkedName": "Pro 2"
+      "linkedName": "Center 2R"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 1.0982038073144098
       },
       "prevControl": {
-        "x": 3.096486507232532,
-        "y": 1.930339963155021
+        "x": 4.196754315638644,
+        "y": 0.9686284627456324
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "Feeder Intake",
-      "waypointRelativePos": 0.5323255258126195,
+      "waypointRelativePos": 0.7005407504780117,
       "endWaypointRelativePos": 1.0,
       "command": null
     }
@@ -55,7 +55,7 @@
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 120.19927567858909
+    "rotation": 179.8886741436317
   },
   "useDefaultConstraints": true
 }
