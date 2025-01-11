@@ -19,25 +19,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open Feeder to Open 2R"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Open 2L to Open Feeder"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "Open Feeder to Center 1R"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Center 1L to Open Feeder"
+            "pathName": "Center 1R to Pro Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pro Feeder to Pro 1R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pro 1R to Pro Feeder"
           }
         }
       ]

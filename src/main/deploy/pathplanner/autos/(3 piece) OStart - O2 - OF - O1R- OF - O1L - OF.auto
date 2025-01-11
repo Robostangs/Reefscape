@@ -7,25 +7,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open Start to Open 1L"
+            "pathName": "Open Start to Open 2L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 2L to Open Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Feeder to Open 1R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 1R to Open Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Feeder to Open 1L"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Open 1L to Open Feeder"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Open Feeder to Center 1R"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center 1L to Pro Feeder"
           }
         }
       ]
