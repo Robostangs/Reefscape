@@ -29,6 +29,8 @@ public class Elevator extends SubsystemBase {
     private Mechanism2d simElevatorMechanism;
     private MechanismRoot2d simElevatorRoot;
     private MechanismRoot2d simElevatorRoot2;
+    private MechanismRoot2d simPlatELevator;
+
 
     private MechanismLigament2d simElevatorLeft;
     private MechanismLigament2d simElevatorRight;
@@ -57,12 +59,14 @@ public class Elevator extends SubsystemBase {
 
         simElevatorRoot = simElevatorMechanism.getRoot("Elevator", Constants.ElevatorConstants.kRootElevatorX,
                 Constants.ElevatorConstants.kRootElevatorY);
-        simElevatorRoot2 = simElevatorMechanism.getRoot("Elevator2", Constants.ElevatorConstants.kRootElevator2X ,
+                simPlatELevator = simElevatorMechanism.getRoot("Plat", Constants.ElevatorConstants.kRootElevator2X,
+                elevatorPosition);
+        simElevatorRoot2 = simElevatorMechanism.getRoot("Elevator2", Constants.ElevatorConstants.kRootElevator2X,
                 Constants.ElevatorConstants.kRootElevator2Y);
 
         simElevatorLeft = simElevatorRoot
                 .append(new MechanismLigament2d("Liga1", Constants.ElevatorConstants.kLigaLength, 90));
-        simElevatorIntake = simElevatorRoot
+        simElevatorIntake = simPlatELevator
                 .append(new MechanismLigament2d("Intake", Constants.ElevatorConstants.kLigaLength, 0));
         simElevatorRight = simElevatorRoot2
                 .append(new MechanismLigament2d("Liga2", Constants.ElevatorConstants.kLigaLength, 90));
@@ -93,7 +97,7 @@ public class Elevator extends SubsystemBase {
                 && TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
 
             double elevatorrots = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
-            simElevator.setState(elevatorrots, TargetElevatorMeters);
+            // simElevator.setState(elevatorrots, TargetElevatorMeters);
             elevatorPosition = TargetElevatorMeters;
         }
     }
@@ -108,7 +112,7 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator/position", elevatorPosition);
 
         SmartDashboard.putData("Elevator/Elevator", simElevatorMechanism);
-        setSimElevatorPosition(elevatorPosition + 0.01);
+
     }
 
 }
