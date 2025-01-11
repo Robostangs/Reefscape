@@ -7,19 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Start to Pro 1L"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro 1L to Pro Feeder"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro Feeder to Pro 2R"
+            "pathName": "Pro Start to Pro 2L"
           }
         },
         {
@@ -31,13 +19,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Feeder to Center 1R"
+            "pathName": "Pro Feeder to Pro 1R"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Center 1L to Pro Feeder"
+            "pathName": "Pro 1R to Pro Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pro Feeder to Pro 1L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pro 1L to Pro Feeder"
           }
         }
       ]
