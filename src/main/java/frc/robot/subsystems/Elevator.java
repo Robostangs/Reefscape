@@ -1,17 +1,20 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.DifferentialPositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Elevator {
+public class Elevator extends SubsystemBase{
     private static Elevator mInstance;
     private TalonFX elevatorMotor;
     private double elevatorPosition;
+    private TorqueCurrentFOC elevatorControl;
 
     public static Elevator getInstance() {
         if (mInstance == null)
@@ -21,6 +24,7 @@ public class Elevator {
 
     public Elevator() {
         elevatorMotor = new TalonFX(Constants.ElevatorConstants.kElevatorMotorId);
+        elevatorControl = new TorqueCurrentFOC(Constants.ElevatorConstants.kElevatorMaxCurrent);
 
         var slot0Configs = new Slot0Configs();
         // TODO tune these values
@@ -30,18 +34,20 @@ public class Elevator {
         slot0Configs.kS = Constants.ElevatorConstants.kElevatorFF;
 
         elevatorMotor.getConfigurator().apply(slot0Configs);
-
+        
     }
-
+    @Override
     public void periodic() {
         SmartDashboard.putNumber("Elevator/position", elevatorPosition);
     }
 
-    public void setElevatorPosition(double rotations) {
-        if (rotations > Constants.ElevatorConstants.kminElevatorHeight
-                && rotations < Constants.ElevatorConstants.kmaxElevatorHeight) {
-            elevatorMotor.setPosition(rotations);
-            elevatorPosition = rotations;
+    public void setElevatorPosition(double TargetElevatorMeters) {
+        if (TargetElevatorMeters > Constants.ElevatorConstants.kminElevatorHeight
+                && TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
+
+            double elevatorrots = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
+            elevatorMotor.setPosition(elevatorrots);
+            elevatorPosition = TargetElevatorMeters;
         }
 
     }

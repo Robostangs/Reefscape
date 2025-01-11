@@ -6,9 +6,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Intake {
+public class Intake extends SubsystemBase {
     private TalonFX intakeMotortop, intakeMotorbottom;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
@@ -42,8 +43,10 @@ public class Intake {
         intakeMotorbottom.stopMotor();
     }
 
+    @Override
     public void periodic() {
         //TODO add logging
 
     }
+
 }
