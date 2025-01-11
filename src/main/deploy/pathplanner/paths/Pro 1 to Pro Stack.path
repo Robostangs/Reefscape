@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 88.94363822122004
+    "rotation": 91.73475244261728
   },
   "reversed": false,
   "folder": "Reef to Stack Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.969755785642015
+    "rotation": 68.09960308666771
   },
   "useDefaultConstraints": true
 }

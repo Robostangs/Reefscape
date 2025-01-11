@@ -103,9 +103,57 @@
         "x": 5.3696953483864105,
         "y": 5.673048623402913
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 5.790733615733958,
+        "y": 5.054927360393382
+      },
       "isLocked": false,
       "linkedName": "open 2R"
+    },
+    {
+      "anchor": {
+        "x": 1.4215867221615721,
+        "y": 6.960477790665939
+      },
+      "prevControl": {
+        "x": 1.5823499547010405,
+        "y": 6.766893350638831
+      },
+      "nextControl": {
+        "x": 1.2608234896221038,
+        "y": 7.154062230693047
+      },
+      "isLocked": false,
+      "linkedName": "Open Feeder"
+    },
+    {
+      "anchor": {
+        "x": 1.492536333242358,
+        "y": 1.0982038073144098
+      },
+      "prevControl": {
+        "x": 1.3398676372068568,
+        "y": 1.2961741819941068
+      },
+      "nextControl": {
+        "x": 1.6452050292778593,
+        "y": 0.9002334326347128
+      },
+      "isLocked": false,
+      "linkedName": "Pro Feeder"
+    },
+    {
+      "anchor": {
+        "x": 6.148501157407407,
+        "y": 3.8872918941048034
+      },
+      "prevControl": {
+        "x": 6.343236520972981,
+        "y": 3.7305177311283018
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Center 2L"
     }
   ],
   "rotationTargets": [],
@@ -159,7 +207,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -122.01155067625263
+    "rotation": 179.44058041068706
   },
   "reversed": false,
   "folder": null,

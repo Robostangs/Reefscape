@@ -48,7 +48,7 @@
   "folder": "Stack to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -89.30764964144767
+    "rotation": -87.4407195498322
   },
   "useDefaultConstraints": true
 }

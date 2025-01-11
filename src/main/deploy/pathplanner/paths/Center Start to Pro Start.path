@@ -21,11 +21,11 @@
       },
       "prevControl": {
         "x": 10.176057369978698,
-        "y": 0.22293503925711255
+        "y": 0.2229350392571125
       },
       "nextControl": {
         "x": 4.954897311681224,
-        "y": 1.1448050286572042
+        "y": 1.144805028657204
       },
       "isLocked": false,
       "linkedName": "Pro Start"
@@ -64,7 +64,7 @@
   "folder": "Goofy Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.71342293804608
+    "rotation": 176.74932544169022
   },
   "useDefaultConstraints": true
 }

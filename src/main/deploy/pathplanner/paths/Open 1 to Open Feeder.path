@@ -49,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -145.64248620249597
+    "rotation": 129.12703645499826
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -58.29923754556486
+    "rotation": -61.572949553499065
   },
   "useDefaultConstraints": true
 }

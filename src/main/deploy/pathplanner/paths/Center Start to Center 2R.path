@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 6.090789608351529,
-        "y": 4.0294350071957235
+        "x": 6.148501157407407,
+        "y": 4.247621166087963
       },
       "prevControl": {
-        "x": 6.400215753879049,
-        "y": 3.931575353973084
+        "x": 6.457927302934927,
+        "y": 4.149761512865323
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Center 2"
+      "linkedName": "Center 2R"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 179.64582583550973
+    "rotation": 179.8886741436317
   },
   "reversed": false,
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 178.1137677111979
+    "rotation": 176.74932544169022
   },
   "useDefaultConstraints": true
 }
