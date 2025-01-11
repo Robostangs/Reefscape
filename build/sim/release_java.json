@@ -5,17 +5,17 @@
     "extensions": [
       {
         "name": "Sim GUI",
-        "libName": "/Users/devinpatel/Desktop/Robostangs/Reefscape/build/jni/release/libhalsim_gui.dylib",
+        "libName": "/Users/kushaldurga/Downloads/Robotics/Reefscape/build/jni/release/libhalsim_gui.dylib",
         "defaultEnabled": true
       },
       {
         "name": "Use Real DriverStation",
-        "libName": "/Users/devinpatel/Desktop/Robostangs/Reefscape/build/jni/release/libhalsim_ds_socket.dylib",
+        "libName": "/Users/kushaldurga/Downloads/Robotics/Reefscape/build/jni/release/libhalsim_ds_socket.dylib",
         "defaultEnabled": false
       }
     ],
     "environment": {},
-    "libraryDir": "/Users/devinpatel/Desktop/Robostangs/Reefscape/build/jni/release",
+    "libraryDir": "/Users/kushaldurga/Downloads/Robotics/Reefscape/build/jni/release",
     "mainClassName": "frc.robot.Main"
   }
 ]

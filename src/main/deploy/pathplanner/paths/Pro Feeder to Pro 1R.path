@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.492536333242358,
+        "y": 1.0982038073144098
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.3620327018235785,
+        "y": 1.8645790919863328
+      },
+      "isLocked": false,
+      "linkedName": "Pro Feeder"
+    },
+    {
+      "anchor": {
+        "x": 3.9077314814814805,
+        "y": 2.4298491753472216
+      },
+      "prevControl": {
+        "x": 3.6935356354149684,
+        "y": 2.201265282309876
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Pro 1R"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 60.28058726539555
+  },
+  "reversed": false,
+  "folder": "Feeder to Reef Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -125.03834249038793
+  },
+  "useDefaultConstraints": true
+}
