@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.278048321759258,
-        "y": 5.495650679976852
+        "x": 5.082993425641741,
+        "y": 5.5810995919363835
       },
       "prevControl": {
-        "x": 6.2782355892707855,
-        "y": 5.697569708628536
+        "x": 6.083180693153268,
+        "y": 5.783018620588067
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Open 2"
+      "linkedName": "Open 2L"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -118.9409245281682
+    "rotation": -121.61415706593867
   },
   "reversed": false,
   "folder": "Start to Reef Paths",

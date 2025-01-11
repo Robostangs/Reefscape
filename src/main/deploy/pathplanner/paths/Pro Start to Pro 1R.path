@@ -4,31 +4,36 @@
     {
       "anchor": {
         "x": 7.556931887963974,
-        "y": 7.478878957418184
+        "y": 0.6853788550725858
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.436255889700084,
-        "y": 7.503511118876517
+        "x": 4.9959103780021845,
+        "y": 0.5823971410987875
       },
       "isLocked": false,
-      "linkedName": "Open Start"
+      "linkedName": "Pro Start"
     },
     {
       "anchor": {
-        "x": 3.5827717028166113,
-        "y": 5.4359712299547684
+        "x": 3.834999638310184,
+        "y": 2.3710347945601846
       },
       "prevControl": {
-        "x": 3.8666433582300836,
-        "y": 5.583142870921743
+        "x": 5.156203146164382,
+        "y": 1.4513586443549844
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Open 1"
+      "linkedName": "Pro 1R"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.721639711257311,
+      "rotationDegrees": 90.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -61.572949553499065
+    "rotation": 60.768255444045174
   },
   "reversed": false,
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -178.87363255868482
+    "rotation": 179.74480287297555
   },
   "useDefaultConstraints": true
 }
