@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.525263310185184,
-        "y": 2.7399931278935186
+        "x": 3.4472323495370363,
+        "y": 2.700919415509259
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5331702159651464,
-        "y": 2.006821651542029
+        "x": 2.4551392553169986,
+        "y": 1.9677479391577695
       },
       "isLocked": false,
       "linkedName": "Pro 1L"
@@ -55,7 +55,7 @@
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 56.276664673003005
+    "rotation": 59.99002243967977
   },
   "useDefaultConstraints": true
 }

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4768941932516593,
-        "y": 1.6104424872129208
+        "x": 4.062221137152777,
+        "y": 1.110310691550925
       },
       "isLocked": false,
       "linkedName": "Pro 2L"
@@ -20,8 +20,8 @@
         "y": 1.0982038073144098
       },
       "prevControl": {
-        "x": 3.096486507232532,
-        "y": 1.930339963155021
+        "x": 3.310794632523147,
+        "y": 1.2019679542824064
       },
       "nextControl": null,
       "isLocked": false,
@@ -55,7 +55,7 @@
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 123.84002452783966
+    "rotation": 119.83737176619314
   },
   "useDefaultConstraints": true
 }
