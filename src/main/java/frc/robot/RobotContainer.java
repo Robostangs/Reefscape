@@ -36,6 +36,6 @@ public class RobotContainer {
 
   }
 
-  private void congigureSimpleBindings() {
+  private void configureSinBindings() {
   }
 }
