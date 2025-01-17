@@ -29,10 +29,15 @@
       "Pos": "60,60",
       "Size": "169,167"
     },
+    "###/SmartDashboard/Elevator Sim": {
+      "Collapsed": "0",
+      "Pos": "400,400",
+      "Size": "246,200"
+    },
     "###/SmartDashboard/Elevator/Elevator": {
       "Collapsed": "0",
-      "Pos": "436,69",
-      "Size": "490,320"
+      "Pos": "399,68",
+      "Size": "740,575"
     },
     "###FMS": {
       "Collapsed": "0",

@@ -40,6 +40,7 @@ public final class Constants {
     public static final double kElevatorD = 0;
     public static final double kElevatorFF = 0;
     public static final double kElevatorMaxCurrent = 40.0d;
+    //TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
     public static final double kmaxElevatorHeight = 10d;
     public static final double kminElevatorHeight = 0d;
     public static final double kRotationstoMeters = 1d;
@@ -51,6 +52,10 @@ public final class Constants {
     public static final double kRootElevator2X = .6;
     public static final double kRootElevator2Y = 0d;
     public static final double kLigaLength = .3d;
+    public static final double kElevatorGearing = 0d;
+    public static final double kDrumRadius = 0d;
+
+
 
   }
 
