@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.MoveArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 
 
@@ -28,6 +30,7 @@ public class Robot extends TimedRobot {
   private final RobotContainer m_robotContainer;
    
   private Elevator elevator = Elevator.getInstance();
+  private Arm arm = Arm.getInstance();
 
   public static ShuffleboardTab autoTab, teleopTab, testTab;
 

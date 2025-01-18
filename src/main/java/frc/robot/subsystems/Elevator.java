@@ -55,6 +55,7 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
         elevatorMotor = new TalonFX(Constants.ElevatorConstants.kElevatorMotorId);
         elevatorControl = new TorqueCurrentFOC(Constants.ElevatorConstants.kElevatorMaxCurrent);
+        
         // elevatorMotorModel = DCMotor.getFalcon500(1);
         // // TODO find gearing of the elevator
         // simElevator = new ElevatorSim(elevatorMotorModel,
@@ -130,7 +131,7 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        elevatorPosition = elevatorEncoder.getPosition().getValueAsDouble();
+        // elevatorPosition = elevatorEncoder.getPosition().getValueAsDouble();
         SmartDashboard.putNumber("Elevator/position", elevatorPosition);
 
         SmartDashboard.putData("Elevator Sim", m_mech2d);

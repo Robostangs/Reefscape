@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.signals.GravityTypeValue;
+
 import frc.robot.subsystems.Endefector;
 
 /**
@@ -37,8 +39,26 @@ public final class Constants {
   }
   public static class EndefectorConstants{
 
-    public static final int kEndefectorLeftMotorId = 0;
-    public static final int kEndefectorRightMotorId = 0;
+    public static final int kEndefectorPiviotMotorId = 0;
+    public static final int kEndefectorMotorId = 0;
+
+
+  }
+
+  public static class ArmConstants{
+    public static final int kArmMotorId = 0;
+    public static final double kArmP = 0; 
+    public static final double kArmI = 0;
+    public static final double kArmD = 0;
+    public static final double kArmFF = 0;
+    public static final GravityTypeValue kArmgravtype= GravityTypeValue.Arm_Cosine;
+    public static final int kArmEncoderId = 0;
+    public static final double kArmheight = 5d;
+    public static final double kArmWidth = 5d;
+    public static final double kArmRootX = 1d;
+    public static final double kArmRootY = 2d;
+
+    
 
   }
 
@@ -63,9 +83,6 @@ public final class Constants {
     public static final double kLigaLength = .3d;
     public static final double kElevatorGearing = 0d;
     public static final double kDrumRadius = 0d;
-    
-
-
 
   }
 
