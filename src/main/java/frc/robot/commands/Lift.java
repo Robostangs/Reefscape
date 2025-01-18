@@ -12,13 +12,13 @@ import frc.robot.subsystems.Elevator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Lift extends Command {
   Elevator elevator;
-  double speed;
+  double position;
 
   /** Creates a new Lift. */
-  public Lift(DoubleSupplier speed) {
+  public Lift(DoubleSupplier position) {
     elevator = Elevator.getInstance();
     addRequirements(elevator);
-    this.speed = speed.getAsDouble();
+    this.position = position.getAsDouble();
   }
 
 
@@ -29,8 +29,8 @@ public class Lift extends Command {
 
   @Override
   public void execute() {
-    elevator.setSimElevatorPosition(speed);
-    
+
+    elevator.setElevatorPosition(position);
   }
 
   @Override

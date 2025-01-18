@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.Endefector;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -28,9 +30,16 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int kTopIntakeMotorId = 0;
     public static final int kBottomIntakeMotorId = 0;
+    public static final int kBarMotorId = 0;
 
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
+  }
+  public static class EndefectorConstants{
+
+    public static final int kEndefectorLeftMotorId = 0;
+    public static final int kEndefectorRightMotorId = 0;
+
   }
 
   public static class ElevatorConstants {
