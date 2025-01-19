@@ -15,7 +15,7 @@ public class Endefector extends SubsystemBase {
             mInstance = new Endefector();
         return mInstance;
     }
-
+//just spit and put in break mode
     public Endefector() {
         endefectorPivoitMotor = new TalonFX(Constants.EndefectorConstants.kEndefectorPiviotMotorId);
         endefectorMotor = new TalonFX(Constants.EndefectorConstants.kEndefectorMotorId);    

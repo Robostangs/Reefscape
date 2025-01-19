@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.Constants.ArmConstants;
 
 public class Arm extends SubsystemBase {
     private static Arm mInstance;
@@ -50,11 +48,11 @@ public class Arm extends SubsystemBase {
         simArmMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
         // TODO make these constants when your not being a lazy bum
 
-        simArm = new MechanismLigament2d("Arm", 2, 90, 6, new Color8Bit(Color.kPink));
+        simArm = new MechanismLigament2d("Arm", 2, -90, 6, new Color8Bit(Color.kPink));
 
-        simArmMechanism.getRoot("root", Constants.ArmConstants.kArmRootX, Constants.ArmConstants.kArmRootY)
+        simArmMechanism.getRoot("root", Constants.ArmConstants.kArmWidth / 2, Constants.ArmConstants.kArmheight / 2)
                 .append(simArm);
-                
+
         SmartDashboard.putData("Arm/Arm", simArmMechanism);
 
     }
@@ -65,12 +63,20 @@ public class Arm extends SubsystemBase {
 
     public void postStatus(String status) {
         SmartDashboard.putString("Arm/status", status);
+
     }
 
     public void setArmMotor(Rotation2d angle) {
-        armControl = new MotionMagicTorqueCurrentFOC(angle.getMeasure());
-        armMotor.setControl(armControl);
-        armAngle = angle.getDegrees();
+        if (isArmSmart(armAngle)) {
+            armControl = new MotionMagicTorqueCurrentFOC(angle.getMeasure());
+            armMotor.setControl(armControl);
+            armAngle = angle.getDegrees();
+        }
+
+    }
+
+    public boolean isArmSmart(double target) {
+        return (target > -180) && (target < 0);
     }
 
     public void setSimArmMotor(Rotation2d angle) {

@@ -34,7 +34,7 @@ public class RobotContainer {
   }
 
   private void configureSimBindings() {
-    new Trigger(() -> m_driverControllerSim.getOutput(1)).toggleOnTrue(new PrintCommand("you aren't tweaking"));
+    new Trigger(() -> m_driverControllerSim.getOutput(1)).toggleOnTrue(new MoveArm());
   }
 
 }

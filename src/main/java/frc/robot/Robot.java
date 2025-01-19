@@ -9,6 +9,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.List;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -80,10 +81,13 @@ public class Robot extends TimedRobot {
 
   public void autonomousInit() {
 
+    arm.setSimArmMotor(new Rotation2d(180));
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
+
+  
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */

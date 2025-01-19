@@ -7,8 +7,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends Command {
-    Arm arm;
-    double angle;
+  Arm arm;
+  double angle;
+
   public MoveArm(DoubleSupplier angle) {
 
     this.angle = angle.getAsDouble();
@@ -18,15 +19,15 @@ public class MoveArm extends Command {
 
   public MoveArm() {
 
-    this.angle = 25;
+    this.angle = -25;
     arm = Arm.getInstance();
     addRequirements(arm);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     arm.setSimArmMotor(new Rotation2d(angle));
-
 
   }
 
@@ -46,5 +47,5 @@ public class MoveArm extends Command {
   public boolean isFinished() {
     return false;
   }
-    
+
 }
