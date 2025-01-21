@@ -25,8 +25,6 @@ public class Arm extends SubsystemBase {
     private MechanismLigament2d simArm;
     private MechanismRoot2d simArmRoot;
 
-    
-
     public static Arm getInstance() {
         if (mInstance == null)
             mInstance = new Arm();
@@ -52,11 +50,9 @@ public class Arm extends SubsystemBase {
 
         simArm = new MechanismLigament2d("Arm", 2, 270, 6, new Color8Bit(Color.kPink));
 
-        simArmMechanism.getRoot("root", 
-        Constants.ArmConstants.kArmWidth / 2
-        , 
-        Constants.ArmConstants.kArmheight / 2
-        )
+        simArmMechanism.getRoot("root",
+                Constants.ArmConstants.kArmWidth / 2,
+                Constants.ArmConstants.kArmheight / 2)
                 .append(simArm);
 
         SmartDashboard.putData("Arm/Arm", simArmMechanism);
@@ -74,10 +70,10 @@ public class Arm extends SubsystemBase {
 
     public void setArmMotor(Rotation2d angle) {
         // if (isArmSmart(armAngle)) {
-            armControl = new MotionMagicTorqueCurrentFOC(angle.getMeasure());
-            armMotor.setControl(armControl);
-            armAngle = angle.getDegrees();
-            simArm.setAngle(armAngle);
+        armControl = new MotionMagicTorqueCurrentFOC(angle.getMeasure());
+        armMotor.setControl(armControl);
+        armAngle = angle.getDegrees();
+        simArm.setAngle(armAngle);
 
         // }
 
@@ -91,7 +87,6 @@ public class Arm extends SubsystemBase {
     public void periodic() {
         // TODO add logging
 
-        
         // if(Robot.isSimulation()){
         // }
 
