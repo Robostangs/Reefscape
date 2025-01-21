@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Lift;
 import frc.robot.commands.MoveArm;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -35,6 +36,9 @@ public class RobotContainer {
   private void configureSimBindings() {
     new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
     .whileTrue(new Lift(10d));
+
+    new Trigger(() -> m_driverControllerSim.getRawButtonPressed(2))
+    .whileTrue(new MoveArm(() -> 270d));
   }
 
 }

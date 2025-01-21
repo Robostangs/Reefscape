@@ -17,23 +17,17 @@ public class MoveArm extends Command {
     addRequirements(arm);
   }
 
-  public MoveArm() {
-
-    this.angle = -25;
-    arm = Arm.getInstance();
-    addRequirements(arm);
-  }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setSimArmMotor(new Rotation2d(angle));
 
   }
 
   @Override
   public void execute() {
+    arm.setArmMotor(new Rotation2d(angle));
     arm.postStatus("going to this angle:" + angle);
+    System.out.println("going to this angle:" + angle);
   }
 
   // Called once the command ends or is interrupted.

@@ -81,7 +81,6 @@ public class Robot extends TimedRobot {
 
   public void autonomousInit() {
 
-    arm.setSimArmMotor(new Rotation2d(180));
     // schedule the autonomous command (example)
     // if (m_autonomousCommand != null) {
     //   m_autonomousCommand.schedule();

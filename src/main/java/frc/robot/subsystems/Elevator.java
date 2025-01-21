@@ -2,21 +2,17 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.sim.CANcoderSimState;
-import com.ctre.phoenix6.sim.TalonFXSimState;
-
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class Elevator extends SubsystemBase {
 
@@ -47,7 +43,6 @@ public class Elevator extends SubsystemBase {
         elevatorEncoder = new CANcoder(Constants.ElevatorConstants.kElevatorEncoderId);
 
         elevatorMotorModel = DCMotor.getFalcon500(1);
-
 
         simElevator = new ElevatorSim(elevatorMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
@@ -85,6 +80,17 @@ public class Elevator extends SubsystemBase {
         }
     }
 
+    public void updateSimElevator() {
+        simElevator.setInput(elevatorMotor.getSimState().getTorqueCurrent());
+
+        simElevator.update(0.02);
+
+        elevatorEncoder.getSimState()
+                .setRawPosition(simElevator.getPositionMeters() * Constants.ElevatorConstants.kRotationstoMeters);
+
+        m_elevatorMech2d.setLength(simElevator.getPositionMeters());
+    }
+
     public double getElevatorPosition() {
         return elevatorPosition;
     }
@@ -95,13 +101,9 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator/Position", simElevator.getPositionMeters());
         SmartDashboard.putNumber("Elevator/Velocity", simElevator.getVelocityMetersPerSecond());
 
-        simElevator.setInput(elevatorMotor.getSimState().getTorqueCurrent());
-
-        simElevator.update(0.02);
-
-        elevatorEncoder.getSimState().setRawPosition(simElevator.getPositionMeters() * Constants.ElevatorConstants.kRotationstoMeters);
-
-        m_elevatorMech2d.setLength(simElevator.getPositionMeters());
+        if (Robot.isSimulation()) {
+            updateSimElevator();
+        }
 
     }
 
