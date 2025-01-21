@@ -15,10 +15,10 @@ public class Lift extends Command {
   double position;
 
   /** Creates a new Lift. */
-  public Lift(DoubleSupplier position) {
+  public Lift(Double position) {
     elevator = Elevator.getInstance();
     addRequirements(elevator);
-    this.position = position.getAsDouble();
+    this.position = position;
   }
 
 

@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Lift;
 import frc.robot.commands.MoveArm;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -16,7 +17,7 @@ public class RobotContainer {
 
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
-  private final XboxControllerSim m_driverControllerSim = new XboxControllerSim(1);
+  private final GenericHID m_driverControllerSim = new GenericHID(2);
 
   public RobotContainer() {
     // Configure the trigger bindings
@@ -28,13 +29,12 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.1)
-        .whileTrue(new Lift(() -> m_driverController.getRightTriggerAxis()));
 
   }
 
   private void configureSimBindings() {
-    new Trigger(() -> m_driverControllerSim.getOutput(1)).toggleOnTrue(new MoveArm());
+    new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
+    .whileTrue(new Lift(10d));
   }
 
 }

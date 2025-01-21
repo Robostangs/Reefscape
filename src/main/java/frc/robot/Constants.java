@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -44,13 +46,13 @@ public final class Constants {
   }
 
   public static class ArmConstants{
-    public static final int kArmMotorId = 0;
+    public static final int kArmMotorId = 30;
     public static final double kArmP = 0; 
     public static final double kArmI = 0;
     public static final double kArmD = 0;
     public static final double kArmFF = 0;
     public static final GravityTypeValue kArmgravtype= GravityTypeValue.Arm_Cosine;
-    public static final int kArmEncoderId = 0;
+    public static final int kArmEncoderId = 12;
     public static final double kArmheight = 5d;
     public static final double kArmWidth = 5d;
     public static final double kArmRootX = 1d;
@@ -61,17 +63,18 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int kElevatorMotorId = 0;
-    public static final double kElevatorP = 0;
+    public static final int kElevatorMotorId = 2;
+    public static final double kElevatorP = 5;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
-    public static final double kElevatorFF = 0;
+    public static final double kElevatorFF = 1;
     public static final double kElevatorMaxCurrent = 40.0d;
+    public static final int kElevatorEncoderId = 3;
     //TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
-    public static final double kmaxElevatorHeight = 10d;
-    public static final double kminElevatorHeight = 0d;
+    public static final double kmaxElevatorHeight = 50d;
+    public static final double kMinElevatorHeight = 0d;
     public static final double kRotationstoMeters = 1d;
-    public static final double kElevatorWeight = 5d;
+    public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
     public static final double kRootElevatorX = .3;
@@ -79,8 +82,8 @@ public final class Constants {
     public static final double kRootElevator2X = .6;
     public static final double kRootElevator2Y = 0d;
     public static final double kLigaLength = .3d;
-    public static final double kElevatorGearing = 0d;
-    public static final double kDrumRadius = 0d;
+    public static final double kElevatorGearing = 8d;
+    public static final double kDrumRadius = Units.inchesToMeters(2.0);;
 
   }
 

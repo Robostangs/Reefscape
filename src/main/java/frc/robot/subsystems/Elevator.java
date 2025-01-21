@@ -5,6 +5,8 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.sim.CANcoderSimState;
+import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
@@ -19,32 +21,20 @@ import frc.robot.Constants;
 public class Elevator extends SubsystemBase {
 
     private static Elevator mInstance;
+
     // real elevator
     private TalonFX elevatorMotor;
     private double elevatorPosition;
-    private TorqueCurrentFOC elevatorControl;
     private CANcoder elevatorEncoder;
 
-    private MotionMagicTorqueCurrentFOC elevatorMotionMagic;
     // simulated elevator
     private ElevatorSim simElevator;
     private DCMotor elevatorMotorModel;
-    private Mechanism2d simElevatorMechanism;
-    private MechanismRoot2d simElevatorRoot;
-    private MechanismRoot2d simElevatorRoot2;
-    private MechanismRoot2d simPlatELevator;
-
-    private MechanismLigament2d simElevatorLeft;
-    private MechanismLigament2d simElevatorRight;
-    private MechanismLigament2d simElevatorIntake;
-
-    private EncoderSim elevatorSimEncoder;
 
     // Create a Mechanism2d visualization of the elevator
-    private final Mechanism2d m_mech2d = new Mechanism2d(1, 1);
-    private final MechanismRoot2d m_mech2dRoot = m_mech2d.getRoot("Elevator Root", 0.3, 0);
-    private final MechanismLigament2d m_elevatorMech2d = m_mech2dRoot.append(
-            new MechanismLigament2d("Elevator", 0.3, 90));
+    private final Mechanism2d elevator_mechanism;
+    private final MechanismRoot2d elevatorBaseRoot;
+    private final MechanismLigament2d m_elevatorMech2d;
 
     public static Elevator getInstance() {
         if (mInstance == null)
@@ -54,41 +44,21 @@ public class Elevator extends SubsystemBase {
 
     public Elevator() {
         elevatorMotor = new TalonFX(Constants.ElevatorConstants.kElevatorMotorId);
-        elevatorControl = new TorqueCurrentFOC(Constants.ElevatorConstants.kElevatorMaxCurrent);
-        
-        // elevatorMotorModel = DCMotor.getFalcon500(1);
-        // // TODO find gearing of the elevator
-        // simElevator = new ElevatorSim(elevatorMotorModel,
-        // Constants.ElevatorConstants.kElevatorGearing,
-        // Constants.ElevatorConstants.kElevatorWeight,
-        // Constants.ElevatorConstants.kDrumRadius,
-        // Constants.ElevatorConstants.kminElevatorHeight,
-        // Constants.ElevatorConstants.kmaxElevatorHeight,
-        // false, 1.1);
+        elevatorEncoder = new CANcoder(Constants.ElevatorConstants.kElevatorEncoderId);
 
-        // simElevatorMechanism = new
-        // Mechanism2d(Constants.ElevatorConstants.kElevatorHeight,
-        // Constants.ElevatorConstants.kElevatorWidth);
+        elevatorMotorModel = DCMotor.getFalcon500(1);
 
-        // simElevatorRoot = simElevatorMechanism.getRoot("Elevator",
-        // Constants.ElevatorConstants.kRootElevatorX,
-        // Constants.ElevatorConstants.kRootElevatorY);
-        // simPlatELevator = simElevatorMechanism.getRoot("Plat",
-        // Constants.ElevatorConstants.kRootElevator2X,
-        // elevatorPosition);
-        // simElevatorRoot2 = simElevatorMechanism.getRoot("Elevator2",
-        // Constants.ElevatorConstants.kRootElevator2X,
-        // Constants.ElevatorConstants.kRootElevator2Y);
 
-        // simElevatorLeft = simElevatorRoot
-        // .append(new MechanismLigament2d("Liga1",
-        // Constants.ElevatorConstants.kLigaLength, 90));
-        // simElevatorIntake = simPlatELevator
-        // .append(new MechanismLigament2d("Intake",
-        // Constants.ElevatorConstants.kLigaLength, 0));
-        // simElevatorRight = simElevatorRoot2
-        // .append(new MechanismLigament2d("Liga2",
-        // Constants.ElevatorConstants.kLigaLength, 90));
+        simElevator = new ElevatorSim(elevatorMotorModel, Constants.ElevatorConstants.kElevatorGearing,
+                Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
+                Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kmaxElevatorHeight, false,
+                2d);
+
+        elevator_mechanism = new Mechanism2d(20, 50);
+        elevatorBaseRoot = elevator_mechanism.getRoot("Elevator Root", 10, 0);
+        m_elevatorMech2d = elevatorBaseRoot.append(
+                new MechanismLigament2d("Elevator",
+                        simElevator.getPositionMeters(), 90));
 
         var slot0Configs = new Slot0Configs();
         // TODO tune these values
@@ -99,30 +69,20 @@ public class Elevator extends SubsystemBase {
 
         elevatorMotor.getConfigurator().apply(slot0Configs);
 
+        SmartDashboard.putData("Elevator/Elevator Sim", elevator_mechanism);
+
     }
 
     public void setElevatorPosition(double TargetElevatorMeters) {
-        if (TargetElevatorMeters > Constants.ElevatorConstants.kminElevatorHeight
+        if (TargetElevatorMeters > Constants.ElevatorConstants.kMinElevatorHeight
                 && TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
 
             double elevatorrots = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
 
-
-            elevatorMotor.setControl(elevatorMotionMagic.withFeedForward(Constants.ElevatorConstants.kElevatorFF)
-                    .withPosition(elevatorrots));
-                        }        }
-
-    
-
-    public void setSimElevatorPosition(double TargetElevatorMeters) {
-        if (TargetElevatorMeters > Constants.ElevatorConstants.kminElevatorHeight
-                && TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
-
-            double elevatorrots = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
-
-            elevatorMotor.setControl(elevatorMotionMagic.withFeedForward(Constants.ElevatorConstants.kElevatorFF)
-                    .withPosition(elevatorrots));
-                        }
+            MotionMagicTorqueCurrentFOC elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(elevatorrots)
+                    .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
+            elevatorMotor.setControl(elevatorMotionMagic);
+        }
     }
 
     public double getElevatorPosition() {
@@ -132,9 +92,16 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
         // elevatorPosition = elevatorEncoder.getPosition().getValueAsDouble();
-        SmartDashboard.putNumber("Elevator/position", elevatorPosition);
+        SmartDashboard.putNumber("Elevator/Position", simElevator.getPositionMeters());
+        SmartDashboard.putNumber("Elevator/Velocity", simElevator.getVelocityMetersPerSecond());
 
-        SmartDashboard.putData("Elevator Sim", m_mech2d);
+        simElevator.setInput(elevatorMotor.getSimState().getTorqueCurrent());
+
+        simElevator.update(0.02);
+
+        elevatorEncoder.getSimState().setRawPosition(simElevator.getPositionMeters() * Constants.ElevatorConstants.kRotationstoMeters);
+
+        m_elevatorMech2d.setLength(simElevator.getPositionMeters());
 
     }
 
