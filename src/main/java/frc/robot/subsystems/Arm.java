@@ -69,18 +69,18 @@ public class Arm extends SubsystemBase {
     }
 
     public void setArmMotor(Rotation2d angle) {
-        // if (isArmSmart(armAngle)) {
+        if (isArmSmart(armAngle)) {
         armControl = new MotionMagicTorqueCurrentFOC(angle.getMeasure());
         armMotor.setControl(armControl);
         armAngle = angle.getDegrees();
         simArm.setAngle(armAngle);
 
-        // }
+        }
 
     }
 
     public boolean isArmSmart(double target) {
-        return (target > -180) && (target < 0);
+        return (target > -180) || (target < 0);
     }
 
     @Override

@@ -27,7 +27,6 @@ public class MoveArm extends Command {
   public void execute() {
     arm.setArmMotor(new Rotation2d(angle));
     arm.postStatus("going to this angle:" + angle);
-    System.out.println("going to this angle:" + angle);
   }
 
   // Called once the command ends or is interrupted.
