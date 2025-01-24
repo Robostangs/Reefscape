@@ -44,7 +44,7 @@ public class Intake extends SubsystemBase {
 
     public void retractBar() {
         barMotor.set(-1d);
-        //hefwihewfihweifh
+        
     }
 
     public void stopIntake() {

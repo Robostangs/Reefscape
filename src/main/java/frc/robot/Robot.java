@@ -9,7 +9,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.List;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -18,12 +17,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.MoveArm;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 
 
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobotstangs {
   private Command m_autonomousCommand;
   public XboxController xDrive = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
   public XboxController xManip = new XboxController(Constants.OperatorConstants.kManipControllerPort);

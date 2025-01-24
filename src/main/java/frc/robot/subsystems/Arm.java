@@ -46,8 +46,8 @@ public class Arm extends SubsystemBase {
         armMotor.getConfigurator().apply(slot0Configs);
 
         simArmMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
+        
         // TODO make these constants when your not being a lazy bum
-
         simArm = new MechanismLigament2d("Arm", 2, 270, 6, new Color8Bit(Color.kPink));
 
         simArmMechanism.getRoot("root",
@@ -68,13 +68,16 @@ public class Arm extends SubsystemBase {
 
     }
 
+    /**
+     * sets the arm motor to the specific angle
+     * @param angle the angle to set the arm to in Rotation2d
+     */
     public void setArmMotor(Rotation2d angle) {
         if (isArmSmart(armAngle)) {
-        armControl = new MotionMagicTorqueCurrentFOC(angle.getMeasure());
-        armMotor.setControl(armControl);
-        armAngle = angle.getDegrees();
-        simArm.setAngle(armAngle);
-
+            armControl = new MotionMagicTorqueCurrentFOC(angle.getMeasure());
+            armMotor.setControl(armControl);
+            armAngle = angle.getDegrees();
+            simArm.setAngle(armAngle);
         }
 
     }
