@@ -1,14 +1,16 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Endeffector extends SubsystemBase {
     private static Endeffector mInstance;
-    private TalonFX endefectorPivoitMotor;
-    private TalonFX endefectorMotor;
+    private TalonFX endefectorMotorRight,endefectorMotorLeft;
 
     public static Endeffector getInstance() {
         if (mInstance == null)
@@ -18,12 +20,18 @@ public class Endeffector extends SubsystemBase {
 
     //just spit and put in break mode
     public Endeffector() {
-        endefectorPivoitMotor = new TalonFX(Constants.EndefectorConstants.kEndefectorPiviotMotorId);
-        endefectorMotor = new TalonFX(Constants.EndefectorConstants.kEndefectorMotorId);    
+        endefectorMotorRight = new TalonFX(Constants.EndefectorConstants.kEndefectorRightMotorId);   
+        endefectorMotorLeft = new TalonFX(Constants.EndefectorConstants.kEndefectorRightMotorId); 
 
-        
-
+     
     }
+
+    public void setEneffector(double eneffectorDutyCycle) {
+        endefectorMotorRight.set(eneffectorDutyCycle);
+        endefectorMotorLeft.set(eneffectorDutyCycle);
+    }
+
+
 
     @Override
     public void periodic() {

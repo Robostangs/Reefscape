@@ -40,7 +40,13 @@ public final class Constants {
   public static class EndefectorConstants{
 
     public static final int kEndefectorPiviotMotorId = 0;
-    public static final int kEndefectorMotorId = 0;
+    public static final int kEndefectorRightMotorId = 0;
+    public static final int kEndefectorLeftMotorId = 0;
+
+    public static final double kEndefectorPiviotP = 0;
+    public static final double kEndefectorPiviotI = 0;
+    public static final double kEndefectorPiviotD = 0;
+    public static final double kEndefectorPiviotFF = 0;
 
 
   }
