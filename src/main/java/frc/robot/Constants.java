@@ -63,6 +63,7 @@ public final class Constants {
     public static final double kArmWidth = 5d;
     public static final double kArmRootX = 1d;
     public static final double kArmRootY = 2d;
+    public static final double kArmRotationtoDegreeRatio = 2498d;
 
     
 

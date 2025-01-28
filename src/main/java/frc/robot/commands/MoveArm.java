@@ -25,7 +25,7 @@ public class MoveArm extends Command {
 
   @Override
   public void execute() {
-    arm.setArmMotor(new Rotation2d(angle));
+    arm.setArmMotor(angle);
     arm.postStatus("going to this angle:" + angle);
   }
 
@@ -33,6 +33,7 @@ public class MoveArm extends Command {
   @Override
   public void end(boolean interrupted) {
 
+    arm.setArmMotor(0);
   }
 
   // Returns true when the command should end.

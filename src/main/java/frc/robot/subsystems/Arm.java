@@ -14,16 +14,21 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class Arm extends SubsystemBase {
     private static Arm mInstance;
     private TalonFX armMotor;
-    private double armAngle;
+    private double targetArmAngle;
+    private double realArmAngle;
     private MotionMagicTorqueCurrentFOC armControl;
     private CANcoder armEncoder;
-    private Mechanism2d simArmMechanism;
-    private MechanismLigament2d simArm;
-    private MechanismRoot2d simArmRoot;
+
+    private Mechanism2d armMechanism;
+    private MechanismLigament2d arm;
+
+    private Mechanism2d targetArmMechanism;
+    private MechanismLigament2d targetArm;
 
     public static Arm getInstance() {
         if (mInstance == null)
@@ -45,22 +50,36 @@ public class Arm extends SubsystemBase {
 
         armMotor.getConfigurator().apply(slot0Configs);
 
-        simArmMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
-        
-        // TODO make these constants when your not being a lazy bum
-        simArm = new MechanismLigament2d("Arm", 2, 270, 6, new Color8Bit(Color.kPink));
+        armMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
 
-        simArmMechanism.getRoot("root",
+        arm = new MechanismLigament2d("Arm", 2, 270, 6, new Color8Bit(Color.kOrange));
+
+        armMechanism.getRoot("Root",
                 Constants.ArmConstants.kArmWidth / 2,
                 Constants.ArmConstants.kArmheight / 2)
-                .append(simArm);
+                .append(arm);
 
-        SmartDashboard.putData("Arm/Arm", simArmMechanism);
+        targetArmMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
+
+        // TODO make these constants when your not being a lazy bum
+        targetArm = new MechanismLigament2d("Target Arm", 2, 270, 6, new Color8Bit(Color.kBlue));
+
+        targetArmMechanism.getRoot("Target Root",
+                Constants.ArmConstants.kArmWidth / 2,
+                Constants.ArmConstants.kArmheight / 2)
+                .append(targetArm);
+
+        SmartDashboard.putData("Arm/Arm", armMechanism );
+        SmartDashboard.putData("Arm/TargetArm", targetArmMechanism);
 
     }
 
-    public double getArmAngle() {
-        return armAngle;
+    public double getTargetArmAngle() {
+        return targetArmAngle;
+    }
+
+    public double getRealArmAngle() {
+        return realArmAngle;
     }
 
     public void postStatus(String status) {
@@ -70,15 +89,17 @@ public class Arm extends SubsystemBase {
 
     /**
      * sets the arm motor to the specific angle
+     * 
      * @param angle the angle to set the arm to in Rotation2d
      */
-    public void setArmMotor(Rotation2d angle) {
-        if (isArmSmart(armAngle)) {
-            armControl = new MotionMagicTorqueCurrentFOC(angle.getMeasure());
-            armMotor.setControl(armControl);
-            armAngle = angle.getDegrees();
-            simArm.setAngle(armAngle);
-        }
+    public void setArmMotor(double angle) {
+        // if (isArmSmart(targetArmAngle)) {
+
+        targetArmAngle = angle;
+        // TODO make this smart
+        armControl = new MotionMagicTorqueCurrentFOC(angle * Constants.ArmConstants.kArmRotationtoDegreeRatio);
+        armMotor.setControl(armControl);
+        // }
 
     }
 
@@ -90,10 +111,20 @@ public class Arm extends SubsystemBase {
     public void periodic() {
         // TODO add logging
 
-        // if(Robot.isSimulation()){
-        // }
 
-        // armAngle = armEncoder.getPosition().getValueAsDouble();
+        if(Robot.isSimulation()){
+            armEncoder.getSimState()
+                .setRawPosition(targetArmAngle);
+        }
+        realArmAngle = armEncoder.getPosition().getValueAsDouble();
+
+        SmartDashboard.putNumber("realArmAngle", realArmAngle);
+        SmartDashboard.putNumber("targetArmAngle", targetArmAngle);
+
+        targetArm.setAngle(targetArmAngle);
+        arm.setAngle(realArmAngle);
+
+
     }
 
 }

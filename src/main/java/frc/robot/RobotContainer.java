@@ -35,7 +35,7 @@ public class RobotContainer {
     .whileTrue(new Lift(10d));
 
     new Trigger(() -> m_driverControllerSim.getRawButtonPressed(2))
-    .whileTrue(new MoveArm(() -> 270d));
+    .toggleOnTrue(new MoveArm(() -> 90d));
   }
 
 }
