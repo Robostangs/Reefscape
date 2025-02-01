@@ -28,7 +28,6 @@ public class Elevator extends SubsystemBase {
     private CANcoder elevatorEncoder;
     private double TargetElevatorMeters;
 
-    private boolean isElevatorAtTarget = false;
     private MotionMagicTorqueCurrentFOC elevatorMotionMagic;
 
     // simulated elevator
@@ -50,6 +49,7 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
         elevatorMotor = new TalonFX(Constants.ElevatorConstants.kElevatorMotorId);
         elevatorEncoder = new CANcoder(Constants.ElevatorConstants.kElevatorEncoderId);
+        TargetElevatorMeters = 0d;
 
         elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d)
                 .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
@@ -114,24 +114,20 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    public boolean getIsElevatorAtTarget() {
-        return isElevatorAtTarget;
-    }
-
-    // make functions for the smart dashboard variables
-    // make folders in smart dashboard for the variables(real and simulated)
-
-    /**
-     * Problems
-     * 1.
-     */
-
     public double getElevatorPositionMeters() {
         return elevatorMotor.getPosition().getValueAsDouble() / Constants.ElevatorConstants.kRotationstoMeters;
     }
 
     public double getElevatorVelocityMeters() {
         return elevatorMotor.getVelocity().getValueAsDouble() / Constants.ElevatorConstants.kRotationstoMeters;
+    }
+
+    public boolean isElevatorAtTarget() {
+        if (Math.abs(getElevatorPositionMeters() - TargetElevatorMeters) < 0.01) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -149,14 +145,7 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator/Real/Velocity", getElevatorVelocityMeters());
         SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", TargetElevatorMeters);
         SmartDashboard.putNumber("Elevator/Real/Position Meters", getElevatorPositionMeters());
-        SmartDashboard.putBoolean("Elevator/Real/At Position", getIsElevatorAtTarget());
+        SmartDashboard.putBoolean("Elevator/Real/At Position", isElevatorAtTarget());
 
-        double tolerance = 0.01;
-        double targetPositionMeters = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
-
-        if (Math.abs(elevatorEncoder.getPosition().getValueAsDouble() - targetPositionMeters) < tolerance
-                && TargetElevatorMeters != 0d) {
-            isElevatorAtTarget = true;
-        }
     }
 }

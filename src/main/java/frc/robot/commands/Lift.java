@@ -43,6 +43,6 @@ public class Lift extends Command {
   @Override
   public boolean isFinished() {
     // return false;
-     return elevator.getIsElevatorAtTarget();
+     return elevator.isElevatorAtTarget();
   }
 }
