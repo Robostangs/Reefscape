@@ -18,11 +18,17 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 
 /**
- * 1. sim elevator rename to sim elevator target 
- * 2. target elevator sim -> sim elevator profile- updatesimelevatorprofile() 
- * 3.in peridoic before update elevator postion runs: above update elevator position- run update sim elevator target
- *  if(robo real){update the sim elevator profile} - color different
- * 4. build one big mechanism for all 
+ * 1. sim elevator rename to sim elevator target
+ *   </p>
+
+ * 2. target elevator sim -> sim elevator profile- updatesimelevatorprofile()
+ * </p>
+ * 3.in periodic before update elevator postion runs: above update elevator
+ * position- run update sim elevator target
+ * if(robo real){update the sim elevator profile} - color different
+ *  * </p>
+
+ * 4. build one big mechanism for all
  * 
  */
 public class Elevator extends SubsystemBase {
@@ -37,13 +43,13 @@ public class Elevator extends SubsystemBase {
     private double elevatorPositionMeters;
 
     // simulated elevator
-    private ElevatorSim simElevator;
-    private DCMotor elevatorMotorModel;
+    private ElevatorSim simElevatorTarget;
+    private DCMotor elevatorTargetMotorModel;
 
     // Create a Mechanism2d visualization of the elevator
-    private final Mechanism2d elevator_mechanism;
-    private final MechanismRoot2d elevatorBaseRoot;
-    private final MechanismLigament2d m_elevatorMech2d;
+    private final Mechanism2d targetElevator_mechanism;
+    private final MechanismRoot2d targetElevatorBaseRoot;
+    private final MechanismLigament2d m_targetElevatorMech2d;
 
     public static Elevator getInstance() {
         if (mInstance == null)
@@ -59,18 +65,18 @@ public class Elevator extends SubsystemBase {
         elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d)
                 .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
 
-        elevatorMotorModel = DCMotor.getFalcon500(1);
+        elevatorTargetMotorModel = DCMotor.getFalcon500(1);
 
-        simElevator = new ElevatorSim(elevatorMotorModel, Constants.ElevatorConstants.kElevatorGearing,
+        simElevatorTarget = new ElevatorSim(elevatorTargetMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
                 Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, true,
                 0d);
 
-        elevator_mechanism = new Mechanism2d(20, 50);
-        elevatorBaseRoot = elevator_mechanism.getRoot("Elevator Root", 10, 0);
-        m_elevatorMech2d = elevatorBaseRoot.append(
+        targetElevator_mechanism = new Mechanism2d(20, 50);
+        targetElevatorBaseRoot = targetElevator_mechanism.getRoot("Elevator Root", 10, 0);
+        m_targetElevatorMech2d = targetElevatorBaseRoot.append(
                 new MechanismLigament2d("Elevator",
-                        simElevator.getPositionMeters(), 90));
+                        simElevatorTarget.getPositionMeters(), 90));
 
         var slot0Configs = new Slot0Configs();
         // TODO tune these values
@@ -87,7 +93,7 @@ public class Elevator extends SubsystemBase {
 
         elevatorMotor.getConfigurator().apply(slot0Configs);
 
-        SmartDashboard.putData("Elevator/Elevator Sim", elevator_mechanism);
+        SmartDashboard.putData("Elevator/Elevator Sim", targetElevator_mechanism);
 
     }
 
@@ -108,30 +114,27 @@ public class Elevator extends SubsystemBase {
 
     public void updateSimElevatorTarget() {
 
-        // Set the input to the simulated elevator using the torque current from the
-        // motor
-        simElevator.setInput(elevatorMotor.getSimState().getTorqueCurrent());
+        simElevatorTarget.setInput(elevatorMotor.getSimState().getTorqueCurrent());
 
-        simElevator.update(0.02);
+        simElevatorTarget.update(0.02);
 
         elevatorEncoder.getSimState()
-                .setRawPosition(simElevator.getPositionMeters() / Constants.ElevatorConstants.kRotationsToMeters);
+                .setRawPosition(simElevatorTarget.getPositionMeters() / Constants.ElevatorConstants.kRotationsToMeters);
 
-        m_elevatorMech2d.setLength(simElevator.getPositionMeters());
+        m_targetElevatorMech2d.setLength(simElevatorTarget.getPositionMeters());
 
     }
+
     public void updateSimElevatorProfile() {
 
         // Set the input to the simulated elevator using the torque current from the
         // motor
-        simElevator.setInput(elevatorMotor.getSimState().getTorqueCurrent());
+        simElevatorTarget.setInput(elevatorMotor.getTorqueCurrent().getValueAsDouble());
 
-        simElevator.update(0.02);
+        simElevatorTarget.update(0.02);
 
-        elevatorEncoder.getSimState()
-                .setRawPosition(simElevator.getPositionMeters() / Constants.ElevatorConstants.kRotationsToMeters);
-
-        m_elevatorMech2d.setLength(simElevator.getPositionMeters());
+        m_targetElevatorMech2d.setLength(
+                elevatorMotor.getPosition().getValueAsDouble() * Constants.ElevatorConstants.kRotationsToMeters);
 
     }
 
@@ -149,7 +152,7 @@ public class Elevator extends SubsystemBase {
 
     public void updateElevatorPosition() {
         if (Robot.isSimulation()) {
-            elevatorPositionMeters = simElevator.getPositionMeters();
+            elevatorPositionMeters = simElevatorTarget.getPositionMeters();
         } else {
             elevatorPositionMeters = Constants.ElevatorConstants.kRotationsToMeters
                     * elevatorMotor.getPosition().getValueAsDouble();
@@ -162,21 +165,21 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        updateElevatorPosition();
-
-        elevatorMotor.setControl(elevatorMotionMagic
-                .withPosition(elevatorMotionMagic.Position * Constants.ElevatorConstants.kRotationsToMeters));
 
         if (Robot.isSimulation()) {
             updateSimElevatorTarget();
         }
 
-        if(Robot.isReal()){
-            
-        }
 
+        updateElevatorPosition();
 
-        SmartDashboard.putNumber("Elevator/Simulation/Position", simElevator.getPositionMeters());
+        elevatorMotor.setControl(elevatorMotionMagic
+                .withPosition(elevatorMotionMagic.Position * Constants.ElevatorConstants.kRotationsToMeters));
+
+   
+        
+
+        SmartDashboard.putNumber("Elevator/Simulation/Position", simElevatorTarget.getPositionMeters());
         SmartDashboard.putNumber("Elevator/Real/Encoder Position", elevatorEncoder.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("Elevator/Real/Velocity", getElevatorVelocityMeters());
         SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", elevatorMotionMagic.Position);
