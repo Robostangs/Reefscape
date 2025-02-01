@@ -23,7 +23,7 @@ public class Elevator extends SubsystemBase {
     // real elevator
     private TalonFX elevatorMotor;
     private CANcoder elevatorEncoder;
-    private double TargetElevatorRotations = 0d;
+    private double TargetElevatorMeters;
 
     private boolean isElevatorAtTarget = false;
     private MotionMagicTorqueCurrentFOC elevatorMotionMagic;
@@ -55,7 +55,7 @@ public class Elevator extends SubsystemBase {
 
         simElevator = new ElevatorSim(elevatorMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
-                Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kmaxElevatorHeight, true,
+                Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, true,
                 0d);
 
         elevator_mechanism = new Mechanism2d(20, 50);
@@ -78,12 +78,12 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPosition(double TargetElevatorMeters) {
-        if (TargetElevatorMeters > Constants.ElevatorConstants.kMinElevatorHeight) {
-            this.TargetElevatorRotations = Constants.ElevatorConstants.kMinElevatorHeight;
-        } else if (TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
-            this.TargetElevatorRotations = Constants.ElevatorConstants.kmaxElevatorHeight;
+        if (TargetElevatorMeters < Constants.ElevatorConstants.kMinElevatorHeight) {
+            this.TargetElevatorMeters = Constants.ElevatorConstants.kMinElevatorHeight;
+        } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxElevatorHeight) {
+            this.TargetElevatorMeters = Constants.ElevatorConstants.kMaxElevatorHeight;
         } else {
-            this.TargetElevatorRotations = TargetElevatorMeters;
+            this.TargetElevatorMeters = TargetElevatorMeters;
         }
 
     }
@@ -118,7 +118,7 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
 
-        elevatorMotor.setControl(elevatorMotionMagic.withPosition(TargetElevatorRotations));
+        elevatorMotor.setControl(elevatorMotionMagic.withPosition(TargetElevatorMeters*Constants.ElevatorConstants.kRotationstoMeters));
 
         if (Robot.isSimulation()) {
             updateSimElevator();
@@ -127,14 +127,14 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator/Simulation Position", simElevator.getPositionMeters());
         SmartDashboard.putNumber("Elevator/Encoder Position", elevatorEncoder.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("Elevator/Velocity", simElevator.getVelocityMetersPerSecond());
-        SmartDashboard.putNumber("Elevator/TargetElevatorMeters", TargetElevatorRotations);
+        SmartDashboard.putNumber("Elevator/TargetElevatorMeters", TargetElevatorMeters);
         SmartDashboard.putBoolean("isElevatorAtTarget", isElevatorAtTarget);
 
         double tolerance = 0.01;
-        double targetPositionMeters = TargetElevatorRotations * Constants.ElevatorConstants.kRotationstoMeters;
+        double targetPositionMeters = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
 
         if (Math.abs(elevatorEncoder.getPosition().getValueAsDouble() - targetPositionMeters) < tolerance
-                && TargetElevatorRotations != 0d) {
+                && TargetElevatorMeters != 0d) {
             isElevatorAtTarget = true;
         }
     }

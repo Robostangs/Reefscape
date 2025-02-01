@@ -77,7 +77,7 @@ public final class Constants {
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final int kElevatorEncoderId = 3;
     //TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
-    public static final double kmaxElevatorHeight = 20d;
+    public static final double kMaxElevatorHeight = 20d;
     public static final double kMinElevatorHeight = 0d;
     public static final double kRotationstoMeters = 1d;
     public static final double kElevatorWeight = 24d;
