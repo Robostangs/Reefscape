@@ -42,15 +42,14 @@ public class Elevator extends SubsystemBase {
             mInstance = new Elevator();
 
         return mInstance;
-        }
-    
-    
+    }
 
     public Elevator() {
         elevatorMotor = new TalonFX(Constants.ElevatorConstants.kElevatorMotorId);
         elevatorEncoder = new CANcoder(Constants.ElevatorConstants.kElevatorEncoderId);
 
-        elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d);
+        elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d)
+                .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
 
         elevatorMotorModel = DCMotor.getFalcon500(1);
 
@@ -79,25 +78,15 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPosition(double TargetElevatorMeters) {
-        if (TargetElevatorMeters > Constants.ElevatorConstants.kMinElevatorHeight){
+        if (TargetElevatorMeters > Constants.ElevatorConstants.kMinElevatorHeight) {
             this.TargetElevatorRotations = Constants.ElevatorConstants.kMinElevatorHeight;
-        }
-        else if(TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
+        } else if (TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
             this.TargetElevatorRotations = Constants.ElevatorConstants.kmaxElevatorHeight;
-        }
-        else{
+        } else {
             this.TargetElevatorRotations = TargetElevatorMeters;
         }
 
-
-
-            this.TargetElevatorRotations = TargetElevatorMeters* Constants.ElevatorConstants.kRotationstoMeters;
-
-
-   
-                    
-        }
-    
+    }
 
     public void postStatus(String status) {
         SmartDashboard.putString("Elevator/status", status);
@@ -119,21 +108,17 @@ public class Elevator extends SubsystemBase {
 
     }
 
-  
-
     public boolean getIsElevatorAtTarget() {
         return isElevatorAtTarget;
     }
-    
-//make functions for the smart dashboard variables
-//make folders in smart dashboard for the variables(real and simulated)
+
+    // make functions for the smart dashboard variables
+    // make folders in smart dashboard for the variables(real and simulated)
 
     @Override
     public void periodic() {
-        elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(TargetElevatorRotations)
-        .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
 
-        elevatorMotor.setControl(elevatorMotionMagic);
+        elevatorMotor.setControl(elevatorMotionMagic.withPosition(TargetElevatorRotations));
 
         if (Robot.isSimulation()) {
             updateSimElevator();
@@ -148,9 +133,9 @@ public class Elevator extends SubsystemBase {
         double tolerance = 0.01;
         double targetPositionMeters = TargetElevatorRotations * Constants.ElevatorConstants.kRotationstoMeters;
 
-        if (Math.abs(elevatorEncoder.getPosition().getValueAsDouble() - targetPositionMeters) < tolerance && TargetElevatorRotations != 0d) {
+        if (Math.abs(elevatorEncoder.getPosition().getValueAsDouble() - targetPositionMeters) < tolerance
+                && TargetElevatorRotations != 0d) {
             isElevatorAtTarget = true;
         }
-    }}
-
-
+    }
+}
