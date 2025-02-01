@@ -19,18 +19,21 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 
-
 public class Robot extends TimedRobotstangs {
   private Command m_autonomousCommand;
   public XboxController xDrive = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
   public XboxController xManip = new XboxController(Constants.OperatorConstants.kManipControllerPort);
 
   private final RobotContainer m_robotContainer;
-   
+
   private Elevator elevator = Elevator.getInstance();
   private Arm arm = Arm.getInstance();
 
-  public static ShuffleboardTab autoTab, teleopTab, testTab;
+  // public static ShuffleboardTab autoTab, teleopTab, testTab;
+
+  private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", Alert.AlertType.ERROR);
+
+  
 
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -38,7 +41,6 @@ public class Robot extends TimedRobotstangs {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
   }
-
 
   @Override
   public void robotPeriodic() {
@@ -55,7 +57,6 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void driverStationConnected() {
 
-
     DataLogManager.start(Constants.logDirectory);
     DataLogManager.log("Driverstation connected");
     DriverStation.startDataLog(DataLogManager.getLog());
@@ -69,8 +70,8 @@ public class Robot extends TimedRobotstangs {
         .onCommandFinish((action) -> DataLogManager.log(action.getName() + " Command Finished"));
   }
 
-
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
   public void disabledPeriodic() {
@@ -80,23 +81,25 @@ public class Robot extends TimedRobotstangs {
 
     // schedule the autonomous command (example)
     // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.schedule();
+    // m_autonomousCommand.schedule();
     // }
 
-  
   }
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-    @Override
-    public void robotInit() {
-      
-		Alert.groups.forEach((group, alert) -> {
-			autoTab.add(group, alert)
-					.withSize(3, 3)
-					.withPosition(6, 1)
-					.withWidget("Alerts");
-		});
-    }
+  /**
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
+   */
+  @Override
+  public void robotInit() {
+
+    // Alert.groups.forEach((group, alert) -> {
+    //   autoTab.add(group, alert)
+    //       .withSize(3, 3)
+    //       .withPosition(6, 1)
+    //       .withWidget("Alerts");
+    // });
+  }
 
   /** This function is called periodically during autonomous. */
   @Override
@@ -165,12 +168,12 @@ public class Robot extends TimedRobotstangs {
       SmartDashboard.putNumber("Memory/Usage", (double) memBean.getHeapMemoryUsage().getUsed());
 
       // TODO remake alerts
-      // if (accumTime > (100)) {
-      // gcAlert.set(true);
-      // } else {
-      // gcAlert.set(false);
+      if (accumTime > (20)) {
+        gcAlert.set(true);
+      } else {
+        gcAlert.set(false);
 
-      // }
+      }
 
     }
   }

@@ -4,6 +4,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -11,6 +13,7 @@ public class Intake extends SubsystemBase {
     private TalonFX intakeMotortop, intakeMotorbottom, barMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
+    private DigitalInput IntakeSensor;
 
     public static Intake getInstance() {
         if (mInstance == null)
@@ -25,6 +28,7 @@ public class Intake extends SubsystemBase {
         intakeMotortop = new TalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
         intakeMotorbottom = new TalonFX(Constants.IntakeConstants.kBottomIntakeMotorId);
         barMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
+        IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
         intakeMotortop.getConfigurator().apply(talonFXConfigs);
         intakeMotorbottom.getConfigurator().apply(talonFXConfigs);
@@ -35,7 +39,7 @@ public class Intake extends SubsystemBase {
     public void runIntake(double IntakeDutyCycle) {
         intakeMotortop.set(IntakeDutyCycle);
         intakeMotorbottom.set(IntakeDutyCycle);
-        //fhewifiwe
+        // fhewifiwe
     }
 
     public void extendBar() {
@@ -44,7 +48,12 @@ public class Intake extends SubsystemBase {
 
     public void retractBar() {
         barMotor.set(-1d);
-        
+
+    }
+
+    public void postStatus(String status) {
+        SmartDashboard.putString("Intake/status", status);
+
     }
 
     public void stopIntake() {
@@ -52,11 +61,15 @@ public class Intake extends SubsystemBase {
         intakeMotorbottom.stopMotor();
     }
 
+    public boolean getIntakeSensor() {
+        return IntakeSensor.get();
+    }
     @Override
     public void periodic() {
         // TODO add logging
 
     }
-//big b at your service
-//-Bardia
+
+    // big b at your service
+    // -Bardia
 }

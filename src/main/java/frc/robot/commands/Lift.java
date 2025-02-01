@@ -13,7 +13,7 @@ public class Lift extends Command {
   double position;
 
   /** Creates a new Lift. */
-  public Lift(Double position) {
+  public Lift(double position) {
     elevator = Elevator.getInstance();
     addRequirements(elevator);
     this.position = position;
@@ -22,21 +22,26 @@ public class Lift extends Command {
 
   @Override
   public void initialize() {
+    elevator.setElevatorPosition(position);
 
   }
 
   @Override
   public void execute() {
 
-    elevator.setElevatorPosition(position);
+    elevator.postStatus("elevator going to:"+ position );
+
   }
 
   @Override
   public void end(boolean interrupted) {
+    elevator.postStatus("elevator done" );
+
   }
 
   @Override
   public boolean isFinished() {
-    return false;
+    // return false;
+     return elevator.getIsElevatorAtTarget();
   }
 }
