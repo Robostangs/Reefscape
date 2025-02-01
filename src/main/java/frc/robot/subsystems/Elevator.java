@@ -1,11 +1,14 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -70,6 +73,10 @@ public class Elevator extends SubsystemBase {
         slot0Configs.kI = Constants.ElevatorConstants.kElevatorI;
         slot0Configs.kD = Constants.ElevatorConstants.kElevatorD;
         slot0Configs.kS = Constants.ElevatorConstants.kElevatorFF;
+        TalonFXConfiguration elevatorMotorConfigs = new TalonFXConfiguration();
+        elevatorMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+        elevatorMotorConfigs.Feedback.RotorToSensorRatio = 100;
+        elevatorMotorConfigs.Feedback.SensorToMechanismRatio = 1;
 
         elevatorMotor.getConfigurator().apply(slot0Configs);
 
@@ -111,8 +118,6 @@ public class Elevator extends SubsystemBase {
         return isElevatorAtTarget;
     }
 
-
-
     // make functions for the smart dashboard variables
     // make folders in smart dashboard for the variables(real and simulated)
 
@@ -121,12 +126,14 @@ public class Elevator extends SubsystemBase {
      * 1.
      */
 
-     public double getElevatorPositionMeters(){
-        return elevatorMotor.getPosition().getValueAsDouble()/ Constants.ElevatorConstants.kRotationstoMeters;
-     }
-     public double getElevatorVelocityMeters(){
-        return elevatorMotor.getVelocity().getValueAsDouble()/ Constants.ElevatorConstants.kRotationstoMeters;
-     }
+    public double getElevatorPositionMeters() {
+        return elevatorMotor.getPosition().getValueAsDouble() / Constants.ElevatorConstants.kRotationstoMeters;
+    }
+
+    public double getElevatorVelocityMeters() {
+        return elevatorMotor.getVelocity().getValueAsDouble() / Constants.ElevatorConstants.kRotationstoMeters;
+    }
+
     @Override
     public void periodic() {
 
@@ -139,9 +146,10 @@ public class Elevator extends SubsystemBase {
 
         SmartDashboard.putNumber("Elevator/Simulation Position", simElevator.getPositionMeters());
         SmartDashboard.putNumber("Elevator/Real/Encoder Position", elevatorEncoder.getPosition().getValueAsDouble());
-        SmartDashboard.putNumber("Elevator/Real/Velocity",getElevatorVelocityMeters());
+        SmartDashboard.putNumber("Elevator/Real/Velocity", getElevatorVelocityMeters());
         SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", TargetElevatorMeters);
         SmartDashboard.putNumber("Elevator/Real/Position Meters", getElevatorPositionMeters());
+        SmartDashboard.putBoolean("Elevator/Real/At Position", getIsElevatorAtTarget());
 
         double tolerance = 0.01;
         double targetPositionMeters = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
