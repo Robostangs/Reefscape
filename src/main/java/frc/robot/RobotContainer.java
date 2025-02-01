@@ -35,7 +35,7 @@ public class RobotContainer {
     // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
     //     .whileTrue(new Lift(10d));
     new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
-    .onTrue(
+    .toggleOnTrue(
       new Lift(2d)
       // ScoringFactory.L1Score()
       );

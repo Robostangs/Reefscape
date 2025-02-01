@@ -26,7 +26,7 @@ public class Endeffector extends SubsystemBase {
 
     }
 
-    public void setEneffector(double eneffectorDutyCycle) {
+    public void setEneffdector(double eneffectorDutyCycle) {
         endefectorMotorRight.set(eneffectorDutyCycle);
         endefectorMotorLeft.set(eneffectorDutyCycle);
     }

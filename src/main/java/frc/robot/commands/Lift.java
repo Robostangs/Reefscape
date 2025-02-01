@@ -23,13 +23,14 @@ public class Lift extends Command {
   @Override
   public void initialize() {
     elevator.setElevatorPosition(position);
+    elevator.postStatus("elevator going to:"+ position );
+
 
   }
 
   @Override
   public void execute() {
 
-    elevator.postStatus("elevator going to:"+ position );
 
   }
 
