@@ -20,7 +20,6 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 
 public class Robot extends TimedRobotstangs {
-  private Command m_autonomousCommand;
   public XboxController xDrive = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
   public XboxController xManip = new XboxController(Constants.OperatorConstants.kManipControllerPort);
 
@@ -112,9 +111,6 @@ public class Robot extends TimedRobotstangs {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
   }
 
   /** This function is called periodically during operator control. */

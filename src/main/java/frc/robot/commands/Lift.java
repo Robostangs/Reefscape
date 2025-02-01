@@ -22,7 +22,7 @@ public class Lift extends Command {
 
   @Override
   public void initialize() {
-    elevator.setElevatorPosition(position);
+    elevator.setElevatorPositionMeters(position);
     elevator.postStatus("elevator going to:"+ position );
 
 

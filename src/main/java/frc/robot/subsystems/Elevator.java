@@ -2,9 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -26,9 +24,9 @@ public class Elevator extends SubsystemBase {
     // real elevator
     private TalonFX elevatorMotor;
     private CANcoder elevatorEncoder;
-    private double TargetElevatorMeters;
 
     private MotionMagicTorqueCurrentFOC elevatorMotionMagic;
+    private double elevatorPositionMeters;
 
     // simulated elevator
     private ElevatorSim simElevator;
@@ -49,7 +47,6 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
         elevatorMotor = new TalonFX(Constants.ElevatorConstants.kElevatorMotorId);
         elevatorEncoder = new CANcoder(Constants.ElevatorConstants.kElevatorEncoderId);
-        TargetElevatorMeters = 0d;
 
         elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d)
                 .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
@@ -77,6 +74,10 @@ public class Elevator extends SubsystemBase {
         elevatorMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
         elevatorMotorConfigs.Feedback.RotorToSensorRatio = 100;
         elevatorMotorConfigs.Feedback.SensorToMechanismRatio = 1;
+        elevatorMotorConfigs.Feedback.FeedbackRemoteSensorID = elevatorEncoder.getDeviceID();
+        elevatorMotionMagic.Slot = 0;
+
+
 
         elevatorMotor.getConfigurator().apply(slot0Configs);
 
@@ -84,13 +85,13 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    public void setElevatorPosition(double TargetElevatorMeters) {
+    public void setElevatorPositionMeters(double TargetElevatorMeters) {
         if (TargetElevatorMeters < Constants.ElevatorConstants.kMinElevatorHeight) {
-            this.TargetElevatorMeters = Constants.ElevatorConstants.kMinElevatorHeight;
+            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinElevatorHeight;
         } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxElevatorHeight) {
-            this.TargetElevatorMeters = Constants.ElevatorConstants.kMaxElevatorHeight;
+            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxElevatorHeight;
         } else {
-            this.TargetElevatorMeters = TargetElevatorMeters;
+            elevatorMotionMagic.Position = TargetElevatorMeters;
         }
     }
 
@@ -108,33 +109,40 @@ public class Elevator extends SubsystemBase {
         simElevator.update(0.02);
 
         elevatorEncoder.getSimState()
-                .setRawPosition(simElevator.getPositionMeters() / Constants.ElevatorConstants.kRotationstoMeters);
+                .setRawPosition(simElevator.getPositionMeters() / Constants.ElevatorConstants.kRotationsToMeters);
 
         m_elevatorMech2d.setLength(simElevator.getPositionMeters());
 
     }
 
-    public double getElevatorPositionMeters() {
-        return elevatorMotor.getPosition().getValueAsDouble() / Constants.ElevatorConstants.kRotationstoMeters;
-    }
+  
 
     public double getElevatorVelocityMeters() {
-        return elevatorMotor.getVelocity().getValueAsDouble() / Constants.ElevatorConstants.kRotationstoMeters;
+        return elevatorMotor.getVelocity().getValueAsDouble() / Constants.ElevatorConstants.kRotationsToMeters;
     }
 
     public boolean isElevatorAtTarget() {
-        if (Math.abs(getElevatorPositionMeters() - TargetElevatorMeters) < 0.01) {
+        if (Math.abs(elevatorPositionMeters - elevatorMotionMagic.Position) < 0.01) {
             return true;
         } else {
             return false;
         }
     }
 
+    public void updateElevatorPosition(){
+        if(Robot.isSimulation()){
+            //
+        }
+        else{
+            elevatorPositionMeters = Constants.ElevatorConstants.kRotationsToMeters* elevatorMotor.getPosition().getValueAsDouble();
+        }
+    }
     @Override
     public void periodic() {
-
+        updateElevatorPosition();
+        
         elevatorMotor.setControl(elevatorMotionMagic
-                .withPosition(TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters));
+                .withPosition(elevatorMotionMagic.Position * Constants.ElevatorConstants.kRotationsToMeters));
 
         if (Robot.isSimulation()) {
             updateSimElevator();
@@ -143,8 +151,8 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator/Simulation Position", simElevator.getPositionMeters());
         SmartDashboard.putNumber("Elevator/Real/Encoder Position", elevatorEncoder.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("Elevator/Real/Velocity", getElevatorVelocityMeters());
-        SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", TargetElevatorMeters);
-        SmartDashboard.putNumber("Elevator/Real/Position Meters", getElevatorPositionMeters());
+        SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", elevatorMotionMagic.Position);
+        SmartDashboard.putNumber("Elevator/Real/Position Meters", elevatorPositionMeters);
         SmartDashboard.putBoolean("Elevator/Real/At Position", isElevatorAtTarget());
 
     }

@@ -73,13 +73,13 @@ public final class Constants {
     public static final double kElevatorP = 5;
     public static final double kElevatorI = 0.4;
     public static final double kElevatorD = 2;
-    public static final double kElevatorFF = 7;
+    public static final double kElevatorFF = -7;
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final int kElevatorEncoderId = 3;
     //TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
     public static final double kMaxElevatorHeight = 20d;
     public static final double kMinElevatorHeight = 0d;
-    public static final double kRotationstoMeters = 1d;
+    public static final double kRotationsToMeters = 1d;
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
