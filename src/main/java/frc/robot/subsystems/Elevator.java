@@ -85,7 +85,6 @@ public class Elevator extends SubsystemBase {
         } else {
             this.TargetElevatorMeters = TargetElevatorMeters;
         }
-
     }
 
     public void postStatus(String status) {
@@ -112,23 +111,37 @@ public class Elevator extends SubsystemBase {
         return isElevatorAtTarget;
     }
 
+
+
     // make functions for the smart dashboard variables
     // make folders in smart dashboard for the variables(real and simulated)
 
+    /**
+     * Problems
+     * 1.
+     */
+
+     public double getElevatorPositionMeters(){
+        return elevatorMotor.getPosition().getValueAsDouble()/ Constants.ElevatorConstants.kRotationstoMeters;
+     }
+     public double getElevatorVelocityMeters(){
+        return elevatorMotor.getVelocity().getValueAsDouble()/ Constants.ElevatorConstants.kRotationstoMeters;
+     }
     @Override
     public void periodic() {
 
-        elevatorMotor.setControl(elevatorMotionMagic.withPosition(TargetElevatorMeters*Constants.ElevatorConstants.kRotationstoMeters));
+        elevatorMotor.setControl(elevatorMotionMagic
+                .withPosition(TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters));
 
         if (Robot.isSimulation()) {
             updateSimElevator();
         }
 
         SmartDashboard.putNumber("Elevator/Simulation Position", simElevator.getPositionMeters());
-        SmartDashboard.putNumber("Elevator/Encoder Position", elevatorEncoder.getPosition().getValueAsDouble());
-        SmartDashboard.putNumber("Elevator/Velocity", simElevator.getVelocityMetersPerSecond());
-        SmartDashboard.putNumber("Elevator/TargetElevatorMeters", TargetElevatorMeters);
-        SmartDashboard.putBoolean("isElevatorAtTarget", isElevatorAtTarget);
+        SmartDashboard.putNumber("Elevator/Real/Encoder Position", elevatorEncoder.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator/Real/Velocity",getElevatorVelocityMeters());
+        SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", TargetElevatorMeters);
+        SmartDashboard.putNumber("Elevator/Real/Position Meters", getElevatorPositionMeters());
 
         double tolerance = 0.01;
         double targetPositionMeters = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
