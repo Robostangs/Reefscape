@@ -22,11 +22,11 @@ public class Elevator extends SubsystemBase {
 
     // real elevator
     private TalonFX elevatorMotor;
-    private double elevatorPosition;
     private CANcoder elevatorEncoder;
-    private double TargetElevatorMeters = 0d;
+    private double TargetElevatorRotations = 0d;
+
     private boolean isElevatorAtTarget = false;
-    MotionMagicTorqueCurrentFOC elevatorMotionMagic;
+    private MotionMagicTorqueCurrentFOC elevatorMotionMagic;
 
     // simulated elevator
     private ElevatorSim simElevator;
@@ -42,7 +42,9 @@ public class Elevator extends SubsystemBase {
             mInstance = new Elevator();
 
         return mInstance;
-    }
+        }
+    
+    
 
     public Elevator() {
         elevatorMotor = new TalonFX(Constants.ElevatorConstants.kElevatorMotorId);
@@ -77,17 +79,25 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPosition(double TargetElevatorMeters) {
-        if (TargetElevatorMeters > Constants.ElevatorConstants.kMinElevatorHeight
-                && TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
-            this.TargetElevatorMeters = TargetElevatorMeters;
-
-            double elevatorrots = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
-
-            elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(elevatorrots)
-                    .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
-
+        if (TargetElevatorMeters > Constants.ElevatorConstants.kMinElevatorHeight){
+            this.TargetElevatorRotations = Constants.ElevatorConstants.kMinElevatorHeight;
         }
-    }
+        else if(TargetElevatorMeters < Constants.ElevatorConstants.kmaxElevatorHeight) {
+            this.TargetElevatorRotations = Constants.ElevatorConstants.kmaxElevatorHeight;
+        }
+        else{
+            this.TargetElevatorRotations = TargetElevatorMeters;
+        }
+
+
+
+            this.TargetElevatorRotations = TargetElevatorMeters* Constants.ElevatorConstants.kRotationstoMeters;
+
+
+   
+                    
+        }
+    
 
     public void postStatus(String status) {
         SmartDashboard.putString("Elevator/status", status);
@@ -109,16 +119,19 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    public double getElevatorPosition() {
-        return elevatorPosition;
-    }
+  
 
     public boolean getIsElevatorAtTarget() {
         return isElevatorAtTarget;
     }
+    
+//make functions for the smart dashboard variables
+//make folders in smart dashboard for the variables(real and simulated)
 
     @Override
     public void periodic() {
+        elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(TargetElevatorRotations)
+        .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
 
         elevatorMotor.setControl(elevatorMotionMagic);
 
@@ -126,19 +139,18 @@ public class Elevator extends SubsystemBase {
             updateSimElevator();
         }
 
-        elevatorPosition = elevatorEncoder.getPosition().getValueAsDouble();
-        SmartDashboard.putNumber("Elevator/Position", simElevator.getPositionMeters());
-        SmartDashboard.putNumber("Elevator/Encoder Position", elevatorPosition);
+        SmartDashboard.putNumber("Elevator/Simulation Position", simElevator.getPositionMeters());
+        SmartDashboard.putNumber("Elevator/Encoder Position", elevatorEncoder.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("Elevator/Velocity", simElevator.getVelocityMetersPerSecond());
-        SmartDashboard.putNumber("Elevator/TargetElevatorMeters", TargetElevatorMeters);
+        SmartDashboard.putNumber("Elevator/TargetElevatorMeters", TargetElevatorRotations);
         SmartDashboard.putBoolean("isElevatorAtTarget", isElevatorAtTarget);
 
         double tolerance = 0.01;
-        double targetPositionMeters = TargetElevatorMeters * Constants.ElevatorConstants.kRotationstoMeters;
+        double targetPositionMeters = TargetElevatorRotations * Constants.ElevatorConstants.kRotationstoMeters;
 
-        if (Math.abs(elevatorPosition - targetPositionMeters) < tolerance && TargetElevatorMeters != 0d) {
+        if (Math.abs(elevatorEncoder.getPosition().getValueAsDouble() - targetPositionMeters) < tolerance && TargetElevatorRotations != 0d) {
             isElevatorAtTarget = true;
         }
-    }
+    }}
 
-}
+
