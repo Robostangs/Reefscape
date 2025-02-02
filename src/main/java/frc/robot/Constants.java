@@ -70,10 +70,10 @@ public final class Constants {
 
   public static class ElevatorConstants {
     public static final int kElevatorMotorId = 2;
-    public static final double kElevatorP = 5;
-    public static final double kElevatorI = 0.4;
-    public static final double kElevatorD = 2;
-    public static final double kElevatorFF = -7;
+    public static final double kElevatorP = 50;
+    public static final double kElevatorI = 0;
+    public static final double kElevatorD = 0;
+    public static final double kElevatorFF = 1;
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final int kElevatorEncoderId = 3;
     //TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES

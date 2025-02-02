@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Lift;
+import frc.robot.commands.MoveArm;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -34,7 +35,8 @@ public class RobotContainer {
     //     .whileTrue(new Lift(10d));
     new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
     .toggleOnTrue(
-      new Lift(2d)
+      // new MoveArm(400d)
+      new Lift(5d)
       // ScoringFactory.L1Score()
       );
 

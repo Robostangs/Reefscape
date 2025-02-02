@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -47,6 +48,8 @@ public class Arm extends SubsystemBase {
         slot0Configs.kD = Constants.ArmConstants.kArmD;
         slot0Configs.kS = Constants.ArmConstants.kArmFF;
         slot0Configs.GravityType = Constants.ArmConstants.kArmgravtype;
+
+        TalonFXConfiguration armconfigs = new TalonFXConfiguration();
 
         armMotor.getConfigurator().apply(slot0Configs);
 
