@@ -10,23 +10,25 @@ public class MoveArm extends Command {
   Arm arm;
   double angle;
 
-  public MoveArm(DoubleSupplier angle) {
+  public MoveArm(Double angle) {
 
-    this.angle = angle.getAsDouble();
+    this.angle = angle;
     arm = Arm.getInstance();
     addRequirements(arm);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    arm.setArmMotor(angle);
+    arm.postStatus("going to this angle:" + angle);
 
   }
 
   @Override
   public void execute() {
-    arm.setArmMotor(new Rotation2d(angle));
-    arm.postStatus("going to this angle:" + angle);
+
   }
 
   // Called once the command ends or is interrupted.

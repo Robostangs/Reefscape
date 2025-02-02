@@ -27,15 +27,23 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-
   }
 
   private void configureSimBindings() {
-    new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
-    .whileTrue(new Lift(10d));
 
-    new Trigger(() -> m_driverControllerSim.getRawButtonPressed(2))
-    .whileTrue(new MoveArm(() -> 270d));
+    // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
+    //     .whileTrue(new Lift(10d));
+    new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
+    .toggleOnTrue(
+      // new MoveArm(400d)
+      new Lift(5d)
+      // ScoringFactory.L1Score()
+      );
+
+    // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(2)).whileTrue(
+    // new Lift(60d)
+    // );
+
   }
 
 }

@@ -33,14 +33,19 @@ public final class Constants {
     public static final int kTopIntakeMotorId = 0;
     public static final int kBottomIntakeMotorId = 0;
     public static final int kBarMotorId = 0;
+    public static final int kIntakeSensorId = 0;
 
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
   }
   public static class EndefectorConstants{
 
-    public static final int kEndefectorPiviotMotorId = 0;
-    public static final int kEndefectorMotorId = 0;
+    public static final int kEndefectorRightMotorId = 0;
+    public static final int kEndefectorLeftMotorId = 0;
+    public static final int kEndefectorSensorId = 0;
+
+
+    public static final double kEndeffectorSpit = 0.6;
 
 
   }
@@ -57,6 +62,7 @@ public final class Constants {
     public static final double kArmWidth = 5d;
     public static final double kArmRootX = 1d;
     public static final double kArmRootY = 2d;
+    public static final double kArmRotationtoDegreeRatio = 2498d;
 
     
 
@@ -64,16 +70,16 @@ public final class Constants {
 
   public static class ElevatorConstants {
     public static final int kElevatorMotorId = 2;
-    public static final double kElevatorP = 5;
+    public static final double kElevatorP = 50;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
     public static final double kElevatorFF = 1;
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final int kElevatorEncoderId = 3;
     //TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
-    public static final double kmaxElevatorHeight = 20d;
+    public static final double kMaxElevatorHeight = 20d;
     public static final double kMinElevatorHeight = 0d;
-    public static final double kRotationstoMeters = 1d;
+    public static final double kRotationsToMeters = 1d;
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
@@ -84,6 +90,24 @@ public final class Constants {
     public static final double kLigaLength = .3d;
     public static final double kElevatorGearing = 8d;
     public static final double kDrumRadius = Units.inchesToMeters(2.0);;
+
+  }
+
+  public static class ScoringConstants{
+    public static final double kArmScoringangle = 270;
+
+    public static class L1{
+      public static final double kElevatorPos = 10d;
+    }
+    public static class L2{
+      public static final double kElevatorPos = 60;
+    }
+    public static class L3{
+      public static final double kElevatorPos = 100;
+    }
+    public static class L4{
+      public static final double kElevatorPos = 140;
+    }
 
   }
 
