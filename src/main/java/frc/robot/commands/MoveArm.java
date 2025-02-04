@@ -23,7 +23,6 @@ public class MoveArm extends Command {
   public void initialize() {
     arm.setArmMotor(angle);
     arm.postStatus("going to this angle:" + angle);
-
   }
 
   @Override

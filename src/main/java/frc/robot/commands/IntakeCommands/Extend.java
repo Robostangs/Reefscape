@@ -17,6 +17,7 @@ public class Extend extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    intake.postStatus("DEPLOY DEPLOY DEPLOY");
 
   }
 
@@ -24,13 +25,14 @@ public class Extend extends Command {
   public void execute() {
     intake.extendBar();
 
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    intake.setIntakeBrake();
+    intake.postStatus("DEPLOYED");
+    intake.setIntakePiviotBrake();
   }
 
   // Returns true when the command should end.

@@ -1,11 +1,13 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.Intake;
 
 public class RunIntake extends Command {
 
     Intake intake;
+    Endeffector endeffector;
 
     public RunIntake() {
         intake = Intake.getInstance();
@@ -18,17 +20,20 @@ public class RunIntake extends Command {
   @Override
   public void initialize() {
 
+    intake.postStatus("SCHLOOPING");
   }
 
   @Override
   public void execute() {
     intake.runIntake(0.5);
+    endeffector.setEneffdector(0.3);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    intake.postStatus("SCHLOOPED");
 
   }
 

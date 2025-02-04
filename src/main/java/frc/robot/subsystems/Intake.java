@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    private TalonFX intakeMotorTop,barMotor;
+    private TalonFX intakeMotorTop,piviotMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
     private DigitalInput IntakeSensor;
@@ -27,12 +27,11 @@ public class Intake extends SubsystemBase {
         var talonFXConfigs = new TalonFXConfiguration();
 
         intakeMotorTop = new TalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
-        barMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
+        piviotMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
         
-
         intakeMotorTop.getConfigurator().apply(talonFXConfigs);
-        barMotor.getConfigurator().apply(talonFXConfigs);
+        piviotMotor.getConfigurator().apply(talonFXConfigs);
 
     }
 
@@ -41,11 +40,11 @@ public class Intake extends SubsystemBase {
     }
 
     public void extendBar() {
-        barMotor.set(.5);
+        piviotMotor.set(.5);
     }
 
     public void retractBar() {
-        barMotor.set(-.5);
+        piviotMotor.set(-.5);
 
     }
 
@@ -61,8 +60,8 @@ public class Intake extends SubsystemBase {
     public boolean getIntakeSensor() {
         return IntakeSensor.get();
     }
-    public void setIntakeBrake() {
-        intakeMotorTop.setNeutralMode(NeutralModeValue.Brake);
+    public void setIntakePiviotBrake() {
+        piviotMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     @Override
