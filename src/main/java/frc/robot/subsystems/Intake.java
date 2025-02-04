@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    private TalonFX intakeMotortop, intakeMotorbottom, barMotor;
+    private TalonFX intakeMotortop, barMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
     private DigitalInput IntakeSensor;
@@ -26,20 +26,16 @@ public class Intake extends SubsystemBase {
         var talonFXConfigs = new TalonFXConfiguration();
 
         intakeMotortop = new TalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
-        intakeMotorbottom = new TalonFX(Constants.IntakeConstants.kBottomIntakeMotorId);
         barMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
         intakeMotortop.getConfigurator().apply(talonFXConfigs);
-        intakeMotorbottom.getConfigurator().apply(talonFXConfigs);
         barMotor.getConfigurator().apply(talonFXConfigs);
 
     }
 
     public void runIntake(double IntakeDutyCycle) {
         intakeMotortop.set(IntakeDutyCycle);
-        intakeMotorbottom.set(IntakeDutyCycle);
-        // fhewifiwe
     }
 
     public void extendBar() {
@@ -58,12 +54,12 @@ public class Intake extends SubsystemBase {
 
     public void stopIntake() {
         intakeMotortop.stopMotor();
-        intakeMotorbottom.stopMotor();
     }
 
     public boolean getIntakeSensor() {
         return IntakeSensor.get();
     }
+
     @Override
     public void periodic() {
         // TODO add logging
