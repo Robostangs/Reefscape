@@ -167,7 +167,7 @@ public class TunerConstants {
     private static final boolean kBackRightEncoderInverted = true;
 
     private static final Distance kBackRightXPos = Inches.of(-12.125);
-    private static final Distance kBackRightYPos = Inches.of(-14.25);
+    private static final Distance kBackRightYPos = Inches.of(-12.125);
 
 
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FrontLeft =
