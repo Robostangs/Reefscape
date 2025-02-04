@@ -30,11 +30,14 @@ public class Extend extends Command {
   @Override
   public void end(boolean interrupted) {
 
+    intake.setIntakeBrake();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+        //TODO do this when we put it on
+    // return intake.getIntakeSensor();
     return false;
   }
 

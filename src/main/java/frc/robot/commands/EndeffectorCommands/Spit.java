@@ -19,17 +19,21 @@ public class Spit extends Command {
 
     @Override
     public void execute() {
-        endeffector.setEneffdector(Constants.EndefectorConstants.kEndeffectorSpit);
+        endeffector.setEneffdector(Constants.EndeffectorConstants.kEndeffectorSpit);
     }
+
+
 
     @Override
     public void end(boolean interrupted) {
 
         endeffector.setEneffdector(0);
+        endeffector.setEndeffectorBrake();
+        
     }
 
     @Override
     public boolean isFinished() {
-        return endeffector.getEndefectorSensor();
+        return endeffector.getEndeffectorSensor();
     }
 }

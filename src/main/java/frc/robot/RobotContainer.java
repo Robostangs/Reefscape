@@ -30,21 +30,19 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-
-    xDrive.a().onTrue(new Extend().withTimeout(0.3).andThen(new RunIntake()).finallyDo(Retract.retract()));
+    xDrive.rightStick().toggleOnTrue(new Extend().withTimeout(0.3).andThen(new RunIntake()).finallyDo(Retract.retract()));
+    xDrive.leftStick().toggleOnTrue(new RunIntake());
 
   }
 
   private void configureSimBindings() {
 
     // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
-    //     .whileTrue(new Lift(10d));
+    // .whileTrue(new Lift(10d));
     new Trigger(() -> xSim.getRawButtonPressed(1))
-    .toggleOnTrue(
-      // new MoveArm(400d)
-      new Lift(5d)
-      // ScoringFactory.L1Score()
-      );
+        .toggleOnTrue(
+            new Lift(5d)
+        );
 
     // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(2)).whileTrue(
     // new Lift(60d)

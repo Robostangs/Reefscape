@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    private TalonFX intakeMotortop, barMotor;
+    private TalonFX intakeMotorTop,barMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
     private DigitalInput IntakeSensor;
@@ -25,17 +26,18 @@ public class Intake extends SubsystemBase {
 
         var talonFXConfigs = new TalonFXConfiguration();
 
-        intakeMotortop = new TalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
+        intakeMotorTop = new TalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
         barMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
+        
 
-        intakeMotortop.getConfigurator().apply(talonFXConfigs);
+        intakeMotorTop.getConfigurator().apply(talonFXConfigs);
         barMotor.getConfigurator().apply(talonFXConfigs);
 
     }
 
     public void runIntake(double IntakeDutyCycle) {
-        intakeMotortop.set(IntakeDutyCycle);
+        intakeMotorTop.set(IntakeDutyCycle);
     }
 
     public void extendBar() {
@@ -53,11 +55,14 @@ public class Intake extends SubsystemBase {
     }
 
     public void stopIntake() {
-        intakeMotortop.stopMotor();
+        intakeMotorTop.stopMotor();
     }
 
     public boolean getIntakeSensor() {
         return IntakeSensor.get();
+    }
+    public void setIntakeBrake() {
+        intakeMotorTop.setNeutralMode(NeutralModeValue.Brake);
     }
 
     @Override

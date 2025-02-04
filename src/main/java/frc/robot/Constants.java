@@ -38,11 +38,11 @@ public final class Constants {
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
   }
-  public static class EndefectorConstants{
+  public static class EndeffectorConstants{
 
-    public static final int kEndefectorRightMotorId = 0;
-    public static final int kEndefectorLeftMotorId = 0;
-    public static final int kEndefectorSensorId = 0;
+    public static final int kEndeffectorRightMotorId = 0;
+    public static final int kEndeffectorLeftMotorId = 0;
+    public static final int kEndeffectorSensorId = 0;
 
 
     public static final double kEndeffectorSpit = 0.6;
