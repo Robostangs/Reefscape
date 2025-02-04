@@ -19,21 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
-/**
- * 1. sim elevator rename to sim elevator target
- * </p>
- * 
- * 2. target elevator sim -> sim elevator profile- updatesimelevatorprofile()
- * </p>
- * 3.in periodic before update elevator postion runs: above update elevator
- * position- run update sim elevator target
- * if(robo real){update the sim elevator profile} - color different
- * *
- * </p>
- * 
- * 4. build one big mechanism for all
- * 
- */
+
 public class Elevator extends SubsystemBase {
 
     private static Elevator mInstance;
