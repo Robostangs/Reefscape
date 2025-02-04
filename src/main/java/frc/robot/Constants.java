@@ -57,7 +57,7 @@ public final class Constants {
     public static final double kArmD = 0;
     public static final double kArmFF = 0;
     public static final GravityTypeValue kArmgravtype= GravityTypeValue.Arm_Cosine;
-    public static final int kArmEncoderId = 12;
+    public static final int kArmEncoderId = 55;
     public static final double kArmheight = 5d;
     public static final double kArmWidth = 5d;
     public static final double kArmRootX = 1d;
@@ -69,7 +69,7 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int kElevatorMotorId = 2;
+    public static final int kElevatorMotorId = 5;
     public static final double kElevatorP = 50;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
