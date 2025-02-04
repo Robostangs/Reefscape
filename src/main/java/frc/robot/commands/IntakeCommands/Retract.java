@@ -16,7 +16,7 @@ public class Retract extends Command {
 
   public static Runnable retract() {
     return () -> {
-      new Retract();
+      new Retract().withTimeout(0.3);
     };
   }
 

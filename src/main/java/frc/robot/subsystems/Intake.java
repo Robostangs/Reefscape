@@ -39,11 +39,11 @@ public class Intake extends SubsystemBase {
     }
 
     public void extendBar() {
-        barMotor.set(1d);
+        barMotor.set(.5);
     }
 
     public void retractBar() {
-        barMotor.set(-1d);
+        barMotor.set(-.5);
 
     }
 
