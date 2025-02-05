@@ -38,6 +38,8 @@ public class Retract extends Command {
   public void end(boolean interrupted) {
     intake.postStatus("RETRACTED");
     intake.setIntakePiviotBrake();
+    intake.stopBar();
+
 
   }
 

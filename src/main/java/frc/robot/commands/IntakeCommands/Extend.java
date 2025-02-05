@@ -33,6 +33,8 @@ public class Extend extends Command {
   public void end(boolean interrupted) {
     intake.postStatus("DEPLOYED");
     intake.setIntakePiviotBrake();
+    intake.stopBar();
+
   }
 
   // Returns true when the command should end.

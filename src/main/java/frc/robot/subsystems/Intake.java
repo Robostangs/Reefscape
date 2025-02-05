@@ -40,11 +40,14 @@ public class Intake extends SubsystemBase {
     }
 
     public void extendBar() {
-        piviotMotor.set(.5);
+        piviotMotor.set(-.3);
     }
 
+    public void stopBar() {
+        piviotMotor.set(0);
+    }
     public void retractBar() {
-        piviotMotor.set(-.5);
+        piviotMotor.set(.3);
 
     }
 
