@@ -30,9 +30,8 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final int kTopIntakeMotorId = 0;
-    public static final int kBottomIntakeMotorId = 0;
-    public static final int kBarMotorId = 0;
+    public static final int kIntakeMotorId = 14;
+    public static final int kBarMotorId = 15;
     public static final int kIntakeSensorId = 0;
 
     public static final boolean kTopIntakeMotorInverted = false;

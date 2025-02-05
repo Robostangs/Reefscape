@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
 
         var talonFXConfigs = new TalonFXConfiguration();
 
-        intakeMotorTop = new TalonFX(Constants.IntakeConstants.kTopIntakeMotorId);
+        intakeMotorTop = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
         piviotMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
         

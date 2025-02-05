@@ -7,15 +7,18 @@ import frc.robot.subsystems.Intake;
 public class RunIntake extends Command {
 
     Intake intake;
-    Endeffector endeffector;
+    // Endeffector endeffector;
+    boolean stupid;
 
-    public RunIntake() {
+    public RunIntake(boolean stupid) {
         intake = Intake.getInstance();
         addRequirements(intake);
+        this.stupid = stupid;
     }
 
    
 
+    
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -25,8 +28,14 @@ public class RunIntake extends Command {
 
   @Override
   public void execute() {
+    if(stupid){
     intake.runIntake(0.5);
-    endeffector.setEneffdector(0.3);
+    }
+    else{
+      intake.runIntake(-0.5);
+
+    }
+    // endeffector.setEneffdector(0.3);
 
   }
 
@@ -34,6 +43,8 @@ public class RunIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("SCHLOOPED");
+    intake.runIntake(0d);
+
 
   }
 

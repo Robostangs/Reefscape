@@ -22,16 +22,18 @@ public class RobotContainer {
 
   public RobotContainer() {
     // Configure the trigger bindings
-    configureBindings();
+    configureDriveBindings();
     if (Robot.isSimulation()) {
       configureSimBindings();
     }
   }
 
-  private void configureBindings() {
+  private void configureDriveBindings() {
 
-    xDrive.rightStick().toggleOnTrue(new Extend().withTimeout(0.3).andThen(new RunIntake()).finallyDo(Retract.retract()));
-    xDrive.leftStick().toggleOnTrue(new RunIntake());
+    // xDrive.rightStick().toggleOnTrue(new Extend().withTimeout(0.3).andThen(new RunIntake()).finallyDo(Retract.retract()));
+    xDrive.x().toggleOnTrue(new RunIntake(true));
+    xDrive.y().toggleOnTrue(new RunIntake(false));
+
 
   }
 
