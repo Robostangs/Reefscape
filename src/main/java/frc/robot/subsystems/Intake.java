@@ -29,6 +29,10 @@ public class Intake extends SubsystemBase {
         intakeMotorTop = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
         piviotMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
+
+        TalonFXConfiguration piviotMotorConfigs = new TalonFXConfiguration();
+        // piviotMotorConfigs.ClosedLoopRamps.withDutyCycleClosedLoopRampPeriod(
+
         
         intakeMotorTop.getConfigurator().apply(talonFXConfigs);
         piviotMotor.getConfigurator().apply(talonFXConfigs);
@@ -40,14 +44,15 @@ public class Intake extends SubsystemBase {
     }
 
     public void extendBar() {
-        piviotMotor.set(-.3);
+        MotionMagic
+        piviotMotor.set(-.5);
     }
 
     public void stopBar() {
         piviotMotor.set(0);
     }
     public void retractBar() {
-        piviotMotor.set(.3);
+        piviotMotor.set(.5);
 
     }
 
@@ -65,6 +70,7 @@ public class Intake extends SubsystemBase {
     }
     public void setIntakePiviotBrake() {
         piviotMotor.setNeutralMode(NeutralModeValue.Brake);
+        
     }
 
     @Override
@@ -73,6 +79,6 @@ public class Intake extends SubsystemBase {
 
     }
 
-    // big b at your service
-    // -Bardia
+    // big D at your service
+    // -Devin
 }
