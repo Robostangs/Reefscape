@@ -18,12 +18,12 @@ public class Extend extends Command {
   @Override
   public void initialize() {
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
+    intake.extendBar();
 
   }
 
   @Override
   public void execute() {
-    intake.extendBar();
 
 
   }
@@ -41,8 +41,7 @@ public class Extend extends Command {
   @Override
   public boolean isFinished() {
         //TODO do this when we put it on
-    // return intake.getIntakeSensor();
-    return false;
+    return intake.isIntakeatSetpoint(true);
   }
 
 }

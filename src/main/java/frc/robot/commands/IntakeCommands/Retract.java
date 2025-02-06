@@ -14,17 +14,17 @@ public class Retract extends Command {
     addRequirements(intake);
   }
 
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     intake.postStatus("FALLING BACK");
 
+    intake.retractBar();
+
   }
 
   @Override
   public void execute() {
-    intake.retractBar();
 
   }
 
@@ -35,15 +35,13 @@ public class Retract extends Command {
     intake.setIntakePiviotBrake();
     intake.stopBar();
 
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-        //TODO do this when we put it on
-    // return intake.getIntakeSensor();
-    return false;
+    // TODO do this when we put it on
+    return intake.isIntakeatSetpoint(false);
   }
 
 }

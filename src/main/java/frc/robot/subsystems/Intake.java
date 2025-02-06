@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -16,6 +18,8 @@ public class Intake extends SubsystemBase {
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
     private DigitalInput IntakeSensor;
+    MotionMagicExpoTorqueCurrentFOC piviotControl;
+
 
     public static Intake getInstance() {
         if (mInstance == null)
@@ -25,18 +29,24 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
 
-        var talonFXConfigs = new TalonFXConfiguration();
 
         intakeMotorTop = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
         piviotMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
-        TalonFXConfiguration piviotMotorConfigs = new TalonFXConfiguration();
-        // piviotMotorConfigs.ClosedLoopRamps.withDutyCycleClosedLoopRampPeriod(
+        var slotpiviotconfigs = new Slot0Configs();
+        slotpiviotconfigs.kP = Constants.IntakeConstants.kPiviotP;
+        slotpiviotconfigs.kI = Constants.IntakeConstants.kPiviotI;
+        slotpiviotconfigs.kD = Constants.IntakeConstants.kPiviotD;
 
-        
-        intakeMotorTop.getConfigurator().apply(talonFXConfigs);
-        piviotMotor.getConfigurator().apply(talonFXConfigs);
+
+        TalonFXConfiguration piviotMotorConfigs = new TalonFXConfiguration();
+        piviotMotorConfigs.Feedback.SensorToMechanismRatio = 1.0;
+
+        piviotMotor.getConfigurator().apply(slotpiviotconfigs);
+        piviotMotor.getConfigurator().apply(piviotMotorConfigs);
+
+        piviotControl = new MotionMagicExpoTorqueCurrentFOC(0d);
 
     }
 
@@ -47,15 +57,14 @@ public class Intake extends SubsystemBase {
     }
 
     public void extendBar() {
-        MotionMagic
-        piviotMotor.set(-.5);
+        piviotControl.Position = Constants.IntakeConstants.kExtendSetpoint;
     }
 
     public void stopBar() {
         piviotMotor.set(0);
     }
     public void retractBar() {
-        piviotMotor.set(.5);
+        piviotControl.Position = Constants.IntakeConstants.kRetractSetpoint;
 
     }
 
@@ -75,10 +84,21 @@ public class Intake extends SubsystemBase {
         piviotMotor.setNeutralMode(NeutralModeValue.Brake);
         
     }
+    public boolean isIntakeatSetpoint(boolean extendorretract){
+
+        if(extendorretract){
+        return piviotMotor.getPosition().getValueAsDouble() == Constants.IntakeConstants.kExtendSetpoint;
+        }
+        else{
+            return piviotMotor.getPosition().getValueAsDouble() == Constants.IntakeConstants.kExtendSetpoint;
+
+        }
+    }
 
     @Override
     public void periodic() {
         // TODO add logging
+        piviotMotor.setControl(piviotControl);
 
     }
 

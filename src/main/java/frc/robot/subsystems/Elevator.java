@@ -99,6 +99,7 @@ public class Elevator extends SubsystemBase {
         elevatorMotorConfigs.Feedback.FeedbackRemoteSensorID = elevatorEncoder.getDeviceID();
         elevatorMotionMagic.Slot = 0;
 
+        elevatorMotor.getConfigurator().apply(elevatorMotorConfigs);
         elevatorMotor.getConfigurator().apply(slot0Configs);
 
         SmartDashboard.putData("Elevator/Elevator Sim", targetElevator_mechanism);
