@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
-
+ 
   private final CommandXboxController xDrive = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
   private final GenericHID xSim = new GenericHID(2);

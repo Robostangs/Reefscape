@@ -28,7 +28,6 @@ public class RunIntake extends Command {
 
   @Override
   public void execute() {
-    if(stupid){
     intake.runIntake(0.5);
     }
     else{
@@ -39,7 +38,6 @@ public class RunIntake extends Command {
 
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("SCHLOOPED");
@@ -48,7 +46,6 @@ public class RunIntake extends Command {
 
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     //TODO do this when we put it on

@@ -14,11 +14,6 @@ public class Retract extends Command {
     addRequirements(intake);
   }
 
-  public static Runnable retract() {
-    return () -> {
-      new Retract().withTimeout(0.3);
-    };
-  }
 
   // Called when the command is initially scheduled.
   @Override

@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -21,7 +22,6 @@ public class Arm extends SubsystemBase {
     private static Arm mInstance;
     private TalonFX armMotor;
     private double targetArmAngle;
-    private double realArmAngle;
     private MotionMagicTorqueCurrentFOC armControl;
     private CANcoder armEncoder;
 
@@ -49,6 +49,7 @@ public class Arm extends SubsystemBase {
         slot0Configs.kS = Constants.ArmConstants.kArmFF;
         slot0Configs.GravityType = Constants.ArmConstants.kArmgravtype;
 
+        armControl.Slot = 0;
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
 
         armMotor.getConfigurator().apply(slot0Configs);
@@ -72,7 +73,7 @@ public class Arm extends SubsystemBase {
                 Constants.ArmConstants.kArmheight / 2)
                 .append(targetArm);
 
-        SmartDashboard.putData("Arm/Arm", armMechanism );
+        SmartDashboard.putData("Arm/Arm", armMechanism);
         SmartDashboard.putData("Arm/TargetArm", targetArmMechanism);
 
     }
@@ -81,9 +82,6 @@ public class Arm extends SubsystemBase {
         return targetArmAngle;
     }
 
-    public double getRealArmAngle() {
-        return realArmAngle;
-    }
 
     public void postStatus(String status) {
         SmartDashboard.putString("Arm/status", status);
@@ -97,11 +95,7 @@ public class Arm extends SubsystemBase {
      */
     public void setArmMotor(double angle) {
         // if (isArmSmart(targetArmAngle)) {
-
-        targetArmAngle = angle;
-        // TODO make this smart
-        armControl = new MotionMagicTorqueCurrentFOC(angle * Constants.ArmConstants.kArmRotationtoDegreeRatio);
-        armMotor.setControl(armControl);
+        armControl.Position = Units.degreesToRotations(angle);
         // }
 
     }
@@ -110,23 +104,26 @@ public class Arm extends SubsystemBase {
         return (target > -180) || (target < 0);
     }
 
+    public void setArmPosition() {
+
+        if (Robot.isSimulation()) {
+            armEncoder.getSimState().setRawPosition(targetArmAngle);
+            targetArm.setAngle(targetArmAngle);
+        } else {
+            arm.setAngle(armEncoder.getPosition().getValueAsDouble());
+
+        }
+    }
+
     @Override
     public void periodic() {
-        // TODO add logging
 
+        setArmPosition();
 
-        if(Robot.isSimulation()){
-            armEncoder.getSimState()
-                .setRawPosition(targetArmAngle);
-        }
-        realArmAngle = armEncoder.getPosition().getValueAsDouble();
+        SmartDashboard.putNumber("target arm angle", targetArmAngle);
+        SmartDashboard.putNumber("actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
-        SmartDashboard.putNumber("realArmAngle", realArmAngle);
-        SmartDashboard.putNumber("targetArmAngle", targetArmAngle);
-
-        targetArm.setAngle(targetArmAngle);
-        arm.setAngle(realArmAngle);
-
+        armMotor.setControl(armControl);
 
     }
 

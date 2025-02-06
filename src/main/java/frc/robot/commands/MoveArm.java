@@ -10,7 +10,7 @@ public class MoveArm extends Command {
   Arm arm;
   double angle;
 
-  public MoveArm(Double angle) {
+  public MoveArm(double angle) {
 
     this.angle = angle;
     arm = Arm.getInstance();
