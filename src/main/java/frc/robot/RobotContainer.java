@@ -32,8 +32,8 @@ public class RobotContainer {
 
     // xDrive.x().toggleOnTrue(new Extend().withTimeout(1.5).andThen(new RunIntake(true)).finallyDo(Retract.retract()));
     xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
-    // xDrive.y().toggleOnTrue(new Retract());
-    // xDrive.x().toggleOnTrue(new Extend());
+    xDrive.y().toggleOnTrue(new Retract());
+    xDrive.x().toggleOnTrue(new Extend());
 
 
 
