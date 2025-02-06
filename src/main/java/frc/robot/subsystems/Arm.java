@@ -40,6 +40,7 @@ public class Arm extends SubsystemBase {
     public Arm() {
         armMotor = new TalonFX(Constants.ArmConstants.kArmMotorId);
         armEncoder = new CANcoder(Constants.ArmConstants.kArmEncoderId);
+        armControl = new MotionMagicTorqueCurrentFOC(0d);
 
         var slot0Configs = new Slot0Configs();
 

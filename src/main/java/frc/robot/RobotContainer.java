@@ -30,10 +30,11 @@ public class RobotContainer {
 
   private void configureDriveBindings() {
 
-    xDrive.y().toggleOnTrue(new Retract());
     // xDrive.x().toggleOnTrue(new Extend().withTimeout(1.5).andThen(new RunIntake(true)).finallyDo(Retract.retract()));
-    xDrive.a().toggleOnTrue(new Extend());
-    xDrive.b().toggleOnTrue(new RunIntake(true));
+    xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
+    // xDrive.y().toggleOnTrue(new Retract());
+    // xDrive.x().toggleOnTrue(new Extend());
+
 
 
   }

@@ -9,8 +9,8 @@ public class Extend extends Command {
 
     public Extend() {
         intake = Intake.getInstance();
-        addRequirements(intake);
-    }
+        this.addRequirements(intake);
+      }
 
    
 
@@ -42,6 +42,7 @@ public class Extend extends Command {
   public boolean isFinished() {
         //TODO do this when we put it on
     return intake.isIntakeatSetpoint(true);
+    // return false;
   }
 
 }

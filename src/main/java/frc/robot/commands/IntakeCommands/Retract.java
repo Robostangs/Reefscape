@@ -11,8 +11,12 @@ public class Retract extends Command {
 
   public Retract() {
     intake = Intake.getInstance();
-    addRequirements(intake);
+    this.addRequirements(intake);
   }
+  public static Runnable Retract = () -> {
+    Intake intake = Intake.getInstance();
+    intake.retractBar();
+  };
 
   // Called when the command is initially scheduled.
   @Override
@@ -41,7 +45,8 @@ public class Retract extends Command {
   @Override
   public boolean isFinished() {
     // TODO do this when we put it on
-    return intake.isIntakeatSetpoint(false);
+    // return intake.isIntakeatSetpoint(false);
+    return false;
   }
 
 }

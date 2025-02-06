@@ -8,12 +8,10 @@ public class RunIntake extends Command {
 
     Intake intake;
     // Endeffector endeffector;
-    boolean stupid;
 
-    public RunIntake(boolean stupid) {
+    public RunIntake() {
         intake = Intake.getInstance();
         addRequirements(intake);
-        this.stupid = stupid;
     }
 
    
@@ -28,6 +26,8 @@ public class RunIntake extends Command {
 
   @Override
   public void execute() {
+
+    intake.runIntake(0.5);
 
     // endeffector.setEneffdector(0.3);
 
