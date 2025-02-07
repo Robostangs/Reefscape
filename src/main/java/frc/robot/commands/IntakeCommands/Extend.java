@@ -32,7 +32,7 @@ public class Extend extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("DEPLOYED");
-    intake.setIntakePiviotBrake();
+    // intake.setIntakePiviotBrake();
     intake.stopBar();
 
   }

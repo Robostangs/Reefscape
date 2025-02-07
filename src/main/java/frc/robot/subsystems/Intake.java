@@ -73,6 +73,9 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putString("Intake/status", status);
 
     }
+    public void setPiviotZero(){
+        piviotMotor.setPosition(0);
+    }
 
     public void stopIntake() {
         intakeMotorTop.stopMotor();
@@ -91,9 +94,9 @@ public class Intake extends SubsystemBase {
     public boolean isIntakeatSetpoint(boolean extendorretract) {
 
         if (extendorretract) {
-            return piviotMotor.getPosition().getValueAsDouble() > Constants.IntakeConstants.kExtendSetpoint+0.1;
+            return piviotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint+0.1;
         } else {
-            return piviotMotor.getPosition().getValueAsDouble() < Constants.IntakeConstants.kExtendSetpoint-0.1;
+            return piviotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kExtendSetpoint-0.2;
 
         }
     }

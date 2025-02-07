@@ -38,7 +38,6 @@ public class Retract extends Command {
     intake.postStatus("RETRACTED");
     intake.setIntakePiviotBrake();
     intake.stopBar();
-
   }
 
   // Returns true when the command should end.
