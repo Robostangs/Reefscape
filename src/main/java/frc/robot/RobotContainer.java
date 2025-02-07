@@ -25,15 +25,15 @@ public class RobotContainer {
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(Constants.TunerConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.1)
+            .withDeadband(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.1)
             .withRotationalDeadband(
-                    Constants.TunerConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond * 0.1) // Add a
+                    Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond * 0.1) // Add a
                                                                                                               // 10%
                                                                                                               // deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
     private final Telemetry logger = new Telemetry(
-            Constants.TunerConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond));
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond));
 
     private final CommandXboxController xDrive = new CommandXboxController(
             OperatorConstants.kDriverControllerPort);
@@ -52,23 +52,23 @@ public class RobotContainer {
         if (Robot.isSimulation()) {
             drivetrain.setDefaultCommand(
                     drivetrain.applyRequest(() -> drive.withVelocityX((-xSim.getRawAxis(0))
-                            * Constants.TunerConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
+                            * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
                             .withVelocityY((xSim.getRawAxis(1))
-                                    * Constants.TunerConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                    * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                             .in(MetersPerSecond))
                             .withRotationalRate((xSim.getRawAxis(2))
-                                    * Constants.TunerConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                                    * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
 
         } else {
             drivetrain.setDefaultCommand(
                     // Drivetrain will execute this command periodically
                     drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
-                            * Constants.TunerConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
+                            * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
                             .withVelocityY((-xDrive.getLeftX())
-                                    * Constants.TunerConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                    * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                             .in(MetersPerSecond))
                             .withRotationalRate((-xDrive.getRightX())
-                                    * Constants.TunerConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                                    * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
         }
 
         // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));

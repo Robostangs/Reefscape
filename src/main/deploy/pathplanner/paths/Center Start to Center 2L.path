@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.344586811389814,
-        "y": 3.9727967611281736
+        "x": 6.775369285300925,
+        "y": 3.8363281249999996
       },
       "isLocked": false,
       "linkedName": "Center Start"
@@ -20,8 +20,8 @@
         "y": 3.8872918941048034
       },
       "prevControl": {
-        "x": 6.457927302934927,
-        "y": 3.789432240882164
+        "x": 6.662981409143518,
+        "y": 3.712584997106481
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 176.74932544169022
+    "rotation": 179.80491621141402
   },
   "useDefaultConstraints": true
 }

@@ -10,17 +10,16 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.*;
-import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.*;
 import com.ctre.phoenix6.swerve.*;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
 
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.*;
-
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -125,9 +124,9 @@ public final class Constants {
 
   }
 
-  public static class TunerConstants {
+  public static class SwerveConstants {
     // Both sets of gains need to be tuned to your individual robot.
-    //TODO tune
+    // TODO tune
 
     // The steer motor uses any SwerveModule.SteerRequestType control request with
     // the
@@ -159,7 +158,7 @@ public final class Constants {
     private static final SteerFeedbackType kSteerFeedbackType = SteerFeedbackType.FusedCANcoder;
 
     // The stator current at which the wheels start to slip;
-    //TODO tune
+    // TODO tune
     // This needs to be tuned to your individual robot
     private static final Current kSlipCurrent = Amps.of(120.0);
 
@@ -185,10 +184,38 @@ public final class Constants {
     public static final CANBus kCANBus = new CANBus("Canivore", "./logs/example.hoot");
 
     public static class AutoConstants {
+      public static final PIDConstants translationPID = new PIDConstants(0, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
+
+      private final static MomentOfInertia kRobotMomentOfInertia = KilogramSquareMeters.of(0.01);
+
+      private final static ModuleConfig kModuleConfig = new ModuleConfig(
+          Constants.SwerveConstants.kWheelRadius,
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts,
+          1.916,
+          DCMotor.getKrakenX60Foc(1).withReduction(Constants.SwerveConstants.kDriveGearRatio),
+          Amps.of(120),
+          1);
+          //TODO make these more efficient
+      private final static Translation2d[] kModulePositions = {
+          new Translation2d(Inches.of(12.125), Inches.of(12.125)),
+          new Translation2d(Inches.of(12.125), Inches.of(-12.125)),
+          new Translation2d(Inches.of(-12.125), Inches.of(12.125)),
+          new Translation2d(Inches.of(-12.125), Inches.of(-12.125)),
+      };
+
+      //double massKG, double MOI, ModuleConfig moduleConfig, Translation2d... moduleOffsets) {
+      public static final RobotConfig robotConfig = new RobotConfig(
+          69d,
+          kRobotMomentOfInertia.baseUnitMagnitude(),
+          kModuleConfig,
+          kModulePositions
+          );
+
       public static class AutoSpeeds {
 
         // Theoretical free speed (m/s) at 12 V applied output;
-        //TODO tune
+        // TODO tune
         // This needs to be tuned to your individual robot
         public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
 
@@ -239,7 +266,7 @@ public final class Constants {
         .withSteerMotorClosedLoopOutput(kSteerClosedLoopOutput)
         .withDriveMotorClosedLoopOutput(kDriveClosedLoopOutput)
         .withSlipCurrent(kSlipCurrent)
-        .withSpeedAt12Volts(Constants.TunerConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts)
+        .withSpeedAt12Volts(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts)
         .withDriveMotorType(kDriveMotorType)
         .withSteerMotorType(kSteerMotorType)
         .withFeedbackSource(kSteerFeedbackType)

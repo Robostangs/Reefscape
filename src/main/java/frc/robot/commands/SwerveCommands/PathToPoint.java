@@ -30,10 +30,10 @@ public class PathToPoint extends SequentialCommandGroup {
                                 AutoBuilder.pathfindToPoseFlipped(
                                                 this.targetPose,
                                                 new PathConstraints(
-                                                                Constants.TunerConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.magnitude(),
-                                                                Constants.TunerConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
-                                                                Constants.TunerConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
-                                                                Constants.TunerConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared),
+                                                                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.magnitude(),
+                                                                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
+                                                                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
+                                                                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared),
                                                 0.0));
         }
 }

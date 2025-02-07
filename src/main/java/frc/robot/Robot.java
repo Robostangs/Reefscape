@@ -9,10 +9,14 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.List;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -28,9 +32,21 @@ public class Robot extends TimedRobotstangs {
   private Elevator elevator = Elevator.getInstance();
   private Arm arm = Arm.getInstance();
 
-  // public static ShuffleboardTab autoTab, teleopTab, testTab;
+  public static ShuffleboardTab autoTab, teleopTab, testTab;
 
   private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", Alert.AlertType.ERROR);
+
+  //Autos
+  private SendableChooser<String> startChooser = new SendableChooser<>();
+  private SendableChooser<String> firstPieceChooser = new SendableChooser<>();
+  private SendableChooser<String> firstPieceRoLChooser = new SendableChooser<>();
+  private SendableChooser<String> secondPieceChooser = new SendableChooser<>();
+  private SendableChooser<String> secondPieceRoLChooser = new SendableChooser<>();
+  private SendableChooser<String> thirdPieceChooser = new SendableChooser<>();
+  private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
+
+  private Command autoCommand;
+
 
   
 
@@ -39,6 +55,80 @@ public class Robot extends TimedRobotstangs {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+  }
+ 
+  /**
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
+   */
+  @Override
+  public void robotInit() {
+
+    teleopTab = Shuffleboard.getTab("Teleoperated");
+		autoTab = Shuffleboard.getTab("Autonomous");
+		testTab = Shuffleboard.getTab("Test");
+
+
+    startChooser.setDefaultOption("Center", "Cstart");
+    startChooser.addOption("Open", "Ostart");
+    startChooser.addOption("Processor", "Pstart");
+
+    firstPieceChooser.setDefaultOption("Center 1", "C1");
+    firstPieceChooser.setDefaultOption("Center 2", "C2");
+    firstPieceChooser.setDefaultOption("Pro 1", "P1");
+    firstPieceChooser.setDefaultOption("Pro 2", "P2");
+    firstPieceChooser.setDefaultOption("Open 1", "O1");
+    firstPieceChooser.setDefaultOption("Open 2", "O2");
+
+    firstPieceRoLChooser.setDefaultOption("Right", "R");
+    firstPieceRoLChooser.setDefaultOption("Left", "L");
+
+    secondPieceChooser.setDefaultOption("Center 1", "C1");
+    secondPieceChooser.setDefaultOption("Center 2", "C2");
+    secondPieceChooser.setDefaultOption("Pro 1", "P1");
+    secondPieceChooser.setDefaultOption("Pro 2", "P2");
+    secondPieceChooser.setDefaultOption("Open 1", "O1");
+    secondPieceChooser.setDefaultOption("Open 2", "O2");
+
+    secondPieceRoLChooser.setDefaultOption("Right", "Right");
+    secondPieceRoLChooser.setDefaultOption("Left", "Left");
+
+    thirdPieceChooser.setDefaultOption("Center 1", "C1");
+    thirdPieceChooser.setDefaultOption("Center 2", "C2");
+    thirdPieceChooser.setDefaultOption("Pro 1", "P1");
+    thirdPieceChooser.setDefaultOption("Pro 2", "P2");
+    thirdPieceChooser.setDefaultOption("Open 1", "O1");
+    thirdPieceChooser.setDefaultOption("Open 2", "O2");
+
+    thirdPieceRoLChooser.setDefaultOption("Right", "Right");
+    thirdPieceRoLChooser.setDefaultOption("Left", "Left");
+
+
+
+
+
+    Alert.groups.forEach((group, alert) -> {
+      autoTab.add(group, alert)
+          .withSize(3, 3)
+          .withPosition(6, 1)
+          .withWidget("Alerts");
+    });
+
+
+			Alert.groups.forEach((group, alert) -> {
+				testTab.add(group, alert)
+						.withSize(2, 3)
+						.withPosition(0, 0)
+						.withWidget("Alerts");
+			});
+
+
+			Alert.groups.forEach((group, alert) -> {
+				teleopTab.add(group, alert)
+						.withSize(2, 3)
+						.withPosition(0, 0)
+						.withWidget("Alerts");
+			});
   }
 
   @Override
@@ -78,27 +168,17 @@ public class Robot extends TimedRobotstangs {
 
   public void autonomousInit() {
 
-    // schedule the autonomous command (example)
-    // if (m_autonomousCommand != null) {
-    // m_autonomousCommand.schedule();
-    // }
+    //TODO add right or left somehow
+
+    autoCommand = AutoBuilder.buildAuto(startChooser.getSelected()+" - "+
+     firstPieceChooser.getSelected()+firstPieceRoLChooser.getSelected()+" - "+
+     secondPieceChooser.getSelected()+ secondPieceRoLChooser.getSelected()+" - "+
+        thirdPieceChooser.getSelected()+ thirdPieceRoLChooser.getSelected());
+
+ 
 
   }
 
-  /**
-   * This autonomous runs the autonomous command selected by your
-   * {@link RobotContainer} class.
-   */
-  @Override
-  public void robotInit() {
-
-    // Alert.groups.forEach((group, alert) -> {
-    //   autoTab.add(group, alert)
-    //       .withSize(3, 3)
-    //       .withPosition(6, 1)
-    //       .withWidget("Alerts");
-    // });
-  }
 
   /** This function is called periodically during autonomous. */
   @Override

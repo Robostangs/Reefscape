@@ -26,9 +26,9 @@ public class TunerConstants {
      */
     public static CommandSwerveDrivetrain createDrivetrain() {
         return new CommandSwerveDrivetrain(
-                Constants.TunerConstants.DrivetrainConstants, Constants.TunerConstants.FrontLeft,
-                Constants.TunerConstants.FrontRight, Constants.TunerConstants.BackLeft,
-                Constants.TunerConstants.BackRight);
+                Constants.SwerveConstants.DrivetrainConstants, Constants.SwerveConstants.FrontLeft,
+                Constants.SwerveConstants.FrontRight, Constants.SwerveConstants.BackLeft,
+                Constants.SwerveConstants.BackRight);
     }
 
     /**
