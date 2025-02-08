@@ -33,7 +33,6 @@ public class Climber extends SubsystemBase {
 
     public void runClimber(double climberDutyCycle) {
         climberMotor.set(climberDutyCycle);
-
     }
 
     public void postStatus(String status) {

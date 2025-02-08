@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    private TalonFX intakeMotorTop, piviotMotor;
+    private TalonFX intakeMotor, piviotMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
     private DigitalInput IntakeSensor;
@@ -28,7 +28,7 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
 
-        intakeMotorTop = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
+        intakeMotor = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
         piviotMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
@@ -51,22 +51,21 @@ public class Intake extends SubsystemBase {
         
     }
 
-    public void runIntake(double IntakeDutyCycle) {
-        intakeMotorTop.set(IntakeDutyCycle);
+    public void stopBar() {
+        piviotMotor.set(0);
+    }
 
+
+    public void runIntake(double IntakeDutyCycle) {
+        intakeMotor.set(IntakeDutyCycle);
     }
 
     public void extendBar() {
         piviotControl.Position = Constants.IntakeConstants.kExtendSetpoint;
     }
 
-    public void stopBar() {
-        piviotMotor.set(0);
-    }
-
     public void retractBar() {
         piviotControl.Position = Constants.IntakeConstants.kRetractSetpoint;
-
     }
 
     public void postStatus(String status) {
@@ -78,7 +77,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void stopIntake() {
-        intakeMotorTop.stopMotor();
+        intakeMotor.stopMotor();
         piviotControl.Position = piviotMotor.getPosition().getValueAsDouble();
     }
 
