@@ -17,6 +17,8 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.*;
@@ -39,6 +41,10 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kManipControllerPort = 1;
+
+  }
+
+  public static class AutoConstants {
 
   }
 
@@ -187,6 +193,13 @@ public final class Constants {
       public static final PIDConstants translationPID = new PIDConstants(0, 0, 0);
       public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
 
+      public static class AutoPoses{
+        public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(0));
+        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(0));
+        public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(0));
+        
+      }
+
       private final static MomentOfInertia kRobotMomentOfInertia = KilogramSquareMeters.of(0.01);
 
       private final static ModuleConfig kModuleConfig = new ModuleConfig(
@@ -196,7 +209,7 @@ public final class Constants {
           DCMotor.getKrakenX60Foc(1).withReduction(Constants.SwerveConstants.kDriveGearRatio),
           Amps.of(120),
           1);
-          //TODO make these more efficient
+      // TODO make these more efficient
       private final static Translation2d[] kModulePositions = {
           new Translation2d(Inches.of(12.125), Inches.of(12.125)),
           new Translation2d(Inches.of(12.125), Inches.of(-12.125)),
@@ -204,13 +217,15 @@ public final class Constants {
           new Translation2d(Inches.of(-12.125), Inches.of(-12.125)),
       };
 
-      //double massKG, double MOI, ModuleConfig moduleConfig, Translation2d... moduleOffsets) {
+      // double massKG, double MOI, ModuleConfig moduleConfig, Translation2d...
+      // moduleOffsets) {
       public static final RobotConfig robotConfig = new RobotConfig(
           69d,
           kRobotMomentOfInertia.baseUnitMagnitude(),
           kModuleConfig,
-          kModulePositions
-          );
+          kModulePositions);
+
+      public static final String kFieldObjectName = "Auto";
 
       public static class AutoSpeeds {
 

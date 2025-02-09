@@ -134,6 +134,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
+
+        configurePathPlanner();
+
     }
 
     /**
@@ -159,6 +162,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
+
     }
 
     /**
@@ -321,12 +325,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 pose -> this.seedFieldCentric(),
                 () -> this.getState().Speeds,
                 (speeds, feedforwards) -> this.setControl(AutoDrive.withSpeeds(speeds)
-                .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX())
-                .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY())),
+                        .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX())
+                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY())),
                 new PPHolonomicDriveController(Constants.SwerveConstants.AutoConstants.rotationPID,
                         Constants.SwerveConstants.AutoConstants.translationPID),
                 Constants.SwerveConstants.AutoConstants.robotConfig,
-                () -> DriverStation.getAlliance().get() == Alliance.Blue,
+                () -> DriverStation.getAlliance().get() == Alliance.Red,
                 this);
 
     }
