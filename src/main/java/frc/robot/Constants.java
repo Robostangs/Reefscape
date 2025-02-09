@@ -49,20 +49,28 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final int kTopIntakeMotorId = 0;
-    public static final int kBottomIntakeMotorId = 0;
-    public static final int kBarMotorId = 0;
+    public static final int kIntakeMotorId = 14;
+    public static final int kBarMotorId = 15;
     public static final int kIntakeSensorId = 0;
+    public static final double kExtendSetpoint = -16.5d;
+    public static final double kRetractSetpoint = -1d;
+    public static final double kPiviotP = 2;
+    public static final double kPiviotI = 0d;
+    public static final double kPiviotD = 8.5;
+    public static final double kPiviots = 23.5;
+    public static final double kSupplyCurrentLimit = 35;
+
+    
+
 
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
   }
+  public static class EndeffectorConstants{
 
-  public static class EndefectorConstants {
-
-    public static final int kEndefectorRightMotorId = 0;
-    public static final int kEndefectorLeftMotorId = 0;
-    public static final int kEndefectorSensorId = 0;
+    public static final int kEndeffectorRightMotorId = 0;
+    public static final int kEndeffectorLeftMotorId = 0;
+    public static final int kEndeffectorSensorId = 0;
 
     public static final double kEndeffectorSpit = 0.6;
 

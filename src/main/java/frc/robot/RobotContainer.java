@@ -9,6 +9,12 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Lift;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.IntakeCommands.RunIntake;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -59,6 +65,13 @@ public class RobotContainer {
                             .withRotationalRate((xSim.getRawAxis(2))
                                     * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
 
+    // xDrive.x().toggleOnTrue(new Extend().withTimeout(1.5).andThen(new RunIntake(true)).finallyDo(Retract.retract()));
+    xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
+    xDrive.y().toggleOnTrue(new Retract());
+    xDrive.x().toggleOnTrue(new Extend());
+
+
+
         } else {
             drivetrain.setDefaultCommand(
                     // Drivetrain will execute this command periodically
@@ -79,6 +92,12 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         xDrive.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+    // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
+    // .whileTrue(new Lift(10d));
+    new Trigger(() -> xSim.getRawButtonPressed(1))
+        .toggleOnTrue(
+            new Lift(5d)
+        );
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

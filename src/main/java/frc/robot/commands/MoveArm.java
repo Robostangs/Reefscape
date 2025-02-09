@@ -10,7 +10,7 @@ public class MoveArm extends Command {
   Arm arm;
   double angle;
 
-  public MoveArm(Double angle) {
+  public MoveArm(double angle) {
 
     this.angle = angle;
     arm = Arm.getInstance();
@@ -23,7 +23,6 @@ public class MoveArm extends Command {
   public void initialize() {
     arm.setArmMotor(angle);
     arm.postStatus("going to this angle:" + angle);
-
   }
 
   @Override
@@ -34,6 +33,7 @@ public class MoveArm extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    arm.postStatus("at this angle:" + angle);
 
   }
 
