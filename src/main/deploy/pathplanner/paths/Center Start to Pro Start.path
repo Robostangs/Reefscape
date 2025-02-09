@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 10.176057369978698,
-        "y": 0.2229350392571125
+        "y": 0.22293503925711244
       },
       "nextControl": {
         "x": 4.954897311681224,
@@ -64,7 +64,7 @@
   "folder": "Goofy Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 176.74932544169022
+    "rotation": 179.80491621141402
   },
   "useDefaultConstraints": true
 }

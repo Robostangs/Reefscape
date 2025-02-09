@@ -7,37 +7,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center Start to Open 2L"
+            "pathName": "Open Start to Open 2L"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open 2 to Open Stack"
+            "pathName": "Open 2L to Open Feeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open Stack to Open 1"
+            "pathName": "Open Feeder to Open 1R"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open 1 to Center Stack"
+            "pathName": "Open 1R to Open Feeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Center Stack to Center 1"
+            "pathName": "Open Feeder to Open 1R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 1R to Open Feeder"
           }
         }
       ]
     }
   },
-  "resetOdom": false,
-  "folder": "Center Start",
+  "resetOdom": true,
+  "folder": "Open Start",
   "choreoAuto": false
 }
