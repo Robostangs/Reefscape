@@ -64,14 +64,6 @@ public class RobotContainer {
                                             .in(MetersPerSecond))
                             .withRotationalRate((xSim.getRawAxis(2))
                                     * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
-
-    // xDrive.x().toggleOnTrue(new Extend().withTimeout(1.5).andThen(new RunIntake(true)).finallyDo(Retract.retract()));
-    xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
-    xDrive.y().toggleOnTrue(new Retract());
-    xDrive.x().toggleOnTrue(new Extend());
-
-
-
         } else {
             drivetrain.setDefaultCommand(
                     // Drivetrain will execute this command periodically
@@ -83,6 +75,12 @@ public class RobotContainer {
                             .withRotationalRate((-xDrive.getRightX())
                                     * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
         }
+            // xDrive.x().toggleOnTrue(new Extend().withTimeout(1.5).andThen(new RunIntake(true)).finallyDo(Retract.retract()));
+    xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
+    xDrive.y().toggleOnTrue(new Retract());
+    xDrive.x().toggleOnTrue(new Extend());
+
+
 
         // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         // joystick.b().whileTrue(drivetrain.applyRequest(() ->
