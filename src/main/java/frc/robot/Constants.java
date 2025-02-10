@@ -106,9 +106,8 @@ public final class Constants {
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
     // TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
-    public static final double kMaxElevatorHeight = 20d;
     public static final double kMinElevatorHeight = 0d;
-    public static final double kRotationsToMeters = 1d;
+    public static final double kRotationsToMeters = 0.15959269;
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
@@ -117,8 +116,8 @@ public final class Constants {
     public static final double kRootElevator2X = .6;
     public static final double kRootElevator2Y = 0d;
     public static final double kLigaLength = .3d;
-    public static final double kElevatorGearing = 8d;
-    public static final double kDrumRadius = Units.inchesToMeters(2.0);
+    public static final double kElevatorGearing = 14/72d;
+    public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = false;
 
 
@@ -213,7 +212,7 @@ public final class Constants {
         public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(0));
         public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(0));
 
-        
+
         
       }
 

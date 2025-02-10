@@ -91,10 +91,7 @@ public class RobotContainer {
         xDrive.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
     // .whileTrue(new Lift(10d));
-    new Trigger(() -> xSim.getRawButtonPressed(1))
-        .toggleOnTrue(
-            new Lift(5d)
-        );
+
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
