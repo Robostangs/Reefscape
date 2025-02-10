@@ -1,8 +1,8 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Lift;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.subsystems.Intake;
 
 public class Retract extends Command {

@@ -50,7 +50,6 @@ public class Robot extends TimedRobotstangs {
 
   private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", Alert.AlertType.kError);
 
-
   private static String autoName = "";
 
   // Autos
@@ -93,34 +92,38 @@ public class Robot extends TimedRobotstangs {
     startChooser.addOption("Open", "OStart");
     startChooser.addOption("Processor", "PStart");
 
-    firstPieceChooser.setDefaultOption("Center 1", "C1");
-    firstPieceChooser.addOption("Center 2", "C2");
-    firstPieceChooser.addOption("Pro 1", "P1");
-    firstPieceChooser.addOption("Pro 2", "P2");
-    firstPieceChooser.addOption("Open 1", "O1");
-    firstPieceChooser.addOption("Open 2", "O2");
+    firstPieceChooser.setDefaultOption("Center 1", " - C1");
+    firstPieceChooser.addOption("Center 2", " - C2");
+    firstPieceChooser.addOption("Pro 1", " - P1");
+    firstPieceChooser.addOption("Pro 2", " - P2");
+    firstPieceChooser.addOption("Open 1", " - O1");
+    firstPieceChooser.addOption("Open 2", " - O2");
 
     firstPieceRoLChooser.setDefaultOption("Right", "R");
     firstPieceRoLChooser.addOption("Left", "L");
 
-    secondPieceChooser.setDefaultOption("Center 1", "C1");
-    secondPieceChooser.addOption("Center 2", "C2");
-    secondPieceChooser.addOption("Pro 1", "P1");
-    secondPieceChooser.addOption("Pro 2", "P2");
-    secondPieceChooser.addOption("Open 1", "O1");
-    secondPieceChooser.addOption("Open 2", "O2");
+    secondPieceChooser.setDefaultOption("None", "");
+    secondPieceChooser.addOption("Center 1", " - C1");
+    secondPieceChooser.addOption("Center 2", " - C2");
+    secondPieceChooser.addOption("Pro 1", " - P1");
+    secondPieceChooser.addOption("Pro 2", " - P2");
+    secondPieceChooser.addOption("Open 1", " - O1");
+    secondPieceChooser.addOption("Open 2", " - O2");
 
-    secondPieceRoLChooser.setDefaultOption("Right", "R");
+    secondPieceRoLChooser.setDefaultOption("None", "");
+    secondPieceRoLChooser.addOption("Right", "R");
     secondPieceRoLChooser.addOption("Left", "L");
 
-    thirdPieceChooser.setDefaultOption("Center 1", "C1");
-    thirdPieceChooser.addOption("Center 2", "C2");
-    thirdPieceChooser.addOption("Pro 1", "P1");
-    thirdPieceChooser.addOption("Pro 2", "P2");
-    thirdPieceChooser.addOption("Open 1", "O1");
-    thirdPieceChooser.addOption("Open 2", "O2");
+    thirdPieceChooser.setDefaultOption("None", "");
+    thirdPieceChooser.addOption("Center 1", " - C1");
+    thirdPieceChooser.addOption("Center 2", " - C2");
+    thirdPieceChooser.addOption("Pro 1", " - P1");
+    thirdPieceChooser.addOption("Pro 2", " - P2");
+    thirdPieceChooser.addOption("Open 1", " - O1");
+    thirdPieceChooser.addOption("Open 2", " - O2");
 
-    thirdPieceRoLChooser.setDefaultOption("Right", "R");
+    thirdPieceRoLChooser.setDefaultOption("None", "");
+    thirdPieceRoLChooser.addOption("Right", "R");
     thirdPieceRoLChooser.addOption("Left", "L");
 
     autoTab.add("Start Chooser", startChooser)
@@ -151,6 +154,7 @@ public class Robot extends TimedRobotstangs {
         .withSize(1, 1)
         .withPosition(2, 3);
 
+    // autoTab.add("", Alert.class.get);
   }
 
   @Override
@@ -165,10 +169,11 @@ public class Robot extends TimedRobotstangs {
 
     teleopField.setRobotPose(drivetrain.getState().Pose);
 
-
-    autoName = startChooser.getSelected() + " - " + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
-        + " - " + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected() + " - "
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
+        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+
+    SmartDashboard.putString("Auto/Current Auto", autoName);
 
     CommandScheduler.getInstance().run();
 
@@ -191,12 +196,12 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-    publishTrajectory(autoName);
+
+
   }
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putString("Auto/Current Auto", autoName);
 
     publishTrajectory(autoName);
   }
@@ -205,27 +210,26 @@ public class Robot extends TimedRobotstangs {
 
     autoCommand = new PathPlannerAuto(autoName);
 
+
+
     switch (startChooser.getSelected()) {
       case "CStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-            SmartDashboard.putString("Current Pose","Pose reset to center");
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose).rotateBy(new Rotation2d(180)));
 
         break;
       case "OStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue ==DriverStation.getAlliance().get()
+      CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-            SmartDashboard.putString("Current Pose","Pose reset to open");
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose).rotateBy(new Rotation2d(180)));
 
         break;
 
       case "PStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+      CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-            SmartDashboard.putString("Current Pose","Pose reset to pro");
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose).rotateBy(new Rotation2d(180)));
 
         break;
 
@@ -297,9 +301,9 @@ public class Robot extends TimedRobotstangs {
     }
 
     // if we are calling publish trajectory but the trajectory is already published
-    else if (autoName.equals(lastAutoName)) {
-      return;
-    }
+    // else if (autoName.equals(lastAutoName)) {
+    //   return;
+    // }
 
     // we are going to use the auto name so this is the last auto we published
     else {

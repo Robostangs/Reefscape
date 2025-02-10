@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.669676050077555,
-        "y": 6.910544323334884
+        "x": 6.280600527108434,
+        "y": 5.94540883259601
       },
       "isLocked": false,
       "linkedName": "Center 2L"
@@ -20,15 +20,20 @@
         "y": 6.960477790665939
       },
       "prevControl": {
-        "x": 3.7523962029203064,
-        "y": 7.6951205990720535
+        "x": 6.066160638648342,
+        "y": 6.212452054310994
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Open Feeder"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.28333938953488325,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -55,7 +60,7 @@
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.44058041068706
+    "rotation": -179.8832320659584
   },
   "useDefaultConstraints": true
 }

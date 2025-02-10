@@ -58,7 +58,7 @@ public final class Constants {
     public static final double kPiviotI = 0d;
     public static final double kPiviotD = 8.5;
     public static final double kPiviots = 23.5;
-    public static final double kSupplyCurrentLimit = 35;
+    public static final double kStatorCurrentLimit = 80;
 
     
 
@@ -93,13 +93,18 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int kElevatorMotorId = 5;
+    public static final int kRightElevatorMotorId = 5;
+    public static final int kLeftElevatorMotorId = 5;
     public static final double kElevatorP = 50;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
     public static final double kElevatorFF = 1;
     public static final double kElevatorMaxCurrent = 40.0d;
-    public static final int kElevatorEncoderId = 3;
+    public static final double kElevatorRegStatorCurrentLimit = 40.0d;
+    public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
+    public static final double kElevatorHomeDutyCycle = 0.5;
+    public static final int kRightElevatorEncoderId = 3;
+    public static final int kLeftElevatorEncoderId = 3;
     // TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
     public static final double kMaxElevatorHeight = 20d;
     public static final double kMinElevatorHeight = 0d;
@@ -113,7 +118,9 @@ public final class Constants {
     public static final double kRootElevator2Y = 0d;
     public static final double kLigaLength = .3d;
     public static final double kElevatorGearing = 8d;
-    public static final double kDrumRadius = Units.inchesToMeters(2.0);;
+    public static final double kDrumRadius = Units.inchesToMeters(2.0);
+    public static final boolean kIsLeftInvert = false;
+
 
   }
 
@@ -205,6 +212,8 @@ public final class Constants {
         public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(0));
         public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(0));
         public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(0));
+
+        
         
       }
 

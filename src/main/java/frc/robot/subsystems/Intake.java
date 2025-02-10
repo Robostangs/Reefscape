@@ -39,8 +39,8 @@ public class Intake extends SubsystemBase {
         slotpiviotconfigs.kS = Constants.IntakeConstants.kPiviots;
 
         TalonFXConfiguration piviotMotorConfigs = new TalonFXConfiguration();
-        piviotMotorConfigs.CurrentLimits.SupplyCurrentLimit = Constants.IntakeConstants.kSupplyCurrentLimit;
-        
+        piviotMotorConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.kStatorCurrentLimit;
+        // piviotMotorConfigs.CurrentLimits.StatorCurrentLimit = 0.341;
 
         piviotMotor.getConfigurator().apply(piviotMotorConfigs);
         piviotMotor.getConfigurator().apply(slotpiviotconfigs);
