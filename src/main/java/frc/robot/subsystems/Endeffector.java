@@ -1,13 +1,17 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Endeffector extends SubsystemBase {
     private static Endeffector mInstance;
-    private TalonFX endefectorMotorRight,endefectorMotorLeft;
+    private TalonFX endeffectorMotorRight, endeffectorMotorLeft;
+    private DigitalInput EndeffectorSensor;
 
     public static Endeffector getInstance() {
         if (mInstance == null)
@@ -15,20 +19,31 @@ public class Endeffector extends SubsystemBase {
         return mInstance;
     }
 
-    //just spit and put in break mode
+    // just spit and put in break mode
     public Endeffector() {
-        endefectorMotorRight = new TalonFX(Constants.EndefectorConstants.kEndefectorRightMotorId);   
-        endefectorMotorLeft = new TalonFX(Constants.EndefectorConstants.kEndefectorRightMotorId); 
+        endeffectorMotorRight = new TalonFX(Constants.EndeffectorConstants.kEndeffectorRightMotorId);
+        endeffectorMotorLeft = new TalonFX(Constants.EndeffectorConstants.kEndeffectorRightMotorId);
+        EndeffectorSensor = new DigitalInput(Constants.EndeffectorConstants.kEndeffectorLeftMotorId);
 
-     
     }
 
-    public void setEneffector(double eneffectorDutyCycle) {
-        endefectorMotorRight.set(eneffectorDutyCycle);
-        endefectorMotorLeft.set(eneffectorDutyCycle);
+    public void setEneffdector(double endeffectorDutyCycle) {
+        endeffectorMotorRight.set(endeffectorDutyCycle);
+        endeffectorMotorLeft.set(endeffectorDutyCycle);
     }
 
+    public void postStatus(String status) {
+        SmartDashboard.putString("Endeffector/status", status);
 
+    }
+    public void setEndeffectorBrake() {
+        endeffectorMotorRight.setNeutralMode(NeutralModeValue.Brake);
+        endeffectorMotorLeft.setNeutralMode(NeutralModeValue.Brake);
+    }
+    
+    public boolean getEndeffectorSensor() {
+        return EndeffectorSensor.get();
+    }
 
     @Override
     public void periodic() {

@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Start to Center 2L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 2L to Open Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Feeder to Open 1R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 1R to Open Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Feeder to Open 2R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 2R to Open Feeder"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Center Start",
+  "choreoAuto": false
+}

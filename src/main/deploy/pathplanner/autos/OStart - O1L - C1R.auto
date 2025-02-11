@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Start to Open 1L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 1L to Open Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Feeder to Center 1R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 1R to Open Feeder"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Open Start",
+  "choreoAuto": false
+}

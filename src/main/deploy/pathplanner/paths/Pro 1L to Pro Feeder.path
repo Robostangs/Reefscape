@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.4472323495370363,
+        "y": 2.700919415509259
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.4551392553169986,
+        "y": 1.9677479391577695
+      },
+      "isLocked": false,
+      "linkedName": "Pro 1L"
+    },
+    {
+      "anchor": {
+        "x": 1.492536333242358,
+        "y": 1.0982038073144098
+      },
+      "prevControl": {
+        "x": 2.4565928629912657,
+        "y": 1.9047941116266371
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Pro Feeder"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Feeder Intake",
+      "waypointRelativePos": 0.45,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -125.03834249038793
+  },
+  "reversed": false,
+  "folder": "Reef to Feeder Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 59.99002243967977
+  },
+  "useDefaultConstraints": true
+}
