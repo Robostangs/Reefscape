@@ -52,8 +52,8 @@ public final class Constants {
     public static final int kIntakeMotorId = 14;
     public static final int kBarMotorId = 15;
     public static final int kIntakeSensorId = 0;
-    public static final double kExtendSetpoint = -16.5d;
-    public static final double kRetractSetpoint = -1d;
+    public static final double kExtendSetpoint = -16d;
+    public static final double kRetractSetpoint = 0d;
     public static final double kPiviotP = 2;
     public static final double kPiviotI = 0d;
     public static final double kPiviotD = 8.5;

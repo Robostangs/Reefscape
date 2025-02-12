@@ -17,13 +17,17 @@ public class Extend extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
+    intake.setPiviotZero();
     intake.extendBar();
 
   }
 
   @Override
   public void execute() {
+    intake.runIntakeMotionMagic();
+
 
 
   }

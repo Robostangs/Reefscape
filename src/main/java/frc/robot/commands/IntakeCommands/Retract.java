@@ -22,13 +22,14 @@ public class Retract extends Command {
   @Override
   public void initialize() {
     intake.postStatus("FALLING BACK");
-
+    intake.setPiviotZero();
     intake.retractBar();
 
   }
 
   @Override
   public void execute() {
+    intake.runIntakeMotionMagic();
 
   }
 

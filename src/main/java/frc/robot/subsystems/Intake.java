@@ -100,6 +100,10 @@ public class Intake extends SubsystemBase {
 
         }
     }
+    public void runIntakeMotionMagic(){
+        piviotMotor.setControl(piviotControl);
+
+    }
 
     @Override
     public void periodic() {
@@ -110,7 +114,6 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("is at retract setpoint", isIntakeatSetpoint(false));
 
 
-        piviotMotor.setControl(piviotControl);
 
     }
 

@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 
 public class Robot extends TimedRobotstangs {
   public XboxController xDrive = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
@@ -155,6 +156,10 @@ public class Robot extends TimedRobotstangs {
         .withPosition(2, 3);
 
     // autoTab.add("", Alert.class.get);
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
+        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+    Intake.getInstance().setPiviotZero();
   }
 
   @Override
@@ -168,10 +173,6 @@ public class Robot extends TimedRobotstangs {
     // block in order for anything in the Command-based framework to work.
 
     teleopField.setRobotPose(drivetrain.getState().Pose);
-
-    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
-        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
-        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
     SmartDashboard.putString("Auto/Current Auto", autoName);
 
@@ -197,7 +198,6 @@ public class Robot extends TimedRobotstangs {
 
   public void disabledInit() {
 
-
   }
 
   @Override
@@ -210,26 +210,27 @@ public class Robot extends TimedRobotstangs {
 
     autoCommand = new PathPlannerAuto(autoName);
 
-
-
     switch (startChooser.getSelected()) {
       case "CStart":
         CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose).rotateBy(new Rotation2d(180)));
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose)
+                .rotateBy(new Rotation2d(180)));
 
         break;
       case "OStart":
-      CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose).rotateBy(new Rotation2d(180)));
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose)
+                .rotateBy(new Rotation2d(180)));
 
         break;
 
       case "PStart":
-      CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose).rotateBy(new Rotation2d(180)));
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose)
+                .rotateBy(new Rotation2d(180)));
 
         break;
 
@@ -302,7 +303,7 @@ public class Robot extends TimedRobotstangs {
 
     // if we are calling publish trajectory but the trajectory is already published
     // else if (autoName.equals(lastAutoName)) {
-    //   return;
+    // return;
     // }
 
     // we are going to use the auto name so this is the last auto we published

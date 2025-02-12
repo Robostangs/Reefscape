@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -10,7 +13,8 @@ import frc.robot.Constants;
 
 public class Endeffector extends SubsystemBase {
     private static Endeffector mInstance;
-    private TalonFX endeffectorMotorRight, endeffectorMotorLeft;
+    
+    private TalonSRX endeffectorMotorRight;
     private DigitalInput EndeffectorSensor;
 
     public static Endeffector getInstance() {
@@ -21,15 +25,13 @@ public class Endeffector extends SubsystemBase {
 
     // just spit and put in break mode
     public Endeffector() {
-        endeffectorMotorRight = new TalonFX(Constants.EndeffectorConstants.kEndeffectorRightMotorId);
-        endeffectorMotorLeft = new TalonFX(Constants.EndeffectorConstants.kEndeffectorLeftMotorId);
+        endeffectorMotorRight = new TalonSRX(Constants.EndeffectorConstants.kEndeffectorRightMotorId);
         EndeffectorSensor = new DigitalInput(Constants.EndeffectorConstants.kEndeffectorSensorId);
 
     }
 
     public void setEneffdector(double endeffectorDutyCycle) {
-        endeffectorMotorRight.set(endeffectorDutyCycle);
-        endeffectorMotorLeft.set(endeffectorDutyCycle);
+        endeffectorMotorRight.set(TalonSRXControlMode.PercentOutput, endeffectorDutyCycle); 
     }
 
     public void postStatus(String status) {
@@ -37,8 +39,7 @@ public class Endeffector extends SubsystemBase {
 
     }
     public void setEndeffectorBrake() {
-        endeffectorMotorRight.setNeutralMode(NeutralModeValue.Brake);
-        endeffectorMotorLeft.setNeutralMode(NeutralModeValue.Brake);
+        endeffectorMotorRight.setNeutralMode(NeutralMode.Brake);
     }
     
     public boolean getEndeffectorSensor() {
