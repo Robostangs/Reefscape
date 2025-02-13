@@ -40,7 +40,7 @@ public class Reel extends Command {
   @Override
   public boolean isFinished() {
 
-    return climber.getClimberPosition() < Constants.ClimberConstants.kReelSafe;
+    return climber.getClimberPosition() <= Constants.ClimberConstants.kReelSafe;
   }
 
 }
