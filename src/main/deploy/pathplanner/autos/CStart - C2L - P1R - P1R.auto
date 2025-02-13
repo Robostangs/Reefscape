@@ -13,25 +13,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center 2 to Pro Stack"
+            "pathName": "Center 2L to Pro Feeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Stack to Pro 1"
+            "pathName": "Pro Feeder to Pro 1R"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro 1 to Center Stack"
+            "pathName": "Pro 1R to Pro Feeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Center Stack to Center 1"
+            "pathName": "Pro Feeder to Pro 1R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pro 1R to Pro Feeder"
           }
         }
       ]
