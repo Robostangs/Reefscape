@@ -80,6 +80,7 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
+    Intake.getInstance().zeroIntake();
 
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
@@ -195,7 +196,6 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-    Intake.getInstance().zeroIntake();
 
   }
 

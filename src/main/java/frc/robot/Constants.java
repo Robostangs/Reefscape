@@ -60,7 +60,7 @@ public final class Constants {
     public static final int kIntakeSensorId = 0;
 
     public static final double kExtendSetpoint = -16d;
-    public static final double kRetractSetpoint = -3d;
+    public static final double kRetractSetpoint = -2.5d;
 
     public static final double kPiviotP = 2;
     public static final double kPiviotI = 0d;
@@ -69,7 +69,7 @@ public final class Constants {
 
     public static final double kStatorCurrentLimit = 80d;
     public static final double kHomeStatorCurrentLimit = 40d;
-    public static final double kIntakeHomeDutyCycle = 0.5d;
+    public static final double kIntakeHomeDutyCycle = 0.1d;
 
 
     
@@ -83,6 +83,7 @@ public final class Constants {
     public static final int kEndeffectorRightMotorId = 0;
     public static final int kEndeffectorLeftMotorId = 0;
     public static final int kEndeffectorSensorId = 0;
+
 
     public static final double kEndeffectorSpit = 0.6;
 
@@ -114,7 +115,7 @@ public final class Constants {
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
-    public static final double kElevatorHomeDutyCycle = 0.5;
+    public static final double kElevatorHomeDutyCycle = 0.2;
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
     // TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES

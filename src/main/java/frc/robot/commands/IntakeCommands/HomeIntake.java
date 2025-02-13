@@ -21,16 +21,16 @@ public class HomeIntake extends Command{
 
     @Override
     public void execute() {
-        intake.setStatorCurrentLimit(Constants.IntakeConstants.kHomeStatorCurrentLimit);
         intake.setPiviotDutyCycle(Constants.IntakeConstants.kIntakeHomeDutyCycle);
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.setPiviotDutyCycle(0);
-        intake.setStatorCurrentLimit(Constants.IntakeConstants.kStatorCurrentLimit);
         intake.setPiviotZero();
         intake.postStatus("intake homed");
+
+
         
     }
 

@@ -11,8 +11,10 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -78,6 +80,7 @@ public class RobotContainer {
     xDrive.y().toggleOnTrue(new Retract());
     xDrive.x().toggleOnTrue(new Extend());
     xDrive.a().toggleOnTrue(new RunIntake());
+    xDrive.b().toggleOnTrue(new HomeIntake().withTimeout(3));
     // xDrive.a().onTrue();
 
 

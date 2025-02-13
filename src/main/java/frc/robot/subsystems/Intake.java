@@ -112,9 +112,9 @@ public class Intake extends SubsystemBase {
     public boolean isIntakeatSetpoint(boolean extendorretract) {
 
         if (extendorretract) {
-            return piviotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 0.1;
+            return piviotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 3;
         } else {
-            return piviotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kExtendSetpoint - 0.2;
+            return piviotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kRetractSetpoint - 0.2;
 
         }
     }
@@ -127,6 +127,8 @@ public class Intake extends SubsystemBase {
         piviotMotor.set(piviotDutyCycle);
     }
 
+
+    
     @Override
     public void periodic() {
         // TODO add logging
