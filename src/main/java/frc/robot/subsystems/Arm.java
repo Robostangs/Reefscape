@@ -54,6 +54,7 @@ public class Arm extends SubsystemBase {
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
 
         armMotor.getConfigurator().apply(slot0Configs);
+        armMotor.getConfigurator().apply(armconfigs);
 
         armMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
 
@@ -92,12 +93,11 @@ public class Arm extends SubsystemBase {
     /**
      * sets the arm motor to the specific angle
      * 
-     * @param angle the angle to set the arm to in Rotation2d
+     * @param angle the angle to set the arm to in degrees
      */
     public void setArmMotor(double angle) {
-        // if (isArmSmart(targetArmAngle)) {
         armControl.Position = Units.degreesToRotations(angle);
-        // }
+        
 
     }
 

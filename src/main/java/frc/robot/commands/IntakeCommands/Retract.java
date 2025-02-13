@@ -21,7 +21,7 @@ public class Retract extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.postStatus("FALLING BACK");
+    intake.postStatus("Retracting");
 
     intake.retractBar();
 
@@ -35,7 +35,7 @@ public class Retract extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.postStatus("RETRACTED");
+    intake.postStatus("Retracting");
     intake.setIntakePiviotBrake();
     intake.stopBar();
   }

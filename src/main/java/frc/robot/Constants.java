@@ -37,6 +37,24 @@ import edu.wpi.first.units.measure.*;
  */
 public final class Constants {
   public static final String logDirectory = "";
+public static class ClimberConstants{
+
+  public static final int kClimberMotorId = 0;
+  public static final double kGearboxRotationsToMechanismMeters = 1d;
+
+  //Deploy Constants
+  public static final double kMaxExtention = 5d;
+  public static final double kDeployThreshold = 1d;
+  public static final double kSafeDeployExtention = kMaxExtention - kDeployThreshold;
+  public static final double kExtentionDutyCycle = 0.5;
+
+  //Reel Constants
+  public static final double kReelDutyCycle = -0.5;
+  public static final double kMinExtention = 0.1;
+  public static final double kReelThreshold = 0.1;
+  public static final double kReelSafe = kReelThreshold + kMinExtention;
+
+}
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
