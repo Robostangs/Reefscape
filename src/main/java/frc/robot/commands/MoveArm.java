@@ -27,6 +27,7 @@ public class MoveArm extends Command {
 
   @Override
   public void execute() {
+    arm.setArmMotionMagic();
 
   }
 

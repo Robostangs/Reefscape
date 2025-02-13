@@ -201,11 +201,15 @@ public class Elevator extends SubsystemBase {
         return elevatorPositionMeters;
     }
 
+    public void setElevatorMotionMagic(){
+        elevatorMotorRight.setControl(elevatorMotionMagic);
+        elevatorMotorLeft.setControl(new Follower(Constants.ElevatorConstants.kRightElevatorMotorId, Constants.ElevatorConstants.kIsLeftInvert));
+    }
+
     @Override
     public void periodic() {
 
-        elevatorMotorRight.setControl(elevatorMotionMagic);
-        elevatorMotorLeft.setControl(new Follower(5, Constants.ElevatorConstants.kIsLeftInvert));
+
 
         if (Robot.isSimulation()) {
             updateSimElevatorTarget();

@@ -31,6 +31,7 @@ public class Lift extends Command {
   @Override
   public void execute() {
 
+    elevator.setElevatorMotionMagic();
 
   }
 

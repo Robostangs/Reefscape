@@ -54,6 +54,9 @@ public class Intake extends SubsystemBase {
         
     }
 
+    public double getIntakePosition() {
+        return piviotMotor.getPosition().getValueAsDouble();
+    }
     public void runIntake(double IntakeDutyCycle) {
         intakeMotorTop.set(IntakeDutyCycle);
 

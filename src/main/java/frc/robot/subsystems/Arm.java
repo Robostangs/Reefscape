@@ -31,6 +31,8 @@ public class Arm extends SubsystemBase {
     private Mechanism2d targetArmMechanism;
     private MechanismLigament2d targetArm;
 
+
+
     public static Arm getInstance() {
         if (mInstance == null)
             mInstance = new Arm();
@@ -115,6 +117,11 @@ public class Arm extends SubsystemBase {
 
         }
     }
+    public void setArmMotionMagic(){
+        if(Intake.getInstance().getIntakePosition() <= Constants.IntakeConstants.kArmSetpoint){
+            armMotor.setControl(armControl);
+        }
+    }
 
     @Override
     public void periodic() {
@@ -124,7 +131,6 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("target arm angle", targetArmAngle);
         SmartDashboard.putNumber("actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
-        armMotor.setControl(armControl);
 
     }
 

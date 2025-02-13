@@ -13,9 +13,6 @@ public class RunIntake extends Command {
         intake = Intake.getInstance();
         addRequirements(intake);
     }
-
-   
-
     
   // Called when the command is initially scheduled.
   @Override
