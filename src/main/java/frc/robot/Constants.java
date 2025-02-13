@@ -58,7 +58,7 @@ public final class Constants {
     public static final double kPiviotI = 0d;
     public static final double kPiviotD = 8.5;
     public static final double kPiviots = 23.5;
-    public static final double kStatorCurrentLimit = 80;
+    public static final double kStatorCurrentLimit = 80d;
 
     
 

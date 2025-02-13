@@ -27,7 +27,7 @@ public class RunIntake extends Command {
   @Override
   public void execute() {
 
-    intake.runIntake(0.5);
+    intake.runIntake(0.35);
 
     // endeffector.setEneffdector(0.3);
 

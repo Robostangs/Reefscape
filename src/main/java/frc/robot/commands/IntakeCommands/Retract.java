@@ -12,17 +12,18 @@ public class Retract extends Command {
   public Retract() {
     intake = Intake.getInstance();
     this.addRequirements(intake);
+
   }
   public static Runnable Retract = () -> {
     Intake intake = Intake.getInstance();
     intake.retractBar();
+    intake.runIntakeMotionMagic();
   };
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     intake.postStatus("FALLING BACK");
-    intake.setPiviotZero();
     intake.retractBar();
 
   }

@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Intake;
 
 public class RobotContainer {
     // max angular velocity
@@ -78,7 +79,8 @@ public class RobotContainer {
     xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
     xDrive.y().toggleOnTrue(new Retract());
     xDrive.x().toggleOnTrue(new Extend());
-
+    xDrive.a().toggleOnTrue(new RunIntake());
+    // xDrive.a().onTrue();
 
 
         // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));

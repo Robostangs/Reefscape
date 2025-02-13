@@ -197,6 +197,7 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
+    Intake.getInstance().zeroIntake();
 
   }
 

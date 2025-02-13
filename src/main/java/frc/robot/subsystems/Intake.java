@@ -20,6 +20,9 @@ public class Intake extends SubsystemBase {
     private DigitalInput IntakeSensor;
     MotionMagicExpoTorqueCurrentFOC piviotControl;
 
+    public Runnable zeroIntake = () -> {
+        intakeMotorTop.setPosition(0d);
+    };
     public static Intake getInstance() {
         if (mInstance == null)
             mInstance = new Intake();
@@ -54,6 +57,10 @@ public class Intake extends SubsystemBase {
     public void runIntake(double IntakeDutyCycle) {
         intakeMotorTop.set(IntakeDutyCycle);
 
+    }
+
+    public void zeroIntake(){
+        intakeMotorTop.setPosition(0d);
     }
 
     public void extendBar() {
@@ -112,6 +119,7 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Intake/Position", piviotMotor.getPosition().getValueAsDouble());
         SmartDashboard.putBoolean("is at extend setpoint", isIntakeatSetpoint(true));
         SmartDashboard.putBoolean("is at retract setpoint", isIntakeatSetpoint(false));
+        SmartDashboard.putNumber("Stator Current", piviotMotor.getStatorCurrent().getValueAsDouble());
 
 
 
