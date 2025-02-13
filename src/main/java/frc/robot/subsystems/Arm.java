@@ -118,9 +118,13 @@ public class Arm extends SubsystemBase {
         }
     }
     public void setArmMotionMagic(){
-        if(Intake.getInstance().getIntakePosition() <= Constants.IntakeConstants.kArmSetpoint){
+        if(Intake.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint){
             armMotor.setControl(armControl);
         }
+        else{
+            postStatus("cant move, intake in way");
+        }
+        
     }
 
     @Override

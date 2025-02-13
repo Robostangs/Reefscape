@@ -60,8 +60,7 @@ public final class Constants {
     public static final int kIntakeSensorId = 0;
 
     public static final double kExtendSetpoint = -16d;
-    public static final double kRetractSetpoint = 0d;
-    public static final double kArmSetpoint = -3d;
+    public static final double kRetractSetpoint = -3d;
 
     public static final double kPiviotP = 2;
     public static final double kPiviotI = 0d;
@@ -69,6 +68,8 @@ public final class Constants {
     public static final double kPiviots = 23.5;
 
     public static final double kStatorCurrentLimit = 80d;
+    public static final double kHomeStatorCurrentLimit = 40d;
+    public static final double kIntakeHomeDutyCycle = 0.5d;
 
 
     

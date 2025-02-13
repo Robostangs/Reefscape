@@ -23,6 +23,7 @@ public class Intake extends SubsystemBase {
     public Runnable zeroIntake = () -> {
         intakeMotorTop.setPosition(0d);
     };
+
     public static Intake getInstance() {
         if (mInstance == null)
             mInstance = new Intake();
@@ -48,25 +49,24 @@ public class Intake extends SubsystemBase {
         piviotMotor.getConfigurator().apply(piviotMotorConfigs);
         piviotMotor.getConfigurator().apply(slotpiviotconfigs);
 
-
         piviotControl = new MotionMagicExpoTorqueCurrentFOC(0d);
 
-        
     }
 
     public double getIntakePosition() {
         return piviotMotor.getPosition().getValueAsDouble();
     }
+
     public void runIntake(double IntakeDutyCycle) {
         intakeMotorTop.set(IntakeDutyCycle);
 
     }
 
-    public void zeroIntake(){
+    public void zeroIntake() {
         intakeMotorTop.setPosition(0d);
     }
 
-    public void extendBar() {
+    public void setExtendPosition() {
         piviotControl.Position = Constants.IntakeConstants.kExtendSetpoint;
     }
 
@@ -74,7 +74,7 @@ public class Intake extends SubsystemBase {
         piviotMotor.set(0);
     }
 
-    public void retractBar() {
+    public void setRetractPosition() {
         piviotControl.Position = Constants.IntakeConstants.kRetractSetpoint;
 
     }
@@ -83,7 +83,8 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putString("Intake/status", status);
 
     }
-    public void setPiviotZero(){
+
+    public void setPiviotZero() {
         piviotMotor.setPosition(0);
     }
 
@@ -101,18 +102,29 @@ public class Intake extends SubsystemBase {
 
     }
 
+    public void setStatorCurrentLimit(double currentLimit) {
+        TalonFXConfiguration intakeCurrentConfigs = new TalonFXConfiguration();
+        intakeCurrentConfigs.CurrentLimits.StatorCurrentLimit = currentLimit;
+        piviotMotor.getConfigurator().apply(intakeCurrentConfigs);
+
+    }
+
     public boolean isIntakeatSetpoint(boolean extendorretract) {
 
         if (extendorretract) {
-            return piviotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint+0.1;
+            return piviotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 0.1;
         } else {
-            return piviotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kExtendSetpoint-0.2;
+            return piviotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kExtendSetpoint - 0.2;
 
         }
     }
-    public void runIntakeMotionMagic(){
+
+    public void runIntakeMotionMagic() {
         piviotMotor.setControl(piviotControl);
 
+    }
+    public void setPiviotDutyCycle(double piviotDutyCycle){
+        piviotMotor.set(piviotDutyCycle);
     }
 
     @Override
@@ -123,8 +135,6 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("is at extend setpoint", isIntakeatSetpoint(true));
         SmartDashboard.putBoolean("is at retract setpoint", isIntakeatSetpoint(false));
         SmartDashboard.putNumber("Stator Current", piviotMotor.getStatorCurrent().getValueAsDouble());
-
-
 
     }
 

@@ -16,7 +16,7 @@ public class Retract extends Command {
   }
   public static Runnable Retract = () -> {
     Intake intake = Intake.getInstance();
-    intake.retractBar();
+    intake.setRetractPosition();
     intake.runIntakeMotionMagic();
   };
 
@@ -24,7 +24,7 @@ public class Retract extends Command {
   @Override
   public void initialize() {
     intake.postStatus("FALLING BACK");
-    intake.retractBar();
+    intake.setRetractPosition();
 
   }
 

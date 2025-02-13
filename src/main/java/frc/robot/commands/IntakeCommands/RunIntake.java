@@ -26,7 +26,6 @@ public class RunIntake extends Command {
 
     intake.runIntake(0.35);
 
-    // endeffector.setEneffdector(0.3);
 
   }
 

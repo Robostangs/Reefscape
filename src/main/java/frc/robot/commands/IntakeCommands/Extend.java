@@ -5,14 +5,12 @@ import frc.robot.subsystems.Intake;
 
 public class Extend extends Command {
 
-    Intake intake;
+  Intake intake;
 
-    public Extend() {
-        intake = Intake.getInstance();
-        this.addRequirements(intake);
-      }
-
-   
+  public Extend() {
+    intake = Intake.getInstance();
+    this.addRequirements(intake);
+  }
 
   // Called when the command is initially scheduled.
   @Override
@@ -20,15 +18,14 @@ public class Extend extends Command {
 
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
     intake.setPiviotZero();
-    intake.extendBar();
+
+    intake.setExtendPosition();
 
   }
 
   @Override
   public void execute() {
     intake.runIntakeMotionMagic();
-
-
 
   }
 
@@ -44,11 +41,9 @@ public class Extend extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-        //TODO do this when we put it on
+    // TODO do this when we put it on
     return intake.isIntakeatSetpoint(true);
     // return false;
   }
 
 }
-
-

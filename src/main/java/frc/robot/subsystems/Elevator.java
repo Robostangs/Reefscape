@@ -203,7 +203,7 @@ public class Elevator extends SubsystemBase {
 
     public void setElevatorMotionMagic(){
         elevatorMotorRight.setControl(elevatorMotionMagic);
-        elevatorMotorLeft.setControl(new Follower(Constants.ElevatorConstants.kRightElevatorMotorId, Constants.ElevatorConstants.kIsLeftInvert));
+        elevatorMotorLeft.setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
     }
 
     @Override
