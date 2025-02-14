@@ -27,7 +27,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
+import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -131,6 +133,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             SwerveDrivetrainConstants drivetrainConstants,
             SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
+        this.setVisionMeasurementStdDevs(Constants.VisionConstants.kPrecisionInMyVision);
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -260,6 +263,39 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+
+        if (!Robot.isSimulation()) {
+            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightThreeName,
+                    this.getState().Pose.getRotation().getDegrees(),
+                    0d,
+                    0d,
+                    0d,
+                    0d,
+                    0d);
+            // TODO see if this is better than getting the odo pose rotation
+            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightFourName,
+                    LimelightHelpers.getIMUData(Constants.VisionConstants.kLimelightFourName).Yaw,
+                    0d,
+                    0d,
+                    0d,
+                    0d,
+                    0d);
+
+            // TODO update these names
+            LimelightHelpers.PoseEstimate fourPose, threePose;
+            if (DriverStation.isDisabled()) {
+                fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightFourName);
+            }
+            else{
+                fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightFourName);
+            }
+
+            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightFourName) > 1) {
+                this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
+            }
+
+        } // this.addVisionMeasurement(LimelightHelpers.getBotPose2d(Constants.VisionConstants.kLimelightFourName),
+        // LimelightHelpers.);
     }
 
     private void startSimThread() {

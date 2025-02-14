@@ -8,6 +8,8 @@ import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.math.Vector;
+
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.signals.*;
@@ -16,10 +18,12 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-
+ 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.*;
 
@@ -117,6 +121,12 @@ public final class Constants {
 
   }
 
+  public static class VisionConstants{
+    		public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
+        public static final String kLimelightFourName = "BigBP";
+        public static final String kLimelightThreeName = "SmallBP";
+
+  }
   public static class ScoringConstants {
     public static final double kArmScoringangle = 270;
 
