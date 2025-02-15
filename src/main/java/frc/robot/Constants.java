@@ -18,7 +18,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
- 
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -46,9 +46,10 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kManipControllerPort = 1;
 
-  }
-
-  public static class AutoConstants {
+    public static final double kDriverDeadband = Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+        .baseUnitMagnitude() * 0.07;
+    public static final double rotationalDeadband = Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+        * 0.07;
 
   }
 
@@ -64,13 +65,11 @@ public final class Constants {
     public static final double kPiviots = 23.5;
     public static final double kSupplyCurrentLimit = 35;
 
-    
-
-
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
   }
-  public static class EndeffectorConstants{
+
+  public static class EndeffectorConstants {
 
     public static final int kEndeffectorRightMotorId = 0;
     public static final int kEndeffectorLeftMotorId = 0;
@@ -121,14 +120,30 @@ public final class Constants {
 
   }
 
-  public static class VisionConstants{
-    		public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
-        public static final String kLimelightFourName = "BigBP";
-        public static final String kLimelightThreeName = "SmallBP";
+  public static class VisionConstants {
+    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
+    public static final String kLimelightFourName = "BigBP";
+    public static final String kLimelightThreeName = "SmallBP";
+    public static final double kVisionAngularThreshold = 22.5;
+    public static final double kTAThresholdFour = 0.01;
+    public static final double kTAThresholdThree = 0.01;
+    public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(-122));
+    public static final Pose2d k17BlueRReefPose = new Pose2d(4.366, 3.568, new Rotation2d(-122));
+    public static final Pose2d k18BlueRReefPose = new Pose2d(4, 4.2, new Rotation2d(180));
+    public static final Pose2d k18BlueLReefPose = new Pose2d(4, 3.9, new Rotation2d(180));
+    public static final Pose2d k19BlueLReefPose = new Pose2d(4.396, 4.522, new Rotation2d(121.5));
+    public static final Pose2d k19BlueRReefPose = new Pose2d(4.124, 4.373, new Rotation2d(121.5));
+    public static final Pose2d k20BlueRReefPose = new Pose2d(4.6, 4.516, new Rotation2d(60));
+    public static final Pose2d k20BlueLReefPose = new Pose2d(4.86, 4.36, new Rotation2d(60));
+    public static final Pose2d k21BlueLReefPose = new Pose2d(5, 4.15, new Rotation2d(0));
+    public static final Pose2d k21BlueRReefPose = new Pose2d(5, 3.875, new Rotation2d(0));
+    public static final Pose2d k22BlueLReefPose = new Pose2d(4.9, 3.65, new Rotation2d(-65));
+    public static final Pose2d k22BlueRReefPose = new Pose2d(4.64, 3.54, new Rotation2d(-65));
 
   }
+
   public static class ScoringConstants {
-    public static final double kArmScoringangle = 270;
+    public static final double kArmScoringangle = 270+360;
 
     public static class L1 {
       public static final double kElevatorPos = 10d;
@@ -211,11 +226,11 @@ public final class Constants {
       public static final PIDConstants translationPID = new PIDConstants(0, 0, 0);
       public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
 
-      public static class AutoPoses{
+      public static class AutoPoses {
         public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(0));
         public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(0));
         public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(0));
-        
+
       }
 
       private final static MomentOfInertia kRobotMomentOfInertia = KilogramSquareMeters.of(0.01);

@@ -50,7 +50,6 @@ public class Robot extends TimedRobotstangs {
 
   private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", Alert.AlertType.kError);
 
-
   private static String autoName = "";
 
   // Autos
@@ -165,7 +164,6 @@ public class Robot extends TimedRobotstangs {
 
     teleopField.setRobotPose(drivetrain.getState().Pose);
 
-
     autoName = startChooser.getSelected() + " - " + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
         + " - " + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected() + " - "
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
@@ -198,6 +196,7 @@ public class Robot extends TimedRobotstangs {
   public void disabledPeriodic() {
     SmartDashboard.putString("Auto/Current Auto", autoName);
 
+    LimelightHelpers.SetIMUMode(autoName, 0);
     publishTrajectory(autoName);
   }
 
@@ -207,25 +206,25 @@ public class Robot extends TimedRobotstangs {
 
     switch (startChooser.getSelected()) {
       case "CStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-            SmartDashboard.putString("Current Pose","Pose reset to center");
+        SmartDashboard.putString("Current Pose", "Pose reset to center");
 
         break;
       case "OStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue ==DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-            SmartDashboard.putString("Current Pose","Pose reset to open");
+        SmartDashboard.putString("Current Pose", "Pose reset to open");
 
         break;
 
       case "PStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-            SmartDashboard.putString("Current Pose","Pose reset to pro");
+        SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
         break;
 
@@ -316,7 +315,7 @@ public class Robot extends TimedRobotstangs {
       PathPlannerAuto.getPathGroupFromAutoFile(autoName).forEach((path) -> path.getAllPathPoints()
           .forEach((point) -> {
             Pose2d pose = new Pose2d(point.position, point.position.getAngle());
-            if (DriverStation.getAlliance().get() == Alliance.Red) {
+            if (isRed()) {
               pose = FlippingUtil.flipFieldPose(pose);
 
             }
@@ -324,7 +323,7 @@ public class Robot extends TimedRobotstangs {
             poses.add(pose);
           }));
       // flip the poses if we are red
-      if (DriverStation.getAlliance().get() == Alliance.Red) {
+      if (isRed()) {
         teleopField.getObject("Starting Pose")
             .setPose(FlippingUtil.flipFieldPose(auto.getStartingPose()));
       } else {
@@ -362,6 +361,18 @@ public class Robot extends TimedRobotstangs {
    */
   public static void unpublishTrajectory() {
     publishTrajectory(null);
+  }
+
+  public static boolean isRed() {
+    if (Robot.isSimulation()) {
+      return false;
+    }
+    if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      return true;
+    } else {
+      return false;
+
+    }
   }
 
   private static final class GcStatsCollector {

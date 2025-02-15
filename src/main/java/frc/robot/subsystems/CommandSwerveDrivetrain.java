@@ -21,6 +21,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -243,6 +244,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     @Override
     public void periodic() {
+        super.setOperatorPerspectiveForward(
+                Rotation2d.fromDegrees((Robot.isRed() ? 180 : 0)));
+
         /*
          * Periodically try to apply the operator perspective.
          * If we haven't applied the operator perspective before, then we should apply
@@ -264,7 +268,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             });
         }
 
-        if (!Robot.isSimulation()) {
+        if (!Robot.isSimulation() &&
+                this.getPigeon2().getAngularVelocityZWorld()
+                        .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold) {
+
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightThreeName,
                     this.getState().Pose.getRotation().getDegrees(),
                     0d,
@@ -285,17 +292,27 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             LimelightHelpers.PoseEstimate fourPose, threePose;
             if (DriverStation.isDisabled()) {
                 fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightFourName);
-            }
-            else{
-                fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightFourName);
+                threePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightThreeName);
+            } else {
+                fourPose = LimelightHelpers
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightFourName);
+                threePose = LimelightHelpers
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightThreeName);
             }
 
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightFourName) > 1) {
+            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightThreeName) > 1
+                    && LimelightHelpers.getTA(
+                            Constants.VisionConstants.kLimelightThreeName) > Constants.VisionConstants.kTAThresholdThree) {
+                this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
+                Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
+            }
+            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightThreeName) > 1
+                    && LimelightHelpers.getTA(
+                            Constants.VisionConstants.kLimelightThreeName) > Constants.VisionConstants.kTAThresholdFour) {
                 this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
+                Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
             }
-
-        } // this.addVisionMeasurement(LimelightHelpers.getBotPose2d(Constants.VisionConstants.kLimelightFourName),
-        // LimelightHelpers.);
+        } 
     }
 
     private void startSimThread() {
@@ -327,7 +344,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
     }
-
+    public Pose2d getPose() {
+        return this.getState().Pose;
+    }
+    public void postStatus(String status) {
+        SmartDashboard.putString("Drivetrain/status", status);
+    }
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the
      * odometry pose estimate
@@ -366,10 +388,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 new PPHolonomicDriveController(Constants.SwerveConstants.AutoConstants.rotationPID,
                         Constants.SwerveConstants.AutoConstants.translationPID),
                 Constants.SwerveConstants.AutoConstants.robotConfig,
-                () -> DriverStation.getAlliance().get() == Alliance.Red,
+                () -> Robot.isRed(),
                 this);
 
     }
+
+    
 
     private static CommandSwerveDrivetrain mDrivetrain;
 
