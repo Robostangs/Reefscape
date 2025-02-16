@@ -10,6 +10,7 @@ import java.lang.management.MemoryMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.FlippingUtil;
 
@@ -28,6 +29,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Factories.IntakeFactory;
+import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -159,6 +162,13 @@ public class Robot extends TimedRobotstangs {
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
     Intake.getInstance().setPiviotZero();
+
+
+    NamedCommands.registerCommand("L1 Score", ScoringFactory.L1Score());
+    NamedCommands.registerCommand("L2 Score", ScoringFactory.L2Score());
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score());
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score());
+    NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
   }
 
   @Override

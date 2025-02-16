@@ -17,6 +17,7 @@ public class RunElevator extends Command {
 
   @Override
   public void initialize() {
+    elevator.postStatus("Manually Adjusting Elevator");
   }
 
   @Override
@@ -27,6 +28,8 @@ public class RunElevator extends Command {
   @Override
   public void end(boolean interrupted) {
     elevator.setElevatorDutyCycle(0);
+    elevator.postStatus("Elevator Stopped");
+
   }
 
   @Override

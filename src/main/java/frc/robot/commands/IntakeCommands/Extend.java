@@ -42,8 +42,8 @@ public class Extend extends Command {
   @Override
   public boolean isFinished() {
     // TODO do this when we put it on
-    return intake.isIntakeatSetpoint(true);
     // return false;[\]
+    return intake.getIntakeSensor();
   }
 
 }

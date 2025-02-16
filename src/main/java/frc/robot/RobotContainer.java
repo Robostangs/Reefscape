@@ -11,22 +11,18 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.MoveArm;
-import frc.robot.commands.ElevatorCommands.HomeElevator;
-import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
+import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.IntakeCommands.Extend;
-import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Intake;
 
 public class RobotContainer {
     // max angular velocity
@@ -78,7 +74,7 @@ public class RobotContainer {
                                     * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
         }
             // xDrive.x().toggleOnTrue(new Extend().withTimeout(1.5).andThen(new RunIntake(true)).finallyDo(Retract.retract()));
-    xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
+    xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
 //     xDrive.y().toggleOnTrue(new Retract());
 //     xDrive.x().toggleOnTrue(new Extend());
 //     xDrive.a().toggleOnTrue(new RunIntake());
@@ -116,7 +112,7 @@ public class RobotContainer {
         new Trigger(() -> xSim.getRawButtonPressed(1))
                 .toggleOnTrue(
                         // new MoveArm(400d)
-                        new Lift(5d)
+                        new MoveArm(450d)
                 // ScoringFactory.L1Score()
                 );
 

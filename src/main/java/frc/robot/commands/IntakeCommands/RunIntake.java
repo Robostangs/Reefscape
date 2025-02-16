@@ -40,8 +40,8 @@ public class RunIntake extends Command {
   @Override
   public boolean isFinished() {
     //TODO do this when we put it on
-    // return intake.getIntakeSensor();
-    return false;
+    return intake.getIntakeSensor();
+    // return false;
   }
 
 }
