@@ -6,11 +6,9 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
@@ -56,6 +54,7 @@ public class Arm extends SubsystemBase {
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
 
         armMotor.getConfigurator().apply(slot0Configs);
+        armMotor.getConfigurator().apply(armconfigs);
 
         armMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
 
@@ -94,12 +93,11 @@ public class Arm extends SubsystemBase {
     /**
      * sets the arm motor to the specific angle
      * 
-     * @param angle the angle to set the arm to in Rotation2d
+     * @param angle the angle to set the arm to in degrees
      */
     public void setArmMotor(double angle) {
-        // if (isArmSmart(targetArmAngle)) {
         armControl.Position = Units.degreesToRotations(angle);
-        // }
+        
 
     }
 

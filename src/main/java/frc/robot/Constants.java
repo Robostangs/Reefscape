@@ -8,6 +8,8 @@ import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.math.Vector;
+
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -24,6 +26,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.*;
@@ -44,13 +47,33 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 public final class Constants {
   public static final String logDirectory = "";
 
+  public static class ClimberConstants {
+
+    public static final int kClimberMotorId = 0;
+    public static final double kGearboxRotationsToMechanismMeters = 1d;
+
+    // Deploy Constants
+    public static final double kMaxExtention = 5d;
+    public static final double kDeployThreshold = 1d;
+    public static final double kSafeDeployExtention = kMaxExtention - kDeployThreshold;
+    public static final double kExtentionDutyCycle = 0.5;
+
+    // Reel Constants
+    public static final double kReelDutyCycle = -0.5;
+    public static final double kMinExtention = 0.1;
+    public static final double kReelThreshold = 0.1;
+    public static final double kReelSafe = kReelThreshold + kMinExtention;
+
+  }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kManipControllerPort = 1;
 
-  }
-
-  public static class AutoConstants {
+    public static final double kDriverDeadband = Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+        .baseUnitMagnitude() * 0.07;
+    public static final double rotationalDeadband = Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+        * 0.07;
 
   }
 
@@ -71,19 +94,15 @@ public final class Constants {
     public static final double kHomeStatorCurrentLimit = 40d;
     public static final double kIntakeHomeDutyCycle = 0.1d;
 
-
-    
-
-
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
   }
-  public static class EndeffectorConstants{
+
+  public static class EndeffectorConstants {
 
     public static final int kEndeffectorRightMotorId = 0;
     public static final int kEndeffectorLeftMotorId = 0;
     public static final int kEndeffectorSensorId = 0;
-
 
     public static final double kEndeffectorSpit = 0.6;
 
@@ -123,7 +142,7 @@ public final class Constants {
     // TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
     public static final double kMaxElevatorHeight = 2.27887911;
     public static final double kMinElevatorHeight = 0d;
-    public static final double kRotationsToMeters = Units.inchesToMeters( 1.221111111);
+    public static final double kRotationsToMeters = Units.inchesToMeters(1.221111111);
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
@@ -132,15 +151,53 @@ public final class Constants {
     public static final double kRootElevator2X = .6;
     public static final double kRootElevator2Y = 0d;
     public static final double kLigaLength = .3d;
-    public static final double kElevatorGearing = 14/72d;
+    public static final double kElevatorGearing = 14 / 72d;
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = false;
 
+  }
+
+  public static class VisionConstants {
+    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
+    public static final String kLimelightFourName = "BigBP";
+    public static final String kLimelightThreeName = "SmallBP";
+    public static final double kVisionAngularThreshold = 22.5;
+    public static final double kTAThresholdFour = 0.01;
+    public static final double kTAThresholdThree = 0.01;
 
   }
 
   public static class ScoringConstants {
-    public static final double kArmScoringangle = 270;
+    public static final double kArmScoringangle = 270 + 360;
+
+    // Align Poses
+    public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(0));
+    public static final Pose2d k17BlueRReefPose = new Pose2d(4.366, 3.568, new Rotation2d(0));
+    public static final Pose2d k18BlueRReefPose = new Pose2d(4, 4.2, new Rotation2d(180 - 180));
+    public static final Pose2d k18BlueLReefPose = new Pose2d(4, 3.9, new Rotation2d(180 - 180));
+    public static final Pose2d k19BlueLReefPose = new Pose2d(4.396, 4.522, new Rotation2d(121.5 - 180));
+    public static final Pose2d k19BlueRReefPose = new Pose2d(4.124, 4.373, new Rotation2d(121.5 - 180));
+    public static final Pose2d k20BlueRReefPose = new Pose2d(4.6, 4.516, new Rotation2d(60 - 180));
+    public static final Pose2d k20BlueLReefPose = new Pose2d(4.86, 4.36, new Rotation2d(60 - 180));
+    public static final Pose2d k21BlueLReefPose = new Pose2d(5, 4.15, new Rotation2d(0 - 180));
+    public static final Pose2d k21BlueRReefPose = new Pose2d(5, 3.875, new Rotation2d(0 - 180));
+    public static final Pose2d k22BlueLReefPose = new Pose2d(4.9, 3.65, new Rotation2d(-65 - 180));
+    public static final Pose2d k22BlueRReefPose = new Pose2d(4.64, 3.54, new Rotation2d(-65 - 180));
+
+    // PtP Poses
+    // TODO acc find these if your going to use them
+    public static final Pose2d k17BlueLReefPosePtP = new Pose2d(3.5, 2.66, new Rotation2d(155));
+    public static final Pose2d k17BlueRReefPosePtP = new Pose2d(3.82, 2.48, new Rotation2d(155));
+    public static final Pose2d k18BlueRReefPosePtP = new Pose2d(4, 4.2, new Rotation2d(180 - 180));
+    public static final Pose2d k18BlueLReefPosePtP = new Pose2d(4, 3.9, new Rotation2d(180 - 180));
+    public static final Pose2d k19BlueLReefPosePtP = new Pose2d(4.396, 4.522, new Rotation2d(121.5 - 180));
+    public static final Pose2d k19BlueRReefPosePtP = new Pose2d(4.124, 4.373, new Rotation2d(121.5 - 180));
+    public static final Pose2d k20BlueRReefPosePtP = new Pose2d(4.6, 4.516, new Rotation2d(60 - 180));
+    public static final Pose2d k20BlueLReefPosePtP = new Pose2d(4.86, 4.36, new Rotation2d(60 - 180));
+    public static final Pose2d k21BlueLReefPosePtP = new Pose2d(5, 4.15, new Rotation2d(0 - 180));
+    public static final Pose2d k21BlueRReefPosePtP = new Pose2d(5, 3.875, new Rotation2d(0 - 180));
+    public static final Pose2d k22BlueLReefPosePtP = new Pose2d(4.9, 3.65, new Rotation2d(-65 - 180));
+    public static final Pose2d k22BlueRReefPosePtP = new Pose2d(4.64, 3.54, new Rotation2d(-65 - 180));
 
     public static class L1 {
       public static final double kElevatorPos = 10d;
@@ -223,13 +280,11 @@ public final class Constants {
       public static final PIDConstants translationPID = new PIDConstants(0, 0, 0);
       public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
 
-      public static class AutoPoses{
+      public static class AutoPoses {
         public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(0));
         public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(0));
         public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(0));
 
-
-        
       }
 
       private final static MomentOfInertia kRobotMomentOfInertia = KilogramSquareMeters.of(0.01);
@@ -389,22 +444,22 @@ public final class Constants {
 
     public static class TunerConstants {
 
-    /**
-     * Creates a CommandSwerveDrivetrain instance.
-     * This should only be called once in your robot program,.
-     */
-    public static CommandSwerveDrivetrain createDrivetrain() {
+      /**
+       * Creates a CommandSwerveDrivetrain instance.
+       * This should only be called once in your robot program,.
+       */
+      public static CommandSwerveDrivetrain createDrivetrain() {
         return new CommandSwerveDrivetrain(
-                Constants.SwerveConstants.DrivetrainConstants, Constants.SwerveConstants.FrontLeft,
-                Constants.SwerveConstants.FrontRight, Constants.SwerveConstants.BackLeft,
-                Constants.SwerveConstants.BackRight);
-    }
+            Constants.SwerveConstants.DrivetrainConstants, Constants.SwerveConstants.FrontLeft,
+            Constants.SwerveConstants.FrontRight, Constants.SwerveConstants.BackLeft,
+            Constants.SwerveConstants.BackRight);
+      }
 
-    /**
-     * Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected
-     * device types.
-     */
-    public static class TunerSwerveDrivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> {
+      /**
+       * Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected
+       * device types.
+       */
+      public static class TunerSwerveDrivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> {
         /**
          * Constructs a CTRE SwerveDrivetrain using the specified constants.
          * <p>
@@ -418,11 +473,11 @@ public final class Constants {
          * @param modules             Constants for each specific module
          */
         public TunerSwerveDrivetrain(
-                SwerveDrivetrainConstants drivetrainConstants,
-                SwerveModuleConstants<?, ?, ?>... modules) {
-            super(
-                    TalonFX::new, TalonFX::new, CANcoder::new,
-                    drivetrainConstants, modules);
+            SwerveDrivetrainConstants drivetrainConstants,
+            SwerveModuleConstants<?, ?, ?>... modules) {
+          super(
+              TalonFX::new, TalonFX::new, CANcoder::new,
+              drivetrainConstants, modules);
         }
 
         /**
@@ -441,12 +496,12 @@ public final class Constants {
          * @param modules                 Constants for each specific module
          */
         public TunerSwerveDrivetrain(
-                SwerveDrivetrainConstants drivetrainConstants,
-                double odometryUpdateFrequency,
-                SwerveModuleConstants<?, ?, ?>... modules) {
-            super(
-                    TalonFX::new, TalonFX::new, CANcoder::new,
-                    drivetrainConstants, odometryUpdateFrequency, modules);
+            SwerveDrivetrainConstants drivetrainConstants,
+            double odometryUpdateFrequency,
+            SwerveModuleConstants<?, ?, ?>... modules) {
+          super(
+              TalonFX::new, TalonFX::new, CANcoder::new,
+              drivetrainConstants, odometryUpdateFrequency, modules);
         }
 
         /**
@@ -477,19 +532,18 @@ public final class Constants {
          * @param modules                   Constants for each specific module
          */
         public TunerSwerveDrivetrain(
-                SwerveDrivetrainConstants drivetrainConstants,
-                double odometryUpdateFrequency,
-                Matrix<N3, N1> odometryStandardDeviation,
-                Matrix<N3, N1> visionStandardDeviation,
-                SwerveModuleConstants<?, ?, ?>... modules) {
-            super(
-                    TalonFX::new, TalonFX::new, CANcoder::new,
-                    drivetrainConstants, odometryUpdateFrequency,
-                    odometryStandardDeviation, visionStandardDeviation, modules);
+            SwerveDrivetrainConstants drivetrainConstants,
+            double odometryUpdateFrequency,
+            Matrix<N3, N1> odometryStandardDeviation,
+            Matrix<N3, N1> visionStandardDeviation,
+            SwerveModuleConstants<?, ?, ?>... modules) {
+          super(
+              TalonFX::new, TalonFX::new, CANcoder::new,
+              drivetrainConstants, odometryUpdateFrequency,
+              odometryStandardDeviation, visionStandardDeviation, modules);
         }
+      }
     }
-}
-
 
   }
 

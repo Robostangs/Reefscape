@@ -1,8 +1,6 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.MoveArm;
-import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.subsystems.Intake;
 
 public class Retract extends Command {
@@ -37,7 +35,7 @@ public class Retract extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.postStatus("RETRACTED");
+    intake.postStatus("Retracting");
     intake.setIntakePiviotBrake();
     intake.stopBar();
   }

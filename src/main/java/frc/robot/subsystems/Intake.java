@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -14,14 +13,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    private TalonFX intakeMotorTop, piviotMotor;
+    private TalonFX intakeMotor, piviotMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
     private DigitalInput IntakeSensor;
     MotionMagicExpoTorqueCurrentFOC piviotControl;
 
     public Runnable zeroIntake = () -> {
-        intakeMotorTop.setPosition(0d);
+        intakeMotor.setPosition(0d);
     };
 
     public static Intake getInstance() {
@@ -32,7 +31,7 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
 
-        intakeMotorTop = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
+        intakeMotor = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
         piviotMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
@@ -57,13 +56,15 @@ public class Intake extends SubsystemBase {
         return piviotMotor.getPosition().getValueAsDouble();
     }
 
-    public void runIntake(double IntakeDutyCycle) {
-        intakeMotorTop.set(IntakeDutyCycle);
 
+
+
+    public void runIntake(double IntakeDutyCycle) {
+        intakeMotor.set(IntakeDutyCycle);
     }
 
     public void zeroIntake() {
-        intakeMotorTop.setPosition(0d);
+        intakeMotor.setPosition(0d);
     }
 
     public void setExtendPosition() {
@@ -76,7 +77,6 @@ public class Intake extends SubsystemBase {
 
     public void setRetractPosition() {
         piviotControl.Position = Constants.IntakeConstants.kRetractSetpoint;
-
     }
 
     public void postStatus(String status) {
@@ -89,7 +89,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void stopIntake() {
-        intakeMotorTop.stopMotor();
+        intakeMotor.stopMotor();
         piviotControl.Position = piviotMotor.getPosition().getValueAsDouble();
     }
 

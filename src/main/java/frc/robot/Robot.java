@@ -14,11 +14,14 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.FlippingUtil;
 
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.AudioConfigs;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
@@ -27,7 +30,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
@@ -35,10 +37,9 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.LimelightHelpers;
 
 public class Robot extends TimedRobotstangs {
-  public XboxController xDrive = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
-  public XboxController xManip = new XboxController(Constants.OperatorConstants.kManipControllerPort);
 
   private final RobotContainer m_robotContainer;
 
@@ -50,7 +51,9 @@ public class Robot extends TimedRobotstangs {
 
   public static ShuffleboardTab autoTab, teleopTab, testTab, disTab;
 
-  private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", Alert.AlertType.kError);
+  private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", AlertType.kError);
+  private static Alert CANcoderAlert = new Alert("Can tweaking", AlertType.kError);
+  private static Alert MotorAlert = new Alert("Can tweaking", AlertType.kError);
 
   private static String autoName = "";
 
@@ -212,6 +215,7 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
+    LimelightHelpers.SetIMUMode(autoName, 0);
     publishTrajectory(autoName);
   }
 
@@ -221,25 +225,25 @@ public class Robot extends TimedRobotstangs {
 
     switch (startChooser.getSelected()) {
       case "CStart":
-        CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose)
-                .rotateBy(new Rotation2d(180)));
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+        SmartDashboard.putString("Current Pose", "Pose reset to center");
 
         break;
       case "OStart":
-        CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose)
-                .rotateBy(new Rotation2d(180)));
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+        SmartDashboard.putString("Current Pose", "Pose reset to open");
 
         break;
 
       case "PStart":
-        CommandSwerveDrivetrain.getInstance().resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose)
-                .rotateBy(new Rotation2d(180)));
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
+        SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
         break;
 
@@ -330,7 +334,7 @@ public class Robot extends TimedRobotstangs {
       PathPlannerAuto.getPathGroupFromAutoFile(autoName).forEach((path) -> path.getAllPathPoints()
           .forEach((point) -> {
             Pose2d pose = new Pose2d(point.position, point.position.getAngle());
-            if (DriverStation.getAlliance().get() == Alliance.Red) {
+            if (isRed()) {
               pose = FlippingUtil.flipFieldPose(pose);
 
             }
@@ -338,7 +342,7 @@ public class Robot extends TimedRobotstangs {
             poses.add(pose);
           }));
       // flip the poses if we are red
-      if (DriverStation.getAlliance().get() == Alliance.Red) {
+      if (isRed()) {
         teleopField.getObject("Starting Pose")
             .setPose(FlippingUtil.flipFieldPose(auto.getStartingPose()));
       } else {
@@ -378,6 +382,70 @@ public class Robot extends TimedRobotstangs {
     publishTrajectory(null);
   }
 
+  public static boolean isRed() {
+    if (Robot.isSimulation()) {
+      return false;
+    }
+    if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      return true;
+    } else {
+      return false;
+
+    }
+  }
+
+  public static void verifyMotors(TalonFX... falcons) {
+    for (TalonFX falcon : falcons) {
+      verifyMotor(falcon);
+    }
+  }
+
+  /**
+   * Will return false if the motor is verified and connected, true if there is
+   * some error getting position
+   * 
+   * @param falcon a TalonFX motor
+   * @return false if the position is available, true if not available
+   */
+  public static boolean verifyMotor(TalonFX falcon) {
+    falcon.getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+
+    StatusCode status = falcon.getPosition().getStatus();
+    if (status.isError() && Robot.isReal()) {
+      DataLogManager.log("TalonFX ID #" + falcon.getDeviceID() + " has failed to return position with status: "
+          + status.getDescription() + ". Error Code: " + status.value);
+      MotorAlert.setText(
+          "TalonFX ID #" + falcon.getDeviceID() + " has failed to return position with status: "
+              + status.getName() + ". Error Code: ");
+      MotorAlert.set(true);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Will return false if the CANcoder is verified and connected, true if there is
+   * some error getting position
+   * 
+   * @param coder a CANcoder
+   * @return false if the position is available, true if not available
+   */
+  public static boolean verifyCANcoder(CANcoder coder) {
+    StatusCode status = coder.getPosition().getStatus();
+    if (status.isError() && Robot.isReal()) {
+      DataLogManager.log("CANcoder ID #" + coder.getDeviceID() + " has failed to return position with status: "
+          + status.getDescription() + ". Error Code: " + status.value);
+      CANcoderAlert.setText(
+          "CANcoder ID #" + coder.getDeviceID() + " has failed to return position with status: "
+              + status.getName() + ". Error Code: " + status.value);
+      CANcoderAlert.set(true);
+      return true;
+    }
+
+    return false;
+  }
+
   private static final class GcStatsCollector {
     private List<GarbageCollectorMXBean> gcBeans = ManagementFactory.getGarbageCollectorMXBeans();
     private MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
@@ -401,7 +469,6 @@ public class Robot extends TimedRobotstangs {
       SmartDashboard.putNumber("Memory/GCCounts", (double) accumCounts);
       SmartDashboard.putNumber("Memory/Usage", (double) memBean.getHeapMemoryUsage().getUsed());
 
-      // TODO remake alerts
       if (accumTime > (20)) {
         gcAlert.set(true);
       } else {

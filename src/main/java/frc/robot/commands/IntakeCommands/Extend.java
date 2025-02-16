@@ -32,7 +32,7 @@ public class Extend extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.postStatus("DEPLOYED");
+    intake.postStatus("Retracted");
     // intake.setIntakePiviotBrake();
     intake.stopBar();
 
