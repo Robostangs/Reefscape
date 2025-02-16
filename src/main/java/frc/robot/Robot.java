@@ -10,16 +10,16 @@ import java.lang.management.MemoryMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.AudioConfigs;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.FlippingUtil;
-import com.pathplanner.lib.util.GeometryUtil;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -48,7 +47,9 @@ public class Robot extends TimedRobotstangs {
 
   public static ShuffleboardTab autoTab, teleopTab, testTab, disTab;
 
-  private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", Alert.AlertType.kError);
+  private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", AlertType.kError);
+  private static Alert CANcoderAlert = new Alert("Can tweaking", AlertType.kError);
+  private static Alert MotorAlert = new Alert("Can tweaking", AlertType.kError);
 
   private static String autoName = "";
 
@@ -373,6 +374,58 @@ public class Robot extends TimedRobotstangs {
       return false;
 
     }
+  }
+
+  public static void verifyMotors(TalonFX... falcons) {
+    for (TalonFX falcon : falcons) {
+      verifyMotor(falcon);
+    }
+  }
+
+  /**
+   * Will return false if the motor is verified and connected, true if there is
+   * some error getting position
+   * 
+   * @param falcon a TalonFX motor
+   * @return false if the position is available, true if not available
+   */
+  public static boolean verifyMotor(TalonFX falcon) {
+    falcon.getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+
+    StatusCode status = falcon.getPosition().getStatus();
+    if (status.isError() && Robot.isReal()) {
+      DataLogManager.log("TalonFX ID #" + falcon.getDeviceID() + " has failed to return position with status: "
+          + status.getDescription() + ". Error Code: " + status.value);
+      MotorAlert.setText(
+          "TalonFX ID #" + falcon.getDeviceID() + " has failed to return position with status: "
+              + status.getName() + ". Error Code: ");
+      MotorAlert.set(true);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Will return false if the CANcoder is verified and connected, true if there is
+   * some error getting position
+   * 
+   * @param coder a CANcoder
+   * @return false if the position is available, true if not available
+   */
+  public static boolean verifyCANcoder(CANcoder coder) {
+    StatusCode status = coder.getPosition().getStatus();
+    if (status.isError() && Robot.isReal()) {
+      DataLogManager.log("CANcoder ID #" + coder.getDeviceID() + " has failed to return position with status: "
+          + status.getDescription() + ". Error Code: " + status.value);
+      CANcoderAlert.setText(
+          "CANcoder ID #" + coder.getDeviceID() + " has failed to return position with status: "
+              + status.getName() + ". Error Code: " + status.value);
+      CANcoderAlert.set(true);
+      return true;
+    }
+
+    return false;
   }
 
   private static final class GcStatsCollector {

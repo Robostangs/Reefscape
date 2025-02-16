@@ -127,8 +127,18 @@ public final class Constants {
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kTAThresholdFour = 0.01;
     public static final double kTAThresholdThree = 0.01;
-    public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(-122-180));
-    public static final Pose2d k17BlueRReefPose = new Pose2d(4.366, 3.568, new Rotation2d(-122-180));
+
+
+  }
+
+  public static class ScoringConstants {
+    public static final double kArmScoringangle = 270+360;
+
+
+
+  //Align Poses
+    public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(0));
+    public static final Pose2d k17BlueRReefPose = new Pose2d(4.366, 3.568, new Rotation2d(0));
     public static final Pose2d k18BlueRReefPose = new Pose2d(4, 4.2, new Rotation2d(180-180));
     public static final Pose2d k18BlueLReefPose = new Pose2d(4, 3.9, new Rotation2d(180-180));
     public static final Pose2d k19BlueLReefPose = new Pose2d(4.396, 4.522, new Rotation2d(121.5-180));
@@ -140,10 +150,21 @@ public final class Constants {
     public static final Pose2d k22BlueLReefPose = new Pose2d(4.9, 3.65, new Rotation2d(-65-180));
     public static final Pose2d k22BlueRReefPose = new Pose2d(4.64, 3.54, new Rotation2d(-65-180));
 
-  }
+    //PtP Poses
+    //TODO acc find these if your going to use them
+    public static final Pose2d k17BlueLReefPosePtP = new Pose2d(3.5, 2.66, new Rotation2d(155));
+    public static final Pose2d k17BlueRReefPosePtP = new Pose2d(3.82, 2.48, new Rotation2d(155));
+    public static final Pose2d k18BlueRReefPosePtP = new Pose2d(4, 4.2, new Rotation2d(180-180));
+    public static final Pose2d k18BlueLReefPosePtP = new Pose2d(4, 3.9, new Rotation2d(180-180));
+    public static final Pose2d k19BlueLReefPosePtP = new Pose2d(4.396, 4.522, new Rotation2d(121.5-180));
+    public static final Pose2d k19BlueRReefPosePtP = new Pose2d(4.124, 4.373, new Rotation2d(121.5-180));
+    public static final Pose2d k20BlueRReefPosePtP = new Pose2d(4.6, 4.516, new Rotation2d(60-180));
+    public static final Pose2d k20BlueLReefPosePtP = new Pose2d(4.86, 4.36, new Rotation2d(60-180));
+    public static final Pose2d k21BlueLReefPosePtP = new Pose2d(5, 4.15, new Rotation2d(0-180));
+    public static final Pose2d k21BlueRReefPosePtP = new Pose2d(5, 3.875, new Rotation2d(0-180));
+    public static final Pose2d k22BlueLReefPosePtP = new Pose2d(4.9, 3.65, new Rotation2d(-65-180));
+    public static final Pose2d k22BlueRReefPosePtP = new Pose2d(4.64, 3.54, new Rotation2d(-65-180));
 
-  public static class ScoringConstants {
-    public static final double kArmScoringangle = 270+360;
 
     public static class L1 {
       public static final double kElevatorPos = 10d;

@@ -6,13 +6,17 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SimSwerveDrivetrain;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveModule;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -30,7 +34,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
-import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -268,6 +271,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             });
         }
 
+        for (SwerveModule<TalonFX, TalonFX, CANcoder> swerveModule : getModules()) {
+            if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
+                swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
+            }
+            if (Robot.verifyMotor(swerveModule.getSteerMotor())) {
+                swerveModule.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
+            }
+
+        }
+        
         if (!Robot.isSimulation() &&
                 this.getPigeon2().getAngularVelocityZWorld()
                         .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold) {
@@ -280,13 +293,28 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     0d,
                     0d);
             // TODO see if this is better than getting the odo pose rotation
-            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightFourName,
-                    LimelightHelpers.getIMUData(Constants.VisionConstants.kLimelightFourName).Yaw,
-                    0d,
-                    0d,
-                    0d,
-                    0d,
-                    0d);
+            if (DriverStation.isDisabled()) {
+
+                LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 1);
+
+                LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightFourName,
+                        this.getState().Pose.getRotation().getDegrees(),
+                        0d,
+                        0d,
+                        0d,
+                        0d,
+                        0d);
+            } else {
+                LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 2);
+
+                LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightFourName,
+                        LimelightHelpers.getIMUData(Constants.VisionConstants.kLimelightFourName).Yaw,
+                        0d,
+                        0d,
+                        0d,
+                        0d,
+                        0d);
+            }
 
             // TODO update these names
             LimelightHelpers.PoseEstimate fourPose, threePose;
@@ -312,7 +340,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
                 Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
             }
-        } 
+        }
     }
 
     private void startSimThread() {
@@ -344,12 +372,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
     }
+
     public Pose2d getPose() {
         return this.getState().Pose;
     }
+
     public void postStatus(String status) {
         SmartDashboard.putString("Drivetrain/status", status);
     }
+
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the
      * odometry pose estimate
@@ -391,9 +422,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 () -> Robot.isRed(),
                 this);
 
-    }
+        PathPlannerLogging.setLogActivePathCallback((poses) -> Robot.teleopField
+                .getObject("Trajectory").setPoses(poses));
 
-    
+    }
 
     private static CommandSwerveDrivetrain mDrivetrain;
 

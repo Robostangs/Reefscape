@@ -10,12 +10,11 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Lift;
-import frc.robot.commands.MoveArm;
+import frc.robot.commands.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
-import frc.robot.commands.SwerveCommands.AligntoReef;
+import frc.robot.commands.SwerveCommands.PathToPoint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -102,8 +101,7 @@ public class RobotContainer {
 
                 new Trigger(() -> xSim.getRawButtonPressed(1))
                 .toggleOnTrue(
-                        new AligntoReef(() -> xSim.getRawAxis(0), 
-                        () -> xSim.getRawAxis(1), 17, false)
+                       new PathToPoint(Constants.ScoringConstants.k17BlueLReefPosePtP).andThen(ScoringFactory.L4Score())
                 );
                                 // new AligntoReef(() -> -xSim.getRawAxis(0),
                                 // () -> -xSim.getRawAxis(1),

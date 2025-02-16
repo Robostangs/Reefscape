@@ -46,31 +46,31 @@ public class AligntoReef extends Command {
 
         if (Right) {
             if (AprilTagID == 17 || AprilTagID == 11) {
-                reefPose = Constants.VisionConstants.k17BlueRReefPose;
+                reefPose = Constants.ScoringConstants.k17BlueRReefPose;
             } else if (AprilTagID == 18 || AprilTagID == 10) {
-                reefPose = Constants.VisionConstants.k18BlueRReefPose;
+                reefPose = Constants.ScoringConstants.k18BlueRReefPose;
             } else if (AprilTagID == 19 || AprilTagID == 9) {
-                reefPose = Constants.VisionConstants.k19BlueRReefPose;
+                reefPose = Constants.ScoringConstants.k19BlueRReefPose;
             } else if (AprilTagID == 20 || AprilTagID == 8) {
-                reefPose = Constants.VisionConstants.k20BlueRReefPose;
+                reefPose = Constants.ScoringConstants.k20BlueRReefPose;
             } else if (AprilTagID == 21 || AprilTagID == 7) {
-                reefPose = Constants.VisionConstants.k21BlueRReefPose;
+                reefPose = Constants.ScoringConstants.k21BlueRReefPose;
             } else if (AprilTagID == 22 || AprilTagID == 6) {
-                reefPose = Constants.VisionConstants.k22BlueRReefPose;
+                reefPose = Constants.ScoringConstants.k22BlueRReefPose;
             }
         } else {
             if (AprilTagID == 17 || AprilTagID == 11) {
-                reefPose = Constants.VisionConstants.k17BlueLReefPose;
+                reefPose = Constants.ScoringConstants.k17BlueLReefPose;
             } else if (AprilTagID == 18 || AprilTagID == 10) {
-                reefPose = Constants.VisionConstants.k18BlueLReefPose;
+                reefPose = Constants.ScoringConstants.k18BlueLReefPose;
             } else if (AprilTagID == 19 || AprilTagID == 9) {
-                reefPose = Constants.VisionConstants.k19BlueLReefPose;
+                reefPose = Constants.ScoringConstants.k19BlueLReefPose;
             } else if (AprilTagID == 20 || AprilTagID == 8) {
-                reefPose = Constants.VisionConstants.k20BlueLReefPose;
+                reefPose = Constants.ScoringConstants.k20BlueLReefPose;
             } else if (AprilTagID == 21 || AprilTagID == 7) {
-                reefPose = Constants.VisionConstants.k21BlueLReefPose;
+                reefPose = Constants.ScoringConstants.k21BlueLReefPose;
             } else if (AprilTagID == 22 || AprilTagID == 6) {
-                reefPose = Constants.VisionConstants.k22BlueLReefPose;
+                reefPose = Constants.ScoringConstants.k22BlueLReefPose;
             }
             if (Robot.isRed()) {
                 FlippingUtil.flipFieldPose(reefPose);
@@ -100,7 +100,6 @@ public class AligntoReef extends Command {
 
     @Override
     public void execute() {
-        System.out.println("Aligning to Reef");
 
         driveRequest.TargetDirection = getTargetRotation.get();
 
