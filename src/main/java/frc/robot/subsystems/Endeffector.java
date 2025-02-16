@@ -23,7 +23,7 @@ public class Endeffector extends SubsystemBase {
     public Endeffector() {
         endeffectorMotorRight = new TalonFX(Constants.EndeffectorConstants.kEndeffectorRightMotorId);
         endeffectorMotorLeft = new TalonFX(Constants.EndeffectorConstants.kEndeffectorRightMotorId);
-        EndeffectorSensor = new DigitalInput(Constants.EndeffectorConstants.kEndeffectorLeftMotorId);
+        // EndeffectorSensor = new DigitalInput(Constants.EndeffectorConstants.kEndeffectorLeftMotorId);
 
     }
 
