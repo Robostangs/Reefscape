@@ -34,8 +34,6 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 
 public class Robot extends TimedRobotstangs {
-  public XboxController xDrive = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
-  public XboxController xManip = new XboxController(Constants.OperatorConstants.kManipControllerPort);
 
   private final RobotContainer m_robotContainer;
 
@@ -451,7 +449,6 @@ public class Robot extends TimedRobotstangs {
       SmartDashboard.putNumber("Memory/GCCounts", (double) accumCounts);
       SmartDashboard.putNumber("Memory/Usage", (double) memBean.getHeapMemoryUsage().getUsed());
 
-      // TODO remake alerts
       if (accumTime > (20)) {
         gcAlert.set(true);
       } else {
