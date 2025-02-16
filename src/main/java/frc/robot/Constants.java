@@ -127,18 +127,18 @@ public final class Constants {
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kTAThresholdFour = 0.01;
     public static final double kTAThresholdThree = 0.01;
-    public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(-122));
-    public static final Pose2d k17BlueRReefPose = new Pose2d(4.366, 3.568, new Rotation2d(-122));
-    public static final Pose2d k18BlueRReefPose = new Pose2d(4, 4.2, new Rotation2d(180));
-    public static final Pose2d k18BlueLReefPose = new Pose2d(4, 3.9, new Rotation2d(180));
-    public static final Pose2d k19BlueLReefPose = new Pose2d(4.396, 4.522, new Rotation2d(121.5));
-    public static final Pose2d k19BlueRReefPose = new Pose2d(4.124, 4.373, new Rotation2d(121.5));
-    public static final Pose2d k20BlueRReefPose = new Pose2d(4.6, 4.516, new Rotation2d(60));
-    public static final Pose2d k20BlueLReefPose = new Pose2d(4.86, 4.36, new Rotation2d(60));
-    public static final Pose2d k21BlueLReefPose = new Pose2d(5, 4.15, new Rotation2d(0));
-    public static final Pose2d k21BlueRReefPose = new Pose2d(5, 3.875, new Rotation2d(0));
-    public static final Pose2d k22BlueLReefPose = new Pose2d(4.9, 3.65, new Rotation2d(-65));
-    public static final Pose2d k22BlueRReefPose = new Pose2d(4.64, 3.54, new Rotation2d(-65));
+    public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(-122-180));
+    public static final Pose2d k17BlueRReefPose = new Pose2d(4.366, 3.568, new Rotation2d(-122-180));
+    public static final Pose2d k18BlueRReefPose = new Pose2d(4, 4.2, new Rotation2d(180-180));
+    public static final Pose2d k18BlueLReefPose = new Pose2d(4, 3.9, new Rotation2d(180-180));
+    public static final Pose2d k19BlueLReefPose = new Pose2d(4.396, 4.522, new Rotation2d(121.5-180));
+    public static final Pose2d k19BlueRReefPose = new Pose2d(4.124, 4.373, new Rotation2d(121.5-180));
+    public static final Pose2d k20BlueRReefPose = new Pose2d(4.6, 4.516, new Rotation2d(60-180));
+    public static final Pose2d k20BlueLReefPose = new Pose2d(4.86, 4.36, new Rotation2d(60-180));
+    public static final Pose2d k21BlueLReefPose = new Pose2d(5, 4.15, new Rotation2d(0-180));
+    public static final Pose2d k21BlueRReefPose = new Pose2d(5, 3.875, new Rotation2d(0-180));
+    public static final Pose2d k22BlueLReefPose = new Pose2d(4.9, 3.65, new Rotation2d(-65-180));
+    public static final Pose2d k22BlueRReefPose = new Pose2d(4.64, 3.54, new Rotation2d(-65-180));
 
   }
 

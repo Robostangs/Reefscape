@@ -88,7 +88,7 @@ public class AligntoReef extends Command {
     @Override
     public void initialize() {
         driveRequest = new SwerveRequest.FieldCentricFacingAngle();
-        driveRequest.HeadingController = new PhoenixPIDController(12, 6, 1);
+        driveRequest.HeadingController = new PhoenixPIDController(6, 0, 1);
 
         // this is for tuning and now we can tune the PID controller
         SmartDashboard.putData("Align to Reef PID", driveRequest.HeadingController);
@@ -96,7 +96,6 @@ public class AligntoReef extends Command {
 
         driveRequest.Deadband = Constants.OperatorConstants.kDriverDeadband;
         driveRequest.RotationalDeadband = Constants.OperatorConstants.rotationalDeadband;
-        System.out.println("INTINTITNINTINTINTINTNTINT");
     }
 
     @Override
@@ -106,9 +105,9 @@ public class AligntoReef extends Command {
         driveRequest.TargetDirection = getTargetRotation.get();
 
         driveRequest
-                .withVelocityX(-translateX.get()
+                .withVelocityX(translateX.get()
                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
-                .withVelocityY(-translateY.get()
+                .withVelocityY(translateY.get()
                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
         drivetrain.setControl(driveRequest);
         Robot.teleopField.getObject("Reef Align Pose").setPose(reefPose);

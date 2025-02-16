@@ -58,10 +58,10 @@ public class RobotContainer {
         private void configureBindings() {
                 if (Robot.isSimulation()) {
                         drivetrain.setDefaultCommand(
-                                        drivetrain.applyRequest(() -> drive.withVelocityX((-xSim.getRawAxis(0))
+                                        drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond))
-                                                        .withVelocityY((xSim.getRawAxis(1))
+                                                        .withVelocityY((-xSim.getRawAxis(1))
                                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
                                                         .withRotationalRate((xSim.getRawAxis(2))
@@ -94,22 +94,22 @@ public class RobotContainer {
                 xDrive.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
                 // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
                 // .whileTrue(new Lift(10d));
-   
 
-              
                 drivetrain.registerTelemetry(logger::telemeterize);
         }
 
         private void configureSimBindings() {
 
-                // new Trigger(() -> xSim.getRawButtonPressed(0))
-                // .toggleOnTrue(
-                //                 new AligntoReef(() -> xSim.getRawAxis(0), 
-                //                 () -> xSim.getRawAxis(1),
-                //                                 17, true));
                 new Trigger(() -> xSim.getRawButtonPressed(1))
-                .toggleOnTrue(new MoveArm(Constants.ScoringConstants.kArmScoringangle));
-                
+                .toggleOnTrue(
+                        new AligntoReef(() -> xSim.getRawAxis(0), 
+                        () -> xSim.getRawAxis(1), 17, false)
+                );
+                                // new AligntoReef(() -> -xSim.getRawAxis(0),
+                                // () -> -xSim.getRawAxis(1),
+                                // 11, true)
+                                
+
                 // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
                 // .whileTrue(new Lift(10d));
                 // new Trigger(() -> xSim.getRawButtonPressed(1))
