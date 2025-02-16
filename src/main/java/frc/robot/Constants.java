@@ -161,6 +161,7 @@ public final class Constants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
     public static final String kLimelightFourName = "BigBP";
     public static final String kLimelightThreeName = "SmallBP";
+    public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kTAThresholdFour = 0.01;
     public static final double kTAThresholdThree = 0.01;

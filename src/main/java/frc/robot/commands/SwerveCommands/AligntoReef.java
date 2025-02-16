@@ -42,7 +42,7 @@ public class AligntoReef extends Command {
         this.AprilTagID = AprilTagID;
         this.Right = Right;
 
-        this.setName("Align to Speaker");
+        this.setName("Align to Reef");
 
         if (Right) {
             if (AprilTagID == 17 || AprilTagID == 11) {
