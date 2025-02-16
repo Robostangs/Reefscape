@@ -13,6 +13,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.Lift;
+import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Intake;
 
@@ -77,12 +79,20 @@ public class RobotContainer {
         }
             // xDrive.x().toggleOnTrue(new Extend().withTimeout(1.5).andThen(new RunIntake(true)).finallyDo(Retract.retract()));
     xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
-    xDrive.y().toggleOnTrue(new Retract());
-    xDrive.x().toggleOnTrue(new Extend());
-    xDrive.a().toggleOnTrue(new RunIntake());
-    xDrive.b().toggleOnTrue(new HomeIntake().withTimeout(3));
+//     xDrive.y().toggleOnTrue(new Retract());
+//     xDrive.x().toggleOnTrue(new Extend());
+//     xDrive.a().toggleOnTrue(new RunIntake());
+//     xDrive.b().toggleOnTrue(new HomeIntake().withTimeout(3));
     // xDrive.a().onTrue();
 
+    xDrive.a().toggleOnTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    xDrive.b().toggleOnTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    xDrive.x().toggleOnTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    xDrive.y().toggleOnTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
+
+
+    new Trigger(() -> xDrive.getRightTriggerAxis() > 0.1).whileTrue(new RunElevator(() -> -xDrive.getRightTriggerAxis()));
+    new Trigger(() -> xDrive.getLeftTriggerAxis() > 0.1).whileTrue(new RunElevator(() -> xDrive.getLeftTriggerAxis()));
 
         // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         // joystick.b().whileTrue(drivetrain.applyRequest(() ->

@@ -112,6 +112,8 @@ public final class Constants {
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
     public static final double kElevatorFF = 1;
+    public static final double kElevatorV = 0;
+    public static final double kElevatorA = 0;
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
@@ -121,7 +123,7 @@ public final class Constants {
     // TODO FINNNNDDDD ALLLLL THESSESEESE F******NG VALUES
     public static final double kMaxElevatorHeight = 2.27887911;
     public static final double kMinElevatorHeight = 0d;
-    public static final double kRotationsToMeters = 0.15959269;
+    public static final double kRotationsToMeters = Units.inchesToMeters( 1.221111111);
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
