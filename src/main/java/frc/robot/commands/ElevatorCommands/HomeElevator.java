@@ -28,7 +28,7 @@ public class HomeElevator extends Command{
     public void end(boolean interrupted) {
         elevator.setElevatorDutyCycle(0);
         elevator.setStatorCurrentLimit(Constants.ElevatorConstants.kElevatorRegStatorCurrentLimit);
-        elevator.setElevatorPositionMeters(0);
+        elevator.setElevatorPositionMeters(Constants.ElevatorConstants.kHomePosition);
         elevator.postStatus("elevator homed");
         
     }

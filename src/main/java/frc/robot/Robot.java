@@ -24,21 +24,21 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.SwerveCommands.ReefAdjust;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.LimelightHelpers;
 
 public class Robot extends TimedRobotstangs {
 
@@ -68,6 +68,7 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
   private PathPlannerAuto autoCommand;
+  private SequentialCommandGroup autoCommandGroup;
 
   private static String lastAutoName;
   private static Alert nullAuto = new Alert("Null auto", AlertType.kWarning);
@@ -167,14 +168,13 @@ public class Robot extends TimedRobotstangs {
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
     Intake.getInstance().setPiviotZero();
 
-
     NamedCommands.registerCommand("L1 Score", ScoringFactory.L1Score());
     NamedCommands.registerCommand("L2 Score", ScoringFactory.L2Score());
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score());
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score());
     NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
     NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
-    
+
   }
 
   @Override
@@ -218,11 +218,12 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
-    LimelightHelpers.SetIMUMode(autoName, 0);
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 0);
     publishTrajectory(autoName);
   }
 
   public void autonomousInit() {
+    Intake.getInstance().zeroIntake();
 
     autoCommand = new PathPlannerAuto(autoName);
 
@@ -256,7 +257,9 @@ public class Robot extends TimedRobotstangs {
         break;
     }
 
-    autoCommand.schedule();
+    autoCommandGroup.addCommands(
+        new Retract().
+        alongWith(autoCommand));
 
   }
 

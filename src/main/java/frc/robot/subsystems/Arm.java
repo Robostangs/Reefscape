@@ -129,10 +129,8 @@ public class Arm extends SubsystemBase {
     public void periodic() {
 
         setArmPosition();
-
         SmartDashboard.putNumber("target arm angle", armControl.Position);
         SmartDashboard.putNumber("actual arm angle", armEncoder.getPosition().getValueAsDouble());
-
 
     }
 
