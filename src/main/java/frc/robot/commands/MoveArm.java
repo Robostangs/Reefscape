@@ -18,7 +18,7 @@ public class MoveArm extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setArmMotor(angle);
+    arm.setArmPosition(angle);
     arm.postStatus("going to this angle:" + angle);
   }
 

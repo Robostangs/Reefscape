@@ -10,6 +10,8 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Retract;
@@ -112,7 +114,9 @@ public class RobotContainer {
 
                 new Trigger(() -> xSim.getRawButtonPressed(1))
                 .toggleOnTrue(
-                       new PathToPoint(Constants.ScoringConstants.k17BlueLReefPosePtP).andThen(ScoringFactory.L4Score())
+                        // new Lift(20d)
+
+                       new MoveArm(400d)
                 );
                                 // new AligntoReef(() -> -xSim.getRawAxis(0),
                                 // () -> -xSim.getRawAxis(1),

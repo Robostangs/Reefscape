@@ -12,9 +12,6 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Intake;
-
-import static edu.wpi.first.units.Units.*;
 
 public class ReefAdjust extends Command {
 
@@ -33,8 +30,8 @@ public class ReefAdjust extends Command {
         this.setName("Align to Coral");
 
         getTargetRotation = () -> {
-            double degreeOffest = LimelightHelpers.getTX(Constants.VisionConstants.kLimelightFourName);
-            return new Rotation2d(degreeOffest + 90);
+            double DegreeOffset = LimelightHelpers.getTX(Constants.VisionConstants.kLimelightFourName);
+            return new Rotation2d(DegreeOffset + 90);
         };
     }
 

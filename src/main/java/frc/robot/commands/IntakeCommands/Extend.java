@@ -43,7 +43,7 @@ public class Extend extends Command {
   public boolean isFinished() {
     // TODO do this when we put it on
     // return false;[\]
-    return intake.getIntakeSensor();
+    return intake.isIntakeatSetpoint(true);
   }
 
 }

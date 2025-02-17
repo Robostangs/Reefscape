@@ -95,8 +95,8 @@ public class Arm extends SubsystemBase {
      * 
      * @param angle the angle to set the arm to in degrees
      */
-    public void setArmMotor(double angle) {
-        armControl.Position = Units.degreesToRotations(angle);
+    public void setArmPosition(double angle) {
+        armControl.Position = (angle);
         
 
     }
@@ -108,15 +108,15 @@ public class Arm extends SubsystemBase {
     public void setArmPosition() {
 
         if (Robot.isSimulation()) {
-            armEncoder.getSimState().setRawPosition(targetArmAngle);
-            targetArm.setAngle(targetArmAngle);
+            armEncoder.getSimState().setRawPosition(armControl.Position);
+            targetArm.setAngle(armControl.Position);
         } else {
             arm.setAngle(armEncoder.getPosition().getValueAsDouble());
 
         }
     }
     public void setArmMotionMagic(){
-        if(Intake.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint){
+        if(Intake.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint || Robot.isSimulation()){
             armMotor.setControl(armControl);
         }
         else{
@@ -130,7 +130,7 @@ public class Arm extends SubsystemBase {
 
         setArmPosition();
 
-        SmartDashboard.putNumber("target arm angle", targetArmAngle);
+        SmartDashboard.putNumber("target arm angle", armControl.Position);
         SmartDashboard.putNumber("actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
 

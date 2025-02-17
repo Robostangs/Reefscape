@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.SwerveCommands.ReefAdjust;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -172,6 +173,8 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score());
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score());
     NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
+    NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
+    
   }
 
   @Override
