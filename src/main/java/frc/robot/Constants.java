@@ -165,6 +165,7 @@ public final class Constants {
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kTAThresholdFour = 0.01;
     public static final double kTAThresholdThree = 0.01;
+    public static final double kTxThresholdCoral = 5;
 
   }
 
@@ -330,6 +331,8 @@ public final class Constants {
 
         // The maximum angular acceleration of the robot in radians per second squared.
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = 3;
+
+        public static final double kReefAdjustspeed = 0.25;
       }
     }
 

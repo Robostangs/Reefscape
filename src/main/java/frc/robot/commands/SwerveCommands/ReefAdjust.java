@@ -16,29 +16,25 @@ import frc.robot.subsystems.Intake;
 
 import static edu.wpi.first.units.Units.*;
 
-public class AligntoCoral extends Command {
+public class ReefAdjust extends Command {
 
     CommandSwerveDrivetrain drivetrain;
 
     SwerveRequest.FieldCentricFacingAngle driveRequest;
 
-    Supplier<Double> translateX, translateY;
     Supplier<Rotation2d> getTargetRotation;
 
-    public AligntoCoral(Supplier<Double> translateX, Supplier<Double> translateY) {
+    public ReefAdjust() {
 
         drivetrain = CommandSwerveDrivetrain.getInstance();
 
         this.addRequirements(drivetrain);
 
-        this.translateX = translateX;
-        this.translateY = translateY;
-
         this.setName("Align to Coral");
 
         getTargetRotation = () -> {
-            double degreeOffest = LimelightHelpers.getTX(Constants.VisionConstants.kLimelightCoralName);
-            return new Rotation2d(degreeOffest);
+            double degreeOffest = LimelightHelpers.getTX(Constants.VisionConstants.kLimelightFourName);
+            return new Rotation2d(degreeOffest + 90);
         };
     }
 
@@ -53,19 +49,23 @@ public class AligntoCoral extends Command {
 
         driveRequest.Deadband = Constants.OperatorConstants.kDriverDeadband;
         driveRequest.RotationalDeadband = Constants.OperatorConstants.rotationalDeadband;
+
     }
 
     @Override
     public void execute() {
+        if (Math.abs(LimelightHelpers
+                .getTX(Constants.VisionConstants.kLimelightFourName)) >= Constants.VisionConstants.kTxThresholdCoral) {
+            if (LimelightHelpers.getTX(Constants.VisionConstants.kLimelightFourName) > 0) {
+                driveRequest.VelocityY = 2.3;
+            } else if (LimelightHelpers.getTX(Constants.VisionConstants.kLimelightFourName) < 0) {
+                driveRequest.VelocityY = -2.3;
+            }
+        } else {
+            driveRequest.VelocityY = 0;
+        }
 
-        driveRequest.TargetDirection = getTargetRotation.get();
-
-        driveRequest
-                .withVelocityX(translateX.get()
-                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
-                .withVelocityY(translateY.get()
-                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
-
+     
         drivetrain.setControl(driveRequest);
 
     }
@@ -73,6 +73,8 @@ public class AligntoCoral extends Command {
     @Override
     public void end(boolean interrupted) {
         drivetrain.postStatus("Aligned");
+        driveRequest.VelocityY = 0;
+
     }
 
     @Override
@@ -82,7 +84,8 @@ public class AligntoCoral extends Command {
         }
 
         else {
-            return !Intake.getInstance().getIntakeSensor();
+            return !(Math.abs(LimelightHelpers.getTX(
+                    Constants.VisionConstants.kLimelightFourName)) >= Constants.VisionConstants.kTxThresholdCoral);
         }
 
     }
