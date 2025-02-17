@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.281310040509258,
-        "y": 6.57521484375
+        "x": 2.899093967013888,
+        "y": 7.488526475694445
       },
       "isLocked": false,
       "linkedName": "Open Feeder"
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.6212454490291264,
-      "rotationDegrees": -113.94826051756391
+      "rotationDegrees": -113.94826051756392
     }
   ],
   "constraintZones": [],
