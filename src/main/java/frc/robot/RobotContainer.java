@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.util.FlippingUtil;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import frc.robot.Constants.OperatorConstants;
@@ -83,6 +84,13 @@ public class RobotContainer {
                 xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
                 xDrive.y().toggleOnTrue(new Retract());
                 xDrive.x().toggleOnTrue(new Extend());
+
+                xDrive.povDown().onTrue(drivetrain.runOnce( () ->
+                drivetrain.resetPose(
+                        Robot.isRed() ? FlippingUtil.flipFieldPose( Constants.ScoringConstants.kResetPose)
+                                        :Constants.ScoringConstants.kResetPose))
+                                        );
+                
 
                 // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
                 // joystick.b().whileTrue(drivetrain.applyRequest(() ->

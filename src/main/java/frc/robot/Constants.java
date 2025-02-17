@@ -201,6 +201,10 @@ public final class Constants {
     public static final Pose2d k22BlueLReefPosePtP = new Pose2d(4.9, 3.65, new Rotation2d(-65 - 180));
     public static final Pose2d k22BlueRReefPosePtP = new Pose2d(4.64, 3.54, new Rotation2d(-65 - 180));
 
+
+    //reset pose
+    public static final Pose2d kResetPose = new Pose2d(2.84,4,new Rotation2d(0));
+
     public static class L1 {
       public static final double kElevatorPos = 10d;
     }
