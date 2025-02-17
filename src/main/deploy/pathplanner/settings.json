@@ -6,8 +6,7 @@
     "Feeder to Reef Paths",
     "Goofy Paths",
     "Reef to Feeder Paths",
-    "Reef to Stack Paths",
-    "Stack to Reef Paths",
+    "Stack Paths",
     "Start to Reef Paths"
   ],
   "autoFolders": [

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4215867221615714,
-        "y": 6.960477790665939
+        "x": 2.281310040509258,
+        "y": 6.57521484375
       },
       "isLocked": false,
       "linkedName": "Open Feeder"
@@ -20,15 +20,20 @@
         "y": 5.3639879918981475
       },
       "prevControl": {
-        "x": 5.595082965957564,
-        "y": 6.543936903606662
+        "x": 5.118201316550925,
+        "y": 5.966398654513889
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "open 2R"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6212454490291264,
+      "rotationDegrees": -113.94826051756391
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
