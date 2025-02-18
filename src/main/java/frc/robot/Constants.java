@@ -78,8 +78,8 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final int kIntakeMotorId = 14;
-    public static final int kBarMotorId = 15;
+    public static final int kWheelMotorId = 14;
+    public static final int kPiviotMotorId = 15;
     public static final int kIntakeSensorId = 0;
 
     public static final double kExtendSetpoint = -16d;
@@ -100,8 +100,7 @@ public final class Constants {
 
   public static class EndeffectorConstants {
 
-    public static final int kEndeffectorRightMotorId = 0;
-    public static final int kEndeffectorLeftMotorId = 0;
+    public static final int kEndeffectorMotorId = 0;
     public static final int kEndeffectorSensorId = 0;
 
     public static final double kEndeffectorSpit = 0.6;
@@ -109,7 +108,7 @@ public final class Constants {
   }
 
   public static class ArmConstants {
-    public static final int kArmMotorId = 30;
+    public static final int kArmMotorId = 24;
     public static final double kArmP = 0;
     public static final double kArmI = 0;
     public static final double kArmD = 0;
@@ -125,8 +124,8 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int kRightElevatorMotorId = 5;
-    public static final int kLeftElevatorMotorId = 5;
+    public static final int kRightElevatorMotorId = 36;
+    public static final int kLeftElevatorMotorId = 35;
     public static final double kElevatorP = 10;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
@@ -160,7 +159,7 @@ public final class Constants {
     public static final double kLigaLength = .3d;
     public static final double kElevatorGearing = 14 / 72d;
     public static final double kDrumRadius = Units.inchesToMeters(1);
-    public static final boolean kIsLeftInvert = false;
+    public static final boolean kIsLeftInvert = true;
 
   }
 

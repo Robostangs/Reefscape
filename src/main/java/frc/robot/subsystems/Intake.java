@@ -31,8 +31,8 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
 
-        intakeMotor = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
-        piviotMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
+        intakeMotor = new TalonFX(Constants.IntakeConstants.kWheelMotorId);
+        piviotMotor = new TalonFX(Constants.IntakeConstants.kPiviotMotorId);
         IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
         var slotpiviotconfigs = new Slot0Configs();

@@ -22,7 +22,7 @@ public class Endeffector extends SubsystemBase {
 
     // just spit and put in break mode
     public Endeffector() {
-        endeffectorMotorRight = new TalonSRX(Constants.EndeffectorConstants.kEndeffectorRightMotorId);
+        endeffectorMotorRight = new TalonSRX(Constants.EndeffectorConstants.kEndeffectorMotorId);
         // EndeffectorSensor = new DigitalInput(Constants.EndeffectorConstants.kEndeffectorSensorId);
     }
 

@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -91,17 +92,27 @@ public class Elevator extends SubsystemBase {
         // TODO tune these values
         TalonFXConfiguration elevatorMotorRightConfigs = new TalonFXConfiguration();
 
+        /**
+         * double check limlit switvh
+         * put in softlimits
+         * find kg
+         * find kv
+         * find ka
+         * fina cruise velocity
+         * 
+         * 
+         * torquqe current = kg +kv*v + ka*a
+         * 
+         */
+
         elevatorMotorRightConfigs.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-
-
 
         elevatorMotorRightConfigs.Slot0.kG = Constants.ElevatorConstants.kElevatorG;
 
+        // elevatorMotorRightConfigs.Slot0.StaticFeedforwardSign =
+        // StaticFeedforwardSignValue.UseVelocitySign;
 
-        elevatorMotorRightConfigs.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
-
-        elevatorMotorRightConfigs.Slot0.kS = Constants.ElevatorConstants.kElevatorFF;
-
+        // elevatorMotorRightConfigs.Slot0.kS = Constants.ElevatorConstants.kElevatorFF;
 
         elevatorMotorRightConfigs.Slot0.kP = Constants.ElevatorConstants.kElevatorP;
         elevatorMotorRightConfigs.Slot0.kI = Constants.ElevatorConstants.kElevatorI;
@@ -109,19 +120,17 @@ public class Elevator extends SubsystemBase {
 
         elevatorMotorRightConfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.ElevatorConstants.kElevatorCruiseVelocity;
 
-        // Dividing the supply voltage by kA results in the maximum acceleration of the profile from 0. 
+        // Dividing the supply voltage by kA results in the maximum acceleration of the
+        // profile from 0.
         elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kA = Constants.ElevatorConstants.kElevatorA;
 
-        //Dividing the supply voltage by kV results in the maximum velocity of the profile.
+        // Dividing the supply voltage by kV results in the maximum velocity of the
+        // profile.
         elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kV = Constants.ElevatorConstants.kElevatorV;
-
-
 
         elevatorMotorRightConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
         elevatorMotorRightConfigs.Feedback.RotorToSensorRatio = 100;
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
-
-
 
         elevatorMotorRight.getConfigurator().apply(elevatorMotorRightConfigs);
 
@@ -147,7 +156,13 @@ public class Elevator extends SubsystemBase {
 
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
         elevatorMotorRight.set(elevatorDutyCycle);
-        elevatorMotorLeft.set(elevatorDutyCycle);
+        elevatorMotorLeft.set(-elevatorDutyCycle);
+
+    }
+
+    public void setBrakeMode() {
+        elevatorMotorLeft.setNeutralMode(NeutralModeValue.Brake);
+        elevatorMotorRight.setNeutralMode(NeutralModeValue.Brake);
 
     }
 
@@ -219,9 +234,15 @@ public class Elevator extends SubsystemBase {
 
     public void setElevatorMotionMagic() {
         elevatorMotorRight.setControl(elevatorMotionMagic);
-        elevatorMotorLeft
-                .setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
+        // elevatorMotorLeft
+        // .setControl(new Follower(elevatorMotorRight.getDeviceID(),
+        // Constants.ElevatorConstants.kIsLeftInvert));
     }
+
+    /**
+     * * torquqe current = kg +kv*v + ka*a
+     * 
+     */
 
     @Override
     public void periodic() {
@@ -233,6 +254,16 @@ public class Elevator extends SubsystemBase {
         }
 
         updateElevatorPosition();
+
+        SmartDashboard.putNumber("Torque current", elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Veleocity", elevatorMotorRight.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Acceleration", elevatorMotorRight.getAcceleration().getValueAsDouble());
+
+        SmartDashboard.putNumber("Torque current over velocity -kg ", elevatorPositionMeters);
+
+        SmartDashboard.putNumber("Torque current over acceleration - kg", elevatorPositionMeters);
+
+
 
         SmartDashboard.putNumber("Elevator/Simulation/Position", simElevatorTarget.getPositionMeters());
         SmartDashboard.putNumber("Elevator/Real/Velocity", getElevatorVelocityMeters());
