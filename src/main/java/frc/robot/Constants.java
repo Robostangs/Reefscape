@@ -127,18 +127,22 @@ public final class Constants {
   public static class ElevatorConstants {
     public static final int kRightElevatorMotorId = 5;
     public static final int kLeftElevatorMotorId = 5;
-    public static final double kElevatorP = 50;
+    public static final double kElevatorP = 10;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
     public static final double kElevatorFF = 1;
     public static final double kElevatorV = 0;
     public static final double kElevatorA = 0;
+    public static final double kElevatorG = 0;
+    public static final double kElevatorCruiseVelocity = 0;
+    
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeDutyCycle = 0.2;
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
+
 
 
     public static final double kHomePosition = 0d;

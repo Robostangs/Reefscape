@@ -7,6 +7,8 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
@@ -89,17 +91,37 @@ public class Elevator extends SubsystemBase {
         // TODO tune these values
         TalonFXConfiguration elevatorMotorRightConfigs = new TalonFXConfiguration();
 
+        elevatorMotorRightConfigs.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+
+
+
+        elevatorMotorRightConfigs.Slot0.kG = Constants.ElevatorConstants.kElevatorG;
+
+
+        elevatorMotorRightConfigs.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
+
+        elevatorMotorRightConfigs.Slot0.kS = Constants.ElevatorConstants.kElevatorFF;
+
+
         elevatorMotorRightConfigs.Slot0.kP = Constants.ElevatorConstants.kElevatorP;
         elevatorMotorRightConfigs.Slot0.kI = Constants.ElevatorConstants.kElevatorI;
         elevatorMotorRightConfigs.Slot0.kD = Constants.ElevatorConstants.kElevatorD;
-        elevatorMotorRightConfigs.Slot0.kS = Constants.ElevatorConstants.kElevatorFF;
+
+        elevatorMotorRightConfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.ElevatorConstants.kElevatorCruiseVelocity;
+
+        // Dividing the supply voltage by kA results in the maximum acceleration of the profile from 0. 
+        elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kA = Constants.ElevatorConstants.kElevatorA;
+
+        //Dividing the supply voltage by kV results in the maximum velocity of the profile.
+        elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kV = Constants.ElevatorConstants.kElevatorV;
+
+
 
         elevatorMotorRightConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
         elevatorMotorRightConfigs.Feedback.RotorToSensorRatio = 100;
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
 
-        elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kA = Constants.ElevatorConstants.kElevatorA;
-        elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kV = Constants.ElevatorConstants.kElevatorV;
+
 
         elevatorMotorRight.getConfigurator().apply(elevatorMotorRightConfigs);
 
