@@ -69,7 +69,6 @@ public class Arm extends SubsystemBase {
 
         targetArmMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
 
-        // TODO make these constants when your not being a lazy bum
         targetArm = new MechanismLigament2d("Target Arm", 2, 270, 6, new Color8Bit(Color.kBlue));
 
         targetArmMechanism.getRoot("Target Root",
@@ -134,12 +133,27 @@ public class Arm extends SubsystemBase {
 
     }
 
+
+    
+    /**
+     * torque current = kg +kv*v + ka*a
+     * 
+     */
     @Override
     public void periodic() {
 
         setArmPosition();
-        SmartDashboard.putNumber("target arm angle", armControl.Position);
-        SmartDashboard.putNumber("actual arm angle", armEncoder.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
+        SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
+
+        SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
+
+
+
+
 
     }
 

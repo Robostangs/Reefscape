@@ -65,36 +65,36 @@ public class RobotContainer {
         }
 
         private void configureDriverBindings() {
-                if (Robot.isSimulation()) {
-                drivetrain.setDefaultCommand(
-                drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
-                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                .in(MetersPerSecond))
-                .withVelocityY((-xSim.getRawAxis(1))
-                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                .in(MetersPerSecond))
-                .withRotationalRate((xSim.getRawAxis(2))
-                *
-                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
-                } else {
-                drivetrain.setDefaultCommand(
-                // Drivetrain will execute this command periodically
-                drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
-                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                .in(MetersPerSecond))
-                .withVelocityY((-xDrive.getLeftX())
-                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                .in(MetersPerSecond))
-                .withRotationalRate((-xDrive.getRightX())
-                *
-                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
-                }
+                // if (Robot.isSimulation()) {
+                //         drivetrain.setDefaultCommand(
+                //                         drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
+                //                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                //                                                         .in(MetersPerSecond))
+                //                                         .withVelocityY((-xSim.getRawAxis(1))
+                //                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                //                                                                         .in(MetersPerSecond))
+                //                                         .withRotationalRate((xSim.getRawAxis(2))
+                //                                                         *
+                //                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                // } else {
+                //         drivetrain.setDefaultCommand(
+                //                         // Drivetrain will execute this command periodically
+                //                         drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
+                //                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                //                                                         .in(MetersPerSecond))
+                //                                         .withVelocityY((-xDrive.getLeftX())
+                //                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                //                                                                         .in(MetersPerSecond))
+                //                                         .withRotationalRate((-xDrive.getRightX())
+                //                                                         *
+                //                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                // }
 
-                // new Trigger(() -> (xDrive.getLeftY() >= 0.1))
-                //                 .whileTrue(new RunElevator(() -> xDrive.getLeftY() * 0.075));
+                new Trigger(() -> (xDrive.getLeftY() >= 0.1))
+                .whileTrue(new RunElevator(() -> xDrive.getLeftY() * 0.075));
 
-                // new Trigger(() -> (xDrive.getRightY() >= 0.1))
-                                // .whileTrue(new RunElevator(() -> xDrive.getRightY() * -0.075));
+                new Trigger(() -> (xDrive.getRightY() >= 0.1))
+                .whileTrue(new RunElevator(() -> xDrive.getRightY() * -0.075));
 
                 // xDrive.a().toggleOnTrue(new RunArm(() -> 0.1));
                 // xDrive.b().toggleOnTrue(new RunArm(() -> -0.1));
@@ -104,8 +104,12 @@ public class RobotContainer {
                 // xDrive.y().toggleOnTrue(new Retract());
                 // xDrive.x().toggleOnTrue(new Extend());
 
-                // xDrive.rightStick().toggleOnTrue(new Extend().andThen(new
-                // RunIntake()).finallyDo(Retract.Retract));
+                xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
+
+
+                // xDrive.povUp().toggleOnTrue(new RunElevator(() -> 0.25));
+                // xDrive.povDown().toggleOnTrue(new RunElevator(() -> -0.025));
+
 
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
@@ -117,7 +121,6 @@ public class RobotContainer {
 
                 xDrive.x().toggleOnTrue(new Reel());
                 xDrive.y().toggleOnTrue(new Deploy());
-
 
                 // reset the field-centric heading on left bumper press
                 xDrive.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
