@@ -134,12 +134,14 @@ public class Elevator extends SubsystemBase {
         // profile.
         elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kV = Constants.ElevatorConstants.kElevatorV;
 
-        elevatorMotorRightConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
-        elevatorMotorRightConfigs.Feedback.RotorToSensorRatio = 100;
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
 
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+
+        /**
+         * 
+         */
 
 
 

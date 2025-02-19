@@ -113,6 +113,9 @@ public final class Constants {
     public static final double kArmI = 0;
     public static final double kArmD = 0;
     public static final double kArmFF = 0;
+    public static final double kArmV = 0;
+    public static final double kArmA = 0;
+    public static final double kArmCruiseVelocity = 0;
     public static final GravityTypeValue kArmgravtype = GravityTypeValue.Arm_Cosine;
     public static final int kArmEncoderId = 30;
     public static final double kArmheight = 5d;
@@ -147,7 +150,7 @@ public final class Constants {
 
     public static final double kMaxElevatorHeight = 2.27887911;
     public static final double kMinElevatorHeight = 0d;
-    public static final double kRotationsToMeters = Units.inchesToMeters(1.221111111);
+    public static final double kRotationsToMeters = 0.0313;//*Detroit Reference */;
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
