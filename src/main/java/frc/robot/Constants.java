@@ -49,17 +49,17 @@ public final class Constants {
 
   public static class ClimberConstants {
 
-    public static final int kClimberMotorId = 0;
+    public static final int kClimberMotorId = 46;
     public static final double kGearboxRotationsToMechanismMeters = 1d;
 
     // Deploy Constants
     public static final double kMaxExtention = 5d;
     public static final double kDeployThreshold = 1d;
     public static final double kSafeDeployExtention = kMaxExtention - kDeployThreshold;
-    public static final double kExtentionDutyCycle = 0.5;
+    public static final double kExtentionDutyCycle = -0.25;
 
     // Reel Constants
-    public static final double kReelDutyCycle = -0.5;
+    public static final double kReelDutyCycle = 0.25;
     public static final double kMinExtention = 0.1;
     public static final double kReelThreshold = 0.1;
     public static final double kReelSafe = kReelThreshold + kMinExtention;
@@ -114,12 +114,14 @@ public final class Constants {
     public static final double kArmD = 0;
     public static final double kArmFF = 0;
     public static final GravityTypeValue kArmgravtype = GravityTypeValue.Arm_Cosine;
-    public static final int kArmEncoderId = 55;
+    public static final int kArmEncoderId = 30;
     public static final double kArmheight = 5d;
     public static final double kArmWidth = 5d;
     public static final double kArmRootX = 1d;
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
+
+    public static final double kArmRestsetpoint = 270d;
 
   }
 
@@ -134,17 +136,14 @@ public final class Constants {
     public static final double kElevatorA = 0;
     public static final double kElevatorG = 0;
     public static final double kElevatorCruiseVelocity = 0;
-    
+    public static final int kLimitSwitchId = 9;
+
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
-    public static final double kElevatorHomeDutyCycle = 0.2;
+    public static final double kElevatorHomeDutyCycle = 0.1;
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
-
-
-
-    public static final double kHomePosition = 0d;
 
     public static final double kMaxElevatorHeight = 2.27887911;
     public static final double kMinElevatorHeight = 0d;
@@ -160,6 +159,7 @@ public final class Constants {
     public static final double kElevatorGearing = 14 / 72d;
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
+    public static final double kHomePosition = 3.77 * Math.pow(kRotationsToMeters, -1);
 
   }
 
@@ -207,9 +207,10 @@ public final class Constants {
     public static final Pose2d k22BlueLReefPosePtP = new Pose2d(4.9, 3.65, new Rotation2d(-65 - 180));
     public static final Pose2d k22BlueRReefPosePtP = new Pose2d(4.64, 3.54, new Rotation2d(-65 - 180));
 
+    // reset pose
+    public static final Pose2d kResetPose = new Pose2d(2.84, 4, new Rotation2d(0));
 
-    //reset pose
-    public static final Pose2d kResetPose = new Pose2d(2.84,4,new Rotation2d(0));
+    public static final double kElevatorIntakeMeters = 0.2;
 
     public static class L1 {
       public static final double kElevatorPos = 10d;

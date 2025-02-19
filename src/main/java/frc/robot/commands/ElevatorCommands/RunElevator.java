@@ -28,7 +28,7 @@ public class RunElevator extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    elevator.setElevatorDutyCycle(0.025);
+    elevator.setElevatorDutyCycle(0.0325);
     elevator.postStatus("Elevator Stopped");
     elevator.setBrakeMode();
 

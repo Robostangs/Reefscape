@@ -12,6 +12,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -51,6 +52,8 @@ public class Elevator extends SubsystemBase {
     private final MechanismRoot2d profileElevatorBaseRoot;
     private final MechanismLigament2d m_profileElevatorMech2d;
 
+    private final DigitalInput limitSwitchElevator;
+
     public static Elevator getInstance() {
         if (mInstance == null)
             mInstance = new Elevator();
@@ -61,6 +64,8 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
         elevatorMotorRight = new TalonFX(Constants.ElevatorConstants.kRightElevatorMotorId);
         elevatorMotorLeft = new TalonFX(Constants.ElevatorConstants.kLeftElevatorMotorId);
+        limitSwitchElevator = new DigitalInput(Constants.ElevatorConstants.kLimitSwitchId);
+
 
         elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d)
                 .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
@@ -71,6 +76,7 @@ public class Elevator extends SubsystemBase {
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
                 Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, false,
                 0d);
+
 
         targetElevator_mechanism = new Mechanism2d(20, 50);
         targetElevatorBaseRoot = targetElevator_mechanism.getRoot("Target Elevator Root", 10, 0);
@@ -132,6 +138,11 @@ public class Elevator extends SubsystemBase {
         elevatorMotorRightConfigs.Feedback.RotorToSensorRatio = 100;
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
 
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+
+
+
         elevatorMotorRight.getConfigurator().apply(elevatorMotorRightConfigs);
 
         elevatorMotionMagic.Slot = 0;
@@ -154,6 +165,12 @@ public class Elevator extends SubsystemBase {
         }
     }
 
+
+
+    public  Runnable zeroElevator = () -> {
+        elevatorMotorRight.setPosition(0);
+        postStatus("zeroed");
+    };
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
         elevatorMotorRight.set(elevatorDutyCycle);
         elevatorMotorLeft.set(-elevatorDutyCycle);
@@ -177,6 +194,10 @@ public class Elevator extends SubsystemBase {
         elevatorMotorRight.getConfigurator().apply(elevatorCurrentConfigs);
         elevatorMotorLeft.getConfigurator().apply(elevatorCurrentConfigs);
 
+    }
+
+    public boolean getLimitSwitch(){
+        return limitSwitchElevator.get();
     }
 
     public void postStatus(String status) {
@@ -255,21 +276,23 @@ public class Elevator extends SubsystemBase {
 
         updateElevatorPosition();
 
-        SmartDashboard.putNumber("Torque current", elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
-        SmartDashboard.putNumber("Veleocity", elevatorMotorRight.getVelocity().getValueAsDouble());
-        SmartDashboard.putNumber("Acceleration", elevatorMotorRight.getAcceleration().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator-Test/Torque current", elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator-Test/Veleocity", elevatorMotorRight.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator-Test/Acceleration", elevatorMotorRight.getAcceleration().getValueAsDouble());
 
-        SmartDashboard.putNumber("Torque current over velocity -kg ", elevatorPositionMeters);
+        SmartDashboard.putNumber("Elevator-Test/Torque current over velocity -kg ", elevatorPositionMeters);
 
-        SmartDashboard.putNumber("Torque current over acceleration - kg", elevatorPositionMeters);
+        SmartDashboard.putNumber("Elevator-Test/Torque current over acceleration - kg", elevatorPositionMeters);
 
-
+        SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
 
         SmartDashboard.putNumber("Elevator/Simulation/Position", simElevatorTarget.getPositionMeters());
         SmartDashboard.putNumber("Elevator/Real/Velocity", getElevatorVelocityMeters());
         SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", elevatorMotionMagic.Position);
         SmartDashboard.putNumber("Elevator/Real/Position Meters", getElevatorPositionMeters());
         SmartDashboard.putBoolean("Elevator/Real/At Position", isElevatorAtTarget());
+
+        SmartDashboard.putNumber("elevator position", elevatorMotorRight.getPosition().getValueAsDouble());
 
     }
 }

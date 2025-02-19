@@ -4,9 +4,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
-public class HomeElevator extends Command{
+public class HomeElevator extends Command {
 
     Elevator elevator;
+
     public HomeElevator() {
         elevator = Elevator.getInstance();
 
@@ -20,23 +21,22 @@ public class HomeElevator extends Command{
 
     @Override
     public void execute() {
-        elevator.setStatorCurrentLimit(Constants.ElevatorConstants.kElevatorHomeStatorCurrentLimit);
+        // elevator.setStatorCurrentLimit(Constants.ElevatorConstants.kElevatorHomeStatorCurrentLimit);
         elevator.setElevatorDutyCycle(Constants.ElevatorConstants.kElevatorHomeDutyCycle);
     }
 
     @Override
     public void end(boolean interrupted) {
         elevator.setElevatorDutyCycle(0);
-        elevator.setStatorCurrentLimit(Constants.ElevatorConstants.kElevatorRegStatorCurrentLimit);
-        elevator.setElevatorPositionMeters(Constants.ElevatorConstants.kHomePosition);
+        // elevator.setStatorCurrentLimit(Constants.ElevatorConstants.kElevatorRegStatorCurrentLimit);
+        elevator.setElevatorPosition(Constants.ElevatorConstants.kHomePosition);
         elevator.postStatus("elevator homed");
-        
+
     }
 
     public boolean isFinished() {
-        // return elevator.isElevatorAtHome();
-        return false;
+        return !elevator.getLimitSwitch();
+        // return false;
     }
 
-    
 }
