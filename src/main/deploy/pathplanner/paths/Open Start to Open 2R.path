@@ -3,15 +3,15 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.590111558406113,
-        "y": 7.397451555676855
+        "x": 7.556931887963974,
+        "y": 7.478878957418184
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.8054248260098245,
-        "y": 6.3298145810643485
+        "x": 6.772245155567686,
+        "y": 6.411241982805677
       },
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "Open Start"
     },
     {
@@ -24,17 +24,31 @@
         "y": 5.57256432104328
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "open 2R"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.3756631299734747,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "L3",
-      "waypointRelativePos": 1.0,
+      "name": "L4",
+      "waypointRelativePos": 0.3774556531830239,
       "endWaypointRelativePos": null,
       "command": null
     }
