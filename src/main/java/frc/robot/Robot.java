@@ -178,6 +178,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L4 prime", ScoringFactory.L4Position());
     NamedCommands.registerCommand("Spit", new Spit());
     NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
+    NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
     // NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
 
   }
