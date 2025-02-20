@@ -113,13 +113,9 @@ public class RobotContainer {
 
 
 
-                //up
                 xDrive.x().toggleOnTrue(new RunElevator(() -> 0.15, true));
-                //down
                 xDrive.y().toggleOnTrue(new RunElevator(() -> -0.03, false));
-                //idk
                 xDrive.a().toggleOnTrue(new RunArm(() ->0.1 ,true));
-                //idk
                 xDrive.b().toggleOnTrue(new RunArm(() ->-0.1 ,true));
                 xDrive.leftBumper().whileTrue(new Spit());
 
