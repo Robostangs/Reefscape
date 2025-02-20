@@ -13,11 +13,13 @@ public class RunArm extends Command {
 
   Arm arm;
   DoubleSupplier speed;
+  boolean zero;
 
-  public RunArm(DoubleSupplier speed) {
+  public RunArm(DoubleSupplier speed, boolean zero) {
     arm = Arm.getInstance();
     addRequirements(arm);
     this.speed = speed;
+    this.zero = zero;
   }
 
   @Override
@@ -33,7 +35,7 @@ public class RunArm extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    arm.setArmDutyCycle(-0.03);
+    arm.setArmDutyCycle(0);
     arm.postStatus("Elevator Stopped");
     arm.setBrakeMode();
 

@@ -123,13 +123,13 @@ public class AligntoReef extends Command {
 
     @Override
     public boolean isFinished() {
-        if (Robot.isSimulation()) {
+        // if (Robot.isSimulation()) {
             return false;
-        }
+        // }
 
-        else {
-            return !Intake.getInstance().getIntakeSensor();
-        }
+        // else {
+        //     return !Intake.getInstance().getIntakeSensor();
+        // }
 
     }
 }

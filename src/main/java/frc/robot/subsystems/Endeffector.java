@@ -12,7 +12,7 @@ public class Endeffector extends SubsystemBase {
     private static Endeffector mInstance;
     
     private TalonSRX endeffectorMotorRight;
-    private DigitalInput EndeffectorSensor;
+    // private DigitalInput EndeffectorSensor;
 
     public static Endeffector getInstance() {
         if (mInstance == null)
@@ -38,9 +38,9 @@ public class Endeffector extends SubsystemBase {
         endeffectorMotorRight.setNeutralMode(NeutralMode.Brake);
     }
     
-    public boolean getEndeffectorSensor() {
-        return EndeffectorSensor.get();
-    }
+    // public boolean getEndeffectorSensor() {
+    //     return EndeffectorSensor.get();
+    // }
 
     @Override
     public void periodic() {

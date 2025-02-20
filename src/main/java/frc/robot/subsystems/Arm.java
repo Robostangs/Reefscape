@@ -51,6 +51,7 @@ public class Arm extends SubsystemBase {
         armconfigs.Slot0.kD = Constants.ArmConstants.kArmD;
         armconfigs.Slot0.kS = Constants.ArmConstants.kArmFF;
         armconfigs.Slot0.GravityType = Constants.ArmConstants.kArmgravtype;
+        armconfigs.Slot0.kG = Constants.ArmConstants.kArmG;
         armconfigs.Slot0.kA = Constants.ArmConstants.kArmA;
         armconfigs.Slot0.kV = Constants.ArmConstants.kArmV;
         armconfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.ArmConstants.kArmCruiseVelocity;
@@ -136,7 +137,9 @@ public class Arm extends SubsystemBase {
 
     
     /**
-     * torque current = kg +kv*v + ka*a
+     * torque current = kg +kv*v 
+     * 
+     * + ka*a
      * 
      */
     @Override
@@ -150,6 +153,8 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
         SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
         SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
+
+        SmartDashboard.putNumber("Torque current over velocity -kg ", (armMotor.getTorqueCurrent().getValueAsDouble()- -10)/armMotor.getVelocity().getValueAsDouble());
 
 
 

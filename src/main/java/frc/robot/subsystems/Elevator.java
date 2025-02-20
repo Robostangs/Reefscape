@@ -136,8 +136,15 @@ public class Elevator extends SubsystemBase {
 
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
 
-        elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-        elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        // elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        // elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+
+        elevatorMotorRightConfigs.CurrentLimits.StatorCurrentLimit = 30;
+
+
+
+
+
 
         /**
          * 
@@ -145,9 +152,23 @@ public class Elevator extends SubsystemBase {
 
 
 
-        elevatorMotorRight.getConfigurator().apply(elevatorMotorRightConfigs);
 
         elevatorMotionMagic.Slot = 0;
+
+        elevatorMotorRight.getConfigurator().apply(elevatorMotorRightConfigs);
+
+        TalonFXConfiguration elevatorMotorLeftConfigs = new TalonFXConfiguration();
+
+        elevatorMotorLeftConfigs.CurrentLimits.StatorCurrentLimit = 30;
+
+
+
+        elevatorMotorLeft.getConfigurator().apply(elevatorMotorLeftConfigs);
+
+
+
+        // elevatorMotorLeft.follow(elevatorMotorRight);
+
 
         elevatorMotorLeft
                 .setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
@@ -175,6 +196,7 @@ public class Elevator extends SubsystemBase {
     };
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
         elevatorMotorRight.set(elevatorDutyCycle);
+        
         elevatorMotorLeft.set(-elevatorDutyCycle);
 
     }
@@ -294,7 +316,13 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator/Real/Position Meters", getElevatorPositionMeters());
         SmartDashboard.putBoolean("Elevator/Real/At Position", isElevatorAtTarget());
 
-        SmartDashboard.putNumber("elevator position", elevatorMotorRight.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator/elevator position", elevatorMotorRight.getPosition().getValueAsDouble());
+
+        SmartDashboard.putBoolean("Elevator/brownout right", elevatorMotorRight.getFault_BridgeBrownout().getValue());
+        SmartDashboard.putBoolean("Elevator/brownout left", elevatorMotorLeft.getFault_BridgeBrownout().getValue());
+
+SmartDashboard.putNumber("right stator current limit", elevatorMotorRight.getStatorCurrent().getValueAsDouble());
+
 
     }
 }

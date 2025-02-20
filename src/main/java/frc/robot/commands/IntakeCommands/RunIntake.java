@@ -23,7 +23,7 @@ public class RunIntake extends Command {
   @Override
   public void execute() {
 
-    intake.runIntake(0.35);
+    intake.runIntake(0.75);
 
 
   }
@@ -39,8 +39,8 @@ public class RunIntake extends Command {
   @Override
   public boolean isFinished() {
     //TODO do this when we put it on
-    return intake.getIntakeSensor();
-    // return false;
+    // return intake.getIntakeSensor();
+    return false;
   }
 
 }
