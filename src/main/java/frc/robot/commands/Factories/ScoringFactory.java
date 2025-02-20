@@ -54,7 +54,13 @@ public class ScoringFactory {
                 new MoveArm(Constants.ScoringConstants.kArmScoringangle));
     }
 
-    public static Runnable returnHome() {
+    public static Command returnHome(){
+        return new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
+            new Lift(0d));
+        
+    }
+
+    public static Runnable returnHomeRun() {
         return () -> {
             new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
                     new Lift(0d));
