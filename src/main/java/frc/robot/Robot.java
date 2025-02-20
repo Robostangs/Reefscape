@@ -172,10 +172,10 @@ public class Robot extends TimedRobotstangs {
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
     Intake.getInstance().setPiviotZero();
 
-    NamedCommands.registerCommand("L1 Score", ScoringFactory.L1Position());
-    NamedCommands.registerCommand("L2 Score", ScoringFactory.L2Position());
-    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Position());
-    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Position());
+    NamedCommands.registerCommand("L1 prime", ScoringFactory.L1Position());
+    NamedCommands.registerCommand("L2 prime", ScoringFactory.L2Position());
+    NamedCommands.registerCommand("L3 prime", ScoringFactory.L3Position());
+    NamedCommands.registerCommand("L4 prime", ScoringFactory.L4Position());
     NamedCommands.registerCommand("Spit", new Spit());
     NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
     // NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
