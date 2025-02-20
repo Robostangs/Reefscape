@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Stack to Reef Paths",
+  "folder": "Stack Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 91.73475244261728

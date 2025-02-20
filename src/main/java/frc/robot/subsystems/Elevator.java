@@ -2,12 +2,17 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -19,14 +24,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
-
 public class Elevator extends SubsystemBase {
 
     private static Elevator mInstance;
 
     // real elevator
-    private TalonFX elevatorMotor;
-    private CANcoder elevatorEncoder;
+    private TalonFX elevatorMotorRight;
+    private TalonFX elevatorMotorLeft;
 
     private MotionMagicTorqueCurrentFOC elevatorMotionMagic;
     private double elevatorPositionMeters;
@@ -48,6 +52,8 @@ public class Elevator extends SubsystemBase {
     private final MechanismRoot2d profileElevatorBaseRoot;
     private final MechanismLigament2d m_profileElevatorMech2d;
 
+    private final DigitalInput limitSwitchElevator;
+
     public static Elevator getInstance() {
         if (mInstance == null)
             mInstance = new Elevator();
@@ -56,8 +62,10 @@ public class Elevator extends SubsystemBase {
     }
 
     public Elevator() {
-        elevatorMotor = new TalonFX(Constants.ElevatorConstants.kElevatorMotorId);
-        elevatorEncoder = new CANcoder(Constants.ElevatorConstants.kElevatorEncoderId);
+        elevatorMotorRight = new TalonFX(Constants.ElevatorConstants.kRightElevatorMotorId);
+        elevatorMotorLeft = new TalonFX(Constants.ElevatorConstants.kLeftElevatorMotorId);
+        limitSwitchElevator = new DigitalInput(Constants.ElevatorConstants.kLimitSwitchId);
+
 
         elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d)
                 .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
@@ -68,6 +76,7 @@ public class Elevator extends SubsystemBase {
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
                 Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, false,
                 0d);
+
 
         targetElevator_mechanism = new Mechanism2d(20, 50);
         targetElevatorBaseRoot = targetElevator_mechanism.getRoot("Target Elevator Root", 10, 0);
@@ -86,21 +95,83 @@ public class Elevator extends SubsystemBase {
                 new MechanismLigament2d("Elevator",
                         simElevatorProfile.getPositionMeters(), 90, 6, new Color8Bit(Color.kOrange)));
 
-        var slot0Configs = new Slot0Configs();
         // TODO tune these values
-        slot0Configs.kP = Constants.ElevatorConstants.kElevatorP;
-        slot0Configs.kI = Constants.ElevatorConstants.kElevatorI;
-        slot0Configs.kD = Constants.ElevatorConstants.kElevatorD;
-        slot0Configs.kS = Constants.ElevatorConstants.kElevatorFF;
-        TalonFXConfiguration elevatorMotorConfigs = new TalonFXConfiguration();
-        elevatorMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
-        elevatorMotorConfigs.Feedback.RotorToSensorRatio = 100;
-        elevatorMotorConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
-        elevatorMotorConfigs.Feedback.FeedbackRemoteSensorID = elevatorEncoder.getDeviceID();
+        TalonFXConfiguration elevatorMotorRightConfigs = new TalonFXConfiguration();
+
+        /**
+         * double check limlit switvh
+         * put in softlimits
+         * find kg
+         * find kv
+         * find ka
+         * fina cruise velocity
+         * 
+         * 
+         * torquqe current = kg +kv*v + ka*a
+         * 
+         */
+
+        elevatorMotorRightConfigs.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+
+        elevatorMotorRightConfigs.Slot0.kG = Constants.ElevatorConstants.kElevatorG;
+
+        // elevatorMotorRightConfigs.Slot0.StaticFeedforwardSign =
+        // StaticFeedforwardSignValue.UseVelocitySign;
+
+        // elevatorMotorRightConfigs.Slot0.kS = Constants.ElevatorConstants.kElevatorFF;
+
+        elevatorMotorRightConfigs.Slot0.kP = Constants.ElevatorConstants.kElevatorP;
+        elevatorMotorRightConfigs.Slot0.kI = Constants.ElevatorConstants.kElevatorI;
+        elevatorMotorRightConfigs.Slot0.kD = Constants.ElevatorConstants.kElevatorD;
+
+        elevatorMotorRightConfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.ElevatorConstants.kElevatorCruiseVelocity;
+
+        // Dividing the supply voltage by kA results in the maximum acceleration of the
+        // profile from 0.
+        elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kA = Constants.ElevatorConstants.kElevatorA;
+
+        // Dividing the supply voltage by kV results in the maximum velocity of the
+        // profile.
+        elevatorMotorRightConfigs.MotionMagic.MotionMagicExpo_kV = Constants.ElevatorConstants.kElevatorV;
+
+        elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
+
+        // elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        // elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+
+        elevatorMotorRightConfigs.CurrentLimits.StatorCurrentLimit = 30;
+
+
+
+
+
+
+        /**
+         * 
+         */
+
+
+
+
         elevatorMotionMagic.Slot = 0;
 
-        elevatorMotor.getConfigurator().apply(elevatorMotorConfigs);
-        elevatorMotor.getConfigurator().apply(slot0Configs);
+        elevatorMotorRight.getConfigurator().apply(elevatorMotorRightConfigs);
+
+        TalonFXConfiguration elevatorMotorLeftConfigs = new TalonFXConfiguration();
+
+        elevatorMotorLeftConfigs.CurrentLimits.StatorCurrentLimit = 30;
+
+
+
+        elevatorMotorLeft.getConfigurator().apply(elevatorMotorLeftConfigs);
+
+
+
+        // elevatorMotorLeft.follow(elevatorMotorRight);
+
+
+        elevatorMotorLeft
+                .setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
 
         SmartDashboard.putData("Elevator/Elevator Sim", targetElevator_mechanism);
         SmartDashboard.putData("Elevator/Elevator Profile", profileElevator_mechanism);
@@ -117,6 +188,42 @@ public class Elevator extends SubsystemBase {
         }
     }
 
+
+
+    public  Runnable zeroElevator = () -> {
+        elevatorMotorRight.setPosition(0);
+        postStatus("zeroed");
+    };
+    public void setElevatorDutyCycle(double elevatorDutyCycle) {
+        elevatorMotorRight.set(elevatorDutyCycle);
+        
+        elevatorMotorLeft.set(-elevatorDutyCycle);
+
+    }
+
+    public void setBrakeMode() {
+        elevatorMotorLeft.setNeutralMode(NeutralModeValue.Brake);
+        elevatorMotorRight.setNeutralMode(NeutralModeValue.Brake);
+
+    }
+
+    public void setElevatorPosition(double elevatorPosition) {
+        elevatorMotorRight.setPosition(elevatorPosition);
+        elevatorMotorLeft.setPosition(elevatorPosition);
+    }
+
+    public void setStatorCurrentLimit(double currentLimit) {
+        TalonFXConfiguration elevatorCurrentConfigs = new TalonFXConfiguration();
+        elevatorCurrentConfigs.CurrentLimits.StatorCurrentLimit = currentLimit;
+        elevatorMotorRight.getConfigurator().apply(elevatorCurrentConfigs);
+        elevatorMotorLeft.getConfigurator().apply(elevatorCurrentConfigs);
+
+    }
+
+    public boolean getLimitSwitch(){
+        return limitSwitchElevator.get();
+    }
+
     public void postStatus(String status) {
         SmartDashboard.putString("Elevator/status", status);
 
@@ -124,13 +231,9 @@ public class Elevator extends SubsystemBase {
 
     public void updateSimElevatorTarget() {
 
-        simElevatorTarget.setState(elevatorMotionMagic.Position,getElevatorVelocityMeters());
+        simElevatorTarget.setState(elevatorMotionMagic.Position, getElevatorVelocityMeters());
 
         simElevatorTarget.update(0.02);
-
-
-        elevatorEncoder.getSimState()
-                .setRawPosition(simElevatorTarget.getPositionMeters() / Constants.ElevatorConstants.kRotationsToMeters);
 
         m_targetElevatorMech2d.setLength(simElevatorTarget.getPositionMeters());
 
@@ -140,7 +243,7 @@ public class Elevator extends SubsystemBase {
 
         // Set the input to the simulated elevator using the torque current from the
         // motor
-        simElevatorProfile.setInput(elevatorMotor.getTorqueCurrent().getValueAsDouble());
+        simElevatorProfile.setInput(elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
 
         simElevatorProfile.update(0.02);
 
@@ -150,7 +253,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public double getElevatorVelocityMeters() {
-        return elevatorMotor.getVelocity().getValueAsDouble() / Constants.ElevatorConstants.kRotationsToMeters;
+        return elevatorMotorRight.getVelocity().getValueAsDouble() / Constants.ElevatorConstants.kRotationsToMeters;
     }
 
     public boolean isElevatorAtTarget() {
@@ -166,7 +269,7 @@ public class Elevator extends SubsystemBase {
             elevatorPositionMeters = simElevatorTarget.getPositionMeters();
         } else {
             elevatorPositionMeters = Constants.ElevatorConstants.kRotationsToMeters
-                    * elevatorMotor.getPosition().getValueAsDouble();
+                    * elevatorMotorRight.getPosition().getValueAsDouble();
         }
     }
 
@@ -174,11 +277,20 @@ public class Elevator extends SubsystemBase {
         return elevatorPositionMeters;
     }
 
+    public void setElevatorMotionMagic() {
+        elevatorMotorRight.setControl(elevatorMotionMagic);
+        // elevatorMotorLeft
+        // .setControl(new Follower(elevatorMotorRight.getDeviceID(),
+        // Constants.ElevatorConstants.kIsLeftInvert));
+    }
+
+    /**
+     * * torquqe current = kg +kv*v + ka*a
+     * 
+     */
+
     @Override
     public void periodic() {
-
-  
-        elevatorMotor.setControl(elevatorMotionMagic);
 
         if (Robot.isSimulation()) {
             updateSimElevatorTarget();
@@ -188,12 +300,29 @@ public class Elevator extends SubsystemBase {
 
         updateElevatorPosition();
 
+        SmartDashboard.putNumber("Elevator-Test/Torque current", elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator-Test/Veleocity", elevatorMotorRight.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator-Test/Acceleration", elevatorMotorRight.getAcceleration().getValueAsDouble());
+
+        // SmartDashboard.putNumber("Elevator-Test/Torque current over velocity -kg ", elevatorPositionMeters);
+
+        // SmartDashboard.putNumber("Elevator-Test/Torque current over acceleration - kg", elevatorPositionMeters);
+
+        SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
+
         SmartDashboard.putNumber("Elevator/Simulation/Position", simElevatorTarget.getPositionMeters());
-        SmartDashboard.putNumber("Elevator/Real/Encoder Position", elevatorEncoder.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("Elevator/Real/Velocity", getElevatorVelocityMeters());
         SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", elevatorMotionMagic.Position);
         SmartDashboard.putNumber("Elevator/Real/Position Meters", getElevatorPositionMeters());
         SmartDashboard.putBoolean("Elevator/Real/At Position", isElevatorAtTarget());
+
+        SmartDashboard.putNumber("Elevator/elevator position", elevatorMotorRight.getPosition().getValueAsDouble());
+
+        SmartDashboard.putBoolean("Elevator/brownout right", elevatorMotorRight.getFault_BridgeBrownout().getValue());
+        SmartDashboard.putBoolean("Elevator/brownout left", elevatorMotorLeft.getFault_BridgeBrownout().getValue());
+
+SmartDashboard.putNumber("right stator current limit", elevatorMotorRight.getStatorCurrent().getValueAsDouble());
+
 
     }
 }

@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center Start to Center 2L"
+            "pathName": "Center Start to Center 2R"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Center 2L to Open Feeder"
+            "pathName": "Center 2R to Open Feeder"
           }
         },
         {
@@ -26,6 +26,18 @@
           "type": "path",
           "data": {
             "pathName": "Open 2R to Open Feeder"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Feeder to Open 1R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 1R to Open Feeder"
           }
         }
       ]

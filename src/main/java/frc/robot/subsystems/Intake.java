@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -14,11 +13,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    private TalonFX intakeMotorTop, piviotMotor;
+    private TalonFX intakeMotor, piviotMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
-    private DigitalInput IntakeSensor;
+    // private DigitalInput IntakeSensor;
     MotionMagicExpoTorqueCurrentFOC piviotControl;
+
+    public Runnable zeroIntake = () -> {
+        intakeMotor.setPosition(0d);
+    };
 
     public static Intake getInstance() {
         if (mInstance == null)
@@ -28,9 +31,9 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
 
-        intakeMotorTop = new TalonFX(Constants.IntakeConstants.kIntakeMotorId);
-        piviotMotor = new TalonFX(Constants.IntakeConstants.kBarMotorId);
-        IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
+        intakeMotor = new TalonFX(Constants.IntakeConstants.kWheelMotorId);
+        piviotMotor = new TalonFX(Constants.IntakeConstants.kPiviotMotorId);
+        // IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
         var slotpiviotconfigs = new Slot0Configs();
         slotpiviotconfigs.kP = Constants.IntakeConstants.kPiviotP;
@@ -39,24 +42,32 @@ public class Intake extends SubsystemBase {
         slotpiviotconfigs.kS = Constants.IntakeConstants.kPiviots;
 
         TalonFXConfiguration piviotMotorConfigs = new TalonFXConfiguration();
-        piviotMotorConfigs.CurrentLimits.SupplyCurrentLimit = Constants.IntakeConstants.kSupplyCurrentLimit;
-        
+        piviotMotorConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.kStatorCurrentLimit;
+        // piviotMotorConfigs.CurrentLimits.StatorCurrentLimit = 0.341;
 
         piviotMotor.getConfigurator().apply(piviotMotorConfigs);
         piviotMotor.getConfigurator().apply(slotpiviotconfigs);
 
-
         piviotControl = new MotionMagicExpoTorqueCurrentFOC(0d);
 
-        
     }
+
+    public double getIntakePosition() {
+        return piviotMotor.getPosition().getValueAsDouble();
+    }
+
+
+
 
     public void runIntake(double IntakeDutyCycle) {
-        intakeMotorTop.set(IntakeDutyCycle);
-
+        intakeMotor.set(IntakeDutyCycle);
     }
 
-    public void extendBar() {
+    public void zeroIntake() {
+        intakeMotor.setPosition(0d);
+    }
+
+    public void setExtendPosition() {
         piviotControl.Position = Constants.IntakeConstants.kExtendSetpoint;
     }
 
@@ -64,43 +75,60 @@ public class Intake extends SubsystemBase {
         piviotMotor.set(0);
     }
 
-    public void retractBar() {
+    public void setRetractPosition() {
         piviotControl.Position = Constants.IntakeConstants.kRetractSetpoint;
-
     }
 
     public void postStatus(String status) {
         SmartDashboard.putString("Intake/status", status);
 
     }
-    public void setPiviotZero(){
+
+    public void setPiviotZero() {
         piviotMotor.setPosition(0);
     }
 
     public void stopIntake() {
-        intakeMotorTop.stopMotor();
+        intakeMotor.stopMotor();
         piviotControl.Position = piviotMotor.getPosition().getValueAsDouble();
     }
 
-    public boolean getIntakeSensor() {
-        return IntakeSensor.get();
-    }
+    // public boolean getIntakeSensor() {
+    //     return IntakeSensor.get();
+    // }
 
     public void setIntakePiviotBrake() {
         piviotMotor.setNeutralMode(NeutralModeValue.Brake);
 
     }
 
+    public void setStatorCurrentLimit(double currentLimit) {
+        TalonFXConfiguration intakeCurrentConfigs = new TalonFXConfiguration();
+        intakeCurrentConfigs.CurrentLimits.StatorCurrentLimit = currentLimit;
+        piviotMotor.getConfigurator().apply(intakeCurrentConfigs);
+
+    }
+
     public boolean isIntakeatSetpoint(boolean extendorretract) {
 
         if (extendorretract) {
-            return piviotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint+0.1;
+            return piviotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 3;
         } else {
-            return piviotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kExtendSetpoint-0.2;
+            return piviotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kRetractSetpoint - 0.2;
 
         }
     }
 
+    public void runIntakeMotionMagic() {
+        piviotMotor.setControl(piviotControl);
+
+    }
+    public void setPiviotDutyCycle(double piviotDutyCycle){
+        piviotMotor.set(piviotDutyCycle);
+    }
+
+
+    
     @Override
     public void periodic() {
         // TODO add logging
@@ -108,9 +136,7 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Intake/Position", piviotMotor.getPosition().getValueAsDouble());
         SmartDashboard.putBoolean("is at extend setpoint", isIntakeatSetpoint(true));
         SmartDashboard.putBoolean("is at retract setpoint", isIntakeatSetpoint(false));
-
-
-        piviotMotor.setControl(piviotControl);
+        SmartDashboard.putNumber("Stator Current", piviotMotor.getStatorCurrent().getValueAsDouble());
 
     }
 

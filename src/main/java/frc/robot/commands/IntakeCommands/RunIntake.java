@@ -1,7 +1,6 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.Intake;
 
 public class RunIntake extends Command {
@@ -13,9 +12,6 @@ public class RunIntake extends Command {
         intake = Intake.getInstance();
         addRequirements(intake);
     }
-
-   
-
     
   // Called when the command is initially scheduled.
   @Override
@@ -27,9 +23,8 @@ public class RunIntake extends Command {
   @Override
   public void execute() {
 
-    intake.runIntake(0.5);
+    intake.runIntake(0.75);
 
-    // endeffector.setEneffdector(0.3);
 
   }
 

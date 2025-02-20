@@ -5,12 +5,11 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
@@ -42,18 +41,23 @@ public class Arm extends SubsystemBase {
         armEncoder = new CANcoder(Constants.ArmConstants.kArmEncoderId);
         armControl = new MotionMagicTorqueCurrentFOC(0d);
 
-        var slot0Configs = new Slot0Configs();
 
-        slot0Configs.kP = Constants.ArmConstants.kArmP;
-        slot0Configs.kI = Constants.ArmConstants.kArmI;
-        slot0Configs.kD = Constants.ArmConstants.kArmD;
-        slot0Configs.kS = Constants.ArmConstants.kArmFF;
-        slot0Configs.GravityType = Constants.ArmConstants.kArmgravtype;
 
         armControl.Slot = 0;
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
 
-        armMotor.getConfigurator().apply(slot0Configs);
+        armconfigs.Slot0.kP = Constants.ArmConstants.kArmP;
+        armconfigs.Slot0.kI = Constants.ArmConstants.kArmI;
+        armconfigs.Slot0.kD = Constants.ArmConstants.kArmD;
+        armconfigs.Slot0.kS = Constants.ArmConstants.kArmFF;
+        armconfigs.Slot0.GravityType = Constants.ArmConstants.kArmgravtype;
+        armconfigs.Slot0.kG = Constants.ArmConstants.kArmG;
+        armconfigs.Slot0.kA = Constants.ArmConstants.kArmA;
+        armconfigs.Slot0.kV = Constants.ArmConstants.kArmV;
+        armconfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.ArmConstants.kArmCruiseVelocity;
+        
+
+        armMotor.getConfigurator().apply(armconfigs);
 
         armMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
 
@@ -66,7 +70,6 @@ public class Arm extends SubsystemBase {
 
         targetArmMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
 
-        // TODO make these constants when your not being a lazy bum
         targetArm = new MechanismLigament2d("Target Arm", 2, 270, 6, new Color8Bit(Color.kBlue));
 
         targetArmMechanism.getRoot("Target Root",
@@ -83,7 +86,6 @@ public class Arm extends SubsystemBase {
         return targetArmAngle;
     }
 
-
     public void postStatus(String status) {
         SmartDashboard.putString("Arm/status", status);
 
@@ -92,39 +94,71 @@ public class Arm extends SubsystemBase {
     /**
      * sets the arm motor to the specific angle
      * 
-     * @param angle the angle to set the arm to in Rotation2d
+     * @param angle the angle to set the arm to in degrees
      */
-    public void setArmMotor(double angle) {
-        // if (isArmSmart(targetArmAngle)) {
-        armControl.Position = Units.degreesToRotations(angle);
-        // }
+    public void setArmPosition(double angle) {
+        armControl.Position = (angle);
 
+    }
+
+    public void setArmDutyCycle(double armDutyCycle) {
+        armMotor.set(armDutyCycle);
     }
 
     public boolean isArmSmart(double target) {
         return (target > -180) || (target < 0);
     }
 
+    public void setBrakeMode() {
+        armMotor.setNeutralMode(NeutralModeValue.Brake);
+    }
+
     public void setArmPosition() {
 
         if (Robot.isSimulation()) {
-            armEncoder.getSimState().setRawPosition(targetArmAngle);
-            targetArm.setAngle(targetArmAngle);
+            armEncoder.getSimState().setRawPosition(armControl.Position);
+            targetArm.setAngle(armControl.Position);
         } else {
             arm.setAngle(armEncoder.getPosition().getValueAsDouble());
 
         }
     }
 
+    public void setArmMotionMagic() {
+        if (Intake.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
+                || Robot.isSimulation()) {
+            armMotor.setControl(armControl);
+        } else {
+            postStatus("cant move, intake in way");
+        }
+
+    }
+
+
+    
+    /**
+     * torque current = kg +kv*v 
+     * 
+     * + ka*a
+     * 
+     */
     @Override
     public void periodic() {
 
         setArmPosition();
+        SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
+        SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
-        SmartDashboard.putNumber("target arm angle", targetArmAngle);
-        SmartDashboard.putNumber("actual arm angle", armEncoder.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
 
-        armMotor.setControl(armControl);
+        SmartDashboard.putNumber("Torque current over velocity -kg ", (armMotor.getTorqueCurrent().getValueAsDouble()- -10)/armMotor.getVelocity().getValueAsDouble());
+
+
+
+
 
     }
 

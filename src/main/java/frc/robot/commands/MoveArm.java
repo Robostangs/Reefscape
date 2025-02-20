@@ -1,8 +1,5 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
@@ -21,12 +18,13 @@ public class MoveArm extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setArmMotor(angle);
+    arm.setArmPosition(angle);
     arm.postStatus("going to this angle:" + angle);
   }
 
   @Override
   public void execute() {
+    arm.setArmMotionMagic();
 
   }
 

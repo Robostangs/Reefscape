@@ -1,3 +1,4 @@
+
 package frc.robot.commands.EndeffectorCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,7 +21,7 @@ public class Spit extends Command {
 
     @Override
     public void execute() {
-        endeffector.setEneffdector(Constants.EndeffectorConstants.kEndeffectorSpit);
+        endeffector.setEneffdector(-Constants.EndeffectorConstants.kEndeffectorSpit);
     }
 
 
@@ -36,6 +37,7 @@ public class Spit extends Command {
 
     @Override
     public boolean isFinished() {
-        return endeffector.getEndeffectorSensor();
+        return false;
+        // return endeffector.getEndeffectorSensor();
     }
 }

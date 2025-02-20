@@ -10,33 +10,39 @@ import java.lang.management.MemoryMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.FlippingUtil;
-import com.pathplanner.lib.util.GeometryUtil;
 
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.AudioConfigs;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Factories.IntakeFactory;
+import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.SwerveCommands.ReefAdjust;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 
 public class Robot extends TimedRobotstangs {
-  public XboxController xDrive = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
-  public XboxController xManip = new XboxController(Constants.OperatorConstants.kManipControllerPort);
 
   private final RobotContainer m_robotContainer;
 
@@ -48,8 +54,9 @@ public class Robot extends TimedRobotstangs {
 
   public static ShuffleboardTab autoTab, teleopTab, testTab, disTab;
 
-  private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", Alert.AlertType.kError);
-
+  private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", AlertType.kError);
+  private static Alert CANcoderAlert = new Alert("Can tweaking", AlertType.kError);
+  private static Alert MotorAlert = new Alert("Can tweaking", AlertType.kError);
 
   private static String autoName = "";
 
@@ -63,6 +70,7 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
   private PathPlannerAuto autoCommand;
+  private SequentialCommandGroup autoCommandGroup;
 
   private static String lastAutoName;
   private static Alert nullAuto = new Alert("Null auto", AlertType.kWarning);
@@ -82,6 +90,8 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
+    // WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
+    Intake.getInstance().zeroIntake();
 
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
@@ -93,34 +103,38 @@ public class Robot extends TimedRobotstangs {
     startChooser.addOption("Open", "OStart");
     startChooser.addOption("Processor", "PStart");
 
-    firstPieceChooser.setDefaultOption("Center 1", "C1");
-    firstPieceChooser.addOption("Center 2", "C2");
-    firstPieceChooser.addOption("Pro 1", "P1");
-    firstPieceChooser.addOption("Pro 2", "P2");
-    firstPieceChooser.addOption("Open 1", "O1");
-    firstPieceChooser.addOption("Open 2", "O2");
+    firstPieceChooser.setDefaultOption("Center 1", " - C1");
+    firstPieceChooser.addOption("Center 2", " - C2");
+    firstPieceChooser.addOption("Pro 1", " - P1");
+    firstPieceChooser.addOption("Pro 2", " - P2");
+    firstPieceChooser.addOption("Open 1", " - O1");
+    firstPieceChooser.addOption("Open 2", " - O2");
 
     firstPieceRoLChooser.setDefaultOption("Right", "R");
     firstPieceRoLChooser.addOption("Left", "L");
 
-    secondPieceChooser.setDefaultOption("Center 1", "C1");
-    secondPieceChooser.addOption("Center 2", "C2");
-    secondPieceChooser.addOption("Pro 1", "P1");
-    secondPieceChooser.addOption("Pro 2", "P2");
-    secondPieceChooser.addOption("Open 1", "O1");
-    secondPieceChooser.addOption("Open 2", "O2");
+    secondPieceChooser.setDefaultOption("None", "");
+    secondPieceChooser.addOption("Center 1", " - C1");
+    secondPieceChooser.addOption("Center 2", " - C2");
+    secondPieceChooser.addOption("Pro 1", " - P1");
+    secondPieceChooser.addOption("Pro 2", " - P2");
+    secondPieceChooser.addOption("Open 1", " - O1");
+    secondPieceChooser.addOption("Open 2", " - O2");
 
-    secondPieceRoLChooser.setDefaultOption("Right", "R");
+    secondPieceRoLChooser.setDefaultOption("None", "");
+    secondPieceRoLChooser.addOption("Right", "R");
     secondPieceRoLChooser.addOption("Left", "L");
 
-    thirdPieceChooser.setDefaultOption("Center 1", "C1");
-    thirdPieceChooser.addOption("Center 2", "C2");
-    thirdPieceChooser.addOption("Pro 1", "P1");
-    thirdPieceChooser.addOption("Pro 2", "P2");
-    thirdPieceChooser.addOption("Open 1", "O1");
-    thirdPieceChooser.addOption("Open 2", "O2");
+    thirdPieceChooser.setDefaultOption("None", "");
+    thirdPieceChooser.addOption("Center 1", " - C1");
+    thirdPieceChooser.addOption("Center 2", " - C2");
+    thirdPieceChooser.addOption("Pro 1", " - P1");
+    thirdPieceChooser.addOption("Pro 2", " - P2");
+    thirdPieceChooser.addOption("Open 1", " - O1");
+    thirdPieceChooser.addOption("Open 2", " - O2");
 
-    thirdPieceRoLChooser.setDefaultOption("Right", "R");
+    thirdPieceRoLChooser.setDefaultOption("None", "");
+    thirdPieceRoLChooser.addOption("Right", "R");
     thirdPieceRoLChooser.addOption("Left", "L");
 
     autoTab.add("Start Chooser", startChooser)
@@ -151,6 +165,19 @@ public class Robot extends TimedRobotstangs {
         .withSize(1, 1)
         .withPosition(2, 3);
 
+    // autoTab.add("", Alert.class.get);
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
+        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+    Intake.getInstance().setPiviotZero();
+
+    NamedCommands.registerCommand("L1 Score", ScoringFactory.L1Score());
+    NamedCommands.registerCommand("L2 Score", ScoringFactory.L2Score());
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score());
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score());
+    NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
+    NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
+
   }
 
   @Override
@@ -165,10 +192,7 @@ public class Robot extends TimedRobotstangs {
 
     teleopField.setRobotPose(drivetrain.getState().Pose);
 
-
-    autoName = startChooser.getSelected() + " - " + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
-        + " - " + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected() + " - "
-        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+    SmartDashboard.putString("Auto/Current Auto", autoName);
 
     CommandScheduler.getInstance().run();
 
@@ -191,41 +215,42 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-    publishTrajectory(autoName);
+
   }
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putString("Auto/Current Auto", autoName);
 
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 0);
     publishTrajectory(autoName);
   }
 
   public void autonomousInit() {
+    Intake.getInstance().zeroIntake();
 
     autoCommand = new PathPlannerAuto(autoName);
 
     switch (startChooser.getSelected()) {
       case "CStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-            SmartDashboard.putString("Current Pose","Pose reset to center");
+        SmartDashboard.putString("Current Pose", "Pose reset to center");
 
         break;
       case "OStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue ==DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-            SmartDashboard.putString("Current Pose","Pose reset to open");
+        SmartDashboard.putString("Current Pose", "Pose reset to open");
 
         break;
 
       case "PStart":
-        drivetrain.resetPose(DriverStation.Alliance.Blue == DriverStation.getAlliance().get()
+        drivetrain.resetPose(!isRed()
             ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-            SmartDashboard.putString("Current Pose","Pose reset to pro");
+        SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
         break;
 
@@ -235,7 +260,9 @@ public class Robot extends TimedRobotstangs {
         break;
     }
 
-    autoCommand.schedule();
+    autoCommandGroup.addCommands(
+        new Retract().
+        alongWith(autoCommand));
 
   }
 
@@ -297,9 +324,9 @@ public class Robot extends TimedRobotstangs {
     }
 
     // if we are calling publish trajectory but the trajectory is already published
-    else if (autoName.equals(lastAutoName)) {
-      return;
-    }
+    // else if (autoName.equals(lastAutoName)) {
+    // return;
+    // }
 
     // we are going to use the auto name so this is the last auto we published
     else {
@@ -316,7 +343,7 @@ public class Robot extends TimedRobotstangs {
       PathPlannerAuto.getPathGroupFromAutoFile(autoName).forEach((path) -> path.getAllPathPoints()
           .forEach((point) -> {
             Pose2d pose = new Pose2d(point.position, point.position.getAngle());
-            if (DriverStation.getAlliance().get() == Alliance.Red) {
+            if (isRed()) {
               pose = FlippingUtil.flipFieldPose(pose);
 
             }
@@ -324,7 +351,7 @@ public class Robot extends TimedRobotstangs {
             poses.add(pose);
           }));
       // flip the poses if we are red
-      if (DriverStation.getAlliance().get() == Alliance.Red) {
+      if (isRed()) {
         teleopField.getObject("Starting Pose")
             .setPose(FlippingUtil.flipFieldPose(auto.getStartingPose()));
       } else {
@@ -364,6 +391,70 @@ public class Robot extends TimedRobotstangs {
     publishTrajectory(null);
   }
 
+  public static boolean isRed() {
+    if (Robot.isSimulation()) {
+      return false;
+    }
+    if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      return true;
+    } else {
+      return false;
+
+    }
+  }
+
+  public static void verifyMotors(TalonFX... falcons) {
+    for (TalonFX falcon : falcons) {
+      verifyMotor(falcon);
+    }
+  }
+
+  /**
+   * Will return false if the motor is verified and connected, true if there is
+   * some error getting position
+   * 
+   * @param falcon a TalonFX motor
+   * @return false if the position is available, true if not available
+   */
+  public static boolean verifyMotor(TalonFX falcon) {
+    falcon.getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+
+    StatusCode status = falcon.getPosition().getStatus();
+    if (status.isError() && Robot.isReal()) {
+      DataLogManager.log("TalonFX ID #" + falcon.getDeviceID() + " has failed to return position with status: "
+          + status.getDescription() + ". Error Code: " + status.value);
+      MotorAlert.setText(
+          "TalonFX ID #" + falcon.getDeviceID() + " has failed to return position with status: "
+              + status.getName() + ". Error Code: ");
+      MotorAlert.set(true);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Will return false if the CANcoder is verified and connected, true if there is
+   * some error getting position
+   * 
+   * @param coder a CANcoder
+   * @return false if the position is available, true if not available
+   */
+  public static boolean verifyCANcoder(CANcoder coder) {
+    StatusCode status = coder.getPosition().getStatus();
+    if (status.isError() && Robot.isReal()) {
+      DataLogManager.log("CANcoder ID #" + coder.getDeviceID() + " has failed to return position with status: "
+          + status.getDescription() + ". Error Code: " + status.value);
+      CANcoderAlert.setText(
+          "CANcoder ID #" + coder.getDeviceID() + " has failed to return position with status: "
+              + status.getName() + ". Error Code: " + status.value);
+      CANcoderAlert.set(true);
+      return true;
+    }
+
+    return false;
+  }
+
   private static final class GcStatsCollector {
     private List<GarbageCollectorMXBean> gcBeans = ManagementFactory.getGarbageCollectorMXBeans();
     private MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
@@ -387,7 +478,6 @@ public class Robot extends TimedRobotstangs {
       SmartDashboard.putNumber("Memory/GCCounts", (double) accumCounts);
       SmartDashboard.putNumber("Memory/Usage", (double) memBean.getHeapMemoryUsage().getUsed());
 
-      // TODO remake alerts
       if (accumTime > (20)) {
         gcAlert.set(true);
       } else {

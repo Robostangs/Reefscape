@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.4035486414361955,
-        "y": 3.0534070769903767
+        "x": 7.0293192997685185,
+        "y": 3.3341348379629623
       },
       "isLocked": false,
       "linkedName": "Center Start"
@@ -20,8 +20,8 @@
         "y": 2.7399931278935186
       },
       "prevControl": {
-        "x": 6.359534143518518,
-        "y": 2.5666945167824067
+        "x": 6.404489293981481,
+        "y": 2.75641456886574
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 123.84002452783966
+    "rotation": 120.55774414502086
   },
   "reversed": false,
   "folder": "Start to Reef Paths",
