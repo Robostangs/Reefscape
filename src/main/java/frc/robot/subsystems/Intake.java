@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase {
     private TalonFX intakeMotor, piviotMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static Intake mInstance;
-    // private DigitalInput IntakeSensor;
+    private DigitalInput IntakeSensor;
     MotionMagicExpoTorqueCurrentFOC piviotControl;
 
     public Runnable zeroIntake = () -> {
@@ -93,9 +93,9 @@ public class Intake extends SubsystemBase {
         piviotControl.Position = piviotMotor.getPosition().getValueAsDouble();
     }
 
-    // public boolean getIntakeSensor() {
-    //     return IntakeSensor.get();
-    // }
+    public boolean getIntakeSensor() {
+        return IntakeSensor.get();
+    }
 
     public void setIntakePiviotBrake() {
         piviotMotor.setNeutralMode(NeutralModeValue.Brake);

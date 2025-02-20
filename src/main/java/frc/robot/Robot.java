@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Retract;
@@ -171,12 +172,13 @@ public class Robot extends TimedRobotstangs {
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
     Intake.getInstance().setPiviotZero();
 
-    NamedCommands.registerCommand("L1 Score", ScoringFactory.L1Score());
-    NamedCommands.registerCommand("L2 Score", ScoringFactory.L2Score());
-    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score());
-    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score());
+    NamedCommands.registerCommand("L1 Score", ScoringFactory.L1Position());
+    NamedCommands.registerCommand("L2 Score", ScoringFactory.L2Position());
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Position());
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Position());
+    NamedCommands.registerCommand("Spit", new Spit());
     NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
-    NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
+    // NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
 
   }
 
@@ -221,6 +223,7 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
+    //TODO find the different modes from chief
     LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 0);
     publishTrajectory(autoName);
   }
@@ -261,8 +264,7 @@ public class Robot extends TimedRobotstangs {
     }
 
     autoCommandGroup.addCommands(
-        new Retract().
-        alongWith(autoCommand));
+        new Retract().alongWith(autoCommand));
 
   }
 
@@ -273,6 +275,9 @@ public class Robot extends TimedRobotstangs {
 
   @Override
   public void teleopInit() {
+
+    unpublishTrajectory();
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -324,9 +329,9 @@ public class Robot extends TimedRobotstangs {
     }
 
     // if we are calling publish trajectory but the trajectory is already published
-    // else if (autoName.equals(lastAutoName)) {
-    // return;
-    // }
+    else if (autoName.equals(lastAutoName)) {
+      return;
+    }
 
     // we are going to use the auto name so this is the last auto we published
     else {
