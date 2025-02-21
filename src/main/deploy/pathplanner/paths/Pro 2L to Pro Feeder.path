@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 4.062221137152777,
-        "y": 1.110310691550925
+        "y": 1.1103106915509253
       },
       "isLocked": false,
       "linkedName": "Pro 2L"
@@ -40,7 +40,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
