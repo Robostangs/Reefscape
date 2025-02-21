@@ -37,6 +37,7 @@ import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.SwerveCommands.AligntoCoral;
 import frc.robot.commands.SwerveCommands.ReefAdjust;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -177,9 +178,8 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L3 prime", ScoringFactory.L3Position());
     NamedCommands.registerCommand("L4 prime", ScoringFactory.L4Position());
     NamedCommands.registerCommand("Spit", new Spit());
-    NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
+    NamedCommands.registerCommand("Intake", new AligntoCoral().alongWith(IntakeFactory.Schloop()));
     NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
-    // NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
 
   }
 

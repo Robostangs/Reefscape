@@ -44,7 +44,6 @@ public class Retract extends Command {
   @Override
   public boolean isFinished() {
     // TODO do this when we put it on
-    // return intake.isIntakeatSetpoint(false);
     return false;
   }
 

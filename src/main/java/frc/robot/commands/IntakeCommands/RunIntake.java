@@ -1,12 +1,12 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
 
 public class RunIntake extends Command {
 
     Intake intake;
-    // Endeffector endeffector;
 
     public RunIntake() {
         intake = Intake.getInstance();
@@ -39,8 +39,12 @@ public class RunIntake extends Command {
   @Override
   public boolean isFinished() {
     //TODO do this when we put it on
-    // return intake.getIntakeSensor();
-    return false;
+    if(Robot.isSimulation()){
+      return false;
+    }
+    else{
+      return intake.getIntakeSensor();
+    }   
   }
 
 }

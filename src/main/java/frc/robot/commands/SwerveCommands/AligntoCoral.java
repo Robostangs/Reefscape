@@ -10,7 +10,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
+import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Intake;
+
 import static edu.wpi.first.units.Units.*;
 
 public class AligntoCoral extends Command {
@@ -21,26 +24,29 @@ public class AligntoCoral extends Command {
 
     Supplier<Double> translateX, translateY;
     Supplier<Rotation2d> getTargetRotation;
+    String llName;
 
-    public AligntoCoral(Supplier<Double> translateX, Supplier<Double> translateY) {
+    public AligntoCoral() {
 
         drivetrain = CommandSwerveDrivetrain.getInstance();
 
         this.addRequirements(drivetrain);
 
-        this.translateX = translateX;
-        this.translateY = translateY;
+        this.translateX = () -> 0d;
+        this.translateY = () ->0d;
+        llName = Constants.VisionConstants.kLimelightCoralName;
 
         this.setName("Align to Coral");
 
         getTargetRotation = () -> {
-            double degreeOffest = LimelightHelpers.getTX(Constants.VisionConstants.kLimelightCoralName);
+            double degreeOffest = LimelightHelpers.getTX(llName);
             return new Rotation2d(degreeOffest);
         };
     }
 
     @Override
     public void initialize() {
+        LimelightHelpers.setPipelineIndex(llName, 2);
         driveRequest = new SwerveRequest.FieldCentricFacingAngle();
         driveRequest.HeadingController = new PhoenixPIDController(6, 0, 1);
 
@@ -57,12 +63,19 @@ public class AligntoCoral extends Command {
 
         driveRequest.TargetDirection = getTargetRotation.get();
 
-        driveRequest
-                .withVelocityX(translateX.get()
-                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
-                .withVelocityY(translateY.get()
-                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
-
+        if (Math.abs(LimelightHelpers.getTX(llName)) < 6) {
+            driveRequest
+                    .withVelocityX(translateX.get()
+                            * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
+                    .withVelocityY(
+                            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
+        } else {
+            driveRequest
+                    .withVelocityX(translateX.get()
+                            * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
+                    .withVelocityY(translateY.get()
+                            * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
+        }
         drivetrain.setControl(driveRequest);
 
     }
@@ -74,13 +87,13 @@ public class AligntoCoral extends Command {
 
     @Override
     public boolean isFinished() {
-        // if (Robot.isSimulation()) {
+        if (Robot.isSimulation()) {
             return false;
-        // }
+        }
 
-        // else {
-        //     return !Intake.getInstance().getIntakeSensor();
-        // }
+        else {
+            return Intake.getInstance().getIntakeSensor();
+        }
 
     }
 }

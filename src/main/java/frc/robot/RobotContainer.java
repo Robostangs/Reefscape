@@ -100,11 +100,12 @@ public class RobotContainer {
                 // xDrive.x().whileTrue(new Spit());
 
                 // xDrive.y().toggleOnTrue(new Retract());
+
                 // xDrive.x().toggleOnTrue(new Extend());
 
                 // xDrive.rightStick().toggleOnTrue(new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract));
 
-               // new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.05).whileTrue(new RunArm(() -> xDrive.getLeftY(), false));
+               new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.05).whileTrue(new RunArm(() -> xDrive.getLeftY(), false));
                 xDrive.rightStick().toggleOnTrue(new RunIntake());
                 xDrive.leftStick().toggleOnTrue(new Extend());
                 xDrive.povRight().toggleOnTrue(new Retract());
