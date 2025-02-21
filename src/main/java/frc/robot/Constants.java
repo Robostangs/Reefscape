@@ -110,10 +110,7 @@ public final class Constants {
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
-    /*
-     * uppy:
-     * downy:
-     */
+ 
     public static final double kArmP = 2000;
     public static final double kArmI = 2000;
     public static final double kArmD = 200;
@@ -127,7 +124,7 @@ public final class Constants {
     public static final GravityTypeValue kArmgravtype = GravityTypeValue.Arm_Cosine;
     public static final int kArmEncoderId = 30;
     public static final double kArmheight = 5d;
-    public static final double kArmWidth = 5d;
+    public static final double kArmWidth = 3.5;
     public static final double kArmRootX = 1d;
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
@@ -189,7 +186,7 @@ public final class Constants {
   }
 
   public static class ScoringConstants {
-    public static final double kArmScoringangle = 270 + 360;
+    public static final double kArmScoringrotations = 140;
 
     // Align Poses
     public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(0));
@@ -234,7 +231,7 @@ public final class Constants {
     }
 
     public static class L3 {
-      public static final double kElevatorPos = 100;
+      public static final double kElevatorPos = 2;
     }
 
     public static class L4 {

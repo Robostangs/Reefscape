@@ -62,10 +62,9 @@ public class Elevator extends SubsystemBase {
         limitSwitchElevator = new DigitalInput(Constants.ElevatorConstants.kLimitSwitchId);
 
 
-        elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d)
-                .withFeedForward(Constants.ElevatorConstants.kElevatorFF);
+        elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d);
 
-        elevatorTargetMotorModel = DCMotor.getFalcon500(1);
+        elevatorTargetMotorModel = DCMotor.getFalcon500(2);
 
         simElevatorTarget = new ElevatorSim(elevatorTargetMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
@@ -73,8 +72,8 @@ public class Elevator extends SubsystemBase {
                 0d);
 
 
-        targetElevator_mechanism = new Mechanism2d(20, 50);
-        targetElevatorBaseRoot = targetElevator_mechanism.getRoot("Target Elevator Root", 10, 0);
+        targetElevator_mechanism = new Mechanism2d(5, 5);
+        targetElevatorBaseRoot = targetElevator_mechanism.getRoot("Target Elevator Root", 2.5, 0);
         m_targetElevatorMech2d = targetElevatorBaseRoot.append(
                 new MechanismLigament2d("Elevator",
                         simElevatorTarget.getPositionMeters(), 90, 6, new Color8Bit(Color.kBlue)));
@@ -84,8 +83,8 @@ public class Elevator extends SubsystemBase {
                 Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, false,
                 0d);
 
-        profileElevator_mechanism = new Mechanism2d(20, 50);
-        profileElevatorBaseRoot = profileElevator_mechanism.getRoot("Profile Elevator Root", 10, 0);
+        profileElevator_mechanism = new Mechanism2d(20, 5);
+        profileElevatorBaseRoot = profileElevator_mechanism.getRoot("Profile Elevator Root", 2.5, 0);
         m_profileElevatorMech2d = profileElevatorBaseRoot.append(
                 new MechanismLigament2d("Elevator",
                         simElevatorProfile.getPositionMeters(), 90, 6, new Color8Bit(Color.kOrange)));
@@ -94,8 +93,7 @@ public class Elevator extends SubsystemBase {
         TalonFXConfiguration elevatorMotorRightConfigs = new TalonFXConfiguration();
 
         /**
-         * double check limlit switvh
-         * put in softlimits
+         * double check limit switch
          * find kg
          * find kv
          * find ka
@@ -168,7 +166,7 @@ public class Elevator extends SubsystemBase {
         elevatorMotorLeft
                 .setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
 
-        SmartDashboard.putData("Elevator/Elevator Sim", targetElevator_mechanism);
+        SmartDashboard.putData("Elevator/Elevator Target", targetElevator_mechanism);
         SmartDashboard.putData("Elevator/Elevator Profile", profileElevator_mechanism);
 
     }
@@ -306,10 +304,10 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
 
         SmartDashboard.putNumber("Elevator/Simulation/Position", simElevatorTarget.getPositionMeters());
-        SmartDashboard.putNumber("Elevator/Real/Velocity", getElevatorVelocityMeters());
-        SmartDashboard.putNumber("Elevator/Real/Target Elevator Meters", elevatorMotionMagic.Position);
-        SmartDashboard.putNumber("Elevator/Real/Position Meters", getElevatorPositionMeters());
-        SmartDashboard.putBoolean("Elevator/Real/At Position", isElevatorAtTarget());
+        SmartDashboard.putNumber("Elevator/Velocity", getElevatorVelocityMeters());
+        SmartDashboard.putNumber("Elevator/Target Elevator Meters", elevatorMotionMagic.Position);
+        SmartDashboard.putNumber("Elevator/Position Meters", getElevatorPositionMeters());
+        SmartDashboard.putBoolean("Elevator/At Position", isElevatorAtTarget());
 
         SmartDashboard.putNumber("Elevator/elevator position", elevatorMotorRight.getPosition().getValueAsDouble());
 

@@ -1,10 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -139,6 +136,15 @@ public class Arm extends SubsystemBase {
         armMotor.setControl(new MotionMagicTorqueCurrentFOC(-0.25));
     };
 
+    public boolean isArmAtTarget(){
+        if(Math.abs(armControl.Position - armEncoder.getPosition().getValueAsDouble()) < 0.01){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public void setArmMotionMagic() {
         if (Intake.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
                 || Robot.isSimulation()) {
@@ -149,12 +155,6 @@ public class Arm extends SubsystemBase {
 
     }
 
-    /**
-     * torque current = kg +kv*v
-     * 
-     * + ka*a
-     * 
-     */
     @Override
     public void periodic() {
 
