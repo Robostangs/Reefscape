@@ -47,7 +47,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "L4 Prime",
+      "name": "L3 Prime",
       "waypointRelativePos": 0.3545465848806367,
       "endWaypointRelativePos": null,
       "command": null
