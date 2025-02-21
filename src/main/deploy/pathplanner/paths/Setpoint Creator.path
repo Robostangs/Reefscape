@@ -177,43 +177,43 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "L1 Score",
+      "name": "L1 Prime",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "Stack Intake",
+      "name": "L2 Prime",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "Feeder Intake",
+      "name": "L3 Prime",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "",
+      "name": "L4 Prime",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "",
+      "name": "Spit",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "",
+      "name": "Intake",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "",
+      "name": "Return Home",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
