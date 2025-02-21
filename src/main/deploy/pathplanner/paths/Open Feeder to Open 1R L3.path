@@ -8,31 +8,31 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3914808781386463,
-        "y": 7.112056495633187
+        "x": 2.4704135678220522,
+        "y": 5.53759381823144
       },
       "isLocked": false,
       "linkedName": "Open Feeder"
     },
     {
       "anchor": {
-        "x": 5.118608940972222,
-        "y": 5.592024739583333
+        "x": 3.8409393084490735,
+        "y": 5.5693142361111105
       },
       "prevControl": {
-        "x": 4.691884403935184,
-        "y": 6.342985387731481
+        "x": 2.9287973300179333,
+        "y": 6.216502510991729
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Open 2L"
+      "linkedName": "Open 1R"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.346361074270557,
+      "minWaypointRelativePos": 0.27226666114058357,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 2.0,
@@ -48,7 +48,7 @@
   "eventMarkers": [
     {
       "name": "L4 Prime",
-      "waypointRelativePos": 0.4010278514588859,
+      "waypointRelativePos": 0.2862234748010609,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -63,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.35287723888223
+    "rotation": -61.276430128939396
   },
   "reversed": false,
   "folder": "Feeder to Reef Paths",

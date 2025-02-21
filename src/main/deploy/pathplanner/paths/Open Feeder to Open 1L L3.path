@@ -8,51 +8,30 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3914808781386463,
-        "y": 7.112056495633187
+        "x": 2.4215867221615723,
+        "y": 6.960477790665939
       },
       "isLocked": false,
       "linkedName": "Open Feeder"
     },
     {
       "anchor": {
-        "x": 5.118608940972222,
-        "y": 5.592024739583333
+        "x": 3.489625289351851,
+        "y": 5.3639879918981475
       },
       "prevControl": {
-        "x": 4.691884403935184,
-        "y": 6.342985387731481
+        "x": 2.767683457287118,
+        "y": 6.164514959743449
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Open 2L"
+      "linkedName": "Open 1L"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.346361074270557,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "L4 Prime",
-      "waypointRelativePos": 0.4010278514588859,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -63,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.35287723888223
+    "rotation": -65.5735058286698
   },
   "reversed": false,
   "folder": "Feeder to Reef Paths",
