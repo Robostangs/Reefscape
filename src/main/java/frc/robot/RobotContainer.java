@@ -13,8 +13,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.RunArm;
-import frc.robot.commands.ClimberCommands.Deploy;
-import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Spit;
@@ -27,8 +25,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
 
 public class RobotContainer {
         // max angular velocity
@@ -165,7 +161,5 @@ public class RobotContainer {
 
         }
 
-        public Command getAutonomousCommand() {
-                return Commands.print("No autonomous command configured");
-        }
+
 }

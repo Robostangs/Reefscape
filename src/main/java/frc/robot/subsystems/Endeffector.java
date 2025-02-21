@@ -12,7 +12,6 @@ public class Endeffector extends SubsystemBase {
     private static Endeffector mInstance;
     
     private TalonSRX endeffectorMotorRight;
-    // private DigitalInput EndeffectorSensor;
 
     public static Endeffector getInstance() {
         if (mInstance == null)
@@ -23,7 +22,6 @@ public class Endeffector extends SubsystemBase {
     // just spit and put in break mode
     public Endeffector() {
         endeffectorMotorRight = new TalonSRX(Constants.EndeffectorConstants.kEndeffectorMotorId);
-        // EndeffectorSensor = new DigitalInput(Constants.EndeffectorConstants.kEndeffectorSensorId);
     }
 
     public void setEneffdector(double endeffectorDutyCycle) {
@@ -38,9 +36,7 @@ public class Endeffector extends SubsystemBase {
         endeffectorMotorRight.setNeutralMode(NeutralMode.Brake);
     }
     
-    // public boolean getEndeffectorSensor() {
-    //     return EndeffectorSensor.get();
-    // }
+
 
     @Override
     public void periodic() {
