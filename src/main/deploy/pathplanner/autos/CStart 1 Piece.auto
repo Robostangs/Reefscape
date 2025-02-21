@@ -9,6 +9,18 @@
           "data": {
             "pathName": "Center Start to Center 2L"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
         }
       ]
     }

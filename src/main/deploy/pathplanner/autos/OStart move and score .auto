@@ -9,6 +9,18 @@
           "data": {
             "pathName": "Open Start to Open 2L"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
         }
       ]
     }
