@@ -224,7 +224,7 @@ public class Robot extends TimedRobotstangs {
   public void disabledPeriodic() {
 
     //TODO find the different modes from chief
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 0);
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
     publishTrajectory(autoName);
   }
 

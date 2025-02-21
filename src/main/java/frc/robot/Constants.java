@@ -109,16 +109,21 @@ public final class Constants {
 
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
-    public static final double kArmP = 0;
-    public static final double kArmI = 0;
-    public static final double kArmD = 0;
-    public static final double kArmFF = 0;
-    public static final double kArmV = 0;
-    public static final double kArmA = 0;
 
-    public static final double kArmG = -10;
+    /*
+     * uppy:
+     * downy:
+     */
+    public static final double kArmP = 2000;
+    public static final double kArmI = 2000;
+    public static final double kArmD = 200;
+    public static final double kArmkS = 4;
+    public static final double kArmV = 15;
+    public static final double kArmA = 10;
 
-    public static final double kArmCruiseVelocity = 0;
+    public static final double kArmG = 20;
+
+    public static final double kArmCruiseVelocity = 1d;
     public static final GravityTypeValue kArmgravtype = GravityTypeValue.Arm_Cosine;
     public static final int kArmEncoderId = 30;
     public static final double kArmheight = 5d;
@@ -128,6 +133,8 @@ public final class Constants {
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
     public static final double kArmRestsetpoint = 270d;
+    public static final double kArmAcceleration = 10d;
+    public static final double kArmRotortoSensorRatio = (159d/15d)*(36d/12d);
 
   }
 
@@ -171,8 +178,8 @@ public final class Constants {
 
   public static class VisionConstants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
-    public static final String kLimelightFourName = "BigBP";
-    public static final String kLimelightThreeName = "SmallBP";
+    public static final String kLimelightScoreSide = "score";
+    public static final String kLimelightOtherName = "SmallBP";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kTAThresholdFour = 0.01;

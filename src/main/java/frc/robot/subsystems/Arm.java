@@ -2,9 +2,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
@@ -41,21 +45,26 @@ public class Arm extends SubsystemBase {
         armEncoder = new CANcoder(Constants.ArmConstants.kArmEncoderId);
         armControl = new MotionMagicTorqueCurrentFOC(0d);
 
-
-
         armControl.Slot = 0;
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
 
         armconfigs.Slot0.kP = Constants.ArmConstants.kArmP;
         armconfigs.Slot0.kI = Constants.ArmConstants.kArmI;
         armconfigs.Slot0.kD = Constants.ArmConstants.kArmD;
-        armconfigs.Slot0.kS = Constants.ArmConstants.kArmFF;
+        armconfigs.Slot0.kS = Constants.ArmConstants.kArmkS;
         armconfigs.Slot0.GravityType = Constants.ArmConstants.kArmgravtype;
         armconfigs.Slot0.kG = Constants.ArmConstants.kArmG;
         armconfigs.Slot0.kA = Constants.ArmConstants.kArmA;
         armconfigs.Slot0.kV = Constants.ArmConstants.kArmV;
+
         armconfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.ArmConstants.kArmCruiseVelocity;
-        
+        armconfigs.MotionMagic.MotionMagicAcceleration = Constants.ArmConstants.kArmAcceleration;
+
+        armconfigs.Feedback.FeedbackRemoteSensorID = Constants.ArmConstants.kArmEncoderId;
+        armconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+        armconfigs.Feedback.RotorToSensorRatio = Constants.ArmConstants.kArmRotortoSensorRatio;
+
+        armconfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         armMotor.getConfigurator().apply(armconfigs);
 
@@ -124,6 +133,13 @@ public class Arm extends SubsystemBase {
         }
     }
 
+    public Runnable gotoZero = () -> {
+        armMotor.setControl(new MotionMagicTorqueCurrentFOC(0.15));
+    };
+    public Runnable gotoSchloop = () -> {
+        armMotor.setControl(new MotionMagicTorqueCurrentFOC(-0.25));
+    };
+
     public void setArmMotionMagic() {
         if (Intake.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
                 || Robot.isSimulation()) {
@@ -134,10 +150,8 @@ public class Arm extends SubsystemBase {
 
     }
 
-
-    
     /**
-     * torque current = kg +kv*v 
+     * torque current = kg +kv*v
      * 
      * + ka*a
      * 
@@ -154,11 +168,16 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
         SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
 
-        SmartDashboard.putNumber("Torque current over velocity -kg ", (armMotor.getTorqueCurrent().getValueAsDouble()- -10)/armMotor.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Torque current  -kg ",
+                (armMotor.getTorqueCurrent().getValueAsDouble()
+                        - (Constants.ArmConstants.kArmG
+                                * Math.cos(Units.rotationsToRadians(armMotor.getPosition().getValueAsDouble())))
+                // / armMotor.getVelocity().getValueAsDouble()
+                ));
 
-
-
-
+        SmartDashboard.putNumber("Torque current over velocity ",
+                Math.min(100, Math.max(-100, armMotor.getTorqueCurrent().getValueAsDouble()
+                                / armMotor.getVelocity().getValueAsDouble())));
 
     }
 
