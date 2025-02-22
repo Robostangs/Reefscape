@@ -6,7 +6,13 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 import com.pathplanner.lib.util.FlippingUtil;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagDetection;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.apriltag.AprilTagPoseEstimate;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,7 +36,10 @@ public class AligntoReef extends Command {
     Supplier<Rotation2d> getTargetRotation;
     int AprilTagID;
     boolean Right;
-    Pose2d reefPose = new Pose2d(0, 0, new Rotation2d(0));
+    Pose3d reefPose;
+    AprilTagFields map;
+    AprilTagFieldLayout theMap;
+
 
     public AligntoReef(Supplier<Double> translateX, Supplier<Double> translateY, int AprilTagID, boolean Right) {
 
@@ -45,38 +54,18 @@ public class AligntoReef extends Command {
 
         this.setName("Align to Reef");
 
-        if (Right) {
-            if (AprilTagID == 17 || AprilTagID == 11) {
-                reefPose = Constants.ScoringConstants.k17BlueRReefPose;
-            } else if (AprilTagID == 18 || AprilTagID == 10) {
-                reefPose = Constants.ScoringConstants.k18BlueRReefPose;
-            } else if (AprilTagID == 19 || AprilTagID == 9) {
-                reefPose = Constants.ScoringConstants.k19BlueRReefPose;
-            } else if (AprilTagID == 20 || AprilTagID == 8) {
-                reefPose = Constants.ScoringConstants.k20BlueRReefPose;
-            } else if (AprilTagID == 21 || AprilTagID == 7) {
-                reefPose = Constants.ScoringConstants.k21BlueRReefPose;
-            } else if (AprilTagID == 22 || AprilTagID == 6) {
-                reefPose = Constants.ScoringConstants.k22BlueRReefPose;
-            }
-        } else {
-            if (AprilTagID == 17 || AprilTagID == 11) {
-                reefPose = Constants.ScoringConstants.k17BlueLReefPose;
-            } else if (AprilTagID == 18 || AprilTagID == 10) {
-                reefPose = Constants.ScoringConstants.k18BlueLReefPose;
-            } else if (AprilTagID == 19 || AprilTagID == 9) {
-                reefPose = Constants.ScoringConstants.k19BlueLReefPose;
-            } else if (AprilTagID == 20 || AprilTagID == 8) {
-                reefPose = Constants.ScoringConstants.k20BlueLReefPose;
-            } else if (AprilTagID == 21 || AprilTagID == 7) {
-                reefPose = Constants.ScoringConstants.k21BlueLReefPose;
-            } else if (AprilTagID == 22 || AprilTagID == 6) {
-                reefPose = Constants.ScoringConstants.k22BlueLReefPose;
-            }
-            if (Robot.isRed()) {
-                FlippingUtil.flipFieldPose(reefPose);
-            }
-        }
+
+
+
+
+
+       map = AprilTagFields.k2025ReefscapeWelded;
+
+        
+      theMap = AprilTagFieldLayout.loadField(map);
+
+      
+    reefPose = theMap.getTagPose(AprilTagID).get();
 
         getTargetRotation = () -> {
              double deltaX =  drivetrain.getPose().getX() - reefPose.getX();
@@ -111,7 +100,7 @@ public class AligntoReef extends Command {
                 .withVelocityY(translateY.get()
                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
         drivetrain.setControl(driveRequest);
-        Robot.teleopField.getObject("Reef Align Pose").setPose(reefPose);
+        Robot.teleopField.getObject("Reef Align Pose").setPose(new Pose2d(reefPose.getX(), reefPose.getY(), reefPose.getRotation().toRotation2d()));
         SmartDashboard.putNumber("Drivetrain/April Tag ID", AprilTagID);
     }
 

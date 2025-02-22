@@ -18,6 +18,8 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.WebServer;
@@ -94,6 +96,8 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void robotInit() {
     Intake.getInstance().zeroIntake();
+
+
 
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");

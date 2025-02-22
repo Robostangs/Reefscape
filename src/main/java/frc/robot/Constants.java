@@ -178,6 +178,7 @@ public final class Constants {
 
   }
 
+  //WE ARE WELDED 
   public static class VisionConstants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
     public static final String kLimelightScoreSide = "score";

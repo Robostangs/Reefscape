@@ -33,6 +33,10 @@ public class Climber extends SubsystemBase {
         climberMotor.set(climberDutyCycle);
     }
 
+    public void zeroClimber() {
+        climberMotor.setPosition(0);
+    }
+
     public void postStatus(String status) {
         SmartDashboard.putString("Climber/status", status);
 
