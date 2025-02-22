@@ -80,7 +80,7 @@
   "folder": "Goofy Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -178.87363255868482
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

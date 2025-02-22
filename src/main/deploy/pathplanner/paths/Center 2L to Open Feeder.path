@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.4215867221615721,
-        "y": 6.960477790665939
+        "x": 1.319014630998884,
+        "y": 6.977340262276786
       },
       "prevControl": {
-        "x": 6.066160638648342,
-        "y": 6.212452054310994
+        "x": 6.202482277199074,
+        "y": 5.835318287037037
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,8 +30,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.28333938953488325,
-      "rotationDegrees": 180.0
+      "waypointRelativePos": 0.28393734643734647,
+      "rotationDegrees": -90.0
     }
   ],
   "constraintZones": [],
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 129.12703645499826
+    "rotation": -144.01133281264748
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.8832320659584
+    "rotation": -89.88217576282857
   },
   "useDefaultConstraints": true
 }
