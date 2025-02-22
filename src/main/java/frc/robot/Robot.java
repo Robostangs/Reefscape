@@ -170,7 +170,6 @@ public class Robot extends TimedRobotstangs {
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
-        
 
     NamedCommands.registerCommand("L1 prime", ScoringFactory.L1Position());
     NamedCommands.registerCommand("L2 prime", ScoringFactory.L2Position());
@@ -223,16 +222,24 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
-/*
-  0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2 localization. The internal IMU is ignored entirely.
-  1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure the LL4 internal IMU’s fused yaw to match the submitted yaw value.
-  2 - Use internal IMU for MT2 localization. External imu data is ignored entirely
-  */    
-  LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
+        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+
+    /*
+     * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
+     * localization. The internal IMU is ignored entirely.
+     * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
+     * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
+     * 2 - Use internal IMU for MT2 localization. External imu data is ignored
+     * entirely
+     */
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
     publishTrajectory(autoName);
   }
 
   public void autonomousInit() {
+    unpublishTrajectory();
     Intake.getInstance().zeroIntake();
 
     autoCommand = new PathPlannerAuto(autoName);
@@ -267,8 +274,12 @@ public class Robot extends TimedRobotstangs {
         break;
     }
 
-    autoCommandGroup.addCommands(
-        new Retract().alongWith(autoCommand));
+    // autoCommandGroup.addCommands(
+    // new Retract().alongWith(
+    // autoCommand
+    // )
+    // );
+    autoCommand.schedule();
 
   }
 
