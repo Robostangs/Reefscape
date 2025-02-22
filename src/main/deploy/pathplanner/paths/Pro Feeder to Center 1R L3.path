@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 2.371373498908296,
-        "y": 1.837486780158296
+        "y": 1.8374867801582961
       },
       "isLocked": false,
       "linkedName": "Pro Feeder"
@@ -20,7 +20,7 @@
         "y": 3.563677845251091
       },
       "prevControl": {
-        "x": 1.7685617491382637,
+        "x": 1.768561749138264,
         "y": 3.4834548563728163
       },
       "nextControl": null,
@@ -50,7 +50,12 @@
       "name": "L3 Prime",
       "waypointRelativePos": 0.43603904177718816,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "L3 Prime"
+        }
+      }
     }
   ],
   "globalConstraints": {
