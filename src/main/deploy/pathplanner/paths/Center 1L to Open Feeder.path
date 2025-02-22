@@ -36,7 +36,12 @@
       "name": "Feeder Intake",
       "waypointRelativePos": 0.34188276768642434,
       "endWaypointRelativePos": 1.0,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Feeder Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {

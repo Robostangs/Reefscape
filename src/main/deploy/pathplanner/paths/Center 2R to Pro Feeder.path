@@ -20,7 +20,7 @@
         "y": 0.7409610398471602
       },
       "prevControl": {
-        "x": 4.367991351664844,
+        "x": 4.367991351664843,
         "y": 0.6113856952783828
       },
       "nextControl": null,
@@ -36,7 +36,12 @@
       "name": "Feeder Intake",
       "waypointRelativePos": 0.7005407504780117,
       "endWaypointRelativePos": 1.0,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Feeder Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {

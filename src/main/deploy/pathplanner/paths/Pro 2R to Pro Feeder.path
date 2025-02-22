@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 4.087499917869563,
-        "y": 1.8455940463013485
+        "y": 1.8455940463013487
       },
       "isLocked": false,
       "linkedName": "Pro 2R"
@@ -36,7 +36,12 @@
       "name": "Feeder Intake",
       "waypointRelativePos": 0.5323255258126195,
       "endWaypointRelativePos": 1.0,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Feeder Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {
