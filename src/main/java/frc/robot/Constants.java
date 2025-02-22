@@ -105,6 +105,8 @@ public final class Constants {
 
     public static final double kEndeffectorSpit = 0.6;
 
+    public static final double kEndeffectorSlurp = -0.6;
+
   }
 
   public static class ArmConstants {
@@ -132,6 +134,9 @@ public final class Constants {
     public static final double kArmRestsetpoint = 270d;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d/15d)*(36d/12d);
+
+
+    public static final double kArmHumanPlayer = 0;
 
   }
 
@@ -303,10 +308,11 @@ public final class Constants {
       public static final PIDConstants translationPID = new PIDConstants(0, 0, 0);
       public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
 
+      public static final double kSlurpTimeout = 3d;
       public static class AutoPoses {
-        public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(0));
-        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(0));
-        public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(0));
+        public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.radiansToDegrees(180)));
+        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.radiansToDegrees(180)));
+        public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.radiansToDegrees(180)));
 
       }
 

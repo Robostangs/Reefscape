@@ -65,30 +65,30 @@ public class RobotContainer {
         }
 
         private void configureDriverBindings() {
-                // if (Robot.isSimulation()) {
-                // drivetrain.setDefaultCommand(
-                // drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
-                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                // .in(MetersPerSecond))
-                // .withVelocityY((-xSim.getRawAxis(1))
-                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                // .in(MetersPerSecond))
-                // .withRotationalRate((xSim.getRawAxis(2))
-                // *
-                // Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
-                // } else {
-                // drivetrain.setDefaultCommand(
-                // // Drivetrain will execute this command periodically
-                // drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
-                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                // .in(MetersPerSecond))
-                // .withVelocityY((-xDrive.getLeftX())
-                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                // .in(MetersPerSecond))
-                // .withRotationalRate((-xDrive.getRightX())
-                // *
-                // Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
-                // }
+                if (Robot.isSimulation()) {
+                        drivetrain.setDefaultCommand(
+                                        drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
+                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                        .in(MetersPerSecond))
+                                                        .withVelocityY((-xSim.getRawAxis(1))
+                                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                                        .in(MetersPerSecond))
+                                                        .withRotationalRate((xSim.getRawAxis(2))
+                                                                        *
+                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                } else {
+                        drivetrain.setDefaultCommand(
+                                        // Drivetrain will execute this command periodically
+                                        drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
+                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                        .in(MetersPerSecond))
+                                                        .withVelocityY((-xDrive.getLeftX())
+                                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                                        .in(MetersPerSecond))
+                                                        .withRotationalRate((-xDrive.getRightX())
+                                                                        *
+                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                }
 
                 // new Trigger(() -> (xDrive.getLeftY() >= 0.1))
                 // .whileTrue(new RunElevator(() -> xDrive.getLeftY() * 0.075));
@@ -108,7 +108,8 @@ public class RobotContainer {
                 // xDrive.rightStick().toggleOnTrue(new Extend().andThen(new
                 // RunIntake()).finallyDo(Retract.Retract));
 
-               new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.05).whileTrue(new RunArm(() -> xDrive.getLeftY(), false));
+                new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.05)
+                                .whileTrue(new RunArm(() -> xDrive.getLeftY(), false));
                 xDrive.rightStick().toggleOnTrue(new RunIntake());
                 xDrive.leftStick().toggleOnTrue(new Extend());
                 xDrive.povRight().toggleOnTrue(new Retract());
@@ -135,17 +136,18 @@ public class RobotContainer {
                 drivetrain.registerTelemetry(logger::telemeterize);
         }
 
-        private void configureManipBindings() {}
+        private void configureManipBindings() {
+        }
 
         private void configureSimBindings() {
 
                 new Trigger(() -> xSim.getRawButtonPressed(1))
                                 .toggleOnTrue(
-                                        ScoringFactory.L3Position());
+                                                ScoringFactory.L3Position());
 
                 new Trigger(() -> xSim.getRawButton(2)).toggleOnTrue(
-                        ScoringFactory.returnHome());
-                
+                                ScoringFactory.returnHome());
+
                 // new AligntoReef(() -> -xSim.getRawAxis(0),
                 // () -> -xSim.getRawAxis(1),
                 // 11, true)

@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
@@ -175,8 +176,8 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L2 prime", ScoringFactory.L2Position());
     NamedCommands.registerCommand("L3 prime", ScoringFactory.L3Position());
     NamedCommands.registerCommand("L4 prime", ScoringFactory.L4Position());
-    NamedCommands.registerCommand("Spit", new Spit());
-    NamedCommands.registerCommand("Intake", new AligntoCoral().alongWith(IntakeFactory.Schloop()));
+    NamedCommands.registerCommand("Spit", new PrintCommand("Hello"));
+    NamedCommands.registerCommand("Feeder Intake", IntakeFactory.HumanPlayer());
     NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
 
   }
@@ -246,16 +247,16 @@ public class Robot extends TimedRobotstangs {
 
     switch (startChooser.getSelected()) {
       case "CStart":
-        drivetrain.resetPose(!isRed()
-            ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+        drivetrain.resetPose(
+            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
         SmartDashboard.putString("Current Pose", "Pose reset to center");
 
         break;
       case "OStart":
-        drivetrain.resetPose(!isRed()
-            ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+        drivetrain.resetPose(
+            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
+                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
         SmartDashboard.putString("Current Pose", "Pose reset to open");
 
         break;
@@ -279,6 +280,7 @@ public class Robot extends TimedRobotstangs {
     // autoCommand
     // )
     // );
+
     autoCommand.schedule();
 
   }
