@@ -55,7 +55,12 @@
       "name": "L4 Prime",
       "waypointRelativePos": 0.36012102122015915,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "L4 Prime"
+        }
+      }
     }
   ],
   "globalConstraints": {
