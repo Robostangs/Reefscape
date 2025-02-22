@@ -38,6 +38,5 @@ public class Spit extends Command {
     @Override
     public boolean isFinished() {
         return false;
-        // return endeffector.getEndeffectorSensor();
     }
 }

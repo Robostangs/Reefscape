@@ -284,7 +284,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 this.getPigeon2().getAngularVelocityZWorld()
                         .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold) {
 
-            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightThreeName,
+            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
                     this.getState().Pose.getRotation().getDegrees(),
                     0d,
                     0d,
@@ -294,9 +294,9 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             // TODO see if this is better than getting the odo pose rotation
             if (DriverStation.isDisabled()) {
 
-                LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 1);
+                LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 1);
 
-                LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightFourName,
+                LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightScoreSide,
                         this.getState().Pose.getRotation().getDegrees(),
                         0d,
                         0d,
@@ -304,10 +304,10 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                         0d,
                         0d);
             } else {
-                LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 2);
+                LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 2);
 
-                LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightFourName,
-                        LimelightHelpers.getIMUData(Constants.VisionConstants.kLimelightFourName).Yaw,
+                LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightScoreSide,
+                        LimelightHelpers.getIMUData(Constants.VisionConstants.kLimelightScoreSide).Yaw,
                         0d,
                         0d,
                         0d,
@@ -318,24 +318,24 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             // TODO update these names
             LimelightHelpers.PoseEstimate fourPose, threePose;
             if (DriverStation.isDisabled()) {
-                fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightFourName);
-                threePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightThreeName);
+                fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
+                threePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
             } else {
                 fourPose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightFourName);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightThreeName);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightOtherName);
             }
 
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightThreeName) > 1
+            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 1
                     && LimelightHelpers.getTA(
-                            Constants.VisionConstants.kLimelightThreeName) > Constants.VisionConstants.kTAThresholdThree) {
+                            Constants.VisionConstants.kLimelightOtherName) > Constants.VisionConstants.kTAThresholdThree) {
                 this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
             }
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightThreeName) > 1
+            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 1
                     && LimelightHelpers.getTA(
-                            Constants.VisionConstants.kLimelightThreeName) > Constants.VisionConstants.kTAThresholdFour) {
+                            Constants.VisionConstants.kLimelightOtherName) > Constants.VisionConstants.kTAThresholdFour) {
                 this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
                 Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
             }

@@ -109,25 +109,29 @@ public final class Constants {
 
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
-    public static final double kArmP = 0;
-    public static final double kArmI = 0;
-    public static final double kArmD = 0;
-    public static final double kArmFF = 0;
-    public static final double kArmV = 0;
-    public static final double kArmA = 0;
 
-    public static final double kArmG = -10;
+ 
+    public static final double kArmP = 2000;
+    public static final double kArmI = 2000;
+    public static final double kArmD = 200;
+    public static final double kArmkS = 4;
+    public static final double kArmV = 15;
+    public static final double kArmA = 10;
 
-    public static final double kArmCruiseVelocity = 0;
+    public static final double kArmG = 20;
+
+    public static final double kArmCruiseVelocity = 1d;
     public static final GravityTypeValue kArmgravtype = GravityTypeValue.Arm_Cosine;
     public static final int kArmEncoderId = 30;
     public static final double kArmheight = 5d;
-    public static final double kArmWidth = 5d;
+    public static final double kArmWidth = 3.5;
     public static final double kArmRootX = 1d;
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
     public static final double kArmRestsetpoint = 270d;
+    public static final double kArmAcceleration = 10d;
+    public static final double kArmRotortoSensorRatio = (159d/15d)*(36d/12d);
 
   }
 
@@ -171,8 +175,8 @@ public final class Constants {
 
   public static class VisionConstants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
-    public static final String kLimelightFourName = "BigBP";
-    public static final String kLimelightThreeName = "SmallBP";
+    public static final String kLimelightScoreSide = "score";
+    public static final String kLimelightOtherName = "SmallBP";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kTAThresholdFour = 0.01;
@@ -182,7 +186,7 @@ public final class Constants {
   }
 
   public static class ScoringConstants {
-    public static final double kArmScoringangle = 270 + 360;
+    public static final double kArmScoringrotations = 140;
 
     // Align Poses
     public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(0));
@@ -227,7 +231,7 @@ public final class Constants {
     }
 
     public static class L3 {
-      public static final double kElevatorPos = 100;
+      public static final double kElevatorPos = 2;
     }
 
     public static class L4 {

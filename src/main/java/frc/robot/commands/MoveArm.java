@@ -5,21 +5,20 @@ import frc.robot.subsystems.Arm;
 
 public class MoveArm extends Command {
   Arm arm;
-  double angle;
+  double rotations;
 
-  public MoveArm(double angle) {
+  public MoveArm(double rotations) {
 
-    this.angle = angle;
+    this.rotations = rotations;
     arm = Arm.getInstance();
     addRequirements(arm);
 
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setArmPosition(angle);
-    arm.postStatus("going to this angle:" + angle);
+    arm.setArmPosition(rotations);
+    arm.postStatus("going to this rotation:" + rotations);
   }
 
   @Override
@@ -31,14 +30,14 @@ public class MoveArm extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.postStatus("at this angle:" + angle);
+    arm.postStatus("at this rotation:" + rotations);
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return arm.isArmAtTarget();
   }
 
 }

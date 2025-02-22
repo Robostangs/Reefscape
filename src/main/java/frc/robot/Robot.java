@@ -37,6 +37,7 @@ import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.SwerveCommands.AligntoCoral;
 import frc.robot.commands.SwerveCommands.ReefAdjust;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -91,7 +92,6 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
-    // WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
     Intake.getInstance().zeroIntake();
 
     SmartDashboard.putData("Field", teleopField);
@@ -170,16 +170,14 @@ public class Robot extends TimedRobotstangs {
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
-    Intake.getInstance().setPiviotZero();
 
     NamedCommands.registerCommand("L1 prime", ScoringFactory.L1Position());
     NamedCommands.registerCommand("L2 prime", ScoringFactory.L2Position());
     NamedCommands.registerCommand("L3 prime", ScoringFactory.L3Position());
     NamedCommands.registerCommand("L4 prime", ScoringFactory.L4Position());
     NamedCommands.registerCommand("Spit", new Spit());
-    NamedCommands.registerCommand("Intake", IntakeFactory.Schloop());
+    NamedCommands.registerCommand("Intake", new AligntoCoral().alongWith(IntakeFactory.Schloop()));
     NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
-    // NamedCommands.registerCommand("Reef Adjust", new ReefAdjust());
 
   }
 
@@ -224,12 +222,24 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
-    //TODO find the different modes from chief
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFourName, 0);
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
+        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+
+    /*
+     * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
+     * localization. The internal IMU is ignored entirely.
+     * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
+     * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
+     * 2 - Use internal IMU for MT2 localization. External imu data is ignored
+     * entirely
+     */
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
     publishTrajectory(autoName);
   }
 
   public void autonomousInit() {
+    unpublishTrajectory();
     Intake.getInstance().zeroIntake();
 
     autoCommand = new PathPlannerAuto(autoName);
@@ -264,8 +274,12 @@ public class Robot extends TimedRobotstangs {
         break;
     }
 
-    autoCommandGroup.addCommands(
-        new Retract().alongWith(autoCommand));
+    // autoCommandGroup.addCommands(
+    // new Retract().alongWith(
+    // autoCommand
+    // )
+    // );
+    autoCommand.schedule();
 
   }
 
