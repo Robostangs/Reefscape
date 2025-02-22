@@ -10,28 +10,42 @@ import java.lang.management.MemoryMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.FlippingUtil;
+
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.util.FlippingUtil;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.EndeffectorCommands.Spit;
+import frc.robot.commands.Factories.IntakeFactory;
+import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.SwerveCommands.AligntoCoral;
+import frc.robot.commands.SwerveCommands.ReefAdjust;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 
 public class Robot extends TimedRobotstangs {
 
@@ -61,6 +75,7 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
   private PathPlannerAuto autoCommand;
+  private SequentialCommandGroup autoCommandGroup;
 
   private static String lastAutoName;
   private static Alert nullAuto = new Alert("Null auto", AlertType.kWarning);
@@ -80,6 +95,9 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
+    Intake.getInstance().zeroIntake();
+
+
 
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
@@ -91,34 +109,38 @@ public class Robot extends TimedRobotstangs {
     startChooser.addOption("Open", "OStart");
     startChooser.addOption("Processor", "PStart");
 
-    firstPieceChooser.setDefaultOption("Center 1", "C1");
-    firstPieceChooser.addOption("Center 2", "C2");
-    firstPieceChooser.addOption("Pro 1", "P1");
-    firstPieceChooser.addOption("Pro 2", "P2");
-    firstPieceChooser.addOption("Open 1", "O1");
-    firstPieceChooser.addOption("Open 2", "O2");
+    firstPieceChooser.setDefaultOption("Center 1", " - C1");
+    firstPieceChooser.addOption("Center 2", " - C2");
+    firstPieceChooser.addOption("Pro 1", " - P1");
+    firstPieceChooser.addOption("Pro 2", " - P2");
+    firstPieceChooser.addOption("Open 1", " - O1");
+    firstPieceChooser.addOption("Open 2", " - O2");
 
     firstPieceRoLChooser.setDefaultOption("Right", "R");
     firstPieceRoLChooser.addOption("Left", "L");
 
-    secondPieceChooser.setDefaultOption("Center 1", "C1");
-    secondPieceChooser.addOption("Center 2", "C2");
-    secondPieceChooser.addOption("Pro 1", "P1");
-    secondPieceChooser.addOption("Pro 2", "P2");
-    secondPieceChooser.addOption("Open 1", "O1");
-    secondPieceChooser.addOption("Open 2", "O2");
+    secondPieceChooser.setDefaultOption("None", "");
+    secondPieceChooser.addOption("Center 1", " - C1");
+    secondPieceChooser.addOption("Center 2", " - C2");
+    secondPieceChooser.addOption("Pro 1", " - P1");
+    secondPieceChooser.addOption("Pro 2", " - P2");
+    secondPieceChooser.addOption("Open 1", " - O1");
+    secondPieceChooser.addOption("Open 2", " - O2");
 
-    secondPieceRoLChooser.setDefaultOption("Right", "R");
+    secondPieceRoLChooser.setDefaultOption("None", "");
+    secondPieceRoLChooser.addOption("Right", "R");
     secondPieceRoLChooser.addOption("Left", "L");
 
-    thirdPieceChooser.setDefaultOption("Center 1", "C1");
-    thirdPieceChooser.addOption("Center 2", "C2");
-    thirdPieceChooser.addOption("Pro 1", "P1");
-    thirdPieceChooser.addOption("Pro 2", "P2");
-    thirdPieceChooser.addOption("Open 1", "O1");
-    thirdPieceChooser.addOption("Open 2", "O2");
+    thirdPieceChooser.setDefaultOption("None", "");
+    thirdPieceChooser.addOption("Center 1", " - C1");
+    thirdPieceChooser.addOption("Center 2", " - C2");
+    thirdPieceChooser.addOption("Pro 1", " - P1");
+    thirdPieceChooser.addOption("Pro 2", " - P2");
+    thirdPieceChooser.addOption("Open 1", " - O1");
+    thirdPieceChooser.addOption("Open 2", " - O2");
 
-    thirdPieceRoLChooser.setDefaultOption("Right", "R");
+    thirdPieceRoLChooser.setDefaultOption("None", "");
+    thirdPieceRoLChooser.addOption("Right", "R");
     thirdPieceRoLChooser.addOption("Left", "L");
 
     autoTab.add("Start Chooser", startChooser)
@@ -149,6 +171,19 @@ public class Robot extends TimedRobotstangs {
         .withSize(1, 1)
         .withPosition(2, 3);
 
+    // autoTab.add("", Alert.class.get);
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
+        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+
+    NamedCommands.registerCommand("L1 prime", ScoringFactory.L1Position());
+    NamedCommands.registerCommand("L2 prime", ScoringFactory.L2Position());
+    NamedCommands.registerCommand("L3 prime", ScoringFactory.L3Position());
+    NamedCommands.registerCommand("L4 prime", ScoringFactory.L4Position());
+    NamedCommands.registerCommand("Spit", new PrintCommand("Hello"));
+    NamedCommands.registerCommand("Feeder Intake", IntakeFactory.HumanPlayer());
+    NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
+
   }
 
   @Override
@@ -163,9 +198,7 @@ public class Robot extends TimedRobotstangs {
 
     teleopField.setRobotPose(drivetrain.getState().Pose);
 
-    autoName = startChooser.getSelected() + " - " + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
-        + " - " + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected() + " - "
-        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+    SmartDashboard.putString("Auto/Current Auto", autoName);
 
     CommandScheduler.getInstance().run();
 
@@ -188,33 +221,46 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-    publishTrajectory(autoName);
+
   }
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putString("Auto/Current Auto", autoName);
 
-    LimelightHelpers.SetIMUMode(autoName, 0);
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
+        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+
+    /*
+     * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
+     * localization. The internal IMU is ignored entirely.
+     * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
+     * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
+     * 2 - Use internal IMU for MT2 localization. External imu data is ignored
+     * entirely
+     */
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
     publishTrajectory(autoName);
   }
 
   public void autonomousInit() {
+    unpublishTrajectory();
+    Intake.getInstance().zeroIntake();
 
     autoCommand = new PathPlannerAuto(autoName);
 
     switch (startChooser.getSelected()) {
       case "CStart":
-        drivetrain.resetPose(!isRed()
-            ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+        drivetrain.resetPose(
+            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
         SmartDashboard.putString("Current Pose", "Pose reset to center");
 
         break;
       case "OStart":
-        drivetrain.resetPose(!isRed()
-            ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+        drivetrain.resetPose(
+            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
+                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
         SmartDashboard.putString("Current Pose", "Pose reset to open");
 
         break;
@@ -233,6 +279,12 @@ public class Robot extends TimedRobotstangs {
         break;
     }
 
+    // autoCommandGroup.addCommands(
+    // new Retract().alongWith(
+    // autoCommand
+    // )
+    // );
+
     autoCommand.schedule();
 
   }
@@ -244,6 +296,9 @@ public class Robot extends TimedRobotstangs {
 
   @Override
   public void teleopInit() {
+
+    unpublishTrajectory();
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

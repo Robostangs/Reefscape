@@ -11,6 +11,18 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Center 2L to Pro Feeder"
@@ -23,6 +35,18 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Pro 1R to Pro Feeder"
@@ -31,7 +55,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Feeder to Pro 1R"
+            "pathName": "Pro Feeder to Pro 1R L3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
           }
         },
         {

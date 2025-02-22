@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 6.148501157407407,
-        "y": 4.247621166087963
+        "x": 6.155314308449074,
+        "y": 4.226075303819444
       },
       "prevControl": {
-        "x": 6.457927302934927,
-        "y": 4.149761512865323
+        "x": 6.464740453976594,
+        "y": 4.128215650596805
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,9 +31,16 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,7 +49,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 179.8886741436317
+    "rotation": -88.91362838619142
   },
   "reversed": false,
   "folder": "Start to Reef Paths",

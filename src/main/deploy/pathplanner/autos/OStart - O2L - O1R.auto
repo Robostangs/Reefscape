@@ -7,43 +7,55 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Start to Pro 2L"
+            "pathName": "Open Start to Open 2L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro 2L to Pro Feeder"
+            "pathName": "Open 2L to Open Feeder"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Feeder to Pro 1R"
+            "pathName": "Open Feeder to Open 1R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro 1R to Pro Feeder"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro Feeder to Pro 1R"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro 1R to Pro Feeder"
+            "pathName": "Open 1R to Open Feeder"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Pro Start",
+  "folder": "Open Start",
   "choreoAuto": false
 }

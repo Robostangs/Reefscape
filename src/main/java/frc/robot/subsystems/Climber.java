@@ -11,8 +11,6 @@ import frc.robot.Constants;
 public class Climber extends SubsystemBase {
     private static Climber mInstance;
     private TalonFX climberMotor;
-    private double climberPositionMeters;
-
     public static Climber getInstance() {
         if (mInstance == null)
             mInstance = new Climber();
@@ -33,6 +31,10 @@ public class Climber extends SubsystemBase {
 
     public void runClimber(double climberDutyCycle) {
         climberMotor.set(climberDutyCycle);
+    }
+
+    public void zeroClimber() {
+        climberMotor.setPosition(0);
     }
 
     public void postStatus(String status) {

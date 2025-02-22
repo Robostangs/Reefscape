@@ -24,9 +24,9 @@ public class Deploy extends Command {
 
   @Override
   public void execute() {
-    if(climber.getClimberPosition() < Constants.ClimberConstants.kSafeDeployExtention ){
+    // if(climber.getClimberPosition() < Constants.ClimberConstants.kSafeDeployExtention ){
       climber.runClimber(Constants.ClimberConstants.kExtentionDutyCycle);
-    }
+    // }
 
   }
 

@@ -7,31 +7,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open Start to Open 1L"
+            "pathName": "Pro Start to Pro 2L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open 1L to Open Feeder"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Open Feeder to Center 1R"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center 1R to Pro Feeder"
+            "pathName": "Pro 2L to Pro Feeder"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Pro Feeder to Pro 1R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         },
         {
@@ -44,6 +56,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Open Start",
+  "folder": "Pro Start",
   "choreoAuto": false
 }

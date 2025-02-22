@@ -10,23 +10,25 @@ public class Retract extends Command {
   public Retract() {
     intake = Intake.getInstance();
     this.addRequirements(intake);
+
   }
   public static Runnable Retract = () -> {
     Intake intake = Intake.getInstance();
-    intake.retractBar();
+    intake.setRetractPosition();
+    intake.runIntakeMotionMagic();
   };
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.postStatus("Retracting");
-
-    intake.retractBar();
+    intake.postStatus("FALLING BACK");
+    intake.setRetractPosition();
 
   }
 
   @Override
   public void execute() {
+    intake.runIntakeMotionMagic();
 
   }
 
@@ -42,7 +44,6 @@ public class Retract extends Command {
   @Override
   public boolean isFinished() {
     // TODO do this when we put it on
-    // return intake.isIntakeatSetpoint(false);
     return false;
   }
 

@@ -7,19 +7,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open Start to Open 2L"
+            "pathName": "Open Start to Open 1L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open 2L to Open Feeder"
+            "pathName": "Open 1L to Open Feeder"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Open Feeder to Open 1R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         },
         {
@@ -32,6 +56,18 @@
           "type": "path",
           "data": {
             "pathName": "Open Feeder to Center 1L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         },
         {

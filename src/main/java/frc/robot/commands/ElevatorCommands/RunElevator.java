@@ -1,0 +1,48 @@
+package frc.robot.commands.ElevatorCommands;
+
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Elevator;
+
+public class RunElevator extends Command {
+  Elevator elevator;
+  DoubleSupplier speed;
+  boolean up;
+
+  public RunElevator(DoubleSupplier speed, boolean upordown) {
+    elevator = Elevator.getInstance();
+    addRequirements(elevator);
+    this.speed = speed;
+    this.up = upordown;
+  }
+
+  @Override
+  public void initialize() {
+    elevator.postStatus("Manually Adjusting Elevator");
+    elevator.setBrakeMode();
+  }
+
+  @Override
+  public void execute() {
+    elevator.setElevatorDutyCycle(speed.getAsDouble());
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    if (up) {
+      elevator.setElevatorDutyCycle(0.03);
+    } else {
+      elevator.setElevatorDutyCycle(0.0325);
+    }
+    elevator.postStatus("Elevator Stopped");
+    elevator.setBrakeMode();
+
+  }
+
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+
+}
