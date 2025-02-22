@@ -136,7 +136,7 @@ public final class Constants {
     public static final double kArmRotortoSensorRatio = (159d/15d)*(36d/12d);
 
 
-    public static final double kArmHumanPlayer = 0;
+    public static final double kArmHumanPlayer = 165;
 
   }
 
@@ -228,19 +228,19 @@ public final class Constants {
     public static final double kElevatorIntakeMeters = 0.2;
 
     public static class L1 {
-      public static final double kElevatorPos = 10d;
+      public static final double kElevatorPos = 0.5;
     }
 
     public static class L2 {
-      public static final double kElevatorPos = 60;
+      public static final double kElevatorPos = 1;
     }
 
     public static class L3 {
-      public static final double kElevatorPos = 2;
+      public static final double kElevatorPos = 1.5;
     }
 
     public static class L4 {
-      public static final double kElevatorPos = 140;
+      public static final double kElevatorPos = 2;
     }
 
   }

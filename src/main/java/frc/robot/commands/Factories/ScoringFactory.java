@@ -50,7 +50,7 @@ public class ScoringFactory {
     }
 
     public static Command L4Position() {
-        return new Lift(Constants.ScoringConstants.L4.kElevatorPos).andThen(
+        return new Lift(Constants.ScoringConstants.L4.kElevatorPos).alongWith(
                 new MoveArm(Constants.ScoringConstants.kArmScoringrotations));
     }
 

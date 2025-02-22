@@ -143,7 +143,7 @@ public class RobotContainer {
 
                 new Trigger(() -> xSim.getRawButtonPressed(1))
                                 .toggleOnTrue(
-                                                ScoringFactory.L3Position());
+                                                ScoringFactory.L4Position());
 
                 new Trigger(() -> xSim.getRawButton(2)).toggleOnTrue(
                                 ScoringFactory.returnHome());
