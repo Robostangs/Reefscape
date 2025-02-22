@@ -11,20 +11,20 @@
         "x": 7.0293192997685185,
         "y": 3.3341348379629623
       },
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "Center Start"
     },
     {
       "anchor": {
-        "x": 5.426123918805803,
-        "y": 2.6281982421875
+        "x": 5.788280823553493,
+        "y": 2.7265522652838423
       },
       "prevControl": {
-        "x": 6.250398730727099,
-        "y": 2.6446196831597217
+        "x": 6.61255563547479,
+        "y": 2.742973706256064
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "Pro 2R"
     }
   ],
@@ -63,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -148.08363748825386
+    "rotation": -147.91343149700776
   },
   "reversed": false,
   "folder": "Start to Reef Paths",
