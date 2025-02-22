@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.202482277199074,
-        "y": 4.230151548032407
+        "x": 6.155314308449074,
+        "y": 4.226075303819444
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.31644241898148,
-        "y": 6.726559968171296
+        "x": 6.464410083912036,
+        "y": 6.259131221064815
       },
       "isLocked": false,
       "linkedName": "Center 2R"
     },
     {
       "anchor": {
-        "x": 1.4215867221615721,
-        "y": 6.960477790665939
+        "x": 1.319014630998884,
+        "y": 6.977340262276786
       },
       "prevControl": {
-        "x": 5.012626591435184,
-        "y": 5.49518482349537
+        "x": 4.92621021412037,
+        "y": 5.906012008101852
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,8 +30,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.1620240442961165,
-      "rotationDegrees": 180.0
+      "waypointRelativePos": 0.1622965294840295,
+      "rotationDegrees": -90.0
     }
   ],
   "constraintZones": [],
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 129.12703645499826
+    "rotation": -144.01133281264748
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.8886741436317
+    "rotation": -88.91362838619142
   },
   "useDefaultConstraints": true
 }

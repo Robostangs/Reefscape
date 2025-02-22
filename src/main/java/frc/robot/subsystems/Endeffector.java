@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -12,7 +11,6 @@ public class Endeffector extends SubsystemBase {
     private static Endeffector mInstance;
     
     private TalonSRX endeffectorMotorRight;
-    // private DigitalInput EndeffectorSensor;
 
     public static Endeffector getInstance() {
         if (mInstance == null)
@@ -23,7 +21,6 @@ public class Endeffector extends SubsystemBase {
     // just spit and put in break mode
     public Endeffector() {
         endeffectorMotorRight = new TalonSRX(Constants.EndeffectorConstants.kEndeffectorMotorId);
-        // EndeffectorSensor = new DigitalInput(Constants.EndeffectorConstants.kEndeffectorSensorId);
     }
 
     public void setEneffdector(double endeffectorDutyCycle) {
@@ -38,9 +35,7 @@ public class Endeffector extends SubsystemBase {
         endeffectorMotorRight.setNeutralMode(NeutralMode.Brake);
     }
     
-    // public boolean getEndeffectorSensor() {
-    //     return EndeffectorSensor.get();
-    // }
+
 
     @Override
     public void periodic() {

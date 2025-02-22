@@ -1,37 +1,39 @@
-
 package frc.robot.commands.EndeffectorCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Endeffector;
 
-public class Spit extends Command {
+public class Slurp extends Command{
+
     Endeffector endeffector;
 
-    public Spit() {
+
+    public Slurp(){
         endeffector = Endeffector.getInstance();
         addRequirements(endeffector);
+        
     }
-
     @Override
     public void initialize() {
-        endeffector.postStatus("Hawk Tuah");
-
+        endeffector.postStatus("Slurping");
+        
     }
 
     @Override
     public void execute() {
-        endeffector.setEneffdector(-Constants.EndeffectorConstants.kEndeffectorSpit);
+
+        endeffector.setEneffdector(Constants.EndeffectorConstants.kEndeffectorSlurp);
+        
     }
-
-
 
     @Override
     public void end(boolean interrupted) {
 
-        endeffector.postStatus("Spitted on that thang");
+        endeffector.postStatus("Slurped");
         endeffector.setEneffdector(0);
-        endeffector.setEndeffectorBrake();
+
+
         
     }
 
@@ -39,4 +41,5 @@ public class Spit extends Command {
     public boolean isFinished() {
         return false;
     }
+    
 }

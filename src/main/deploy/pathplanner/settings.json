@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.9144,
+  "robotLength": 0.9144,
   "holonomicMode": true,
   "pathFolders": [
     "Feeder to Reef Paths",
@@ -39,5 +39,7 @@
   "brModuleY": -0.31,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.254,\"y\":-0.5},\"end\":{\"x\":0.254,\"y\":0.0},\"strokeWidth\":0.02}}"
+  ]
 }
