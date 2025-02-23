@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 3.2523511054125205,
-        "y": 0.4865098322770096
+        "y": 0.48650983227700956
       },
       "isLocked": false,
       "linkedName": "Pro Feeder"
@@ -50,7 +50,12 @@
       "name": "L4 Prime",
       "waypointRelativePos": 0.5465330736074271,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "L4 Prime"
+        }
+      }
     }
   ],
   "globalConstraints": {

@@ -20,7 +20,7 @@
         "y": 3.8095996093749993
       },
       "prevControl": {
-        "x": 1.7606180915665943,
+        "x": 1.7606180915665945,
         "y": 3.7293766204967245
       },
       "nextControl": null,
@@ -50,7 +50,12 @@
       "name": "L3 Prime",
       "waypointRelativePos": 0.43603904177718816,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "L3 Prime"
+        }
+      }
     }
   ],
   "globalConstraints": {

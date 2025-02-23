@@ -50,7 +50,12 @@
       "name": "L3 Prime",
       "waypointRelativePos": 0.5724158653846153,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "L3 Prime"
+        }
+      }
     }
   ],
   "globalConstraints": {
