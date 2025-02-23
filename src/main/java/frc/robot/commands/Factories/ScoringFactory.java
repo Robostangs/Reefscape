@@ -1,5 +1,6 @@
 package frc.robot.commands.Factories;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.commands.MoveArm;
@@ -35,18 +36,17 @@ public class ScoringFactory {
 
     public static Command L1Position() {
         return new Lift(Constants.ScoringConstants.L1.kElevatorPos)
-                .andThen(new Extend())
-                .andThen(new MoveArm(Constants.ScoringConstants.kArmScoringrotations));
+                .alongWith(new MoveArm(Constants.ScoringConstants.kArmScoringrotations));
     }
 
     public static Command L2Position() {
-        return new Lift(Constants.ScoringConstants.L2.kElevatorPos).andThen(
+        return new Lift(Constants.ScoringConstants.L2.kElevatorPos).alongWith(
                 new MoveArm(Constants.ScoringConstants.kArmScoringrotations));
     }
 
     public static Command L3Position() {
         return new Lift(Constants.ScoringConstants.L3.kElevatorPos)
-                .andThen(new MoveArm(Constants.ScoringConstants.kArmScoringrotations));
+                .alongWith(new MoveArm(Constants.ScoringConstants.kArmScoringrotations));
     }
 
     public static Command L4Position() {

@@ -41,7 +41,37 @@ public class AligntoReef extends Command {
     AprilTagFieldLayout theMap;
 
 
-    public AligntoReef(Supplier<Double> translateX, Supplier<Double> translateY, int AprilTagID, boolean Right) {
+    public AligntoReef(int AprilTagID, boolean Right) {
+
+        drivetrain = CommandSwerveDrivetrain.getInstance();
+
+        this.addRequirements(drivetrain);
+
+        this.translateX = () -> 0d;
+        this.translateY = () -> 0d;
+        this.AprilTagID = AprilTagID;
+        this.Right = Right;
+
+        this.setName("Align to Reef");
+
+
+       map = AprilTagFields.k2025ReefscapeWelded;
+
+        
+      theMap = AprilTagFieldLayout.loadField(map);
+
+      reefPose = theMap.getTagPose(AprilTagID).get();
+
+        getTargetRotation = () -> {
+             double deltaX =  drivetrain.getPose().getX() - reefPose.getX();
+             double deltaY = drivetrain.getPose().getY() - reefPose.getY();
+             
+            return Rotation2d.fromRadians(Math.atan2( deltaY, deltaX ) + Units.degreesToRadians(90));
+    
+        };
+    }
+
+    public AligntoReef(Supplier<Double> translateX, Supplier<Double> translateY, Supplier<Integer> AprilTagID, boolean Right) {
 
         drivetrain = CommandSwerveDrivetrain.getInstance();
 
@@ -49,14 +79,10 @@ public class AligntoReef extends Command {
 
         this.translateX = translateX;
         this.translateY = translateY;
-        this.AprilTagID = AprilTagID;
+        this.AprilTagID = AprilTagID.get();
         this.Right = Right;
 
         this.setName("Align to Reef");
-
-
-
-
 
 
        map = AprilTagFields.k2025ReefscapeWelded;
@@ -65,7 +91,7 @@ public class AligntoReef extends Command {
       theMap = AprilTagFieldLayout.loadField(map);
 
       
-    reefPose = theMap.getTagPose(AprilTagID).get();
+    reefPose = theMap.getTagPose(AprilTagID.get()).get();
 
         getTargetRotation = () -> {
              double deltaX =  drivetrain.getPose().getX() - reefPose.getX();

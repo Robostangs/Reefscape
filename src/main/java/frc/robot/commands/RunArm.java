@@ -9,13 +9,11 @@ public class RunArm extends Command {
 
   Arm arm;
   DoubleSupplier speed;
-  boolean zero;
 
-  public RunArm(DoubleSupplier speed, boolean zero) {
+  public RunArm(DoubleSupplier speed) {
     arm = Arm.getInstance();
     addRequirements(arm);
     this.speed = speed;
-    this.zero = zero;
   }
 
   @Override

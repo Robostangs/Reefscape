@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.148501157407407,
-        "y": 3.8872918941048034
+        "x": 6.14919994212963,
+        "y": 4.124110966435185
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.280600527108434,
-        "y": 5.94540883259601
+        "x": 6.281299311830657,
+        "y": 6.182227904926393
       },
       "isLocked": false,
       "linkedName": "Center 2L"
@@ -41,7 +41,12 @@
       "name": "Feeder Intake",
       "waypointRelativePos": 0.6794783699808796,
       "endWaypointRelativePos": 1.0,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Feeder Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {

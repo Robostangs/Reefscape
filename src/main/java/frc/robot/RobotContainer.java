@@ -21,6 +21,7 @@ import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
+import frc.robot.commands.SwerveCommands.AligntoReef;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -59,9 +60,11 @@ public class RobotContainer {
 
         public RobotContainer() {
                 configureDriverBindings();
+                configureManipBindings();
                 if (Robot.isSimulation()) {
                         configureSimBindings();
                 }
+
         }
 
         private void configureDriverBindings() {
@@ -90,26 +93,32 @@ public class RobotContainer {
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 }
 
-                // new Trigger(() -> (xDrive.getLeftY() >= 0.1))
-                // .whileTrue(new RunElevator(() -> xDrive.getLeftY() * 0.075));
+                if (!Robot.isSimulation()) {
+                        xDrive.leftTrigger(0.05).toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
+                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                        .in(MetersPerSecond),
+                                        () -> -xDrive.getLeftX()
+                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                        .in(MetersPerSecond),
+                                        () -> LimelightHelpers
+                                                        .getRawFiducials(
+                                                                        Constants.VisionConstants.kLimelightCoralName)[0].id,
+                                        false));
 
-                // new Trigger(() -> (xDrive.getRightY() >= 0.1))
-                // .whileTrue(new RunElevator(() -> xDrive.getRightY() * -0.075));
-
-                // xDrive.a().toggleOnTrue(new RunArm(() -> 0.1));
-                // xDrive.b().toggleOnTrue(new RunArm(() -> -0.1));
-
-                // xDrive.x().whileTrue(new Spit());
-
-                // xDrive.y().toggleOnTrue(new Retract());
-
-                // xDrive.x().toggleOnTrue(new Extend());
-
-                // xDrive.rightStick().toggleOnTrue(new Extend().andThen(new
-                // RunIntake()).finallyDo(Retract.Retract));
-
+                        xDrive.rightTrigger(0.05).toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
+                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                        .in(MetersPerSecond),
+                                        () -> -xDrive.getLeftX()
+                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                        .in(MetersPerSecond),
+                                        () -> LimelightHelpers
+                                                        .getRawFiducials(
+                                                                        Constants.VisionConstants.kLimelightCoralName)[0].id,
+                                        true));
+                }
                 new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.05)
-                                .whileTrue(new RunArm(() -> xDrive.getLeftY(), false));
+                                .whileTrue(new RunArm(() -> xDrive.getLeftY()));
+
                 xDrive.rightStick().toggleOnTrue(new RunIntake());
                 xDrive.leftStick().toggleOnTrue(new Extend());
                 xDrive.povRight().toggleOnTrue(new Retract());
@@ -118,10 +127,8 @@ public class RobotContainer {
                 xDrive.x().onTrue(Arm.getInstance().run(Arm.getInstance().gotoZero));
                 xDrive.y().onTrue(Arm.getInstance().run(Arm.getInstance().gotoSchloop));
 
-                // xDrive.x().toggleOnTrue(new RunElevator(() -> 0.15, true));
-                // xDrive.y().toggleOnTrue(new RunElevator(() -> -0.03, false));
-                xDrive.a().toggleOnTrue(new RunArm(() -> 0.1, true));
-                xDrive.b().toggleOnTrue(new RunArm(() -> -0.1, true));
+                xDrive.a().toggleOnTrue(new RunArm(() -> 0.1));
+                xDrive.b().toggleOnTrue(new RunArm(() -> -0.1));
                 xDrive.leftBumper().whileTrue(new Spit());
 
                 // xDrive.b().toggleOnTrue(new HomeElevator());
