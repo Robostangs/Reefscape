@@ -29,6 +29,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Open Feeder to Center 1R"
@@ -50,6 +56,12 @@
           "type": "path",
           "data": {
             "pathName": "Center 1R to Open Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         }
       ]

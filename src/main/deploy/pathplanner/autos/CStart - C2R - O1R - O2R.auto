@@ -29,6 +29,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Open Feeder to Open 1R"
@@ -53,6 +59,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Open Feeder to Open 2R"
@@ -74,6 +86,12 @@
           "type": "path",
           "data": {
             "pathName": "Open 2R to Open Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         }
       ]
