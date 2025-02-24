@@ -29,6 +29,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Pro Feeder to Center 1R L3"
@@ -53,6 +59,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Open Feeder to Open 1L L3"
@@ -74,6 +86,12 @@
           "type": "path",
           "data": {
             "pathName": "Open 1L to Open Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         }
       ]
