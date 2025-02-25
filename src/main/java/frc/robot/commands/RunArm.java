@@ -19,7 +19,6 @@ public class RunArm extends Command {
   @Override
   public void initialize() {
     arm.postStatus("Manually Adjusting Arm");
-    arm.setBrakeMode();
   }
 
   @Override
@@ -31,7 +30,6 @@ public class RunArm extends Command {
   public void end(boolean interrupted) {
     arm.setArmDutyCycle(0);
     arm.postStatus("Elevator Stopped");
-    arm.setBrakeMode();
 
 
   }

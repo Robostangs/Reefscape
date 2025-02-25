@@ -146,10 +146,12 @@ public final class Constants {
     public static final double kElevatorP = 10;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
-    public static final double kElevatorFF = 1;
+    // public static final double kElevatorFF = 1;
     public static final double kElevatorV = 0;
     public static final double kElevatorA = 0;
     public static final double kElevatorG = 0;
+    public static final double kElevatorS = 0;
+
     public static final double kElevatorCruiseVelocity = 0;
     public static final int kLimitSwitchId = 9;
 
@@ -160,8 +162,8 @@ public final class Constants {
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
 
-    public static final double kMaxElevatorHeight = 2.27887911;
-    public static final double kMinElevatorHeight = 0d;
+    public static final double kMaxElevatorHeight = 1.6;
+    public static final double kMinElevatorHeight = .3;
     public static final double kRotationsToMeters = 0.0313;//*Detroit Reference */;
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
@@ -175,6 +177,7 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
     public static final double kHomePosition = 3.77 * Math.pow(kRotationsToMeters, -1);
+    public static final double kElevatorAcceleration = 0;
 
   }
 

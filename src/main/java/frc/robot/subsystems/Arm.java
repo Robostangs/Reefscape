@@ -60,7 +60,6 @@ public class Arm extends SubsystemBase {
         armconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
         armconfigs.Feedback.RotorToSensorRatio = Constants.ArmConstants.kArmRotortoSensorRatio;
 
-        armconfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         armMotor.getConfigurator().apply(armconfigs);
 
@@ -114,9 +113,7 @@ public class Arm extends SubsystemBase {
         return (target > -180) || (target < 0);
     }
 
-    public void setBrakeMode() {
-        armMotor.setNeutralMode(NeutralModeValue.Brake);
-    }
+
 
     public void setArmPosition() {
 
