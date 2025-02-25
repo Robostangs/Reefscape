@@ -5,6 +5,7 @@
 package frc.robot.commands.ElevatorCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -19,12 +20,10 @@ public class Lift extends Command {
     this.position = position;
   }
 
-
   @Override
   public void initialize() {
     elevator.setElevatorPositionMeters(position);
-    elevator.postStatus("elevator going to:"+ position );
-
+    elevator.postStatus("elevator going to:" + position);
 
   }
 
@@ -37,13 +36,16 @@ public class Lift extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    elevator.postStatus("elevator done" );
+    elevator.postStatus("elevator done");
 
   }
 
   @Override
   public boolean isFinished() {
-    // return false;
-     return elevator.isElevatorAtTarget();
+    if (Robot.isSimulation()) {
+      return false;
+    } else {
+      return elevator.isElevatorAtTarget();
+    }
   }
 }

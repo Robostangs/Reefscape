@@ -1,14 +1,14 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakePivot;
 
 public class Extend extends Command {
 
-  Intake intake;
+  IntakePivot intake;
 
   public Extend() {
-    intake = Intake.getInstance();
+    intake = IntakePivot.getInstance();
     this.addRequirements(intake);
   }
 
@@ -17,7 +17,7 @@ public class Extend extends Command {
   public void initialize() {
 
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
-    intake.setPiviotZero();
+    intake.setPivotZero();
 
     intake.setExtendPosition();
 

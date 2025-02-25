@@ -45,7 +45,7 @@ import frc.robot.commands.SwerveCommands.ReefAdjust;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakePivot;
 
 public class Robot extends TimedRobotstangs {
 
@@ -95,7 +95,7 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
-    Intake.getInstance().zeroIntake();
+    IntakePivot.getInstance().zeroIntake();
 
 
 
@@ -247,7 +247,7 @@ public class Robot extends TimedRobotstangs {
 
   public void autonomousInit() {
     unpublishTrajectory();
-    Intake.getInstance().zeroIntake();
+    IntakePivot.getInstance().zeroIntake();
 
     autoCommand = new PathPlannerAuto(autoName);
 

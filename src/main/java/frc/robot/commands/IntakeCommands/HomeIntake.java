@@ -2,13 +2,13 @@ package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakePivot;
 
 public class HomeIntake extends Command{
 
-    Intake intake;
+    IntakePivot intake;
     public HomeIntake() {
-        intake = Intake.getInstance();
+        intake = IntakePivot.getInstance();
 
         addRequirements(intake);
     }
@@ -26,7 +26,7 @@ public class HomeIntake extends Command{
     @Override
     public void end(boolean interrupted) {
         intake.setPiviotDutyCycle(0);
-        intake.setPiviotZero();
+        intake.setPivotZero();
         intake.postStatus("intake homed");
 
 

@@ -15,25 +15,16 @@ import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
-import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
-import frc.robot.commands.IntakeCommands.Extend;
-import frc.robot.commands.IntakeCommands.HomeIntake;
-import frc.robot.commands.IntakeCommands.Retract;
-import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SwerveCommands.AligntoCage;
-import frc.robot.commands.SwerveCommands.AligntoReef;
-import frc.robot.commands.SwerveCommands.PathToPoint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
 
 public class RobotContainer {
         // max angular velocity
@@ -174,7 +165,7 @@ public class RobotContainer {
                 xManip.rightStick().toggleOnTrue(new Deploy());
                 xManip.leftStick().toggleOnTrue(new Reel());
 
-                xManip.rightTrigger(0.1).toggleOnTrue(ScoringFactory.SourceIntake());
+                xManip.rightTrigger(0.1).toggleOnTrue(IntakeFactory.SourceIntake());
         }
 
         private void configureSimBindings() {

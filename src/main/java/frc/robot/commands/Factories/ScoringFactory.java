@@ -9,61 +9,53 @@ import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 
 public class ScoringFactory {
 
-    public static Command L1Score() {
-        return new Lift(Constants.ScoringConstants.L1.kElevatorPos)
-                .andThen(new Extend())
-                .andThen(new MoveArm(Constants.ScoringConstants.kArmScoringPosition)
-                        .andThen(new Spit()));
-    }
-
-    public static Command L2Score() {
-        return new Lift(Constants.ScoringConstants.L2.kElevatorPos).andThen(
-                new MoveArm(Constants.ScoringConstants.kArmScoringPosition).andThen(
-                        new Spit()));
-    }
-
-    public static Command L3Score() {
-        return new Lift(Constants.ScoringConstants.L3.kElevatorPos)
-                .alongWith(new WaitUntilCommand(() -> true))
-                .andThen(new MoveArm(Constants.ScoringConstants.kArmScoringPosition))
-                .andThen(new Spit());
-    }
-
-    public static Command L4Score() {
-        return new Lift(Constants.ScoringConstants.L4.kElevatorPos).andThen(
-                new MoveArm(Constants.ScoringConstants.kArmScoringPosition)).andThen(new Spit());
-    }
-
     public static Command L1Position() {
-        return new Lift(Constants.ScoringConstants.L1.kElevatorPos)
-                .andThen(new MoveArm(Constants.ScoringConstants.kArmScoringPosition));
+        return new Lift(Constants.ScoringConstants.L1.kElevatorStart)
+                .andThen(new MoveArm(Constants.ScoringConstants.L1.kArmScoringPosition))
+                .alongWith(new WaitUntilCommand(
+                        () -> Arm.getInstance().getTargetArmAngle() > Constants.ScoringConstants.L1.kArmSafePosition)
+                        .andThen(new Lift(Constants.ScoringConstants.L1.kElevatorEnd)));
     }
 
     public static Command L2Position() {
-        return new Lift(Constants.ScoringConstants.L2.kElevatorPos).alongWith(
-                new MoveArm(Constants.ScoringConstants.kArmScoringPosition));
+        return new Lift(Constants.ScoringConstants.L2.kElevatorStart).andThen(
+                new MoveArm(Constants.ScoringConstants.L2.kArmScoringPosition))
+                .alongWith(new WaitUntilCommand(
+                        () -> Arm.getInstance().getTargetArmAngle() > Constants.ScoringConstants.L2.kArmSafePosition)
+                        .andThen(new Lift(Constants.ScoringConstants.L2.kElevatorEnd)));
     }
 
     public static Command L3Position() {
         return new Lift(Constants.ScoringConstants.L3.kElevatorPos)
-                .alongWith(new MoveArm(Constants.ScoringConstants.kArmScoringPosition));
+                .alongWith(new MoveArm(Constants.ScoringConstants.L3.kArmScoringPosition));
     }
 
     public static Command L4Position() {
         return new Lift(Constants.ScoringConstants.L4.kElevatorPos).alongWith(new WaitUntilCommand(
                 () -> Elevator.getInstance().getElevatorPositionMeters() > Constants.ElevatorConstants.kHomePosition)
                 .andThen(
-                        new MoveArm(Constants.ScoringConstants.kArmScoringPosition)));
+                        new MoveArm(Constants.ScoringConstants.L4.kArmScoringPosition)));
     }
 
-    public static Command SourceIntake() {
-        return new Lift(Constants.ScoringConstants.Source.kElevatorPos).alongWith(
-                new MoveArm(Constants.ScoringConstants.kArmSourcePosition))
-                .alongWith(new Slurp());
+    public static Command L1Score() {
+        return L1Position().andThen(new Spit());
+    }
+
+    public static Command L2Score() {
+        return L2Position().andThen(new Spit());
+    }
+
+    public static Command L3Score() {
+        return L3Position().andThen(new Spit());
+    }
+
+    public static Command L4Score() {
+        return L4Position().andThen(new Spit());
     }
 
     public static Command returnHome() {

@@ -15,15 +15,18 @@ public class IntakeFactory {
         return new Extend().alongWith(new RunIntake()).finallyDo(Retract.Retract);
     }
 
+    public static Command SourceIntake() {
+        return new Lift(Constants.ScoringConstants.Source.kElevatorPos).alongWith(
+                new MoveArm(Constants.ScoringConstants.Source.kArmSourcePosition))
+                .alongWith(new Slurp());
+    }
+
+
     public static Command Schloop() {
         return new Extend()
-                .andThen(new RunIntake()).andThen(new Retract())
+                .alongWith(new RunIntake()).andThen(new Retract())
                 .finallyDo(ScoringFactory.returnHomeRun());
     }
 
-    public static Command SourceIntake() {
-        return new MoveArm(Constants.ArmConstants.kArmHumanPlayer)
-                .andThen(new Slurp().withTimeout(Constants.SwerveConstants.AutoConstants.kSlurpTimeout));
-    }
 
 }

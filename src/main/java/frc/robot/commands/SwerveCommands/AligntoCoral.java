@@ -13,7 +13,7 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakePivot;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -94,7 +94,7 @@ public class AligntoCoral extends Command {
         }
 
         else {
-            return Intake.getInstance().getIntakeSensor();
+            return IntakePivot.getInstance().getIntakeSensor();
         }
 
     }

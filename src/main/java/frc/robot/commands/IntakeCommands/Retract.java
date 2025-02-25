@@ -1,19 +1,19 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakePivot;
 
 public class Retract extends Command {
 
-  Intake intake;
+  IntakePivot intake;
 
   public Retract() {
-    intake = Intake.getInstance();
+    intake = IntakePivot.getInstance();
     this.addRequirements(intake);
 
   }
   public static Runnable Retract = () -> {
-    Intake intake = Intake.getInstance();
+    IntakePivot intake = IntakePivot.getInstance();
     intake.setRetractPosition();
     intake.runIntakeMotionMagic();
   };
@@ -36,7 +36,7 @@ public class Retract extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("Retracting");
-    intake.setIntakePiviotBrake();
+    intake.setIntakePivotBrake();
     intake.stopBar();
   }
 

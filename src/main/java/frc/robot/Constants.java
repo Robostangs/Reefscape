@@ -195,8 +195,7 @@ public final class Constants {
   }
 
   public static class ScoringConstants {
-    public static final double kArmScoringPosition = .37;
-    public static final double kArmSourcePosition = 165;
+
 
     // Align Poses
     public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(0));
@@ -238,23 +237,41 @@ public final class Constants {
     public static final double kElevatorIntakeMeters = 0.2;
 
     public static class L1 {
-      public static final double kElevatorPos = 0.5;
+      public static final double kArmScoringPosition = .37;
+      public static final double kElevatorStart = 0.5;
+    public static final double kArmSafePosition = 0;
+    public static final double kElevatorEnd = 0;
     }
 
     public static class L2 {
-      public static final double kElevatorPos = 1;
+      public static final double kElevatorStart = 1;
+      public static final double kArmScoringPosition = .37;
+      public static final double kElevatorEnd = 1;
+      public static final double kArmSafePosition = 0;
+
     }
 
     public static class L3 {
       public static final double kElevatorPos = 1.5;
+      public static final double kArmScoringPosition = .37;
+
     }
 
     public static class L4 {
       public static final double kElevatorPos = 1.55;
+      public static final double kArmScoringPosition = .37;
+
+    }
+
+    public static class Schloop{
+      public static final double kElevatorPos = 0.63;
+      public static final double kArmSchloopPos = -0.25;
     }
 
     public static class Source {
       public static final double kElevatorPos = 2;
+      public static final double kArmSourcePosition = 165;
+
 
     }
   }

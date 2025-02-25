@@ -2,14 +2,14 @@ package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeWheels;
 
 public class RunIntake extends Command {
 
-    Intake intake;
+    IntakeWheels intake;
 
     public RunIntake() {
-        intake = Intake.getInstance();
+        intake = IntakeWheels.getInstance();
         addRequirements(intake);
     }
     
@@ -17,7 +17,7 @@ public class RunIntake extends Command {
   @Override
   public void initialize() {
 
-    intake.postStatus("SCHLOOPING");
+    intake.postStatus("Intaking");
   }
 
   @Override
@@ -30,7 +30,7 @@ public class RunIntake extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    intake.postStatus("SCHLOOPED");
+    intake.postStatus("Coral In");
     intake.runIntake(0d);
 
 
@@ -38,7 +38,6 @@ public class RunIntake extends Command {
 
   @Override
   public boolean isFinished() {
-    //TODO do this when we put it on
     if(Robot.isSimulation()){
       return false;
     }
