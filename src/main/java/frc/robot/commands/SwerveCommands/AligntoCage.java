@@ -107,13 +107,8 @@ public class AligntoCage extends Command {
 
     @Override
     public boolean isFinished() {
-        if (Robot.isSimulation()) {
             return false;
-        }
-
-        else {
-            return IntakePivot.getInstance().getIntakeSensor();
-        }
+        
 
     }
 }

@@ -143,12 +143,12 @@ public class Arm extends SubsystemBase {
     }
 
     public void setArmMotionMagic() {
-        if (IntakePivot.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
-                || Robot.isSimulation()) {
+        // if (IntakePivot.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
+        //         || Robot.isSimulation()) {
             armMotor.setControl(armControl);
-        } else {
-            postStatus("cant move, intake in way");
-        }
+        // } else {
+            // postStatus("cant move, intake in way");
+        // }
 
     }
 

@@ -110,7 +110,7 @@ public class AligntoReef extends Command {
         }
 
         else {
-            return !IntakePivot.getInstance().getIntakeSensor();
+            return false;
         }
 
     }

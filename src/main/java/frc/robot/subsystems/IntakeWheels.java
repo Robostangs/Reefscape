@@ -14,7 +14,6 @@ import frc.robot.Constants;
 
 public class IntakeWheels extends SubsystemBase {
     private TalonFX intakeMotor;
-    private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static IntakeWheels mInstance;
     private DigitalInput IntakeSensor;
 
@@ -27,7 +26,7 @@ public class IntakeWheels extends SubsystemBase {
     public IntakeWheels() {
 
         intakeMotor = new TalonFX(Constants.IntakeConstants.kWheelMotorId);
-        // IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
+        IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
     }
 
@@ -61,7 +60,7 @@ public class IntakeWheels extends SubsystemBase {
     @Override
     public void periodic() {
 
-        SmartDashboard.putBoolean("Intake Senor", getIntakeSensor());
+        SmartDashboard.putBoolean("Intake Sensor", getIntakeSensor());
 
     }
 

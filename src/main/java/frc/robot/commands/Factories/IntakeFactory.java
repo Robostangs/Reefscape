@@ -21,12 +21,10 @@ public class IntakeFactory {
                 .alongWith(new Slurp());
     }
 
-
     public static Command Schloop() {
         return new Extend()
                 .alongWith(new RunIntake()).andThen(new Retract())
-                .finallyDo(ScoringFactory.returnHomeRun());
+                .finallyDo(ScoringFactory.intakeRun());
     }
-
 
 }

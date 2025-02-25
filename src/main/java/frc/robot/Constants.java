@@ -80,7 +80,7 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int kWheelMotorId = 14;
     public static final int kPiviotMotorId = 15;
-    public static final int kIntakeSensorId = 0;
+    public static final int kIntakeSensorId = 8;
 
     public static final double kExtendSetpoint = -16d;
     public static final double kRetractSetpoint = -2.5d;
@@ -264,7 +264,7 @@ public final class Constants {
     }
 
     public static class Schloop{
-      public static final double kElevatorPos = 0.63;
+      public static final double kElevatorPos = 0.8;
       public static final double kArmSchloopPos = -0.25;
     }
 

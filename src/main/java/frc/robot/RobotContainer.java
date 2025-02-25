@@ -11,6 +11,7 @@ import com.pathplanner.lib.util.FlippingUtil;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
@@ -23,6 +24,7 @@ import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.SwerveCommands.AligntoCage;
 import frc.robot.commands.SwerveCommands.AligntoReef;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -75,38 +77,48 @@ public class RobotContainer {
                                                                         *
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 } else {
-                        drivetrain.setDefaultCommand(
-                                        // Drivetrain will execute this command periodically
-                                        drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
-                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                        .in(MetersPerSecond))
-                                                        .withVelocityY((-xDrive.getLeftX())
-                                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                                        .in(MetersPerSecond))
-                                                        .withRotationalRate((-xDrive.getRightX())
-                                                                        *
-                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                        // drivetrain.setDefaultCommand(
+                        // // Drivetrain will execute this command periodically
+                        // drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
+                        // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                        // .in(MetersPerSecond))
+                        // .withVelocityY((-xDrive.getLeftX())
+                        // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                        // .in(MetersPerSecond))
+                        // .withRotationalRate((-xDrive.getRightX())
+                        // *
+                        // Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 }
 
         }
 
         private void configureDriverBindings() {
 
-                xDrive.x().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
-                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                .in(MetersPerSecond),
-                                () -> -xDrive.getLeftX()
-                                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                .in(MetersPerSecond),
-                                false));
+                xDrive.y().whileTrue(new Spit());
+                xDrive.a().toggleOnTrue(ScoringFactory.getCoral());
+                xDrive.x().toggleOnTrue(ScoringFactory.L4Position());
+                xDrive.b().toggleOnTrue(ScoringFactory.returnHome());
+                xDrive.povDown().whileTrue(new HomeElevator());
+                xDrive.povUp().toggleOnTrue(new Spit());
 
-                xDrive.y().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
-                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                .in(MetersPerSecond),
-                                () -> -xDrive.getLeftX()
-                                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                .in(MetersPerSecond),
-                                true));
+                new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.02)
+                                .whileTrue(new RunElevator(() -> xDrive.getLeftY()));
+
+                // xDrive.x().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
+                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                // .in(MetersPerSecond),
+                // () -> -xDrive.getLeftX()
+                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                // .in(MetersPerSecond),
+                // false));
+
+                // xDrive.y().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
+                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                // .in(MetersPerSecond),
+                // () -> -xDrive.getLeftX()
+                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                // .in(MetersPerSecond),
+                // true));
 
                 // xDrive.a().toggleOnTrue(new PathToPoint());
                 // xDrive.b().toggleOnTrue(new PathToPoint());
@@ -114,9 +126,10 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.02)
                                 .whileTrue(new RunElevator(() -> xDrive.getLeftY()));
 
-                xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
-                                Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
-                                                : Constants.ScoringConstants.kResetPose)));
+                // xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
+                // Robot.isRed() ?
+                // FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
+                // : Constants.ScoringConstants.kResetPose)));
 
                 // reset the field-centric heading on left bumper press
                 xDrive.rightBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
