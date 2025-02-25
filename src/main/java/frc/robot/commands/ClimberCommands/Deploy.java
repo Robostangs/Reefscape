@@ -7,13 +7,13 @@ import frc.robot.subsystems.Climber;
 public class Deploy extends Command {
 
   Climber climber;
+  boolean smart;
 
-    public Deploy() {
-      climber = Climber.getInstance();
-      this.addRequirements(climber);
-      }
-
-   
+  public Deploy(boolean smart) {
+    climber = Climber.getInstance();
+    this.addRequirements(climber);
+    this.smart = smart;
+  }
 
   // Called when the command is initially scheduled.
   @Override
@@ -24,8 +24,7 @@ public class Deploy extends Command {
 
   @Override
   public void execute() {
-      climber.runClimber(Constants.ClimberConstants.kExtentionDutyCycle);
-    
+    climber.runClimber(Constants.ClimberConstants.kExtentionDutyCycle);
 
   }
 
@@ -41,8 +40,12 @@ public class Deploy extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (smart) {
+      return climber.getClimberPosition() >= Constants.ClimberConstants.kSafeDeployExtention;
 
-    return climber.getClimberPosition() >= Constants.ClimberConstants.kSafeDeployExtention;
+    } else {
+      return false;
+    }
   }
 
 }

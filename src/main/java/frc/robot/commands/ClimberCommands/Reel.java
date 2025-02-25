@@ -7,10 +7,12 @@ import frc.robot.subsystems.Climber;
 public class Reel extends Command {
 
   Climber climber;
+  boolean smart;
 
-  public Reel() {
+  public Reel(boolean smart) {
     climber = Climber.getInstance();
     this.addRequirements(climber);
+    this.smart = smart;
   }
 
   @Override
@@ -38,7 +40,13 @@ public class Reel extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return climber.getClimberPosition() <= Constants.ClimberConstants.kReelSafe;
+    if(smart){
+      return climber.getClimberPosition() <= Constants.ClimberConstants.kReelSafe;
+
+    }
+    else{
+      return false;
+    }
   }
 
 }

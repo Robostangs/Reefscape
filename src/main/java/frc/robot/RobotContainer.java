@@ -49,6 +49,9 @@ public class RobotContainer {
         private final CommandXboxController xManip = new CommandXboxController(
                         OperatorConstants.kManipControllerPort);
 
+        private final CommandXboxController xTest = new CommandXboxController(
+                        2);
+
         private final GenericHID xSim = new GenericHID(2);
 
         public final CommandSwerveDrivetrain drivetrain = Constants.SwerveConstants.TunerConstants.createDrivetrain();
@@ -88,17 +91,18 @@ public class RobotContainer {
 
         }
 
+        private void configureTestBindings() {
+
+                xTest.a().toggleOnTrue(new Deploy(true));
+                xTest.a().toggleOnTrue(new Deploy(false));
+                xTest.a().toggleOnTrue(new Reel(true));
+                xTest.a().toggleOnTrue(new Reel(false));
+
+        }
+
         private void configureDriverBindings() {
 
-                xDrive.y().whileTrue(new Spit());
-                xDrive.a().toggleOnTrue(ScoringFactory.getCoralCommand());
-                xDrive.x().toggleOnTrue(ScoringFactory.L4Position());
-                xDrive.b().toggleOnTrue(ScoringFactory.returnHome());
-                xDrive.povDown().whileTrue(new HomeElevator());
-                xDrive.povUp().toggleOnTrue(new Spit());
 
-                new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.02)
-                                .whileTrue(new RunElevator(() -> xDrive.getLeftY()));
 
                 // xDrive.x().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
                 // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
@@ -155,8 +159,8 @@ public class RobotContainer {
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
 
-                xManip.rightStick().toggleOnTrue(new Deploy());
-                xManip.leftStick().toggleOnTrue(new Reel());
+                xManip.rightStick().toggleOnTrue(new Deploy(true));
+                xManip.leftStick().toggleOnTrue(new Reel(true));
 
                 xManip.rightTrigger(0.1).toggleOnTrue(IntakeFactory.SourceIntake());
         }
