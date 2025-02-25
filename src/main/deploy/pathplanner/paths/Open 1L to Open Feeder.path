@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.319014630998884,
-        "y": 6.977340262276786
+        "x": 1.6339865072325326,
+        "y": 7.275260558815502
       },
       "prevControl": {
-        "x": 2.4169832170030876,
-        "y": 5.92670404325029
+        "x": 2.731955093236736,
+        "y": 6.224624339789006
       },
       "nextControl": null,
       "isLocked": false,
@@ -36,7 +36,12 @@
       "name": "Feeder Intake",
       "waypointRelativePos": 0.3719003943594646,
       "endWaypointRelativePos": 1.0,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Feeder Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {

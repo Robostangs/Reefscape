@@ -1,6 +1,8 @@
 
 package frc.robot.commands.SwerveCommands;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 
@@ -14,7 +16,7 @@ public class PathToPoint extends SequentialCommandGroup {
         private Pose2d targetPose;
 
         /**
-         * Uses {@code AutoBuilder} to drive to {@code targetPose} 
+         * Uses {@code AutoBuilder} to drive to {@code targetPose}
          * 
          * @param targetPose the position that the robot should move to
          */
@@ -30,14 +32,12 @@ public class PathToPoint extends SequentialCommandGroup {
                                 AutoBuilder.pathfindToPoseFlipped(
                                                 this.targetPose,
                                                 new PathConstraints(
-                                                                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.magnitude(),
+                                                                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                                .in(MetersPerSecond),
                                                                 Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
                                                                 Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
                                                                 Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared),
                                                 0.0));
 
-
-
-  
         }
 }

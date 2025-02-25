@@ -29,6 +29,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Pro Feeder to Pro 1R"
@@ -53,9 +59,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Pro Feeder to Pro 1R"
+            "pathName": "Pro Feeder to Pro 1R L3"
           }
         },
         {
@@ -74,6 +86,12 @@
           "type": "path",
           "data": {
             "pathName": "Pro 1R to Pro Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         }
       ]

@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open Start to Open 1L"
+            "pathName": "Pro Start to Pro 2R"
           }
         },
         {
@@ -25,13 +25,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open 1L to Open Feeder"
+            "pathName": "Pro 2R to Pro Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open Feeder to Center 1R"
+            "pathName": "Pro Feeder to Pro 2L"
           }
         },
         {
@@ -49,13 +55,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center 1R to Open Feeder"
+            "pathName": "Pro 2L to Pro Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Open Start",
+  "folder": "Pro Start",
   "choreoAuto": false
 }

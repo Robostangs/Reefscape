@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
@@ -18,7 +18,7 @@ public class MoveArm extends Command {
   @Override
   public void initialize() {
     arm.setArmPosition(rotations);
-    arm.postStatus("going to this rotation:" + rotations);
+    arm.postStatus("Arm going to this rotation:" + rotations);
   }
 
   @Override
@@ -30,7 +30,7 @@ public class MoveArm extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.postStatus("at this rotation:" + rotations);
+    arm.postStatus("Arm at this rotation:" + rotations);
 
   }
 

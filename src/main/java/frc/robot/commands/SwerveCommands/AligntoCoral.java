@@ -7,8 +7,6 @@ import java.util.function.Supplier;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -36,7 +34,7 @@ public class AligntoCoral extends Command {
         this.addRequirements(drivetrain);
 
         this.translateX = () -> 0d;
-        this.translateY = () ->0d;
+        this.translateY = () -> 0d;
         llName = Constants.VisionConstants.kLimelightCoralName;
 
         this.setName("Align to Coral");
@@ -56,7 +54,7 @@ public class AligntoCoral extends Command {
 
         // this is for tuning and now we can tune the PID controller
         SmartDashboard.putData("Align to Coral PID", driveRequest.HeadingController);
-        drivetrain.postStatus("Aligning to Reef");
+        drivetrain.postStatus("Aligning to Coral");
 
         driveRequest.Deadband = Constants.OperatorConstants.kDriverDeadband;
         driveRequest.RotationalDeadband = Constants.OperatorConstants.rotationalDeadband;
@@ -86,7 +84,7 @@ public class AligntoCoral extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.postStatus("Aligned");
+        drivetrain.postStatus("Aligned to Coral");
     }
 
     @Override

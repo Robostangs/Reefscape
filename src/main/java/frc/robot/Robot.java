@@ -113,7 +113,7 @@ public class Robot extends TimedRobotstangs {
     firstPieceChooser.addOption("Center 2", " - C2");
     firstPieceChooser.addOption("Pro 1", " - P1");
     firstPieceChooser.addOption("Pro 2", " - P2");
-    firstPieceChooser.addOption("Open 1", " - O1");
+    firstPieceChooser.addOption("L", " - O1");
     firstPieceChooser.addOption("Open 2", " - O2");
 
     firstPieceRoLChooser.setDefaultOption("Right", "R");
@@ -183,7 +183,7 @@ public class Robot extends TimedRobotstangs {
     //TODO change this to spit
     NamedCommands.registerCommand("Spit", new PrintCommand("Hello"));
 
-    NamedCommands.registerCommand("Feeder Intake", IntakeFactory.HumanPlayer());
+    NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
     NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
 
   }

@@ -67,7 +67,7 @@ public class Elevator extends SubsystemBase {
 
         simElevatorTarget = new ElevatorSim(elevatorTargetMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
-                Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, false,
+                Constants.ElevatorConstants.kMinExtention, Constants.ElevatorConstants.kMaxExtention, false,
                 0d);
 
         targetElevator_mechanism = new Mechanism2d(5, 5);
@@ -78,7 +78,7 @@ public class Elevator extends SubsystemBase {
 
         simElevatorProfile = new ElevatorSim(elevatorTargetMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
-                Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, false,
+                Constants.ElevatorConstants.kMinExtention, Constants.ElevatorConstants.kMaxExtention, false,
                 0d);
 
         profileElevator_mechanism = new Mechanism2d(20, 5);
@@ -125,13 +125,14 @@ public class Elevator extends SubsystemBase {
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
 
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-        elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.ElevatorConstants.kMaxElevatorHeight;
+
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.ElevatorConstants.kMaxExtention;
 
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-        elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.ElevatorConstants.kMinElevatorHeight;
+
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.ElevatorConstants.kMinExtention;
 
         elevatorMotorRightConfigs.CurrentLimits.StatorCurrentLimit = 60;
-
 
         /**
          * 
@@ -157,10 +158,10 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPositionMeters(double TargetElevatorMeters) {
-        if (TargetElevatorMeters < Constants.ElevatorConstants.kMinElevatorHeight) {
-            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinElevatorHeight;
-        } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxElevatorHeight) {
-            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxElevatorHeight;
+        if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtention) {
+            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtention;
+        } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxExtention) {
+            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxExtention;
         } else {
             elevatorMotionMagic.Position = TargetElevatorMeters;
         }

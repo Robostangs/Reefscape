@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.4472323495370363,
-        "y": 2.700919415509259
+        "x": 3.703449952237991,
+        "y": 2.5059199304039295
       },
       "prevControl": {
-        "x": 4.768435857391234,
-        "y": 1.7812432653040586
+        "x": 5.024653460092189,
+        "y": 1.5862437801987292
       },
       "nextControl": null,
       "isLocked": false,
@@ -55,7 +55,12 @@
       "name": "L4 Prime",
       "waypointRelativePos": 0.36012102122015915,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "L4 Prime"
+        }
+      }
     }
   ],
   "globalConstraints": {
