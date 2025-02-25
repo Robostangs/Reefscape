@@ -234,8 +234,8 @@ public final class Constants {
     public static final Pose2d kCageMiddle = new Pose2d(8.76, 6.150, new Rotation2d(0d));
     public static final Pose2d kCageBottom = new Pose2d(8.79, 5.06, new Rotation2d(0d));
 
-    public static final double kElevatorIntakeMeters = 0.2;
 
+    public static final double spitTimeout  = 2d;
     public static class L1 {
       public static final double kArmScoringPosition = .37;
       public static final double kElevatorStart = 0.5;
@@ -267,6 +267,8 @@ public final class Constants {
       public static final double kElevatorPos = 0.8;
       public static final double kArmSchloopPos = -0.25;
     }
+
+    
 
     public static class Source {
       public static final double kElevatorPos = 2;

@@ -21,9 +21,8 @@ public class Reel extends Command {
 
   @Override
   public void execute() {
-    if (climber.getClimberPosition() > Constants.ClimberConstants.kReelSafe) {
       climber.runClimber(Constants.ClimberConstants.kReelDutyCycle);
-    }
+    
 
   }
 
@@ -39,7 +38,6 @@ public class Reel extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     return climber.getClimberPosition() <= Constants.ClimberConstants.kReelSafe;
   }
 

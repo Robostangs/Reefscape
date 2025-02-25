@@ -7,11 +7,9 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.pathplanner.lib.util.FlippingUtil;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
@@ -22,9 +20,7 @@ import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.SwerveCommands.AligntoCage;
-import frc.robot.commands.SwerveCommands.AligntoReef;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -95,7 +91,7 @@ public class RobotContainer {
         private void configureDriverBindings() {
 
                 xDrive.y().whileTrue(new Spit());
-                xDrive.a().toggleOnTrue(ScoringFactory.getCoral());
+                xDrive.a().toggleOnTrue(ScoringFactory.getCoralCommand());
                 xDrive.x().toggleOnTrue(ScoringFactory.L4Position());
                 xDrive.b().toggleOnTrue(ScoringFactory.returnHome());
                 xDrive.povDown().whileTrue(new HomeElevator());

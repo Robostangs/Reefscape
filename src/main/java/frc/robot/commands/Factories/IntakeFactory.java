@@ -15,16 +15,16 @@ public class IntakeFactory {
         return new Extend().alongWith(new RunIntake()).finallyDo(Retract.Retract);
     }
 
+    public static Command Schloop() {
+        return new Extend()
+                .alongWith(new RunIntake()).andThen(new Retract())
+                .finallyDo(ScoringFactory.getCoral());
+    }
+
     public static Command SourceIntake() {
         return new Lift(Constants.ScoringConstants.Source.kElevatorPos).alongWith(
                 new MoveArm(Constants.ScoringConstants.Source.kArmSourcePosition))
                 .alongWith(new Slurp());
-    }
-
-    public static Command Schloop() {
-        return new Extend()
-                .alongWith(new RunIntake()).andThen(new Retract())
-                .finallyDo(ScoringFactory.intakeRun());
     }
 
 }

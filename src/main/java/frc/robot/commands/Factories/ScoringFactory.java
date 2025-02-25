@@ -49,19 +49,19 @@ public class ScoringFactory {
     }
 
     public static Command L1Score() {
-        return L1Position().andThen(new Spit());
+        return L1Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
     }
 
     public static Command L2Score() {
-        return L2Position().andThen(new Spit());
+        return L2Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
     }
 
     public static Command L3Score() {
-        return L3Position().andThen(new Spit());
+        return L3Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
     }
 
     public static Command L4Score() {
-        return L4Position().andThen(new Spit());
+        return L4Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
     }
 
     public static Command returnHome() {
@@ -69,7 +69,7 @@ public class ScoringFactory {
                 new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
     }
 
-    public static Command getCoral() {
+    public static Command getCoralCommand() {
         return new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
                 new Lift(0.66));
 
@@ -83,11 +83,11 @@ public class ScoringFactory {
         };
     }
 
-    public static Runnable intakeRun() {
+    public static Runnable getCoral() {
         return () -> {
             new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
                     // TODO make this a constant
-                    new Lift(0.67));
+                    new Lift(0.66));
         };
     }
 }

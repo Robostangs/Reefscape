@@ -24,9 +24,8 @@ public class Deploy extends Command {
 
   @Override
   public void execute() {
-    // if(climber.getClimberPosition() < Constants.ClimberConstants.kSafeDeployExtention ){
       climber.runClimber(Constants.ClimberConstants.kExtentionDutyCycle);
-    // }
+    
 
   }
 
@@ -43,7 +42,7 @@ public class Deploy extends Command {
   @Override
   public boolean isFinished() {
 
-    return climber.getClimberPosition() > Constants.ClimberConstants.kSafeDeployExtention;
+    return climber.getClimberPosition() >= Constants.ClimberConstants.kSafeDeployExtention;
   }
 
 }
