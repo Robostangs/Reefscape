@@ -112,7 +112,6 @@ public final class Constants {
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
- 
     public static final double kArmP = 2000;
     public static final double kArmI = 2000;
     public static final double kArmD = 200;
@@ -133,8 +132,7 @@ public final class Constants {
 
     public static final double kArmRestsetpoint = 270d;
     public static final double kArmAcceleration = 10d;
-    public static final double kArmRotortoSensorRatio = (159d/15d)*(36d/12d);
-
+    public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
     public static final double kArmHumanPlayer = 165;
 
@@ -153,6 +151,9 @@ public final class Constants {
     public static final double kElevatorCruiseVelocity = 0;
     public static final int kLimitSwitchId = 9;
 
+    public static final double kMaxExtention = 1.6;// cm
+    public static final double kMinExtention = .3;// cm
+
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
@@ -160,9 +161,7 @@ public final class Constants {
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
 
-    public static final double kMaxElevatorHeight = 2.27887911;
-    public static final double kMinElevatorHeight = 0d;
-    public static final double kRotationsToMeters = 0.0313;//*Detroit Reference */;
+    public static final double kRotationsToMeters = 0.0313;// *Detroit Reference */;
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
@@ -178,7 +177,7 @@ public final class Constants {
 
   }
 
-  //WE ARE WELDED 
+  // WE ARE WELDED
   public static class VisionConstants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
     public static final String kLimelightScoreSide = "score";
@@ -192,7 +191,8 @@ public final class Constants {
   }
 
   public static class ScoringConstants {
-    public static final double kArmScoringrotations = 140;
+    public static final double kArmScoringPosition = 140;
+    public static final double kArmSourcePosition = 165;
 
     // Align Poses
     public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(0));
@@ -226,6 +226,11 @@ public final class Constants {
     // reset pose
     public static final Pose2d kResetPose = new Pose2d(2.84, 4, new Rotation2d(0));
 
+    // Cage poses
+    public static final Pose2d kCageTop = new Pose2d(8.8, 7.3, new Rotation2d(0d));
+    public static final Pose2d kCageMiddle = new Pose2d(8.76, 6.150, new Rotation2d(0d));
+    public static final Pose2d kCageBottom = new Pose2d(8.79, 5.06, new Rotation2d(0d));
+
     public static final double kElevatorIntakeMeters = 0.2;
 
     public static class L1 {
@@ -244,6 +249,10 @@ public final class Constants {
       public static final double kElevatorPos = 2;
     }
 
+    public static class Source {
+      public static final double kElevatorPos = 2;
+
+    }
   }
 
   public static class SwerveConstants {
@@ -310,6 +319,7 @@ public final class Constants {
       public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
 
       public static final double kSlurpTimeout = 3d;
+
       public static class AutoPoses {
         public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.radiansToDegrees(180)));
         public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.radiansToDegrees(180)));

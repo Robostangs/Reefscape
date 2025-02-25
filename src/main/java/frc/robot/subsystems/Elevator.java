@@ -61,16 +61,14 @@ public class Elevator extends SubsystemBase {
         elevatorMotorLeft = new TalonFX(Constants.ElevatorConstants.kLeftElevatorMotorId);
         limitSwitchElevator = new DigitalInput(Constants.ElevatorConstants.kLimitSwitchId);
 
-
         elevatorMotionMagic = new MotionMagicTorqueCurrentFOC(0d);
 
         elevatorTargetMotorModel = DCMotor.getFalcon500(2);
 
         simElevatorTarget = new ElevatorSim(elevatorTargetMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
-                Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, false,
+                Constants.ElevatorConstants.kMinExtention, Constants.ElevatorConstants.kMaxExtention, false,
                 0d);
-
 
         targetElevator_mechanism = new Mechanism2d(5, 5);
         targetElevatorBaseRoot = targetElevator_mechanism.getRoot("Target Elevator Root", 2.5, 0);
@@ -80,7 +78,7 @@ public class Elevator extends SubsystemBase {
 
         simElevatorProfile = new ElevatorSim(elevatorTargetMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
-                Constants.ElevatorConstants.kMinElevatorHeight, Constants.ElevatorConstants.kMaxElevatorHeight, false,
+                Constants.ElevatorConstants.kMinExtention, Constants.ElevatorConstants.kMaxExtention, false,
                 0d);
 
         profileElevator_mechanism = new Mechanism2d(20, 5);
@@ -129,22 +127,19 @@ public class Elevator extends SubsystemBase {
 
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
 
-        // elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-        // elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.ElevatorConstants.kMaxExtention;
+
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.ElevatorConstants.kMinExtention;
 
         elevatorMotorRightConfigs.CurrentLimits.StatorCurrentLimit = 30;
-
-
-
-
-
 
         /**
          * 
          */
-
-
-
 
         elevatorMotionMagic.Slot = 0;
 
@@ -154,14 +149,9 @@ public class Elevator extends SubsystemBase {
 
         elevatorMotorLeftConfigs.CurrentLimits.StatorCurrentLimit = 30;
 
-
-
         elevatorMotorLeft.getConfigurator().apply(elevatorMotorLeftConfigs);
 
-
-
         // elevatorMotorLeft.follow(elevatorMotorRight);
-
 
         elevatorMotorLeft
                 .setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
@@ -172,24 +162,23 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPositionMeters(double TargetElevatorMeters) {
-        if (TargetElevatorMeters < Constants.ElevatorConstants.kMinElevatorHeight) {
-            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinElevatorHeight;
-        } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxElevatorHeight) {
-            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxElevatorHeight;
+        if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtention) {
+            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtention;
+        } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxExtention) {
+            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxExtention;
         } else {
             elevatorMotionMagic.Position = TargetElevatorMeters;
         }
     }
 
-
-
-    public  Runnable zeroElevator = () -> {
+    public Runnable zeroElevator = () -> {
         elevatorMotorRight.setPosition(0);
         postStatus("zeroed");
     };
+
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
         elevatorMotorRight.set(elevatorDutyCycle);
-        
+
         elevatorMotorLeft.set(-elevatorDutyCycle);
 
     }
@@ -213,7 +202,7 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    public boolean getLimitSwitch(){
+    public boolean getLimitSwitch() {
         return limitSwitchElevator.get();
     }
 
@@ -293,13 +282,16 @@ public class Elevator extends SubsystemBase {
 
         updateElevatorPosition();
 
-        SmartDashboard.putNumber("Elevator-Test/Torque current", elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator-Test/Torque current",
+                elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
         SmartDashboard.putNumber("Elevator-Test/Veleocity", elevatorMotorRight.getVelocity().getValueAsDouble());
         SmartDashboard.putNumber("Elevator-Test/Acceleration", elevatorMotorRight.getAcceleration().getValueAsDouble());
 
-        // SmartDashboard.putNumber("Elevator-Test/Torque current over velocity -kg ", elevatorPositionMeters);
+        // SmartDashboard.putNumber("Elevator-Test/Torque current over velocity -kg ",
+        // elevatorPositionMeters);
 
-        // SmartDashboard.putNumber("Elevator-Test/Torque current over acceleration - kg", elevatorPositionMeters);
+        // SmartDashboard.putNumber("Elevator-Test/Torque current over acceleration -
+        // kg", elevatorPositionMeters);
 
         SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
 
@@ -314,8 +306,8 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putBoolean("Elevator/brownout right", elevatorMotorRight.getFault_BridgeBrownout().getValue());
         SmartDashboard.putBoolean("Elevator/brownout left", elevatorMotorLeft.getFault_BridgeBrownout().getValue());
 
-SmartDashboard.putNumber("right stator current limit", elevatorMotorRight.getStatorCurrent().getValueAsDouble());
-
+        SmartDashboard.putNumber("right stator current limit",
+                elevatorMotorRight.getStatorCurrent().getValueAsDouble());
 
     }
 }

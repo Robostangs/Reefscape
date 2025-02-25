@@ -8,13 +8,11 @@ import frc.robot.subsystems.Elevator;
 public class RunElevator extends Command {
   Elevator elevator;
   DoubleSupplier speed;
-  boolean up;
 
-  public RunElevator(DoubleSupplier speed, boolean upordown) {
+  public RunElevator(DoubleSupplier speed) {
     elevator = Elevator.getInstance();
     addRequirements(elevator);
     this.speed = speed;
-    this.up = upordown;
   }
 
   @Override
@@ -30,11 +28,8 @@ public class RunElevator extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    if (up) {
-      elevator.setElevatorDutyCycle(0.03);
-    } else {
       elevator.setElevatorDutyCycle(0.0325);
-    }
+    
     elevator.postStatus("Elevator Stopped");
     elevator.setBrakeMode();
 
