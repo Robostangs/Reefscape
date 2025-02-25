@@ -13,6 +13,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakePivot;
@@ -35,38 +36,11 @@ public class AligntoReef extends Command {
     AprilTagFields map;
     AprilTagFieldLayout theMap;
 
-
-    public AligntoReef(int AprilTagID, boolean Right) {
-
-        drivetrain = CommandSwerveDrivetrain.getInstance();
-
-        this.addRequirements(drivetrain);
-
-        this.translateX = () -> 0d;
-        this.translateY = () -> 0d;
-        this.AprilTagID = AprilTagID;
-        this.Right = Right;
-
-        this.setName("Align to Reef");
-
-
-       map = AprilTagFields.k2025ReefscapeWelded;
-
-        
-      theMap = AprilTagFieldLayout.loadField(map);
-
-      reefPose = theMap.getTagPose(AprilTagID).get();
-
-        getTargetRotation = () -> {
-             double deltaX =  drivetrain.getPose().getX() - reefPose.getX();
-             double deltaY = drivetrain.getPose().getY() - reefPose.getY();
-             
-            return Rotation2d.fromRadians(Math.atan2( deltaY, deltaX ) + Units.degreesToRadians(90));
-    
-        };
+    public AligntoReef(boolean Right) {
+        this(() -> 0d, () -> 0d, Right);
     }
 
-    public AligntoReef(Supplier<Double> translateX, Supplier<Double> translateY, Supplier<Integer> AprilTagID, boolean Right) {
+    public AligntoReef(Supplier<Double> translateX, Supplier<Double> translateY, boolean Right) {
 
         drivetrain = CommandSwerveDrivetrain.getInstance();
 
@@ -74,26 +48,24 @@ public class AligntoReef extends Command {
 
         this.translateX = translateX;
         this.translateY = translateY;
-        this.AprilTagID = AprilTagID.get();
         this.Right = Right;
 
         this.setName("Align to Reef");
 
+        map = AprilTagFields.k2025ReefscapeWelded;
 
-       map = AprilTagFields.k2025ReefscapeWelded;
+        theMap = AprilTagFieldLayout.loadField(map);
 
-        
-      theMap = AprilTagFieldLayout.loadField(map);
+        AprilTagID = LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[0].id;
 
-      
-    reefPose = theMap.getTagPose(AprilTagID.get()).get();
+        reefPose = theMap.getTagPose(AprilTagID).get();
 
         getTargetRotation = () -> {
-             double deltaX =  drivetrain.getPose().getX() - reefPose.getX();
-             double deltaY = drivetrain.getPose().getY() - reefPose.getY();
-             
-            return Rotation2d.fromRadians(Math.atan2( deltaY, deltaX ) + Units.degreesToRadians(90));
-    
+            double deltaX = drivetrain.getPose().getX() - reefPose.getX();
+            double deltaY = drivetrain.getPose().getY() - reefPose.getY();
+
+            return Rotation2d.fromRadians(Math.atan2(deltaY, deltaX) + Units.degreesToRadians(90));
+
         };
     }
 
@@ -121,7 +93,8 @@ public class AligntoReef extends Command {
                 .withVelocityY(translateY.get()
                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
         drivetrain.setControl(driveRequest);
-        Robot.teleopField.getObject("Reef Align Pose").setPose(new Pose2d(reefPose.getX(), reefPose.getY(), reefPose.getRotation().toRotation2d()));
+        Robot.teleopField.getObject("Reef Align Pose")
+                .setPose(new Pose2d(reefPose.getX(), reefPose.getY(), reefPose.getRotation().toRotation2d()));
         SmartDashboard.putNumber("Drivetrain/April Tag ID", AprilTagID);
     }
 
