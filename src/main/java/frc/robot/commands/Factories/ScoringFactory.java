@@ -2,12 +2,14 @@ package frc.robot.commands.Factories;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.subsystems.Elevator;
 
 public class ScoringFactory {
 
@@ -26,18 +28,19 @@ public class ScoringFactory {
 
     public static Command L3Score() {
         return new Lift(Constants.ScoringConstants.L3.kElevatorPos)
-                .andThen(new MoveArm(Constants.ScoringConstants.kArmScoringPosition)
-                        .andThen(new Spit()));
+                .alongWith(new WaitUntilCommand(() -> true))
+                .andThen(new MoveArm(Constants.ScoringConstants.kArmScoringPosition))
+                .andThen(new Spit());
     }
 
     public static Command L4Score() {
         return new Lift(Constants.ScoringConstants.L4.kElevatorPos).andThen(
-                new MoveArm(Constants.ScoringConstants.kArmScoringPosition));
+                new MoveArm(Constants.ScoringConstants.kArmScoringPosition)).andThen(new Spit());
     }
 
     public static Command L1Position() {
         return new Lift(Constants.ScoringConstants.L1.kElevatorPos)
-                .alongWith(new MoveArm(Constants.ScoringConstants.kArmScoringPosition));
+                .andThen(new MoveArm(Constants.ScoringConstants.kArmScoringPosition));
     }
 
     public static Command L2Position() {
@@ -51,26 +54,29 @@ public class ScoringFactory {
     }
 
     public static Command L4Position() {
-        return new Lift(Constants.ScoringConstants.L4.kElevatorPos).alongWith(
-                new MoveArm(Constants.ScoringConstants.kArmScoringPosition));
+        return new Lift(Constants.ScoringConstants.L4.kElevatorPos).alongWith(new WaitUntilCommand(
+                () -> Elevator.getInstance().getElevatorPositionMeters() > Constants.ElevatorConstants.kHomePosition)
+                .andThen(
+                        new MoveArm(Constants.ScoringConstants.kArmScoringPosition)));
     }
 
-    public static Command SourceIntake(){
+    public static Command SourceIntake() {
         return new Lift(Constants.ScoringConstants.Source.kElevatorPos).alongWith(
-            new MoveArm(Constants.ScoringConstants.kArmSourcePosition))
-            .alongWith(new Slurp());
+                new MoveArm(Constants.ScoringConstants.kArmSourcePosition))
+                .alongWith(new Slurp());
     }
 
     public static Command returnHome() {
         return new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
-                new Lift(0));
+                new Lift(0.8));
 
     }
 
     public static Runnable returnHomeRun() {
         return () -> {
             new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
-                    new Lift(0d));
+                    // TODO make this a constant
+                    new Lift(0.63));
         };
     }
 }

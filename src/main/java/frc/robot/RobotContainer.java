@@ -15,9 +15,11 @@ import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
+import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
@@ -31,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Elevator;
 
 public class RobotContainer {
         // max angular velocity
@@ -81,48 +84,61 @@ public class RobotContainer {
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 } else {
                         drivetrain.setDefaultCommand(
-                                        // Drivetrain will execute this command periodically
-                                        drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
-                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                        .in(MetersPerSecond))
-                                                        .withVelocityY((-xDrive.getLeftX())
-                                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                                        .in(MetersPerSecond))
-                                                        .withRotationalRate((-xDrive.getRightX())
-                                                                        *
-                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                        // Drivetrain will execute this command periodically
+                        drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
+                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                        .in(MetersPerSecond))
+                        .withVelocityY((-xDrive.getLeftX())
+                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                        .in(MetersPerSecond))
+                        .withRotationalRate((-xDrive.getRightX())
+                        *
+                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 }
 
         }
 
         private void configureDriverBindings() {
 
-                xDrive.x().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
-                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                .in(MetersPerSecond),
-                                () -> -xDrive.getLeftX()
-                                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                .in(MetersPerSecond),
-                                () -> LimelightHelpers
-                                                .getRawFiducials(
-                                                                Constants.VisionConstants.kLimelightCoralName)[0].id,
-                                false));
+                // xDrive.x().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
+                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                // .in(MetersPerSecond),
+                // () -> -xDrive.getLeftX()
+                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                // .in(MetersPerSecond),
+                // () -> LimelightHelpers
+                // .getRawFiducials(
+                // Constants.VisionConstants.kLimelightCoralName)[0].id,
+                // false));
 
-                xDrive.y().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
-                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                .in(MetersPerSecond),
-                                () -> -xDrive.getLeftX()
-                                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                .in(MetersPerSecond),
-                                () -> LimelightHelpers
-                                                .getRawFiducials(
-                                                                Constants.VisionConstants.kLimelightCoralName)[0].id,
-                                true));
+                // xDrive.y().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
+                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                // .in(MetersPerSecond),
+                // () -> -xDrive.getLeftX()
+                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                // .in(MetersPerSecond),
+                // () -> LimelightHelpers
+                // .getRawFiducials(
+                // Constants.VisionConstants.kLimelightCoralName)[0].id,
+                // true));
 
                 // xDrive.a().toggleOnTrue(new PathToPoint());
                 // xDrive.b().toggleOnTrue(new PathToPoint());
 
+                // new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.02)
+                //                 .whileTrue(new RunElevator(() -> xDrive.getLeftY()));
 
+                xDrive.b().toggleOnTrue(new HomeElevator());
+                // xDrive.a().whileTrue(Elevator.getInstance().runOnce(Elevator.getInstance().runElePID));
+
+                xDrive.x().toggleOnTrue(ScoringFactory.L4Position());
+                xDrive.a().toggleOnTrue(ScoringFactory.returnHome());
+                xDrive.y().toggleOnTrue(new Spit());
+
+                //intake coral .63
+                // xDrive.povRight().toggleOnTrue(new home);
+
+                // xDrive.povUp().whileTrue(IntakeFactory.IntakeCoral());
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));

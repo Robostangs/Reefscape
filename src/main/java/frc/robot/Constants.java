@@ -130,7 +130,7 @@ public final class Constants {
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestsetpoint = 270d;
+    public static final double kArmRestsetpoint = -.25;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
@@ -141,16 +141,18 @@ public final class Constants {
   public static class ElevatorConstants {
     public static final int kRightElevatorMotorId = 36;
     public static final int kLeftElevatorMotorId = 35;
-    public static final double kElevatorP = 10;
-    public static final double kElevatorI = 0;
-    public static final double kElevatorD = 0;
+    public static final double kElevatorP = 5000;
+    public static final double kElevatorI = 20;
+    public static final double kElevatorD = 220;
     // public static final double kElevatorFF = 1;
     public static final double kElevatorV = 0;
     public static final double kElevatorA = 0;
-    public static final double kElevatorG = 0;
+    public static final double kElevatorG = 15;
     public static final double kElevatorS = 0;
 
-    public static final double kElevatorCruiseVelocity = 0;
+    public static final double kElevatorCruiseVelocity = 2;
+    public static final double kElevatorAcceleration = 12.5;
+
     public static final int kLimitSwitchId = 9;
 
     public static final double kMaxExtention = 1.6;// cm
@@ -163,9 +165,7 @@ public final class Constants {
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
 
-    public static final double kMaxElevatorHeight = 1.6;
-    public static final double kMinElevatorHeight = .3;
-    public static final double kRotationsToMeters = 0.0313;//*Detroit Reference */;
+    public static final double kRotationsToMeters = (1/0.0313)/(.57/.536);//*Detroit Reference */;
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
@@ -177,12 +177,11 @@ public final class Constants {
     public static final double kElevatorGearing = 14 / 72d;
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
-    public static final double kHomePosition = 3.77 * Math.pow(kRotationsToMeters, -1);
-    public static final double kElevatorAcceleration = 0;
+    public static final double kHomePosition = 0.82;
 
   }
 
-  // WE ARE WELDED
+  // WE ARE WELDEDkg
   public static class VisionConstants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
     public static final String kLimelightScoreSide = "score";
@@ -196,7 +195,7 @@ public final class Constants {
   }
 
   public static class ScoringConstants {
-    public static final double kArmScoringPosition = 140;
+    public static final double kArmScoringPosition = .37;
     public static final double kArmSourcePosition = 165;
 
     // Align Poses
@@ -251,7 +250,7 @@ public final class Constants {
     }
 
     public static class L4 {
-      public static final double kElevatorPos = 2;
+      public static final double kElevatorPos = 1.55;
     }
 
     public static class Source {

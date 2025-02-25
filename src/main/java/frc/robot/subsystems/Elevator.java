@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -49,12 +50,20 @@ public class Elevator extends SubsystemBase {
 
     private final DigitalInput limitSwitchElevator;
 
+    
+
     public static Elevator getInstance() {
         if (mInstance == null)
             mInstance = new Elevator();
 
         return mInstance;
     }
+
+    public Runnable runElePID = () -> {
+
+        elevatorMotorRight.setControl(new MotionMagicTorqueCurrentFOC(Constants.ElevatorConstants.kHomePosition));
+        
+    };
 
     public Elevator() {
         elevatorMotorRight = new TalonFX(Constants.ElevatorConstants.kRightElevatorMotorId);
@@ -175,7 +184,7 @@ public class Elevator extends SubsystemBase {
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
         elevatorMotorRight.set(elevatorDutyCycle);
 
-        elevatorMotorLeft.set(-elevatorDutyCycle);
+        elevatorMotorLeft.setControl(new Follower(elevatorMotorRight.getDeviceID(), true));
 
     }
 
@@ -226,7 +235,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public double getElevatorVelocityMeters() {
-        return elevatorMotorRight.getVelocity().getValueAsDouble() / Constants.ElevatorConstants.kRotationsToMeters;
+        return elevatorMotorRight.getVelocity().getValueAsDouble();
     }
 
     public boolean isElevatorAtTarget() {
@@ -241,8 +250,7 @@ public class Elevator extends SubsystemBase {
         if (Robot.isSimulation()) {
             elevatorPositionMeters = simElevatorTarget.getPositionMeters();
         } else {
-            elevatorPositionMeters = Constants.ElevatorConstants.kRotationsToMeters
-                    * elevatorMotorRight.getPosition().getValueAsDouble();
+            elevatorPositionMeters = elevatorMotorRight.getPosition().getValueAsDouble();
         }
     }
 

@@ -16,7 +16,7 @@ public class IntakeFactory {
     }
 
     public static Command Schloop() {
-        return new Lift(Constants.ScoringConstants.kElevatorIntakeMeters).alongWith(new Extend())
+        return new Extend()
                 .andThen(new RunIntake()).andThen(new Retract())
                 .finallyDo(ScoringFactory.returnHomeRun());
     }
