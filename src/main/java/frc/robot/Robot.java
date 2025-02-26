@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -18,6 +20,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,6 +33,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -67,7 +71,7 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceChooser = new SendableChooser<>();
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
-  private PathPlannerAuto autoCommand;
+  private Command autoCommand;
   private SequentialCommandGroup autoCommandGroup;
 
   private static GcStatsCollector gscollect = new GcStatsCollector();
@@ -91,15 +95,15 @@ public class Robot extends TimedRobotstangs {
   public void robotInit() {
     IntakePivot.getInstance().zeroIntake();
 
-
-
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
     autoTab = Shuffleboard.getTab("Autonomous");
     testTab = Shuffleboard.getTab("Test");
     disTab = Shuffleboard.getTab("Disabled");
 
-    startChooser.setDefaultOption("Center", "CStart");
+    startChooser.setDefaultOption("Shit and Shit", "");
+    startChooser.addOption("Forward", "Shitting");
+    startChooser.addOption("Center", "CStart");
     startChooser.addOption("Open", "OStart");
     startChooser.addOption("Processor", "PStart");
 
@@ -176,7 +180,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L2 Prime", ScoringFactory.L2Position());
     NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position());
     NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position());
-    //TODO change this to spit
+    // TODO change this to spit
     NamedCommands.registerCommand("Spit", new PrintCommand("Hello"));
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
@@ -238,7 +242,8 @@ public class Robot extends TimedRobotstangs {
      * 2 - Use internal IMU for MT2 localization. External imu data is ignored
      * entirely
      */
-    // LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
+    // LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide,
+    // 0);
     // publishTrajectory(autoName);
   }
 
@@ -246,12 +251,17 @@ public class Robot extends TimedRobotstangs {
     unpublishTrajectory();
     IntakePivot.getInstance().zeroIntake();
 
-    if(!autoName.equals("")){
-    autoCommand = new PathPlannerAuto(autoName);
-    }
-    else{
+    if (autoName.equals("Shitting")) {
       // TODO do the shit with the shit
-      // autoCommand = new PrintCommand("HEY HEY");
+      autoCommand = CommandSwerveDrivetrain.getInstance()
+          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityY(
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.75))
+          .withTimeout(3);
+
+    } else if (!autoName.equals("")) {
+      autoCommand = new PathPlannerAuto(autoName);
+    } else {
+      autoCommand = new PrintCommand("doing nothing!");
     }
 
     switch (startChooser.getSelected()) {
@@ -283,12 +293,6 @@ public class Robot extends TimedRobotstangs {
 
         break;
     }
-
-    // autoCommandGroup.addCommands(
-    // new Retract().alongWith(
-    // autoCommand
-    // )
-    // );
 
     autoCommand.schedule();
 
