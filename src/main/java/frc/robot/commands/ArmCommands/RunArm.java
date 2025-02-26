@@ -10,6 +10,10 @@ public class RunArm extends Command {
   Arm arm;
   DoubleSupplier speed;
 
+  /**
+   * a command that runs the arm at a duty cycle
+   * @param speed the percent to run the arm at
+   */
   public RunArm(DoubleSupplier speed) {
     arm = Arm.getInstance();
     addRequirements(arm);

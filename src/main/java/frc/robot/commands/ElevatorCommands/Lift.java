@@ -13,7 +13,10 @@ public class Lift extends Command {
   Elevator elevator;
   double position;
 
-  /** Creates a new Lift. */
+  /** 
+   * A command that uses Motion Magic to set the elevator to the spesified position
+   * @param position the setpoint for the elevator
+   */
   public Lift(double position) {
     elevator = Elevator.getInstance();
     addRequirements(elevator);

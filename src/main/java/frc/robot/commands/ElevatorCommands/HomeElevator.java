@@ -21,14 +21,12 @@ public class HomeElevator extends Command {
 
     @Override
     public void execute() {
-        // elevator.setStatorCurrentLimit(Constants.ElevatorConstants.kElevatorHomeStatorCurrentLimit);
         elevator.setElevatorDutyCycle(Constants.ElevatorConstants.kElevatorHomeDutyCycle);
     }
 
     @Override
     public void end(boolean interrupted) {
         elevator.setElevatorDutyCycle(0);
-        // elevator.setStatorCurrentLimit(Constants.ElevatorConstants.kElevatorRegStatorCurrentLimit);
         elevator.setElevatorPosition(Constants.ElevatorConstants.kHomePosition);
         elevator.postStatus("elevator homed");
 
@@ -36,7 +34,6 @@ public class HomeElevator extends Command {
 
     public boolean isFinished() {
         return !elevator.getLimitSwitch();
-        // return false;
     }
 
 }

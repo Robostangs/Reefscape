@@ -10,6 +10,9 @@ public class ManualAdjustClimber extends Command {
     Climber climber;
     DoubleSupplier dutyCycle;
 
+    /**
+     * A command that runs the climber at a duty cycle
+     */
     public ManualAdjustClimber(DoubleSupplier dutyCycle) {
         climber = Climber.getInstance();
         this.dutyCycle = dutyCycle;

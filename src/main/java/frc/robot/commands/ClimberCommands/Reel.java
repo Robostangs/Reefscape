@@ -9,6 +9,10 @@ public class Reel extends Command {
   Climber climber;
   boolean smart;
 
+  /**
+   * A command that reels the climber in
+   * @param smart whether to stop when it reaches the setpoint or not
+   */
   public Reel(boolean smart) {
     climber = Climber.getInstance();
     this.addRequirements(climber);
@@ -25,7 +29,6 @@ public class Reel extends Command {
       climber.runClimber(Constants.ClimberConstants.kReelDutyCycle);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
 
@@ -34,7 +37,6 @@ public class Reel extends Command {
     climber.setBrake();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if(smart){

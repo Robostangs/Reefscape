@@ -1,15 +1,11 @@
 package frc.robot.commands.Factories;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ElevatorCommands.Lift;
-import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
-import frc.robot.commands.IntakeCommands.Extend;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 
 public class ScoringFactory {

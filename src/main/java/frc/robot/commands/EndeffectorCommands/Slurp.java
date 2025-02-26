@@ -9,6 +9,7 @@ public class Slurp extends Command{
     Endeffector endeffector;
 
 
+
     public Slurp(){
         endeffector = Endeffector.getInstance();
         addRequirements(endeffector);
