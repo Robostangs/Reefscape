@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.788280823553493,
-        "y": 2.7265522652838423
+        "x": 5.007884995906114,
+        "y": 2.3306913550764192
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.087499917869563,
-        "y": 1.8455940463013487
+        "x": 3.3071040902221833,
+        "y": 1.4497331360939256
       },
       "isLocked": false,
       "linkedName": "Pro 2R"
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -35.839878212324564
+    "rotation": 143.33530767666156
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -147.91343149700776
+    "rotation": 29.580780352924556
   },
   "useDefaultConstraints": true
 }

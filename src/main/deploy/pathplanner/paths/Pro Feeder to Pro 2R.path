@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.788280823553493,
-        "y": 2.7265522652838423
+        "x": 5.007884995906114,
+        "y": 2.3306913550764192
       },
       "prevControl": {
-        "x": 5.905346704168689,
-        "y": 1.6602868342380306
+        "x": 5.12495087652131,
+        "y": 1.2644259240306075
       },
       "nextControl": null,
       "isLocked": false,
@@ -68,13 +68,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -147.91343149700776
+    "rotation": 29.580780352924556
   },
   "reversed": false,
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -35.839878212324564
+    "rotation": 143.33530767666156
   },
   "useDefaultConstraints": true
 }

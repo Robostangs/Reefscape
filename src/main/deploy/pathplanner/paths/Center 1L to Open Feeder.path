@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7010746451965066,
-        "y": 3.9367370871997815
+        "x": 2.7542120121451967,
+        "y": 4.434482038073144
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1432713222014352,
-        "y": 5.540241971672716
+        "x": 2.1964086891501253,
+        "y": 6.037986922546078
       },
       "isLocked": false,
       "linkedName": "Center 1L"
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -144.01133281264748
+    "rotation": 36.36428895949701
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 89.27887785182398
+    "rotation": -89.31298128045856
   },
   "useDefaultConstraints": true
 }
