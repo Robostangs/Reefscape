@@ -54,16 +54,12 @@ public final class Constants {
     public static final double kGearboxRotationsToMechanismMeters = 1d;
 
     // Deploy Constants
-    public static final double kMaxExtention = 118.73;
-    public static final double kDeployThreshold = 1d;
-    public static final double kSafeDeployExtention = kMaxExtention - kDeployThreshold;
-    public static final double kExtentionDutyCycle = 0.15;
+    public static final double kMaxExtention = 125;
+       public static final double kExtentionDutyCycle = 1;
 
     // Reel Constants
-    public static final double kReelDutyCycle = -0.15;
-    public static final double kMinExtention = 0.1;
-    public static final double kReelThreshold = 0.1;
-    public static final double kReelSafe = -8.25;
+    public static final double kReelDutyCycle = -1;
+    public static final double kReelSafe = 5;
 
   }
 

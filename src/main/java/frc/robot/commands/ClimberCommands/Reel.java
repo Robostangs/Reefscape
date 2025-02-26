@@ -22,7 +22,9 @@ public class Reel extends Command {
 
   @Override
   public void execute() {
+
       climber.runClimber(Constants.ClimberConstants.kReelDutyCycle);
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -37,10 +39,9 @@ public class Reel extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(smart){
-      return climber.getClimberPosition() <= Constants.ClimberConstants.kReelSafe;
-    }
-    else{
+    if (smart) {
+      return (climber.getClimberPosition()) <= Constants.ClimberConstants.kReelSafe;
+    } else {
       return false;
     }
   }

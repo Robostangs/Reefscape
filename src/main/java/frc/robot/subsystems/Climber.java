@@ -40,7 +40,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void setServoAngle(double servoDutyCycle) {
-        cliServo.set(servoDutyCycle);
+        cliServo.setAngle(servoDutyCycle);
         
     }
 
@@ -79,7 +79,7 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
 
-        SmartDashboard.putNumber("Climber/Servo Position", cliServo.get());
+        SmartDashboard.putNumber("Climber/Kraken Position", climberMotor.getPosition().getValueAsDouble());
     }
 
 }
