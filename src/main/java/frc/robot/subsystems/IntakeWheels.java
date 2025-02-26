@@ -1,12 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-
-import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,7 +8,6 @@ import frc.robot.Constants;
 
 public class IntakeWheels extends SubsystemBase {
     private TalonFX intakeMotor;
-    private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static IntakeWheels mInstance;
     private DigitalInput IntakeSensor;
 
@@ -27,7 +20,7 @@ public class IntakeWheels extends SubsystemBase {
     public IntakeWheels() {
 
         intakeMotor = new TalonFX(Constants.IntakeConstants.kWheelMotorId);
-        // IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
+        IntakeSensor = new DigitalInput(Constants.IntakeConstants.kIntakeSensorId);
 
     }
 
@@ -61,7 +54,7 @@ public class IntakeWheels extends SubsystemBase {
     @Override
     public void periodic() {
 
-        SmartDashboard.putBoolean("Intake Senor", getIntakeSensor());
+        SmartDashboard.putBoolean("Intake/Sensor", IntakeSensor.get());
 
     }
 

@@ -12,7 +12,13 @@ import frc.robot.commands.IntakeCommands.RunIntake;
 public class IntakeFactory {
 
     public static Command IntakeCoral() {
-        return new Extend().alongWith(new RunIntake()).finallyDo(Retract.Retract);
+        return new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract);
+    }
+
+    public static Command Schloop() {
+        return new Extend()
+                .alongWith(new RunIntake()).andThen(new Retract())
+                .finallyDo(ScoringFactory.getCoral());
     }
 
     public static Command SourceIntake() {
@@ -21,12 +27,6 @@ public class IntakeFactory {
                 .alongWith(new Slurp());
     }
 
-
-    public static Command Schloop() {
-        return new Extend()
-                .alongWith(new RunIntake()).andThen(new Retract())
-                .finallyDo(ScoringFactory.returnHomeRun());
-    }
-
+    // public static Command Climb(){}
 
 }

@@ -19,15 +19,12 @@ import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -36,12 +33,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
-import frc.robot.commands.IntakeCommands.Retract;
-import frc.robot.commands.SwerveCommands.AligntoCoral;
-import frc.robot.commands.SwerveCommands.ReefAdjust;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -77,6 +70,7 @@ public class Robot extends TimedRobotstangs {
   private PathPlannerAuto autoCommand;
   private SequentialCommandGroup autoCommandGroup;
 
+  private static GcStatsCollector gscollect = new GcStatsCollector();
   private static String lastAutoName;
   private static Alert nullAuto = new Alert("Null auto", AlertType.kWarning);
   private static Alert publishfail = new Alert("Publishing failed", AlertType.kError);
@@ -109,13 +103,15 @@ public class Robot extends TimedRobotstangs {
     startChooser.addOption("Open", "OStart");
     startChooser.addOption("Processor", "PStart");
 
-    firstPieceChooser.setDefaultOption("Center 1", " - C1");
+    firstPieceChooser.setDefaultOption("none", "");
+    firstPieceChooser.addOption("Center 1", " - C1");
     firstPieceChooser.addOption("Center 2", " - C2");
     firstPieceChooser.addOption("Pro 1", " - P1");
     firstPieceChooser.addOption("Pro 2", " - P2");
     firstPieceChooser.addOption("L", " - O1");
     firstPieceChooser.addOption("Open 2", " - O2");
 
+    firstPieceRoLChooser.setDefaultOption("None", "");
     firstPieceRoLChooser.setDefaultOption("Right", "R");
     firstPieceRoLChooser.addOption("Left", "L");
 
@@ -198,6 +194,7 @@ public class Robot extends TimedRobotstangs {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
 
+    gscollect.update();
     teleopField.setRobotPose(drivetrain.getState().Pose);
 
     SmartDashboard.putString("Auto/Current Auto", autoName);
@@ -241,15 +238,21 @@ public class Robot extends TimedRobotstangs {
      * 2 - Use internal IMU for MT2 localization. External imu data is ignored
      * entirely
      */
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
-    publishTrajectory(autoName);
+    // LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
+    // publishTrajectory(autoName);
   }
 
   public void autonomousInit() {
     unpublishTrajectory();
     IntakePivot.getInstance().zeroIntake();
 
+    if(!autoName.equals("")){
     autoCommand = new PathPlannerAuto(autoName);
+    }
+    else{
+      // TODO do the shit with the shit
+      // autoCommand = new PrintCommand("HEY HEY");
+    }
 
     switch (startChooser.getSelected()) {
       case "CStart":
@@ -445,7 +448,6 @@ public class Robot extends TimedRobotstangs {
    * @return false if the position is available, true if not available
    */
   public static boolean verifyMotor(TalonFX falcon) {
-    falcon.getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
 
     StatusCode status = falcon.getPosition().getStatus();
     if (status.isError() && Robot.isReal()) {

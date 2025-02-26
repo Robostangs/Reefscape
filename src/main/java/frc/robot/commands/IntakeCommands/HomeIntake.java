@@ -34,7 +34,6 @@ public class HomeIntake extends Command{
     }
 
     public boolean isFinished() {
-        // return elevator.isElevatorAtHome();
         return false;
     }
 

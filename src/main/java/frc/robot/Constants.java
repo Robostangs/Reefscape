@@ -50,19 +50,20 @@ public final class Constants {
   public static class ClimberConstants {
 
     public static final int kClimberMotorId = 46;
+    public static final int kServoId = 9;
     public static final double kGearboxRotationsToMechanismMeters = 1d;
 
     // Deploy Constants
-    public static final double kMaxExtention = 5d;
+    public static final double kMaxExtention = 118.73;
     public static final double kDeployThreshold = 1d;
     public static final double kSafeDeployExtention = kMaxExtention - kDeployThreshold;
-    public static final double kExtentionDutyCycle = -0.25;
+    public static final double kExtentionDutyCycle = 0.15;
 
     // Reel Constants
-    public static final double kReelDutyCycle = 0.25;
+    public static final double kReelDutyCycle = -0.15;
     public static final double kMinExtention = 0.1;
     public static final double kReelThreshold = 0.1;
-    public static final double kReelSafe = kReelThreshold + kMinExtention;
+    public static final double kReelSafe = -8.25;
 
   }
 
@@ -80,7 +81,7 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int kWheelMotorId = 14;
     public static final int kPiviotMotorId = 15;
-    public static final int kIntakeSensorId = 0;
+    public static final int kIntakeSensorId = 8;
 
     public static final double kExtendSetpoint = -16d;
     public static final double kRetractSetpoint = -2.5d;
@@ -178,14 +179,13 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
     public static final double kHomePosition = 0.82;
-
   }
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
-    public static final String kLimelightScoreSide = "score";
-    public static final String kLimelightOtherName = "SmallBP";
+    public static final String kLimelightScoreSide = "limelight-score";
+    public static final String kLimelightOtherName = "limelight-right";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kTAThresholdFour = 0.01;
@@ -234,8 +234,8 @@ public final class Constants {
     public static final Pose2d kCageMiddle = new Pose2d(8.76, 6.150, new Rotation2d(0d));
     public static final Pose2d kCageBottom = new Pose2d(8.79, 5.06, new Rotation2d(0d));
 
-    public static final double kElevatorIntakeMeters = 0.2;
 
+    public static final double spitTimeout  = 2d;
     public static class L1 {
       public static final double kArmScoringPosition = .37;
       public static final double kElevatorStart = 0.5;
@@ -264,9 +264,11 @@ public final class Constants {
     }
 
     public static class Schloop{
-      public static final double kElevatorPos = 0.63;
+      public static final double kElevatorPos = 0.8;
       public static final double kArmSchloopPos = -0.25;
     }
+
+    
 
     public static class Source {
       public static final double kElevatorPos = 2;
@@ -511,12 +513,7 @@ public final class Constants {
        * Creates a CommandSwerveDrivetrain instance.
        * This should only be called once in your robot program,.
        */
-      public static CommandSwerveDrivetrain createDrivetrain() {
-        return new CommandSwerveDrivetrain(
-            Constants.SwerveConstants.DrivetrainConstants, Constants.SwerveConstants.FrontLeft,
-            Constants.SwerveConstants.FrontRight, Constants.SwerveConstants.BackLeft,
-            Constants.SwerveConstants.BackRight);
-      }
+
 
       /**
        * Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected

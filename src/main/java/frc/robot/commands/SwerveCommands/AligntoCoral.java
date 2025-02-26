@@ -94,7 +94,7 @@ public class AligntoCoral extends Command {
         }
 
         else {
-            return IntakePivot.getInstance().getIntakeSensor();
+            return false;
         }
 
     }

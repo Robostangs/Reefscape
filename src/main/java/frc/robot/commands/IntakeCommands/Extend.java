@@ -2,13 +2,16 @@ package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakePivot;
+import frc.robot.subsystems.IntakeWheels;
 
 public class Extend extends Command {
 
   IntakePivot intake;
+  IntakeWheels aintake;
 
   public Extend() {
     intake = IntakePivot.getInstance();
+    aintake = IntakeWheels.getInstance();
     this.addRequirements(intake);
   }
 
@@ -25,6 +28,7 @@ public class Extend extends Command {
 
   @Override
   public void execute() {
+    aintake.runIntake(0.75);
     intake.runIntakeMotionMagic();
 
   }
@@ -33,6 +37,7 @@ public class Extend extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("Retracted");
+    aintake.runIntake(0);
     // intake.setIntakePiviotBrake();
     intake.stopBar();
 
@@ -42,8 +47,8 @@ public class Extend extends Command {
   @Override
   public boolean isFinished() {
     // TODO do this when we put it on
-    // return false;[\]
-    return intake.isIntakeatSetpoint(true);
+    return false;
+    // return intake.isIntakeatSetpoint(true);
   }
 
 }

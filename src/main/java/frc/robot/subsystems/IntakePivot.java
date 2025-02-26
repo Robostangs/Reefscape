@@ -16,7 +16,6 @@ public class IntakePivot extends SubsystemBase {
     private TalonFX pivotMotor;
     private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static IntakePivot mInstance;
-    private DigitalInput IntakeSensor;
     MotionMagicExpoTorqueCurrentFOC pivotControl;
 
   
@@ -82,10 +81,6 @@ public class IntakePivot extends SubsystemBase {
         pivotControl.Position = pivotMotor.getPosition().getValueAsDouble();
     }
 
-    public boolean getIntakeSensor() {
-        return IntakeSensor.get();
-    }
-
     public void setIntakePivotBrake() {
         pivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
@@ -101,9 +96,9 @@ public class IntakePivot extends SubsystemBase {
     public boolean isIntakeatSetpoint(boolean extendorretract) {
 
         if (extendorretract) {
-            return pivotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 3;
+            return pivotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 4;
         } else {
-            return pivotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kRetractSetpoint - 0.2;
+            return pivotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kRetractSetpoint - 0.5;
 
         }
     }
