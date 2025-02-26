@@ -3,47 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.007884995906114,
-        "y": 2.3306913550764192
+        "x": 7.556931887963974,
+        "y": 4.023203807314451
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3071040902221833,
-        "y": 1.4497331360939256
+        "x": 7.062386933225499,
+        "y": 4.019554078231421
       },
       "isLocked": false,
-      "linkedName": "Pro 2R"
+      "linkedName": "Center Start"
     },
     {
       "anchor": {
-        "x": 1.6637733692685588,
-        "y": 0.7409610398471602
+        "x": 6.434560930676856,
+        "y": 4.023203807314451
       },
       "prevControl": {
-        "x": 3.2677235432587324,
-        "y": 1.5730971956877715
+        "x": 7.092248346638465,
+        "y": 4.024561315863286
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Pro Feeder"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Feeder Intake",
-      "waypointRelativePos": 0.5323255258126195,
-      "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Feeder Intake"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -54,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 143.33530767666156
+    "rotation": 178.3317329326417
   },
   "reversed": false,
-  "folder": "Reef to Feeder Paths",
+  "folder": "Goofy Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 29.580780352924556
+    "rotation": 179.80491621141402
   },
   "useDefaultConstraints": true
 }

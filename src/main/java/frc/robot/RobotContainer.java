@@ -102,15 +102,12 @@ public class RobotContainer {
 
         private void configureTestBindings() {
 
-            xTest.x().toggleOnTrue(new Extend());
-            xTest.y().toggleOnTrue(new Retract());
-            xTest.a().toggleOnTrue(new RunIntake());
-            xTest.b().toggleOnTrue(new Untake());
-            xTest.leftBumper().whileTrue(new HomeIntake());
+                xTest.x().toggleOnTrue(new Extend());
+                xTest.y().toggleOnTrue(new Retract());
+                xTest.a().toggleOnTrue(new RunIntake());
+                xTest.b().toggleOnTrue(new Untake());
+                xTest.leftBumper().whileTrue(new HomeIntake());
 
-
-
- 
         }
 
         private void configureDriverBindings() {
@@ -145,14 +142,18 @@ public class RobotContainer {
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
 
-                xDrive.povUp().toggleOnTrue(new Extend());
+                // xDrive.povUp().toggleOnTrue(new Extend());
 
                 xDrive.leftStick().toggleOnTrue(new HomeIntake());
 
+                xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
+                xDrive.povUp().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().goToservpos));
+                xDrive.povDown().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroServo));
 
-                xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
-                                Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
-                                                : Constants.ScoringConstants.kResetPose)));
+                // xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
+                // Robot.isRed() ?
+                // FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
+                // : Constants.ScoringConstants.kResetPose)));
 
                 // reset the field-centric heading on left bumper press
                 xDrive.rightBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
@@ -167,29 +168,20 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.01)
                                 .whileTrue(new RunElevator(() -> xManip.getLeftY()));
 
-                // xManip.x().toggleOnTrue(ScoringFactory.L1Score());
-                // xManip.y().toggleOnTrue(ScoringFactory.L2Score());
-                // xManip.b().toggleOnTrue(ScoringFactory.L3Score());
+              
                 xManip.a().toggleOnTrue(ScoringFactory.L4Score());
-
-                // xManip.x().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L1Position());
-                // xManip.y().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L2Position());
-                // xManip.b().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L3Position());
                 xManip.a().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L4Position());
 
-                // xManip.povDown().whileTrue(new Slurp());
 
                 xManip.povRight().toggleOnTrue(ScoringFactory.getCoralCommand());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.returnHome());
 
-
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
 
-                xManip.rightStick().toggleOnTrue(new Deploy(false));
-                xManip.leftStick().toggleOnTrue(new Reel(false));
+                xManip.rightStick().toggleOnTrue(new Deploy(true));
+                xManip.leftStick().toggleOnTrue(new Reel(true));
 
-                // xManip.rightTrigger(0.1).toggleOnTrue(IntakeFactory.SourceIntake());
         }
 
         private void configureSimBindings() {
@@ -209,22 +201,7 @@ public class RobotContainer {
                                                                 * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                 .in(MetersPerSecond),
                                                 1));
-                // new AligntoReef(() -> -xSim.getRawAxis(0),
-                // () -> -xSim.getRawAxis(1),
-                // 11, true)
 
-                // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(1))
-                // .whileTrue(new Lift(10d));
-                // new Trigger(() -> xSim.getRawButtonPressed(1))
-                // .toggleOnTrue(
-                // // new MoveArm(400d)
-                // new Lift(5d)
-                // // ScoringFactory.L1Score()
-                // );
-
-                // new Trigger(() -> m_driverControllerSim.getRawButtonPressed(2)).whileTrue(
-                // new Lift(60d)
-                // );
 
         }
 
