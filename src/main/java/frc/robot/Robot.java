@@ -79,6 +79,8 @@ public class Robot extends TimedRobotstangs {
   private static Alert nullAuto = new Alert("Null auto", AlertType.kWarning);
   private static Alert publishfail = new Alert("Publishing failed", AlertType.kError);
   private static Alert noAutoSelected = new Alert("No Auto Selected", AlertType.kWarning);
+  private static Alert ShittyAlert = new Alert("We going forward ", AlertType.kInfo);
+
 
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -102,7 +104,7 @@ public class Robot extends TimedRobotstangs {
     disTab = Shuffleboard.getTab("Disabled");
 
     startChooser.setDefaultOption("Shit and Shit", "");
-    startChooser.addOption("Forward", "Shitting");
+    startChooser.addOption("Forward", "shitting");
     startChooser.addOption("Center", "CStart");
     startChooser.addOption("Open", "OStart");
     startChooser.addOption("Processor", "PStart");
@@ -242,21 +244,20 @@ public class Robot extends TimedRobotstangs {
      * 2 - Use internal IMU for MT2 localization. External imu data is ignored
      * entirely
      */
-    // LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide,
-    // 0);
-    // publishTrajectory(autoName);
+
+    publishTrajectory(autoName);
   }
 
   public void autonomousInit() {
     unpublishTrajectory();
     IntakePivot.getInstance().zeroIntake();
 
-    if (autoName.equals("Shitting")) {
+    if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
       autoCommand = CommandSwerveDrivetrain.getInstance()
-          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityY(
+          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
               Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.75))
-          .withTimeout(3);
+          .withTimeout(1.5);
 
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
@@ -363,6 +364,9 @@ public class Robot extends TimedRobotstangs {
       return;
     }
 
+    if(autoName.equals("shitting")){
+      ShittyAlert.set(true);
+    } 
     // we are going to use the auto name so this is the last auto we published
     else {
       lastAutoName = autoName;
@@ -398,6 +402,7 @@ public class Robot extends TimedRobotstangs {
       nullAuto.set(false);
       publishfail.set(false);
       noAutoSelected.set(false);
+      ShittyAlert.set(false);
     }
 
     catch (RuntimeException e) {
