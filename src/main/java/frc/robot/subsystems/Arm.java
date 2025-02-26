@@ -164,6 +164,7 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
         SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
 
+        
         // SmartDashboard.putNumber("Torque current  -kg ",
         //         (armMotor.getTorqueCurrent().getValueAsDouble()
         //                 - (Constants.ArmConstants.kArmG

@@ -327,7 +327,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) >= 1
                     && LimelightHelpers.getTA(
                             Constants.VisionConstants.kLimelightOtherName) > Constants.VisionConstants.kTAThresholdThree) {
-                this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
+                // this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
                 SmartDashboard.putString("Three POSE","powewef");
                 
@@ -411,11 +411,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
 
     public void configurePathPlanner() {
-        try{
-            throw new Exception();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
         AutoBuilder.configure(
                 () -> this.getState().Pose,
                 pose -> this.seedFieldCentric(),

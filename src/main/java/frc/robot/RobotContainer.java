@@ -102,11 +102,6 @@ public class RobotContainer {
 
         private void configureTestBindings() {
 
-                // xTest.a().toggleOnTrue(new Deploy(true));
-                // xTest.x().toggleOnTrue(new Deploy(true));
-                // // xTest.y().toggleOnTrue(new Reel(true));
-                // xTest.b().toggleOnTrue(new Reel(true));
-
             xTest.x().toggleOnTrue(new Extend());
             xTest.y().toggleOnTrue(new Retract());
             xTest.a().toggleOnTrue(new RunIntake());
@@ -147,8 +142,9 @@ public class RobotContainer {
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
 
+                xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
-                // xDrive.b().toggleOnTrue(new RunIntake());
+
                 xDrive.povUp().toggleOnTrue(new Extend());
 
                 xDrive.leftStick().toggleOnTrue(new HomeIntake());

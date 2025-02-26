@@ -70,6 +70,7 @@ public class Robot extends TimedRobotstangs {
   private PathPlannerAuto autoCommand;
   private SequentialCommandGroup autoCommandGroup;
 
+  private static GcStatsCollector gscollect = new GcStatsCollector();
   private static String lastAutoName;
   private static Alert nullAuto = new Alert("Null auto", AlertType.kWarning);
   private static Alert publishfail = new Alert("Publishing failed", AlertType.kError);
@@ -102,13 +103,15 @@ public class Robot extends TimedRobotstangs {
     startChooser.addOption("Open", "OStart");
     startChooser.addOption("Processor", "PStart");
 
-    firstPieceChooser.setDefaultOption("Center 1", " - C1");
+    firstPieceChooser.setDefaultOption("none", "");
+    firstPieceChooser.addOption("Center 1", " - C1");
     firstPieceChooser.addOption("Center 2", " - C2");
     firstPieceChooser.addOption("Pro 1", " - P1");
     firstPieceChooser.addOption("Pro 2", " - P2");
     firstPieceChooser.addOption("L", " - O1");
     firstPieceChooser.addOption("Open 2", " - O2");
 
+    firstPieceRoLChooser.setDefaultOption("None", "");
     firstPieceRoLChooser.setDefaultOption("Right", "R");
     firstPieceRoLChooser.addOption("Left", "L");
 
@@ -191,6 +194,7 @@ public class Robot extends TimedRobotstangs {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
 
+    gscollect.update();
     teleopField.setRobotPose(drivetrain.getState().Pose);
 
     SmartDashboard.putString("Auto/Current Auto", autoName);
@@ -242,7 +246,13 @@ public class Robot extends TimedRobotstangs {
     unpublishTrajectory();
     IntakePivot.getInstance().zeroIntake();
 
+    if(!autoName.equals("")){
     autoCommand = new PathPlannerAuto(autoName);
+    }
+    else{
+      // TODO do the shit with the shit
+      // autoCommand = new PrintCommand("HEY HEY");
+    }
 
     switch (startChooser.getSelected()) {
       case "CStart":
