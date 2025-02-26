@@ -30,7 +30,6 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.*;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -54,8 +53,8 @@ public final class Constants {
     public static final double kGearboxRotationsToMechanismMeters = 1d;
 
     // Deploy Constants
-    public static final double kMaxExtention = 125;
-       public static final double kExtentionDutyCycle = 1;
+    public static final double kMaxExtension = 125;
+       public static final double kExtensionDutyCycle = 1;
 
     // Reel Constants
     public static final double kReelDutyCycle = -1;
@@ -76,16 +75,16 @@ public final class Constants {
 
   public static class IntakeConstants {
     public static final int kWheelMotorId = 14;
-    public static final int kPiviotMotorId = 15;
+    public static final int kPivotMotorId = 15;
     public static final int kIntakeSensorId = 8;
 
     public static final double kExtendSetpoint = -16d;
     public static final double kRetractSetpoint = -2.5d;
 
-    public static final double kPiviotP = 2;
-    public static final double kPiviotI = 0d;
-    public static final double kPiviotD = 8.5;
-    public static final double kPiviots = 23.5;
+    public static final double kPivotP = 2;
+    public static final double kPivotI = 0d;
+    public static final double kPivotD = 8.5;
+    public static final double kPivotS = 23.5;
 
     public static final double kStatorCurrentLimit = 80d;
     public static final double kHomeStatorCurrentLimit = 40d;
@@ -112,7 +111,7 @@ public final class Constants {
     public static final double kArmP = 2000;
     public static final double kArmI = 2000;
     public static final double kArmD = 200;
-    public static final double kArmkS = 4;
+    public static final double kArmS = 4;
     public static final double kArmV = 15;
     public static final double kArmA = 10;
 
@@ -121,13 +120,13 @@ public final class Constants {
     public static final double kArmCruiseVelocity = 1d;
     public static final GravityTypeValue kArmgravtype = GravityTypeValue.Arm_Cosine;
     public static final int kArmEncoderId = 30;
-    public static final double kArmheight = 5d;
+    public static final double kArmHeight = 5d;
     public static final double kArmWidth = 3.5;
     public static final double kArmRootX = 1d;
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestsetpoint = -.25;
+    public static final double kArmRestSetpoint = -.25;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
@@ -152,8 +151,8 @@ public final class Constants {
 
     public static final int kLimitSwitchId = 9;
 
-    public static final double kMaxExtention = 1.6;// cm
-    public static final double kMinExtention = .3;// cm
+    public static final double kMaxExtension = 1.6;// cm
+    public static final double kMinExtension = .3;// cm
 
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
@@ -175,6 +174,7 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
     public static final double kHomePosition = 0.82;
+    public static final double kElevatorPeakReverseDutyCycle = -0.8;
   }
 
   // WE ARE WELDEDkg
@@ -276,7 +276,6 @@ public final class Constants {
 
   public static class SwerveConstants {
     // Both sets of gains need to be tuned to your individual robot.
-    // TODO tune
 
     // The steer motor uses any SwerveModule.SteerRequestType control request with
     // the
@@ -376,7 +375,6 @@ public final class Constants {
       public static class AutoSpeeds {
 
         // Theoretical free speed (m/s) at 12 V applied output;
-        // TODO tune
         // This needs to be tuned to your individual robot
         public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
 

@@ -13,8 +13,6 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.IntakePivot;
-
 import static edu.wpi.first.units.Units.*;
 
 public class AligntoCoral extends Command {
@@ -40,8 +38,8 @@ public class AligntoCoral extends Command {
         this.setName("Align to Coral");
 
         getTargetRotation = () -> {
-            double degreeOffest = LimelightHelpers.getTX(llName);
-            return new Rotation2d(degreeOffest);
+            double degreeOffset = LimelightHelpers.getTX(llName);
+            return new Rotation2d(degreeOffset);
         };
 
     }

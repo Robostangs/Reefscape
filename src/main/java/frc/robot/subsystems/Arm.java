@@ -5,9 +5,6 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -47,7 +44,7 @@ public class Arm extends SubsystemBase {
         armconfigs.Slot0.kP = Constants.ArmConstants.kArmP;
         armconfigs.Slot0.kI = Constants.ArmConstants.kArmI;
         armconfigs.Slot0.kD = Constants.ArmConstants.kArmD;
-        armconfigs.Slot0.kS = Constants.ArmConstants.kArmkS;
+        armconfigs.Slot0.kS = Constants.ArmConstants.kArmS;
         armconfigs.Slot0.GravityType = Constants.ArmConstants.kArmgravtype;
         armconfigs.Slot0.kG = Constants.ArmConstants.kArmG;
         armconfigs.Slot0.kA = Constants.ArmConstants.kArmA;
@@ -63,22 +60,22 @@ public class Arm extends SubsystemBase {
 
         armMotor.getConfigurator().apply(armconfigs);
 
-        armMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
+        armMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmHeight);
 
         arm = new MechanismLigament2d("Arm", 2, 270, 6, new Color8Bit(Color.kOrange));
 
         armMechanism.getRoot("Root",
                 Constants.ArmConstants.kArmWidth / 2,
-                Constants.ArmConstants.kArmheight / 2)
+                Constants.ArmConstants.kArmHeight / 2)
                 .append(arm);
 
-        targetArmMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmheight);
+        targetArmMechanism = new Mechanism2d(Constants.ArmConstants.kArmWidth, Constants.ArmConstants.kArmHeight);
 
         targetArm = new MechanismLigament2d("Target Arm", 2, 270, 6, new Color8Bit(Color.kBlue));
 
         targetArmMechanism.getRoot("Target Root",
                 Constants.ArmConstants.kArmWidth / 2,
-                Constants.ArmConstants.kArmheight / 2)
+                Constants.ArmConstants.kArmHeight / 2)
                 .append(targetArm);
 
         SmartDashboard.putData("Arm/Arm", armMechanism);

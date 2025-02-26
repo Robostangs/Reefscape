@@ -36,7 +36,7 @@ public class Deploy extends Command {
 
     double currTime = Timer.getFPGATimestamp();
     if (climber.getServoPosition() >= 107 &&  currTime-time > 1) {
-      climber.runClimber(Constants.ClimberConstants.kExtentionDutyCycle);
+      climber.runClimber(Constants.ClimberConstants.kExtensionDutyCycle);
     }
 
   }
@@ -55,7 +55,7 @@ public class Deploy extends Command {
   @Override
   public boolean isFinished() {
     if (smart) {
-      return (climber.getClimberPosition()) >= Constants.ClimberConstants.kMaxExtention;
+      return (climber.getClimberPosition()) >= Constants.ClimberConstants.kMaxExtension;
 
     } else {
       return false;

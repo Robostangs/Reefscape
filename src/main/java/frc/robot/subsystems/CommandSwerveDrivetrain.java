@@ -307,7 +307,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                         0d);
          
 
-            // TODO update these names
             LimelightHelpers.PoseEstimate fourPose, threePose;
             if (DriverStation.isDisabled()) {
 

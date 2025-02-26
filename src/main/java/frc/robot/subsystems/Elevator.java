@@ -3,10 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
@@ -76,7 +74,7 @@ public class Elevator extends SubsystemBase {
 
         simElevatorTarget = new ElevatorSim(elevatorTargetMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
-                Constants.ElevatorConstants.kMinExtention, Constants.ElevatorConstants.kMaxExtention, false,
+                Constants.ElevatorConstants.kMinExtension, Constants.ElevatorConstants.kMaxExtension, false,
                 0d);
 
         targetElevator_mechanism = new Mechanism2d(5, 5);
@@ -87,7 +85,7 @@ public class Elevator extends SubsystemBase {
 
         simElevatorProfile = new ElevatorSim(elevatorTargetMotorModel, Constants.ElevatorConstants.kElevatorGearing,
                 Constants.ElevatorConstants.kElevatorWeight, Constants.ElevatorConstants.kDrumRadius,
-                Constants.ElevatorConstants.kMinExtention, Constants.ElevatorConstants.kMaxExtention, false,
+                Constants.ElevatorConstants.kMinExtension, Constants.ElevatorConstants.kMaxExtension, false,
                 0d);
 
         profileElevator_mechanism = new Mechanism2d(20, 5);
@@ -96,26 +94,10 @@ public class Elevator extends SubsystemBase {
                 new MechanismLigament2d("Elevator",
                         simElevatorProfile.getPositionMeters(), 90, 6, new Color8Bit(Color.kOrange)));
 
-        // TODO tune these values
         TalonFXConfiguration elevatorMotorRightConfigs = new TalonFXConfiguration();
 
-        /**
-         * double check limit switch
-         * find kg
-         * find kv
-         * find ka
-         * fina cruise velocity
-         * 
-         * 
-         * torquqe current = kg +kv*v + ka*a
-         * 
-         */
-
+    
         elevatorMotorRightConfigs.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-
-
-        // elevatorMotorRightConfigs.Slot0.StaticFeedforwardSign =
-        // StaticFeedforwardSignValue.UseVelocitySign;
 
         elevatorMotorRightConfigs.Slot0.kS = Constants.ElevatorConstants.kElevatorS;
         elevatorMotorRightConfigs.Slot0.kG = Constants.ElevatorConstants.kElevatorG;
@@ -131,15 +113,17 @@ public class Elevator extends SubsystemBase {
         elevatorMotorRightConfigs.MotionMagic.MotionMagicAcceleration = Constants.ElevatorConstants.kElevatorAcceleration;
 
         // TODO do peak reverse output and current limits
+
+        elevatorMotorRightConfigs.MotorOutput.PeakReverseDutyCycle =  Constants.ElevatorConstants.kElevatorPeakReverseDutyCycle;
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
 
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
 
-        elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.ElevatorConstants.kMaxExtention;
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.ElevatorConstants.kMaxExtension;
 
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
 
-        elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.ElevatorConstants.kMinExtention;
+        elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.ElevatorConstants.kMinExtension;
 
         elevatorMotorRightConfigs.CurrentLimits.StatorCurrentLimit = 60;
 
@@ -167,10 +151,10 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPositionMeters(double TargetElevatorMeters) {
-        if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtention) {
-            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtention;
-        } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxExtention) {
-            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxExtention;
+        if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtension) {
+            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtension;
+        } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxExtension) {
+            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxExtension;
         } else {
             elevatorMotionMagic.Position = TargetElevatorMeters;
         }
@@ -264,10 +248,6 @@ public class Elevator extends SubsystemBase {
                 .setControl(new Follower(elevatorMotorRight.getDeviceID(),Constants.ElevatorConstants.kIsLeftInvert));
     }
 
-    /**
-     * * torquqe current = kg +kv*v + ka*a
-     * 
-     */
 
     @Override
     public void periodic() {
@@ -282,7 +262,7 @@ public class Elevator extends SubsystemBase {
 
         SmartDashboard.putNumber("Elevator-Test/Torque current",
                 elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
-        SmartDashboard.putNumber("Elevator-Test/Veleocity", elevatorMotorRight.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Elevator-Test/Velocity", elevatorMotorRight.getVelocity().getValueAsDouble());
         SmartDashboard.putNumber("Elevator-Test/Acceleration", elevatorMotorRight.getAcceleration().getValueAsDouble());
 
         // SmartDashboard.putNumber("Elevator-Test/Torque current over velocity -kg ",

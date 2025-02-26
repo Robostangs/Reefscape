@@ -8,16 +8,12 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.util.FlippingUtil;
-
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
-import frc.robot.commands.ClimberCommands.ManualAdjustClimber;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.RunElevator;
-import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;

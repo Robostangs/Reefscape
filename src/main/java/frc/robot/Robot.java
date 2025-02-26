@@ -17,7 +17,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.FlippingUtil;
 
 import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -39,17 +38,13 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.IntakePivot;
 
 public class Robot extends TimedRobotstangs {
 
   private final RobotContainer m_robotContainer;
 
-  private Elevator elevator = Elevator.getInstance();
-  private Arm arm = Arm.getInstance();
   private CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
   public static Field2d teleopField = new Field2d();
@@ -413,7 +408,7 @@ public class Robot extends TimedRobotstangs {
     }
 
     catch (Exception e) {
-      // if for some reason it completly dies
+      // if for some reason it completely dies
       publishfail.set(true);
       e.printStackTrace();
     }

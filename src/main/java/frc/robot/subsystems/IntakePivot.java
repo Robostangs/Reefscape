@@ -7,7 +7,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -27,13 +26,13 @@ public class IntakePivot extends SubsystemBase {
 
     public IntakePivot() {
 
-        pivotMotor = new TalonFX(Constants.IntakeConstants.kPiviotMotorId);
+        pivotMotor = new TalonFX(Constants.IntakeConstants.kPivotMotorId);
 
         var slotpivotconfigs = new Slot0Configs();
-        slotpivotconfigs.kP = Constants.IntakeConstants.kPiviotP;
-        slotpivotconfigs.kI = Constants.IntakeConstants.kPiviotI;
-        slotpivotconfigs.kD = Constants.IntakeConstants.kPiviotD;
-        slotpivotconfigs.kS = Constants.IntakeConstants.kPiviots;
+        slotpivotconfigs.kP = Constants.IntakeConstants.kPivotP;
+        slotpivotconfigs.kI = Constants.IntakeConstants.kPivotI;
+        slotpivotconfigs.kD = Constants.IntakeConstants.kPivotD;
+        slotpivotconfigs.kS = Constants.IntakeConstants.kPivotS;
 
         TalonFXConfiguration pivotMotorConfigs = new TalonFXConfiguration();
         pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.kStatorCurrentLimit;

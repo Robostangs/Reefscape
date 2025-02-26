@@ -10,7 +10,7 @@ import frc.robot.Constants;
 public class Endeffector extends SubsystemBase {
     private static Endeffector mInstance;
     
-    private TalonSRX endeffectorMotorRight;
+    private TalonSRX endeffectorMotor;
 
     public static Endeffector getInstance() {
         if (mInstance == null)
@@ -20,11 +20,11 @@ public class Endeffector extends SubsystemBase {
 
     // just spit and put in break mode
     public Endeffector() {
-        endeffectorMotorRight = new TalonSRX(Constants.EndeffectorConstants.kEndeffectorMotorId);
+        endeffectorMotor = new TalonSRX(Constants.EndeffectorConstants.kEndeffectorMotorId);
     }
 
     public void setEneffdector(double endeffectorDutyCycle) {
-        endeffectorMotorRight.set(TalonSRXControlMode.PercentOutput, endeffectorDutyCycle); 
+        endeffectorMotor.set(TalonSRXControlMode.PercentOutput, endeffectorDutyCycle); 
     }
 
     public void postStatus(String status) {
@@ -32,15 +32,14 @@ public class Endeffector extends SubsystemBase {
 
     }
     public void setEndeffectorBrake() {
-        endeffectorMotorRight.setNeutralMode(NeutralMode.Brake);
+        endeffectorMotor.setNeutralMode(NeutralMode.Brake);
     }
     
 
 
     @Override
     public void periodic() {
-        // TODO add logging
-
+        SmartDashboard.putNumber("Speed Endeffector", endeffectorMotor.getMotorOutputPercent());
     }
 
 }

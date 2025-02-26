@@ -61,19 +61,19 @@ public class ScoringFactory {
     }
 
     public static Command returnHome() {
-        return new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
+        return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                 new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
     }
 
     public static Command getCoralCommand() {
-        return new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
+        return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                 new Lift(0.66));
 
     }
 
     public static Runnable returnHomeRun() {
         return () -> {
-            new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
+            new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                     // TODO make this a constant
                     new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
         };
@@ -81,7 +81,7 @@ public class ScoringFactory {
 
     public static Runnable getCoral() {
         return () -> {
-            new MoveArm(Constants.ArmConstants.kArmRestsetpoint).andThen(
+            new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                     // TODO make this a constant
                     new Lift(0.66));
         };
