@@ -96,9 +96,9 @@ public class IntakePivot extends SubsystemBase {
     public boolean isIntakeatSetpoint(boolean extendorretract) {
 
         if (extendorretract) {
-            return pivotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 3;
+            return pivotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 4;
         } else {
-            return pivotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kRetractSetpoint - 0.2;
+            return pivotMotor.getPosition().getValueAsDouble() >= Constants.IntakeConstants.kRetractSetpoint - 0.5;
 
         }
     }

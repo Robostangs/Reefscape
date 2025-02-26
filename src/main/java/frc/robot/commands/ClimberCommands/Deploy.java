@@ -19,11 +19,13 @@ public class Deploy extends Command {
   @Override
   public void initialize() {
     climber.postStatus("Deploying Climber");
-
+    climber.setServoAngle(107);
   }
 
   @Override
   public void execute() {
+
+    if(climber.getServoPosition() >= 107)
     climber.runClimber(Constants.ClimberConstants.kExtentionDutyCycle);
 
   }
@@ -34,6 +36,7 @@ public class Deploy extends Command {
 
     climber.runClimber(0d);
     climber.postStatus("Climber Deployed");
+    climber.setServoAngle(0);
     climber.setBrake();
   }
 

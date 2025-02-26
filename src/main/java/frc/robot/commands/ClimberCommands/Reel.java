@@ -18,14 +18,11 @@ public class Reel extends Command {
   @Override
   public void initialize() {
     climber.postStatus("Retracting Climber");
-
   }
 
   @Override
   public void execute() {
       climber.runClimber(Constants.ClimberConstants.kReelDutyCycle);
-    
-
   }
 
   // Called once the command ends or is interrupted.
@@ -42,7 +39,6 @@ public class Reel extends Command {
   public boolean isFinished() {
     if(smart){
       return climber.getClimberPosition() <= Constants.ClimberConstants.kReelSafe;
-
     }
     else{
       return false;

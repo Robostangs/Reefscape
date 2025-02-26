@@ -234,8 +234,8 @@ public class Robot extends TimedRobotstangs {
      * 2 - Use internal IMU for MT2 localization. External imu data is ignored
      * entirely
      */
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
-    publishTrajectory(autoName);
+    // LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
+    // publishTrajectory(autoName);
   }
 
   public void autonomousInit() {
@@ -438,7 +438,6 @@ public class Robot extends TimedRobotstangs {
    * @return false if the position is available, true if not available
    */
   public static boolean verifyMotor(TalonFX falcon) {
-    falcon.getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
 
     StatusCode status = falcon.getPosition().getStatus();
     if (status.isError() && Robot.isReal()) {

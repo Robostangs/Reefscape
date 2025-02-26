@@ -8,10 +8,12 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.util.FlippingUtil;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
+import frc.robot.commands.ClimberCommands.ManualAdjustClimber;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.RunElevator;
@@ -19,10 +21,16 @@ import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.commands.IntakeCommands.HomeIntake;
+import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.IntakeCommands.RunIntake;
+import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoCage;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
@@ -54,7 +62,7 @@ public class RobotContainer {
 
         private final GenericHID xSim = new GenericHID(2);
 
-        public final CommandSwerveDrivetrain drivetrain = Constants.SwerveConstants.TunerConstants.createDrivetrain();
+        public final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
         public RobotContainer() {
                 if (Robot.isSimulation()) {
@@ -62,6 +70,7 @@ public class RobotContainer {
                 } else {
                         configureDriverBindings();
                         configureManipBindings();
+                        configureTestBindings();
                 }
 
                 if (Robot.isSimulation()) {
@@ -76,33 +85,40 @@ public class RobotContainer {
                                                                         *
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 } else {
-                        // drivetrain.setDefaultCommand(
-                        // // Drivetrain will execute this command periodically
-                        // drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
-                        // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                        // .in(MetersPerSecond))
-                        // .withVelocityY((-xDrive.getLeftX())
-                        // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                        // .in(MetersPerSecond))
-                        // .withRotationalRate((-xDrive.getRightX())
-                        // *
-                        // Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                        drivetrain.setDefaultCommand(
+                                        // Drivetrain will execute this command periodically
+                                        drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
+                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                        .in(MetersPerSecond))
+                                                        .withVelocityY((-xDrive.getLeftX())
+                                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                                        .in(MetersPerSecond))
+                                                        .withRotationalRate((-xDrive.getRightX())
+                                                                        *
+                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 }
 
         }
 
         private void configureTestBindings() {
 
-                xTest.a().toggleOnTrue(new Deploy(true));
-                xTest.a().toggleOnTrue(new Deploy(false));
-                xTest.a().toggleOnTrue(new Reel(true));
-                xTest.a().toggleOnTrue(new Reel(false));
+                // xTest.a().toggleOnTrue(new Deploy(true));
+                // xTest.x().toggleOnTrue(new Deploy(true));
+                // // xTest.y().toggleOnTrue(new Reel(true));
+                // xTest.b().toggleOnTrue(new Reel(true));
 
+            xTest.x().toggleOnTrue(new Extend());
+            xTest.y().toggleOnTrue(new Retract());
+            xTest.a().toggleOnTrue(new RunIntake());
+            xTest.b().toggleOnTrue(new Untake());
+            xTest.leftBumper().whileTrue(new HomeIntake());
+
+
+
+ 
         }
 
         private void configureDriverBindings() {
-
-
 
                 // xDrive.x().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
                 // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
@@ -123,13 +139,24 @@ public class RobotContainer {
                 // xDrive.a().toggleOnTrue(new PathToPoint());
                 // xDrive.b().toggleOnTrue(new PathToPoint());
 
-                new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.02)
-                                .whileTrue(new RunElevator(() -> xDrive.getLeftY()));
+                // new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.02)
+                // .whileTrue(new RunElevator(() -> xDrive.getLeftY()));
 
-                // xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
-                // Robot.isRed() ?
-                // FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
-                // : Constants.ScoringConstants.kResetPose)));
+                // xDrive.y().toggleOnTrue(new Deploy(false));
+                // xDrive.a().toggleOnTrue(new Reel(false));
+
+                xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
+
+                xDrive.x().toggleOnTrue(new Retract());
+                // xDrive.b().toggleOnTrue(new RunIntake());
+                xDrive.povUp().toggleOnTrue(new Extend());
+
+                xDrive.leftStick().toggleOnTrue(new HomeIntake());
+
+
+                xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
+                                Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
+                                                : Constants.ScoringConstants.kResetPose)));
 
                 // reset the field-centric heading on left bumper press
                 xDrive.rightBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
@@ -144,25 +171,29 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.01)
                                 .whileTrue(new RunElevator(() -> xManip.getLeftY()));
 
-                xManip.x().toggleOnTrue(ScoringFactory.L1Score());
-                xManip.y().toggleOnTrue(ScoringFactory.L2Score());
-                xManip.b().toggleOnTrue(ScoringFactory.L3Score());
+                // xManip.x().toggleOnTrue(ScoringFactory.L1Score());
+                // xManip.y().toggleOnTrue(ScoringFactory.L2Score());
+                // xManip.b().toggleOnTrue(ScoringFactory.L3Score());
                 xManip.a().toggleOnTrue(ScoringFactory.L4Score());
 
-                xManip.x().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L1Position());
-                xManip.y().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L2Position());
-                xManip.b().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L3Position());
+                // xManip.x().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L1Position());
+                // xManip.y().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L2Position());
+                // xManip.b().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L3Position());
                 xManip.a().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L4Position());
 
-                xManip.povDown().whileTrue(new Slurp());
+                // xManip.povDown().whileTrue(new Slurp());
+
+                xManip.povRight().toggleOnTrue(ScoringFactory.getCoralCommand());
+                xManip.povLeft().toggleOnTrue(ScoringFactory.returnHome());
+
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
 
-                xManip.rightStick().toggleOnTrue(new Deploy(true));
-                xManip.leftStick().toggleOnTrue(new Reel(true));
+                xManip.rightStick().toggleOnTrue(new Deploy(false));
+                xManip.leftStick().toggleOnTrue(new Reel(false));
 
-                xManip.rightTrigger(0.1).toggleOnTrue(IntakeFactory.SourceIntake());
+                // xManip.rightTrigger(0.1).toggleOnTrue(IntakeFactory.SourceIntake());
         }
 
         private void configureSimBindings() {

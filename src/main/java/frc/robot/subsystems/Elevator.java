@@ -304,8 +304,8 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putBoolean("Elevator/brownout right", elevatorMotorRight.getFault_BridgeBrownout().getValue());
         SmartDashboard.putBoolean("Elevator/brownout left", elevatorMotorLeft.getFault_BridgeBrownout().getValue());
 
-        SmartDashboard.putNumber("right stator current limit",
-                elevatorMotorRight.getStatorCurrent().getValueAsDouble());
+        // SmartDashboard.putNumber("right stator current limit",
+        //         elevatorMotorRight.getStatorCurrent().getValueAsDouble());
 
     }
 }
