@@ -54,7 +54,7 @@ public class IntakeWheels extends SubsystemBase {
     @Override
     public void periodic() {
 
-        SmartDashboard.putBoolean("Intake/Sensor", IntakeSensor.get());
+        // SmartDashboard.putBoolean("Intake/Sensor", IntakeSensor.get());
 
     }
 

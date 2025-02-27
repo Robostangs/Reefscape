@@ -273,35 +273,35 @@ public class Robot extends TimedRobotstangs {
       autoCommand = new PrintCommand("doing nothing!");
     }
 
-    switch (startChooser.getSelected()) {
-      case "CStart":
-        drivetrain.resetPose(
-            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-        SmartDashboard.putString("Current Pose", "Pose reset to center");
+    // switch (startChooser.getSelected()) {
+    //   case "CStart":
+    //     drivetrain.resetPose(
+    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+    //     SmartDashboard.putString("Current Pose", "Pose reset to center");
 
-        break;
-      case "OStart":
-        drivetrain.resetPose(
-            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-        SmartDashboard.putString("Current Pose", "Pose reset to open");
+    //     break;
+    //   case "OStart":
+    //     drivetrain.resetPose(
+    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
+    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+    //     SmartDashboard.putString("Current Pose", "Pose reset to open");
 
-        break;
+    //     break;
 
-      case "PStart":
-        drivetrain.resetPose(!isRed()
-            ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-        SmartDashboard.putString("Current Pose", "Pose reset to pro");
+    //   case "PStart":
+    //     drivetrain.resetPose(!isRed()
+    //         ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
+    //         : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
+    //     SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
-        break;
+    //     break;
 
-      default:
-        drivetrain.resetPose(drivetrain.getState().Pose);
+    //   default:
+    //     drivetrain.resetPose(drivetrain.getState().Pose);
 
-        break;
-    }
+    //     break;
+    // }
 
     // new Retract().schedule();
     new HomeElevator().schedule();
@@ -414,7 +414,6 @@ public class Robot extends TimedRobotstangs {
       noAutoSelected.set(false);
       ShittyAlert.set(false);
     }
-
     catch (RuntimeException e) {
       // if we call it and we have a null auto name when we are publishing it
       System.out.println("Null Auto: " + autoName);

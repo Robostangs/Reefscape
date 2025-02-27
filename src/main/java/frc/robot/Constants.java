@@ -84,7 +84,7 @@ public final class Constants {
 
 
     public static final double kPivotP = 2;
-    public static final double kPivotI = 2;
+    public static final double kPivotI = 4;
     public static final double kPivotD = 8.5;
     public static final double kPivotS = 23.5;
 
