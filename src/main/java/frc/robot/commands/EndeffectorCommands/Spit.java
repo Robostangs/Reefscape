@@ -24,7 +24,7 @@ public class Spit extends Command {
 
     @Override
     public void execute() {
-        endeffector.setEneffdector(-Constants.EndeffectorConstants.kEndeffectorSpit);
+        endeffector.setEneffdector(Constants.EndeffectorConstants.kEndeffectorSpit);
     }
 
 

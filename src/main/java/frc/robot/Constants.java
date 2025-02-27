@@ -99,9 +99,9 @@ public final class Constants {
     public static final int kEndeffectorMotorId = 3;
     public static final int kEndeffectorSensorId = 0;
 
-    public static final double kEndeffectorSpit = 0.6;
+    public static final double kEndeffectorSpit = -0.6;
 
-    public static final double kEndeffectorSlurp = -0.6;
+    public static final double kEndeffectorSlurp = 0.6;
 
   }
 

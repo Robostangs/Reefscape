@@ -41,6 +41,7 @@ import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.SwerveCommands.PathToPoint;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakePivot;
@@ -80,7 +81,6 @@ public class Robot extends TimedRobotstangs {
   private static Alert noAutoSelected = new Alert("No Auto Selected", AlertType.kWarning);
   private static Alert ShittyAlert = new Alert("We going forward ", AlertType.kInfo);
 
-
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -104,6 +104,7 @@ public class Robot extends TimedRobotstangs {
 
     startChooser.setDefaultOption("Shit and Shit", "");
     startChooser.addOption("Forward", "shitting");
+    startChooser.addOption("PTP to Center 2R ", "PTP");
     startChooser.addOption("Center", "CStart");
     startChooser.addOption("Open", "OStart");
     startChooser.addOption("Processor", "PStart");
@@ -258,10 +259,12 @@ public class Robot extends TimedRobotstangs {
       // TODO do the shit with the shit
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -
-              0.15))
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.25))
           .withTimeout(1.5);
 
+
+    } else if (autoName.equals("PTP")) {
+      autoCommand = new PathToPoint(Constants.ScoringConstants.k21BlueRReefPosePtP).andThen(ScoringFactory.L3Score());
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
@@ -369,9 +372,9 @@ public class Robot extends TimedRobotstangs {
       return;
     }
 
-    if(autoName.equals("shitting")){
+    if (autoName.equals("shitting")) {
       ShittyAlert.set(true);
-    } 
+    }
     // we are going to use the auto name so this is the last auto we published
     else {
       lastAutoName = autoName;

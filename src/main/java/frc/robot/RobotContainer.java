@@ -29,6 +29,7 @@ import frc.robot.commands.SwerveCommands.AligntoCage;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
@@ -110,14 +111,14 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
-
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
 
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
 
-
                 xDrive.leftStick().toggleOnTrue(new HomeIntake());
+
+                xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)

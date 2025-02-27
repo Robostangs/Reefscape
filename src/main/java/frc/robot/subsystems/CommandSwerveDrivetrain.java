@@ -335,7 +335,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     && LimelightHelpers.getTA(
                             Constants.VisionConstants.kLimelightScoreSide) > Constants.VisionConstants.kTAThresholdFour
                             ) {
-                this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
+                // this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
                 Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
             }
         }
