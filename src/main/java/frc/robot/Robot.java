@@ -232,10 +232,10 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
-
-    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
-        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
-        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+    // autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
+    // firstPieceRoLChooser.getSelected()
+    // + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+    // + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
     /*
      * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
@@ -246,9 +246,10 @@ public class Robot extends TimedRobotstangs {
      * entirely
      */
 
-    publishTrajectory(autoName);
+    // publishTrajectory(autoName);
 
-    // teleopField.getObject("Starting Poseee").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
+    // teleopField.getObject("Starting
+    // Poseee").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
   }
 
   public void autonomousInit() {
@@ -256,7 +257,7 @@ public class Robot extends TimedRobotstangs {
 
     IntakePivot.getInstance().zeroIntake();
     Climber.getInstance().zeroClimber();
-    
+
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
       autoCommand = CommandSwerveDrivetrain.getInstance()
@@ -264,9 +265,10 @@ public class Robot extends TimedRobotstangs {
               Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.25))
           .withTimeout(1.5);
 
-
     } else if (autoName.equals("PTP")) {
-      autoCommand = new PathToPoint(Constants.ScoringConstants.k21BlueRReefPosePtP).andThen(ScoringFactory.L3Score());
+      autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
+          : FlippingUtil.flipFieldPose(Constants.ScoringConstants.k21BlueRReefPosePtP))
+          .andThen(ScoringFactory.L3Score());
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
@@ -274,33 +276,36 @@ public class Robot extends TimedRobotstangs {
     }
 
     // switch (startChooser.getSelected()) {
-    //   case "CStart":
-    //     drivetrain.resetPose(
-    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to center");
+    // case "CStart":
+    // drivetrain.resetPose(
+    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to center");
 
-    //     break;
-    //   case "OStart":
-    //     drivetrain.resetPose(
-    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to open");
+    // break;
+    // case "OStart":
+    // drivetrain.resetPose(
+    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to open");
 
-    //     break;
+    // break;
 
-    //   case "PStart":
-    //     drivetrain.resetPose(!isRed()
-    //         ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-    //         : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to pro");
+    // case "PStart":
+    // drivetrain.resetPose(!isRed()
+    // ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
-    //     break;
+    // break;
 
-    //   default:
-    //     drivetrain.resetPose(drivetrain.getState().Pose);
+    // default:
+    // drivetrain.resetPose(drivetrain.getState().Pose);
 
-    //     break;
+    // break;
     // }
 
     // new Retract().schedule();
@@ -413,8 +418,7 @@ public class Robot extends TimedRobotstangs {
       publishfail.set(false);
       noAutoSelected.set(false);
       ShittyAlert.set(false);
-    }
-    catch (RuntimeException e) {
+    } catch (RuntimeException e) {
       // if we call it and we have a null auto name when we are publishing it
       System.out.println("Null Auto: " + autoName);
       nullAuto.setText("Null auto: " + autoName);
