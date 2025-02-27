@@ -29,9 +29,7 @@ import frc.robot.commands.SwerveCommands.AligntoCage;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.IntakePivot;
 
 public class RobotContainer {
         // max angular velocity

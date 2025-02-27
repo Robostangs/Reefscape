@@ -32,23 +32,23 @@ public class Climber extends SubsystemBase {
 
     }
 
-    public double getServoPosition(){
+    public double getServoPosition() {
         return cliServo.getAngle();
     }
+
     public void runClimber(double climberDutyCycle) {
         climberMotor.set(climberDutyCycle);
     }
 
     public void setServoAngle(double servoDutyCycle) {
         cliServo.setAngle(servoDutyCycle);
-        
+
     }
 
     public Runnable zeroClimberPosition = () -> {
         climberMotor.setPosition(0);
     };
 
-    
     public Runnable zeroServo = () -> {
         cliServo.setAngle(0);
     };
@@ -57,10 +57,9 @@ public class Climber extends SubsystemBase {
         cliServo.setAngle(107);
     };
 
-
-
-
     public void zeroClimber() {
+        climberMotor.setPosition(0);
+
     }
 
     public void postStatus(String status) {
