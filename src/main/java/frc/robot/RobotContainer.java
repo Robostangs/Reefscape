@@ -89,11 +89,11 @@ public class RobotContainer {
                                         // Drivetrain will execute this command periodically
                                         drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                        .in(MetersPerSecond))
+                                                                        .in(MetersPerSecond) * ((xDrive.getLeftTriggerAxis() > 0.5) ? 0.5 : 1))
                                                         .withVelocityY((-xDrive.getLeftX())
                                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
-                                                        .withRotationalRate((-xDrive.getRightX())
+                                                        .withRotationalRate((-xDrive.getRightX() * ((xDrive.getLeftTriggerAxis() > 0.5) ? 0.5 : 1))
                                                                         *
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 }
@@ -101,7 +101,7 @@ public class RobotContainer {
         }
 
         private void configureTestBindings() {
-
+                
                 xTest.x().toggleOnTrue(new Extend());
                 xTest.y().toggleOnTrue(new Retract());
                 xTest.a().toggleOnTrue(new RunIntake());

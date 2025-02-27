@@ -11,22 +11,31 @@ import frc.robot.commands.IntakeCommands.RunIntake;
 
 public class IntakeFactory {
 
+    /**
+     * @return A command extends intake then runs the wheels and finally retracts
+     */
     public static Command IntakeCoral() {
         return new Extend().andThen(new RunIntake()).finallyDo(Retract.Retract);
     }
 
+    /**
+     * @return A command that {@code IntakeCoral} then moves the arm and elevator to
+     *         get it
+     */
     public static Command Schloop() {
         return new Extend()
                 .alongWith(new RunIntake()).andThen(new Retract())
                 .finallyDo(ScoringFactory.getCoral());
     }
 
+    /**
+     * @return A command that intakes from human player station
+     */
     public static Command SourceIntake() {
         return new Lift(Constants.ScoringConstants.Source.kElevatorPos).alongWith(
                 new MoveArm(Constants.ScoringConstants.Source.kArmSourcePosition))
                 .alongWith(new Slurp());
     }
 
-    // public static Command Climb(){}
 
 }

@@ -82,7 +82,6 @@ public class ScoringFactory {
     public static Runnable returnHomeRun() {
         return () -> {
             new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
-                    // TODO make this a constant
                     new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
         };
     }
@@ -90,8 +89,7 @@ public class ScoringFactory {
     public static Runnable getCoral() {
         return () -> {
             new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
-                    // TODO make this a constant
-                    new Lift(0.66));
+                    new Lift(Constants.ScoringConstants.Source.kElevatorPos));
         };
     }
 }

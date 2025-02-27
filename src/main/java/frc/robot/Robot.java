@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -178,7 +179,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position());
     NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position());
     // TODO change this to spit
-    NamedCommands.registerCommand("Spit", new PrintCommand("Hello"));
+    NamedCommands.registerCommand("Spit", new Spit());
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
     NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
@@ -251,7 +252,8 @@ public class Robot extends TimedRobotstangs {
       // TODO do the shit with the shit
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.75))
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -
+              0.15))
           .withTimeout(1.5);
 
     } else if (!autoName.equals("")) {

@@ -174,7 +174,7 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
     public static final double kHomePosition = 0.82;
-    public static final double kElevatorPeakReverseDutyCycle = -0.8;
+    public static final double kElevatorPeakReverseDutyCycle = -0.7;
   }
 
   // WE ARE WELDEDkg
@@ -265,7 +265,11 @@ public final class Constants {
       public static final double kArmSchloopPos = -0.25;
     }
 
+    public static class Stow{
+      public static final double kElevatorPos = 0.79;
+    }
     
+
 
     public static class Source {
       public static final double kElevatorPos = 2;
@@ -355,7 +359,6 @@ public final class Constants {
           DCMotor.getKrakenX60Foc(1).withReduction(Constants.SwerveConstants.kDriveGearRatio),
           Amps.of(120),
           1);
-      // TODO make these more efficient
       private final static Translation2d[] kModulePositions = {
           new Translation2d(Inches.of(12.125), Inches.of(12.125)),
           new Translation2d(Inches.of(12.125), Inches.of(-12.125)),

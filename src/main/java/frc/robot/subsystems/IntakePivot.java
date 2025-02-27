@@ -103,8 +103,7 @@ public class IntakePivot extends SubsystemBase {
     }
 
     // public void runIntakeMotionMagic() {
-    // pivotMotor.setControl(pivotControl);
-
+    //  pivotMotor.setControl(pivotControl);
     // }
     public void setPiviotDutyCycle(double pivotDutyCycle) {
         pivotMotor.set(pivotDutyCycle);
@@ -113,7 +112,6 @@ public class IntakePivot extends SubsystemBase {
     @Override
     public void periodic() {
         pivotMotor.setControl(pivotControl);
-        // TODO add logging
         SmartDashboard.putNumber("Intake/Setpoint", pivotControl.Position);
         SmartDashboard.putNumber("Intake/Position", pivotMotor.getPosition().getValueAsDouble());
         SmartDashboard.putBoolean("Intake/is at extend setpoint", isIntakeatSetpoint(true));

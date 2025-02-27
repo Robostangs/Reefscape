@@ -8,6 +8,9 @@ import frc.robot.subsystems.Endeffector;
 public class Spit extends Command {
     Endeffector endeffector;
 
+    /**
+     * A command that spits out the pipe
+     */
     public Spit() {
         endeffector = Endeffector.getInstance();
         addRequirements(endeffector);
