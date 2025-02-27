@@ -168,7 +168,7 @@ public class Elevator extends SubsystemBase {
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
         elevatorMotorRight.set(elevatorDutyCycle);
 
-        elevatorMotorLeft.setControl(new Follower(elevatorMotorRight.getDeviceID(), true));
+        elevatorMotorLeft.setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
 
     }
 

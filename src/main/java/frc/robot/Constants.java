@@ -78,11 +78,11 @@ public final class Constants {
     public static final int kPivotMotorId = 15;
     public static final int kIntakeSensorId = 8;
 
-    public static final double kExtendSetpoint = -16d;
+    public static final double kExtendSetpoint = -14.07;
     public static final double kRetractSetpoint = -2.5d;
 
     public static final double kPivotP = 2;
-    public static final double kPivotI = 0d;
+    public static final double kPivotI = 2;
     public static final double kPivotD = 8.5;
     public static final double kPivotS = 23.5;
 
@@ -126,7 +126,7 @@ public final class Constants {
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestSetpoint = -.25;
+    public static final double kArmRestSetpoint = -.2568;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
@@ -240,16 +240,17 @@ public final class Constants {
     }
 
     public static class L2 {
-      public static final double kElevatorStart = 1;
-      public static final double kArmScoringPosition = .37;
-      public static final double kElevatorEnd = 1;
+      //Homepos
+      public static final double kElevatorStart =0.87;
+      public static final double kArmScoringPosition = .347;
+      public static final double kElevatorEnd = 0.51;
       public static final double kArmSafePosition = 0;
 
     }
 
     public static class L3 {
-      public static final double kElevatorPos = 1.5;
-      public static final double kArmScoringPosition = .37;
+      public static final double kElevatorPos = .87;
+      public static final double kArmScoringPosition = .33;
 
     }
 
@@ -260,7 +261,7 @@ public final class Constants {
     }
 
     public static class Schloop{
-      public static final double kElevatorPos = 0.8;
+      public static final double kElevatorPos = 0.79;
       public static final double kArmSchloopPos = -0.25;
     }
 

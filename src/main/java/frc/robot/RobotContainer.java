@@ -8,12 +8,15 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.util.FlippingUtil;
+
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.RunElevator;
+import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
@@ -28,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.IntakePivot;
 
 public class RobotContainer {
         // max angular velocity
@@ -108,48 +112,18 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
-                // xDrive.x().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
-                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                // .in(MetersPerSecond),
-                // () -> -xDrive.getLeftX()
-                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                // .in(MetersPerSecond),
-                // false));
-
-                // xDrive.y().toggleOnTrue(new AligntoReef(() -> -xDrive.getLeftY()
-                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                // .in(MetersPerSecond),
-                // () -> -xDrive.getLeftX()
-                // * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                // .in(MetersPerSecond),
-                // true));
-
-                // xDrive.a().toggleOnTrue(new PathToPoint());
-                // xDrive.b().toggleOnTrue(new PathToPoint());
-
-                // new Trigger(() -> Math.abs(xDrive.getLeftY()) > 0.02)
-                // .whileTrue(new RunElevator(() -> xDrive.getLeftY()));
-
-                // xDrive.y().toggleOnTrue(new Deploy(false));
-                // xDrive.a().toggleOnTrue(new Reel(false));
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
 
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
 
-                // xDrive.povUp().toggleOnTrue(new Extend());
 
                 xDrive.leftStick().toggleOnTrue(new HomeIntake());
 
-                xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
-                xDrive.povUp().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().goToservpos));
-                xDrive.povDown().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroServo));
-
-                // xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
-                // Robot.isRed() ?
-                // FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
-                // : Constants.ScoringConstants.kResetPose)));
+                xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
+                                Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
+                                                : Constants.ScoringConstants.kResetPose)));
 
                 // reset the field-centric heading on left bumper press
                 xDrive.rightBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
@@ -161,15 +135,19 @@ public class RobotContainer {
 
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.01)
                                 .whileTrue(new RunArm(() -> xManip.getLeftY()));
-                new Trigger(() -> Math.abs(xManip.getRightY()) > 0.01)
-                                .whileTrue(new RunElevator(() -> xManip.getLeftY()));
+                new Trigger(() -> Math.abs(xManip.getRightY()) > 0.02)
+                                .whileTrue(new RunElevator(() -> -xManip.getRightY()));
 
-              
-                xManip.a().toggleOnTrue(ScoringFactory.L4Score());
-                xManip.a().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L4Position());
+                xManip.a().toggleOnTrue(ScoringFactory.L4Position());
+                xManip.b().toggleOnTrue(ScoringFactory.L3Position());
+                xManip.y().toggleOnTrue(ScoringFactory.L2Position());
 
+                xManip.a().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L4Score());
+
+                xManip.povDown().toggleOnTrue(new Slurp());
 
                 xManip.povRight().toggleOnTrue(ScoringFactory.getCoralCommand());
+                xManip.povUp().toggleOnTrue(ScoringFactory.returnHomeL2());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.returnHome());
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
@@ -197,7 +175,6 @@ public class RobotContainer {
                                                                 * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                 .in(MetersPerSecond),
                                                 1));
-
 
         }
 

@@ -31,7 +31,10 @@ public class ScoringFactory {
 
     public static Command L3Position() {
         return new Lift(Constants.ScoringConstants.L3.kElevatorPos)
-                .alongWith(new MoveArm(Constants.ScoringConstants.L3.kArmScoringPosition));
+                .alongWith(new WaitUntilCommand(
+                        () -> Elevator.getInstance()
+                                .getElevatorPositionMeters() > Constants.ElevatorConstants.kHomePosition)
+                        .andThen(new MoveArm(Constants.ScoringConstants.L3.kArmScoringPosition)));
     }
 
     public static Command L4Position() {
@@ -63,6 +66,11 @@ public class ScoringFactory {
     public static Command returnHome() {
         return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                 new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
+    }
+
+    public static Command returnHomeL2() {
+        return new Lift(Constants.ScoringConstants.Schloop.kElevatorPos)
+                .andThen(new MoveArm(Constants.ScoringConstants.Schloop.kElevatorPos));
     }
 
     public static Command getCoralCommand() {

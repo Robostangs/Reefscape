@@ -15,7 +15,6 @@ public class Retract extends Command {
   public static Runnable Retract = () -> {
     IntakePivot intake = IntakePivot.getInstance();
     intake.setRetractPosition();
-    intake.runIntakeMotionMagic();
   };
 
   // Called when the command is initially scheduled.
@@ -28,7 +27,6 @@ public class Retract extends Command {
 
   @Override
   public void execute() {
-    intake.runIntakeMotionMagic();
 
   }
 

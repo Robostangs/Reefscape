@@ -17,7 +17,6 @@ public class IntakePivot extends SubsystemBase {
     private static IntakePivot mInstance;
     MotionMagicExpoTorqueCurrentFOC pivotControl;
 
-  
     public static IntakePivot getInstance() {
         if (mInstance == null)
             mInstance = new IntakePivot();
@@ -40,7 +39,7 @@ public class IntakePivot extends SubsystemBase {
         pivotMotor.getConfigurator().apply(pivotMotorConfigs);
         pivotMotor.getConfigurator().apply(slotpivotconfigs);
 
-        pivotControl = new MotionMagicExpoTorqueCurrentFOC(0d);
+        pivotControl = new MotionMagicExpoTorqueCurrentFOC(pivotMotor.getPosition().getValueAsDouble());
 
     }
 
@@ -48,8 +47,9 @@ public class IntakePivot extends SubsystemBase {
         return pivotMotor.getPosition().getValueAsDouble();
     }
 
-
-
+    public Runnable zeroIntakeRun = () -> {
+        pivotMotor.setPosition(0);
+    };
 
     public void zeroIntake() {
         pivotMotor.setPosition(0d);
@@ -102,24 +102,23 @@ public class IntakePivot extends SubsystemBase {
         }
     }
 
-    public void runIntakeMotionMagic() {
-        pivotMotor.setControl(pivotControl);
+    // public void runIntakeMotionMagic() {
+    // pivotMotor.setControl(pivotControl);
 
-    }
-    public void setPiviotDutyCycle(double pivotDutyCycle){
+    // }
+    public void setPiviotDutyCycle(double pivotDutyCycle) {
         pivotMotor.set(pivotDutyCycle);
     }
 
-
-    
     @Override
     public void periodic() {
+        pivotMotor.setControl(pivotControl);
         // TODO add logging
         SmartDashboard.putNumber("Intake/Setpoint", pivotControl.Position);
         SmartDashboard.putNumber("Intake/Position", pivotMotor.getPosition().getValueAsDouble());
-        SmartDashboard.putBoolean("is at extend setpoint", isIntakeatSetpoint(true));
-        SmartDashboard.putBoolean("is at retract setpoint", isIntakeatSetpoint(false));
-        SmartDashboard.putNumber("Stator Current", pivotMotor.getStatorCurrent().getValueAsDouble());
+        SmartDashboard.putBoolean("Intake/is at extend setpoint", isIntakeatSetpoint(true));
+        SmartDashboard.putBoolean("Intake/is at retract setpoint", isIntakeatSetpoint(false));
+        SmartDashboard.putNumber("Intake/Stator Current", pivotMotor.getStatorCurrent().getValueAsDouble());
 
     }
 
