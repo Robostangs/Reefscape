@@ -317,16 +317,16 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             } else {
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide).getEntry("throttle-set").setNumber(0);
                 fourPose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
+                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightOtherName);
+                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
             }
             SmartDashboard.putString("Im here","powewef");
 
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) >= 1
+            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0
                     && LimelightHelpers.getTA(
                             Constants.VisionConstants.kLimelightOtherName) > Constants.VisionConstants.kTAThresholdThree) {
-                // this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
+                this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
                 SmartDashboard.putString("Three POSE","powewef");
                 
@@ -335,7 +335,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     && LimelightHelpers.getTA(
                             Constants.VisionConstants.kLimelightScoreSide) > Constants.VisionConstants.kTAThresholdFour
                             ) {
-                // this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
+                this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
                 Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
             }
         }

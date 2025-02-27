@@ -67,6 +67,9 @@ public class IntakePivot extends SubsystemBase {
         pivotControl.Position = Constants.IntakeConstants.kRetractSetpoint;
     }
 
+    public void setHeimlichPosition() {
+        pivotControl.Position = Constants.IntakeConstants.kHeimlichSetpoint;
+    }
     public void postStatus(String status) {
         SmartDashboard.putString("Intake/status", status);
 

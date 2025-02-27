@@ -70,7 +70,7 @@ public class ScoringFactory {
 
     public static Command returnHomeL2() {
         return new Lift(Constants.ScoringConstants.Schloop.kElevatorPos)
-                .andThen(new MoveArm(Constants.ScoringConstants.Schloop.kElevatorPos));
+                .andThen(new MoveArm(Constants.ScoringConstants.Schloop.kArmStowPos));
     }
 
     public static Command getCoralCommand() {

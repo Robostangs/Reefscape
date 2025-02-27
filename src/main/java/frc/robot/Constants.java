@@ -80,6 +80,8 @@ public final class Constants {
 
     public static final double kExtendSetpoint = -14.07;
     public static final double kRetractSetpoint = -2.5d;
+    public static final double kHeimlichSetpoint = -5d;
+
 
     public static final double kPivotP = 2;
     public static final double kPivotI = 2;
@@ -262,7 +264,7 @@ public final class Constants {
 
     public static class Schloop{
       public static final double kElevatorPos = 0.79;
-      public static final double kArmSchloopPos = -0.25;
+      public static final double kArmStowPos = -0.25;
     }
 
     public static class Stow{
@@ -344,9 +346,9 @@ public final class Constants {
       public static final double kSlurpTimeout = 3d;
 
       public static class AutoPoses {
-        public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.radiansToDegrees(180)));
-        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.radiansToDegrees(180)));
-        public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.radiansToDegrees(180)));
+        public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.degreesToRadians(180)));
+        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(180)));
+        public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.degreesToRadians(180)));
 
       }
 

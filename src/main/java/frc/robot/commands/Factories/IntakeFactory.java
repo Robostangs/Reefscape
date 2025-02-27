@@ -6,8 +6,10 @@ import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.commands.IntakeCommands.Heimlich;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
+import frc.robot.commands.IntakeCommands.Untake;
 
 public class IntakeFactory {
 
@@ -37,5 +39,9 @@ public class IntakeFactory {
                 .alongWith(new Slurp());
     }
 
+
+    public static Command Vomit(){
+        return new Heimlich().alongWith(new Untake());
+    }
 
 }

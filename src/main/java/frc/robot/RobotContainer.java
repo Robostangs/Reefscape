@@ -88,19 +88,35 @@ public class RobotContainer {
                                         // Drivetrain will execute this command periodically
                                         drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                        .in(MetersPerSecond) * ((xDrive.getLeftTriggerAxis() > 0.5) ? 0.5 : 1))
+                                                                        .in(MetersPerSecond)
+                                                        * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25 : 1))
                                                         .withVelocityY((-xDrive.getLeftX())
+                                                                        * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
+                                                                                        : 1)
                                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
-                                                        .withRotationalRate((-xDrive.getRightX() * ((xDrive.getLeftTriggerAxis() > 0.5) ? 0.5 : 1))
+                                                        .withRotationalRate((-xDrive.getRightX())
                                                                         *
-                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+                                                                        * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
+                                                                                        : 1))
+                                                        .withRotationalDeadband(
+                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+                                                                                        * 0.05
+                                                                                        * ((xDrive.getLeftTriggerAxis() > 0.2)
+                                                                                                        ? 0.25
+                                                                                                        : 1))
+                                                        .withDeadband(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                        .in(MetersPerSecond) * 0.05
+                                                                        * ((xDrive.getLeftTriggerAxis() > 0.2)
+                                                                                        ? 0.25
+                                                                                        : 1))));
                 }
 
         }
 
         private void configureTestBindings() {
-                
+
                 xTest.x().toggleOnTrue(new Extend());
                 xTest.y().toggleOnTrue(new Retract());
                 xTest.a().toggleOnTrue(new RunIntake());

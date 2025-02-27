@@ -178,10 +178,10 @@ public class Robot extends TimedRobotstangs {
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-    NamedCommands.registerCommand("L1 Prime", ScoringFactory.L1Position());
-    NamedCommands.registerCommand("L2 Prime", ScoringFactory.L2Position());
-    NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position());
-    NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position());
+    NamedCommands.registerCommand("L1 Prime", new PrintCommand("Hello!"));
+    NamedCommands.registerCommand("L2 Prime", new PrintCommand("Hello!"));
+    NamedCommands.registerCommand("L3 Prime", new PrintCommand("Hello!"));
+    NamedCommands.registerCommand("L4 Prime", new PrintCommand("Hello!"));
     // TODO change this to spit
     NamedCommands.registerCommand("Spit", new Spit());
 
@@ -232,6 +232,7 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
+
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
@@ -246,11 +247,12 @@ public class Robot extends TimedRobotstangs {
      */
 
     publishTrajectory(autoName);
+
+    // teleopField.getObject("Starting Poseee").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
   }
 
   public void autonomousInit() {
     unpublishTrajectory();
-    IntakePivot.getInstance().zeroIntake();
 
     IntakePivot.getInstance().zeroIntake();
     Climber.getInstance().zeroClimber();
@@ -301,7 +303,7 @@ public class Robot extends TimedRobotstangs {
         break;
     }
 
-    new Retract().schedule();
+    // new Retract().schedule();
     new HomeElevator().schedule();
     autoCommand.schedule();
 
