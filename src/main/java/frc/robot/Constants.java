@@ -111,7 +111,7 @@ public final class Constants {
     public static final int kArmMotorId = 24;
 
     public static final double kArmP = 2000;
-    public static final double kArmI = 2000;
+    public static final double kArmI = 10000;
     public static final double kArmD = 200;
     public static final double kArmS = 4;
     public static final double kArmV = 15;
@@ -128,7 +128,7 @@ public final class Constants {
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestSetpoint = -.2568;
+    public static final double kArmRestSetpoint = -.254;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 

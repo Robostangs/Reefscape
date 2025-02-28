@@ -161,10 +161,10 @@ public class RobotContainer {
 
         private void configureManipBindings() {
 
-                new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.01)
-                                .whileTrue(new RunArm(() -> xManip.getLeftY()));
-                new Trigger(() -> Math.abs(xManip.getRightY()) > 0.02)
-                                .whileTrue(new RunElevator(() -> -xManip.getRightY()));
+                new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
+                                .whileTrue(new RunArm(() -> xManip.getLeftY()/2));
+                new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
+                                .whileTrue(new RunElevator(() -> -xManip.getRightY()/2));
 
                 xManip.a().toggleOnTrue(ScoringFactory.L4Position());
                 xManip.b().toggleOnTrue(ScoringFactory.L3Position());

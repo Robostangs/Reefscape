@@ -67,7 +67,7 @@ public class ScoringFactory {
     }
 
     public static Command SchloopCommand() {
-        return new MoveArm(Constants.ScoringConstants.Schloop.kArmSchloPos).andThen(
+        return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                 new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
 
     }
