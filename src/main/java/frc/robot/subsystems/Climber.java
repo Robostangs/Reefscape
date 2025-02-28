@@ -68,7 +68,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void setBrake() {
-        climberMotor.setNeutralMode(NeutralModeValue.Brake);
+        // climberMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public double getClimberPosition() {

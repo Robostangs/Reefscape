@@ -245,18 +245,17 @@ public class Robot extends TimedRobotstangs {
 
     // publishTrajectory(autoName);
 
-    // teleopField.getObject("Starting Pose").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
+    // teleopField.getObject("Starting
+    // Pose").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
   }
 
   public void autonomousInit() {
     unpublishTrajectory();
 
-
-
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
 
-      drivetrain.resetRotation(Rotation2d.fromDegrees( isRed() ? 180 : 0));
+      drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
               Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.15))
@@ -273,39 +272,42 @@ public class Robot extends TimedRobotstangs {
     }
 
     // switch (startChooser.getSelected()) {
-    //   case "CStart":
-    //     drivetrain.resetPose(
-    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to center");
+    // case "CStart":
+    // drivetrain.resetPose(
+    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to center");
 
-    //     break;
-    //   case "OStart":
-    //     drivetrain.resetPose(
-    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to open");
+    // break;
+    // case "OStart":
+    // drivetrain.resetPose(
+    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to open");
 
-    //     break;
+    // break;
 
-    //   case "PStart":
-    //     drivetrain.resetPose(!isRed()
-    //         ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-    //         : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to pro");
+    // case "PStart":
+    // drivetrain.resetPose(!isRed()
+    // ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
-    //     break;
+    // break;
 
-    //   default:
-    //     drivetrain.resetPose(drivetrain.getState().Pose);
+    // default:
+    // drivetrain.resetPose(drivetrain.getState().Pose);
 
-    //     break;
+    // break;
     // }
 
-    // IntakePivot.getInstance().zeroIntake();
-    // Climber.getInstance().zeroClimber();
-    // new Retract().schedule();
-    // new HomeElevator().schedule();
+    IntakePivot.getInstance().zeroIntake();
+    Climber.getInstance().zeroClimber();
+    new Retract().schedule();
+    new HomeElevator().schedule();
     autoCommand.schedule();
 
   }

@@ -3,8 +3,7 @@ package frc.robot.commands.IntakeCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakePivot;
 
-public class Heimlich extends Command{
-    
+public class Heimlich extends Command {
 
   IntakePivot intake;
 
@@ -25,7 +24,7 @@ public class Heimlich extends Command{
   @Override
   public void execute() {
 
-intake.runIntakeMotionMagic();
+    intake.runIntakeMotionMagic();
   }
 
   // Called once the command ends or is interrupted.
