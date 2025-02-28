@@ -94,7 +94,6 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
-    IntakePivot.getInstance().zeroIntake();
 
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
@@ -187,6 +186,7 @@ public class Robot extends TimedRobotstangs {
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
     NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
+    // TODO add a delay to path
 
   }
 
@@ -232,10 +232,9 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
-    // autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
-    // firstPieceRoLChooser.getSelected()
-    // + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
-    // + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
+        firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
     /*
      * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
@@ -261,9 +260,9 @@ public class Robot extends TimedRobotstangs {
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
       autoCommand = CommandSwerveDrivetrain.getInstance()
-          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.25))
-          .withTimeout(1.5);
+          .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.25))
+          .withTimeout(1d);
 
     } else if (autoName.equals("PTP")) {
       autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
@@ -272,41 +271,38 @@ public class Robot extends TimedRobotstangs {
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
-      autoCommand = new PrintCommand("doing nothing!");
+         = new PrintCommand("doing nothing!");
     }
 
-    // switch (startChooser.getSelected()) {
-    // case "CStart":
-    // drivetrain.resetPose(
-    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to center");
+    switch (startChooser.getSelected()) {
+      case "CStart":
+        drivetrain.resetPose(
+            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+        SmartDashboard.putString("Current Pose", "Pose reset to center");
 
-    // break;
-    // case "OStart":
-    // drivetrain.resetPose(
-    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to open");
+        break;
+      case "OStart":
+        drivetrain.resetPose(
+            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
+                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+        SmartDashboard.putString("Current Pose", "Pose reset to open");
 
-    // break;
+        break;
 
-    // case "PStart":
-    // drivetrain.resetPose(!isRed()
-    // ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to pro");
+      case "PStart":
+        drivetrain.resetPose(!isRed()
+            ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
+            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
+        SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
-    // break;
+        break;
 
-    // default:
-    // drivetrain.resetPose(drivetrain.getState().Pose);
+      default:
+        drivetrain.resetPose(drivetrain.getState().Pose);
 
-    // break;
-    // }
+        break;
+    }
 
     // new Retract().schedule();
     new HomeElevator().schedule();

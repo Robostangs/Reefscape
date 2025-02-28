@@ -156,10 +156,10 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
         SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
-        SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
-        SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
-        SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
-        SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
+        // SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
+        // SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
+        // SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
+        // SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
 
         
         // SmartDashboard.putNumber("Torque current  -kg ",

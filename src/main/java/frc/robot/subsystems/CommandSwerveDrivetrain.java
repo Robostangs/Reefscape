@@ -412,7 +412,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
     public void configurePathPlanner() {
         AutoBuilder.configure(
                 () -> this.getState().Pose,
-                pose -> this.seedFieldCentric(),
+                this::resetPose,
                 () -> this.getState().Speeds,
                 (speeds, feedforwards) -> this.setControl(AutoDrive.withSpeeds(speeds)
                         .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX())

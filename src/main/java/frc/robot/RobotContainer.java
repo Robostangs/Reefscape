@@ -117,11 +117,20 @@ public class RobotContainer {
 
         private void configureTestBindings() {
 
-                xTest.x().toggleOnTrue(new Extend());
-                xTest.y().toggleOnTrue(new Retract());
-                xTest.a().toggleOnTrue(new RunIntake());
-                xTest.b().toggleOnTrue(new Untake());
-                xTest.leftBumper().whileTrue(new HomeIntake());
+                xTest.rightStick().whileTrue(new Spit());
+                xTest.leftStick().whileTrue(new Slurp());
+
+                xTest.a().whileTrue(new HomeElevator());
+
+                xTest.x().toggleOnTrue(new Retract());
+                xTest.y().toggleOnTrue(new Extend());
+                xTest.b().toggleOnTrue(new RunIntake());
+
+                new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
+                                .whileTrue(new RunArm(() -> xTest.getLeftY()));
+
+                new Trigger(() -> Math.abs(xTest.getRightY()) > 0.02)
+                                .whileTrue(new RunElevator(() -> -xTest.getRightY()));
 
         }
 
@@ -129,17 +138,19 @@ public class RobotContainer {
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
 
+                xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
+
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
 
                 xDrive.leftStick().toggleOnTrue(new HomeIntake());
 
-                xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
 
+                                                
                 // reset the field-centric heading on left bumper press
                 xDrive.rightBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
@@ -157,30 +168,33 @@ public class RobotContainer {
                 xManip.b().toggleOnTrue(ScoringFactory.L3Position());
                 xManip.y().toggleOnTrue(ScoringFactory.L2Position());
 
-                xManip.a().and(xManip.leftTrigger(0.1)).toggleOnTrue(ScoringFactory.L4Score());
 
                 xManip.povDown().toggleOnTrue(new Slurp());
 
-                xManip.povRight().toggleOnTrue(ScoringFactory.getCoralCommand());
-                xManip.povUp().toggleOnTrue(ScoringFactory.returnHomeL2());
-                xManip.povLeft().toggleOnTrue(ScoringFactory.returnHome());
+                xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
+                xManip.povUp().toggleOnTrue(ScoringFactory.returnStowL2());
+                xManip.povLeft().toggleOnTrue(ScoringFactory.returnStow());
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
 
-                xManip.rightStick().toggleOnTrue(new Deploy(true));
-                xManip.leftStick().toggleOnTrue(new Reel(true));
+                xManip.rightStick().and(xManip.leftTrigger(0.1)).toggleOnTrue(new Deploy(true));
+                xManip.leftStick().and(xManip.leftTrigger(0.1)).toggleOnTrue(new Reel(true));
 
         }
 
         private void configureSimBindings() {
 
-                new Trigger(() -> xSim.getRawButtonPressed(1))
-                                .toggleOnTrue(
-                                                ScoringFactory.L4Position());
+                // new Trigger(() -> xSim.getRawButtonPressed(1))
+                // .toggleOnTrue(
+                // ScoringFactory.L4Position());
+
+                new Trigger(() -> xSim.getRawButtonPressed(1)).onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
+                                Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
+                                                : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2)).toggleOnTrue(
-                                ScoringFactory.returnHome());
+                                ScoringFactory.returnStow());
 
                 new Trigger(() -> xSim.getRawButton(3))
                                 .toggleOnTrue(new AligntoCage(() -> xSim.getRawAxis(0)
