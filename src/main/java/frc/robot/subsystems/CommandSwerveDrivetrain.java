@@ -320,14 +320,12 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 threePose = LimelightHelpers
                         .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
             }
-            SmartDashboard.putString("Im here","powewef");
 
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0
                     && LimelightHelpers.getTA(
                             Constants.VisionConstants.kLimelightOtherName) > Constants.VisionConstants.kTAThresholdThree) {
                 this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
-                SmartDashboard.putString("Three POSE","powewef");
                 
             }
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0

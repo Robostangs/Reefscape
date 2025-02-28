@@ -35,11 +35,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.SwerveCommands.PathToPoint;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -251,8 +251,7 @@ public class Robot extends TimedRobotstangs {
   public void autonomousInit() {
     unpublishTrajectory();
 
-    IntakePivot.getInstance().zeroIntake();
-    Climber.getInstance().zeroClimber();
+;
 
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
@@ -301,7 +300,9 @@ public class Robot extends TimedRobotstangs {
     //     break;
     // }
 
-    // new Retract().schedule();
+    IntakePivot.getInstance().zeroIntake();
+    Climber.getInstance().zeroClimber();
+    new Retract().schedule();
     new HomeElevator().schedule();
     autoCommand.schedule();
 

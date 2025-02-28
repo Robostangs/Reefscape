@@ -101,9 +101,9 @@ public final class Constants {
     public static final int kEndeffectorMotorId = 3;
     public static final int kEndeffectorSensorId = 0;
 
-    public static final double kEndeffectorSpit = -0.6;
+    public static final double kEndeffectorSpit = -0.75;
 
-    public static final double kEndeffectorSlurp = 0.6;
+    public static final double kEndeffectorSlurp = 0.75;
 
   }
 
@@ -185,13 +185,13 @@ public final class Constants {
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
-    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
+    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.25, 0.25, Units.degreesToRadians(100));
     public static final String kLimelightScoreSide = "limelight-score";
     public static final String kLimelightOtherName = "limelight-right";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
-    public static final double kTAThresholdFour = 0.01;
-    public static final double kTAThresholdThree = 0.01;
+    public static final double kTAThresholdFour = 3d;
+    public static final double kTAThresholdThree = 3d;
     public static final double kTxThresholdCoral = 5;
 
   }
