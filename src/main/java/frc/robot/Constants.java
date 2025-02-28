@@ -54,10 +54,10 @@ public final class Constants {
 
     // Deploy Constants
     public static final double kMaxExtension = 125;
-       public static final double kExtensionDutyCycle = -0.75;
+       public static final double kExtensionDutyCycle = 0.9;
 
     // Reel Constants
-    public static final double kReelDutyCycle = 0.75;
+    public static final double kReelDutyCycle = -0.9;
     public static final double kReelSafe = 5;
 
   }

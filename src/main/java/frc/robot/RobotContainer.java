@@ -184,6 +184,9 @@ public class RobotContainer {
                 xManip.rightStick().and(xManip.leftTrigger(0.1)).whileTrue(new Deploy(true));
                 xManip.leftStick().and(xManip.leftTrigger(0.1)).whileTrue(new Reel(true));
 
+                xManip.rightStick().and(xManip.rightTrigger(0.1)).whileTrue(new Deploy(false));
+                xManip.leftStick().and(xManip.rightTrigger(0.1)).whileTrue(new Reel(false));
+
         }
 
         private void configureSimBindings() {
