@@ -413,7 +413,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 () -> this.getState().Speeds,
                 (speeds, feedforwards) -> this.setControl(AutoDrive.withSpeeds(speeds)
                         .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX())
-                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY())),
+                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY() )),
                 new PPHolonomicDriveController(Constants.SwerveConstants.AutoConstants.rotationPID,
                         Constants.SwerveConstants.AutoConstants.translationPID),
                 Constants.SwerveConstants.AutoConstants.robotConfig,

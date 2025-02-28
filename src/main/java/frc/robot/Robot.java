@@ -180,7 +180,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L3 Prime", new PrintCommand("Hello!"));
     NamedCommands.registerCommand("L4 Prime", new PrintCommand("Hello!"));
     // TODO change this to spit
-    NamedCommands.registerCommand("Spit", new Spit());
+    NamedCommands.registerCommand("Spit", new PrintCommand("Hello"));
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
     NamedCommands.registerCommand("Return Home", ScoringFactory.Stow());
@@ -251,13 +251,15 @@ public class Robot extends TimedRobotstangs {
   public void autonomousInit() {
     unpublishTrajectory();
 
-;
+
 
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
+
+      drivetrain.resetRotation(Rotation2d.fromDegrees( isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.25))
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.15))
           .withTimeout(1d);
 
     } else if (autoName.equals("PTP")) {
@@ -300,10 +302,10 @@ public class Robot extends TimedRobotstangs {
     //     break;
     // }
 
-    IntakePivot.getInstance().zeroIntake();
-    Climber.getInstance().zeroClimber();
-    new Retract().schedule();
-    new HomeElevator().schedule();
+    // IntakePivot.getInstance().zeroIntake();
+    // Climber.getInstance().zeroClimber();
+    // new Retract().schedule();
+    // new HomeElevator().schedule();
     autoCommand.schedule();
 
   }
