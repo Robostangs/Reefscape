@@ -13,19 +13,12 @@ public class ScoringFactory {
     public static Command L1Position() {
         return new Lift(Constants.ScoringConstants.L1.kElevatorStart)
                 .andThen(new MoveArm(Constants.ScoringConstants.L1.kArmScoringPosition))
-                // .andThen(
-                // new WaitUntilCommand(
-                // () -> Arm.getInstance().getTargetArmAngle() >
-                // Constants.ScoringConstants.L1.kArmSafePosition)
                 .andThen(new Lift(Constants.ScoringConstants.L1.kElevatorEnd));
     }
 
     public static Command L2Position() {
         return new Lift(Constants.ScoringConstants.L2.kElevatorStart).andThen(
                 new MoveArm(Constants.ScoringConstants.L2.kArmScoringPosition))
-                // .alongWith(new WaitUntilCommand(
-                // () -> Arm.getInstance().getTargetArmAngle() >
-                // Constants.ScoringConstants.L2.kArmSafePosition)
                 .andThen(new Lift(Constants.ScoringConstants.L2.kElevatorEnd));
     }
 
@@ -33,7 +26,7 @@ public class ScoringFactory {
         return new Lift(Constants.ScoringConstants.L3.kElevatorPos)
                 .alongWith(new WaitUntilCommand(
                         () -> Elevator.getInstance()
-                                .getElevatorPositionMeters() > Constants.ElevatorConstants.kHomePosition)
+                                .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
                         .andThen(new MoveArm(Constants.ScoringConstants.L3.kArmScoringPosition)));
     }
 
@@ -42,7 +35,7 @@ public class ScoringFactory {
                 .alongWith(
                         new WaitUntilCommand(
                                 () -> Elevator.getInstance()
-                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kHomePosition)
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
                                 .andThen(
                                         new MoveArm(Constants.ScoringConstants.L4.kArmScoringPosition)));
     }

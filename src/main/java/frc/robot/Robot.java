@@ -40,7 +40,6 @@ import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
-import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.SwerveCommands.PathToPoint;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -112,7 +111,7 @@ public class Robot extends TimedRobotstangs {
     firstPieceChooser.addOption("Center 2", " - C2");
     firstPieceChooser.addOption("Pro 1", " - P1");
     firstPieceChooser.addOption("Pro 2", " - P2");
-    firstPieceChooser.addOption("L", " - O1");
+    firstPieceChooser.addOption("Open 1", " - O1");
     firstPieceChooser.addOption("Open 2", " - O2");
 
     firstPieceRoLChooser.setDefaultOption("None", "");
@@ -246,8 +245,7 @@ public class Robot extends TimedRobotstangs {
 
     // publishTrajectory(autoName);
 
-    // teleopField.getObject("Starting
-    // Poseee").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
+    // teleopField.getObject("Starting Pose").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
   }
 
   public void autonomousInit() {

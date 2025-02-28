@@ -139,10 +139,10 @@ public final class Constants {
   public static class ElevatorConstants {
     public static final int kRightElevatorMotorId = 36;
     public static final int kLeftElevatorMotorId = 35;
+
     public static final double kElevatorP = 5000;
     public static final double kElevatorI = 20;
     public static final double kElevatorD = 220;
-    // public static final double kElevatorFF = 1;
     public static final double kElevatorV = 0;
     public static final double kElevatorA = 0;
     public static final double kElevatorG = 15;
@@ -160,10 +160,12 @@ public final class Constants {
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeDutyCycle = 0.1;
+
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
 
     public static final double kRotationsToMeters = (1/0.0313)/(.57/.536);//*Detroit Reference */;
+    
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
@@ -175,7 +177,9 @@ public final class Constants {
     public static final double kElevatorGearing = 14 / 72d;
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
+
     public static final double kHomePosition = 0.82;
+    public static final double kSafeArmElevatorPosition = kHomePosition;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
   }
 
@@ -234,6 +238,8 @@ public final class Constants {
 
 
     public static final double spitTimeout  = 2d;
+
+    
     public static class L1 {
       public static final double kArmScoringPosition = .37;
       public static final double kElevatorStart = 0.5;

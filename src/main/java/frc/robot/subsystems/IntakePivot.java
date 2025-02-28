@@ -6,14 +6,12 @@ import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakePivot extends SubsystemBase {
     private TalonFX pivotMotor;
-    private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static IntakePivot mInstance;
     MotionMagicExpoTorqueCurrentFOC pivotControl;
 
