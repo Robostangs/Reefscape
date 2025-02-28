@@ -63,26 +63,26 @@ public class ScoringFactory {
         return L4Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
     }
 
-    public static Command returnHome() {
+    public static Command Stow() {
         return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
+                new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
+    }
+
+    public static Command StowL2() {
+        return new Lift(Constants.ScoringConstants.Stow.kElevatorPos)
+                .andThen(new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos));
+    }
+
+    public static Command SchloopCommand() {
+        return new MoveArm(Constants.ScoringConstants.Schloop.kArmSchloPos).andThen(
                 new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
-    }
-
-    public static Command returnHomeL2() {
-        return new Lift(Constants.ScoringConstants.Schloop.kElevatorPos)
-                .andThen(new MoveArm(Constants.ScoringConstants.Schloop.kArmStowPos));
-    }
-
-    public static Command getCoralCommand() {
-        return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
-                new Lift(0.66));
 
     }
 
     public static Runnable returnHomeRun() {
         return () -> {
             new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
-                    new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
+                    new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
         };
     }
 

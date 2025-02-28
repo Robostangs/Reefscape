@@ -72,7 +72,6 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
   private Command autoCommand;
-  private SequentialCommandGroup autoCommandGroup;
 
   private static GcStatsCollector gscollect = new GcStatsCollector();
   private static String lastAutoName;
@@ -185,7 +184,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Spit", new Spit());
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
-    NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
+    NamedCommands.registerCommand("Return Home", ScoringFactory.Stow());
     // TODO add a delay to path
 
   }
@@ -271,38 +270,38 @@ public class Robot extends TimedRobotstangs {
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
-         = new PrintCommand("doing nothing!");
+      autoCommand = new PrintCommand("doing nothing!");
     }
 
-    switch (startChooser.getSelected()) {
-      case "CStart":
-        drivetrain.resetPose(
-            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-        SmartDashboard.putString("Current Pose", "Pose reset to center");
+    // switch (startChooser.getSelected()) {
+    //   case "CStart":
+    //     drivetrain.resetPose(
+    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+    //     SmartDashboard.putString("Current Pose", "Pose reset to center");
 
-        break;
-      case "OStart":
-        drivetrain.resetPose(
-            !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-                : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-        SmartDashboard.putString("Current Pose", "Pose reset to open");
+    //     break;
+    //   case "OStart":
+    //     drivetrain.resetPose(
+    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
+    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+    //     SmartDashboard.putString("Current Pose", "Pose reset to open");
 
-        break;
+    //     break;
 
-      case "PStart":
-        drivetrain.resetPose(!isRed()
-            ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-            : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-        SmartDashboard.putString("Current Pose", "Pose reset to pro");
+    //   case "PStart":
+    //     drivetrain.resetPose(!isRed()
+    //         ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
+    //         : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
+    //     SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
-        break;
+    //     break;
 
-      default:
-        drivetrain.resetPose(drivetrain.getState().Pose);
+    //   default:
+    //     drivetrain.resetPose(drivetrain.getState().Pose);
 
-        break;
-    }
+    //     break;
+    // }
 
     // new Retract().schedule();
     new HomeElevator().schedule();

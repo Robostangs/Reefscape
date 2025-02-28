@@ -262,13 +262,15 @@ public final class Constants {
 
     }
 
-    public static class Schloop{
+    public static class Stow{
       public static final double kElevatorPos = 0.79;
       public static final double kArmStowPos = -0.25;
     }
 
-    public static class Stow{
-      public static final double kElevatorPos = 0.79;
+    public static class Schloop{
+      public static final double kElevatorPos = 0.66;
+      public static final double kArmSchloPos = -0.25;
+
     }
     
 

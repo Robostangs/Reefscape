@@ -29,7 +29,6 @@ import frc.robot.commands.SwerveCommands.AligntoCage;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
@@ -172,8 +171,9 @@ public class RobotContainer {
                 xManip.povDown().toggleOnTrue(new Slurp());
 
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
-                xManip.povUp().toggleOnTrue(ScoringFactory.returnStowL2());
-                xManip.povLeft().toggleOnTrue(ScoringFactory.returnStow());
+                xManip.povUp().toggleOnTrue(ScoringFactory.StowL2());
+                //not working
+                xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
@@ -194,7 +194,7 @@ public class RobotContainer {
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2)).toggleOnTrue(
-                                ScoringFactory.returnStow());
+                                ScoringFactory.Stow());
 
                 new Trigger(() -> xSim.getRawButton(3))
                                 .toggleOnTrue(new AligntoCage(() -> xSim.getRawAxis(0)
