@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.Servo;
@@ -27,6 +28,7 @@ public class Climber extends SubsystemBase {
 
         TalonFXConfiguration climberMotorConfigs = new TalonFXConfiguration();
         climberMotorConfigs.Feedback.SensorToMechanismRatio = Constants.ClimberConstants.kGearboxRotationsToMechanismMeters;
+        climberMotorConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
         climberMotor.getConfigurator().apply(climberMotorConfigs);
 
@@ -67,6 +69,7 @@ public class Climber extends SubsystemBase {
 
     }
 
+    //giggity
     public void setBrake() {
         // climberMotor.setNeutralMode(NeutralModeValue.Brake);
     }

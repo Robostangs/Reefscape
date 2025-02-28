@@ -181,8 +181,8 @@ public class RobotContainer {
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
 
-                xManip.rightStick().and(xManip.leftTrigger(0.1)).toggleOnTrue(new Deploy(true));
-                xManip.leftStick().and(xManip.leftTrigger(0.1)).toggleOnTrue(new Reel(true));
+                xManip.rightStick().and(xManip.leftTrigger(0.1)).whileTrue(new Deploy(true));
+                xManip.leftStick().and(xManip.leftTrigger(0.1)).whileTrue(new Reel(true));
 
         }
 
