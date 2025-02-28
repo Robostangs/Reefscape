@@ -25,6 +25,7 @@ public class Heimlich extends Command{
   @Override
   public void execute() {
 
+intake.runIntakeMotionMagic();
   }
 
   // Called once the command ends or is interrupted.
