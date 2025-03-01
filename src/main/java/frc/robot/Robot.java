@@ -322,6 +322,7 @@ public class Robot extends TimedRobotstangs {
 
     unpublishTrajectory();
 
+    drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180: 0));
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

@@ -110,7 +110,7 @@ public final class Constants {
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
-    public static final double kArmP = 2000;
+    public static final double kArmP = 10000;
     public static final double kArmI = 10000;
     public static final double kArmD = 200;
     public static final double kArmS = 4;

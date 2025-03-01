@@ -29,6 +29,7 @@ import frc.robot.commands.SwerveCommands.AligntoCage;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -117,20 +118,21 @@ public class RobotContainer {
 
         private void configureTestBindings() {
 
-                xTest.rightStick().whileTrue(new Spit());
-                xTest.leftStick().whileTrue(new Slurp());
+                // xTest.rightStick().whileTrue(new Spit());
+                // xTest.leftStick().whileTrue(new Slurp());
 
-                xTest.a().whileTrue(new HomeElevator());
+                // xTest.a().whileTrue(new HomeElevator());
 
-                xTest.x().toggleOnTrue(new Retract());
-                xTest.y().toggleOnTrue(new Extend());
-                xTest.b().toggleOnTrue(new RunIntake());
+                // xTest.x().toggleOnTrue(new Retract());
+                // xTest.y().toggleOnTrue(new Extend());
+                // xTest.b().toggleOnTrue(new RunIntake());
 
+                xTest.a().whileTrue(Arm.getInstance().run(Arm.getInstance().gotoSchloop));
                 new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
                                 .whileTrue(new RunArm(() -> xTest.getLeftY()));
 
-                new Trigger(() -> Math.abs(xTest.getRightY()) > 0.02)
-                                .whileTrue(new RunElevator(() -> -xTest.getRightY()));
+                // new Trigger(() -> Math.abs(xTest.getRightY()) > 0.02)
+                //                 .whileTrue(new RunElevator(() -> -xTest.getRightY()));
 
         }
 
@@ -181,11 +183,11 @@ public class RobotContainer {
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
 
-                xManip.rightStick().and(xManip.leftTrigger(0.1)).whileTrue(new Deploy(true));
-                xManip.leftStick().and(xManip.leftTrigger(0.1)).whileTrue(new Reel(true));
+                // xManip.rightStick().and(xManip.leftTrigger(0.1)).whileTrue(new Deploy(true));
+                // xManip.leftStick().and(xManip.leftTrigger(0.1)).whileTrue(new Reel(true));
 
-                xManip.rightStick().and(xManip.rightTrigger(0.1)).whileTrue(new Deploy(false));
-                xManip.leftStick().and(xManip.rightTrigger(0.1)).whileTrue(new Reel(false));
+                // xManip.rightStick().and(xManip.rightTrigger(0.1)).whileTrue(new Deploy(false));
+                // xManip.leftStick().and(xManip.rightTrigger(0.1)).whileTrue(new Reel(false));
 
         }
 
