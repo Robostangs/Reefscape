@@ -71,6 +71,7 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
   private Command autoCommand;
+  
 
   private static GcStatsCollector gscollect = new GcStatsCollector();
   private static String lastAutoName;
@@ -177,13 +178,13 @@ public class Robot extends TimedRobotstangs {
 
     NamedCommands.registerCommand("L1 Prime", new PrintCommand("Hello!"));
     NamedCommands.registerCommand("L2 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L3 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L4 Prime", new PrintCommand("Hello!"));
+    NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position().withTimeout(3));
+    NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position().withTimeout(3));
     // TODO change this to spit
-    NamedCommands.registerCommand("Spit", new PrintCommand("Hello"));
+    NamedCommands.registerCommand("Spit", new Spit().withTimeout(3));
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
-    NamedCommands.registerCommand("Return Home", ScoringFactory.Stow());
+    NamedCommands.registerCommand("Return Home", ScoringFactory.Stow().withTimeout(1));
     // TODO add a delay to path
 
   }
@@ -224,6 +225,8 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
+    //TODO ake the motors nuetral or something so they dont go back to their setpoints
+    
 
   }
 
@@ -261,7 +264,7 @@ public class Robot extends TimedRobotstangs {
               Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.15))
           .withTimeout(1d);
 
-    } else if (autoName.equals("PTP")) {
+    }else if (autoName.equals("PTP")) {
       autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
           : FlippingUtil.flipFieldPose(Constants.ScoringConstants.k21BlueRReefPosePtP))
           .andThen(ScoringFactory.L3Score());
@@ -319,10 +322,13 @@ public class Robot extends TimedRobotstangs {
 
   @Override
   public void teleopInit() {
-
+    // only in pits
+    // if (!DriverStation.isFMSAttached()) {
+    //   ScoringFactory.Stow().schedule();
+    // }
+    
     unpublishTrajectory();
 
-    drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180: 0));
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

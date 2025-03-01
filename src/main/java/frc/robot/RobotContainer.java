@@ -12,8 +12,6 @@ import com.pathplanner.lib.util.FlippingUtil;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.RunArm;
-import frc.robot.commands.ClimberCommands.Deploy;
-import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
@@ -118,21 +116,23 @@ public class RobotContainer {
 
         private void configureTestBindings() {
 
-                // xTest.rightStick().whileTrue(new Spit());
-                // xTest.leftStick().whileTrue(new Slurp());
+                xTest.rightStick().whileTrue(new Spit());
+                xTest.leftStick().whileTrue(new Slurp());
 
-                // xTest.a().whileTrue(new HomeElevator());
+                xTest.a().whileTrue(new HomeElevator());
 
-                // xTest.x().toggleOnTrue(new Retract());
-                // xTest.y().toggleOnTrue(new Extend());
-                // xTest.b().toggleOnTrue(new RunIntake());
+                xTest.x().toggleOnTrue(new Retract());
+                xTest.y().toggleOnTrue(new Extend());
+                xTest.b().toggleOnTrue(new RunIntake());
 
-                xTest.a().whileTrue(Arm.getInstance().run(Arm.getInstance().gotoSchloop));
+                // xTest.a().whileTrue(Arm.getInstance().run(Arm.getInstance().gotoSchloop));
+
+                xTest.povUp().whileTrue(new HomeIntake());
                 new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
                                 .whileTrue(new RunArm(() -> xTest.getLeftY()));
 
-                // new Trigger(() -> Math.abs(xTest.getRightY()) > 0.02)
-                //                 .whileTrue(new RunElevator(() -> -xTest.getRightY()));
+                new Trigger(() -> Math.abs(xTest.getRightY()) > 0.02)
+                                .whileTrue(new RunElevator(() -> -xTest.getRightY()));
 
         }
 

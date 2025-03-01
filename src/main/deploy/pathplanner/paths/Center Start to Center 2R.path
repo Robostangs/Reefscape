@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.015009375480634,
-        "y": 3.8919516866904345
+        "x": 6.015009480825605,
+        "y": 3.891949153091437
       },
       "isLocked": false,
       "linkedName": "Center Start"
     },
     {
       "anchor": {
-        "x": 6.213030499454148,
-        "y": 3.5975560350709603
+        "x": 5.875042808219178,
+        "y": 3.6117936643835615
       },
       "prevControl": {
-        "x": 6.522456644981668,
-        "y": 3.499696381848321
+        "x": 6.184468953746698,
+        "y": 3.5139340111609223
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,12 +50,7 @@
       "name": "L4 Prime",
       "waypointRelativePos": 0.027118644067796596,
       "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "L4 Prime"
-        }
-      }
+      "command": null
     }
   ],
   "globalConstraints": {
@@ -74,7 +69,7 @@
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.80491621141402
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

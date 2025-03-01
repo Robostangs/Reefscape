@@ -111,7 +111,7 @@ public final class Constants {
     public static final int kArmMotorId = 24;
 
     public static final double kArmP = 10000;
-    public static final double kArmI = 10000;
+    public static final double kArmI = 5000;
     public static final double kArmD = 200;
     public static final double kArmS = 4;
     public static final double kArmV = 15;
@@ -155,6 +155,7 @@ public final class Constants {
 
     public static final double kMaxExtension = 1.6;// cm
     public static final double kMinExtension = .3;// cm
+
 
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
@@ -269,7 +270,7 @@ public final class Constants {
     }
 
     public static class Stow{
-      public static final double kElevatorPos = 0.79;
+      public static final double kElevatorPos = 0.81;
       public static final double kArmStowPos = -0.25;
     }
 
@@ -348,8 +349,8 @@ public final class Constants {
     public static final CANBus kCANBus = new CANBus("Canivore", "./logs/example.hoot");
 
     public static class AutoConstants {
-      public static final PIDConstants translationPID = new PIDConstants(0, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
+      public static final PIDConstants translationPID = new PIDConstants(100, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(10, 0, 0);
 
       public static final double kSlurpTimeout = 3d;
 
