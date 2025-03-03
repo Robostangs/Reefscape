@@ -6,14 +6,12 @@ import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakePivot extends SubsystemBase {
     private TalonFX pivotMotor;
-    private Alert intakeAlert = new Alert("INTAKE TWEAKING", Alert.AlertType.kError);
     private static IntakePivot mInstance;
     MotionMagicExpoTorqueCurrentFOC pivotControl;
 
@@ -32,6 +30,7 @@ public class IntakePivot extends SubsystemBase {
         slotpivotconfigs.kI = Constants.IntakeConstants.kPivotI;
         slotpivotconfigs.kD = Constants.IntakeConstants.kPivotD;
         slotpivotconfigs.kS = Constants.IntakeConstants.kPivotS;
+        // slotpivotconfigs.kG = Constants.IntakeConstants.kPivotG;
 
         TalonFXConfiguration pivotMotorConfigs = new TalonFXConfiguration();
         pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.kStatorCurrentLimit;
@@ -105,16 +104,15 @@ public class IntakePivot extends SubsystemBase {
         }
     }
 
-    // public void runIntakeMotionMagic() {
-    //  pivotMotor.setControl(pivotControl);
-    // }
+    public void runIntakeMotionMagic() {
+     pivotMotor.setControl(pivotControl);
+    }
     public void setPiviotDutyCycle(double pivotDutyCycle) {
         pivotMotor.set(pivotDutyCycle);
     }
 
     @Override
     public void periodic() {
-        pivotMotor.setControl(pivotControl);
         SmartDashboard.putNumber("Intake/Setpoint", pivotControl.Position);
         SmartDashboard.putNumber("Intake/Position", pivotMotor.getPosition().getValueAsDouble());
         SmartDashboard.putBoolean("Intake/is at extend setpoint", isIntakeatSetpoint(true));

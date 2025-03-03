@@ -13,19 +13,12 @@ public class ScoringFactory {
     public static Command L1Position() {
         return new Lift(Constants.ScoringConstants.L1.kElevatorStart)
                 .andThen(new MoveArm(Constants.ScoringConstants.L1.kArmScoringPosition))
-                // .andThen(
-                // new WaitUntilCommand(
-                // () -> Arm.getInstance().getTargetArmAngle() >
-                // Constants.ScoringConstants.L1.kArmSafePosition)
                 .andThen(new Lift(Constants.ScoringConstants.L1.kElevatorEnd));
     }
 
     public static Command L2Position() {
         return new Lift(Constants.ScoringConstants.L2.kElevatorStart).andThen(
                 new MoveArm(Constants.ScoringConstants.L2.kArmScoringPosition))
-                // .alongWith(new WaitUntilCommand(
-                // () -> Arm.getInstance().getTargetArmAngle() >
-                // Constants.ScoringConstants.L2.kArmSafePosition)
                 .andThen(new Lift(Constants.ScoringConstants.L2.kElevatorEnd));
     }
 
@@ -33,7 +26,7 @@ public class ScoringFactory {
         return new Lift(Constants.ScoringConstants.L3.kElevatorPos)
                 .alongWith(new WaitUntilCommand(
                         () -> Elevator.getInstance()
-                                .getElevatorPositionMeters() > Constants.ElevatorConstants.kHomePosition)
+                                .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
                         .andThen(new MoveArm(Constants.ScoringConstants.L3.kArmScoringPosition)));
     }
 
@@ -42,7 +35,7 @@ public class ScoringFactory {
                 .alongWith(
                         new WaitUntilCommand(
                                 () -> Elevator.getInstance()
-                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kHomePosition)
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
                                 .andThen(
                                         new MoveArm(Constants.ScoringConstants.L4.kArmScoringPosition)));
     }
@@ -63,26 +56,26 @@ public class ScoringFactory {
         return L4Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
     }
 
-    public static Command returnHome() {
+    public static Command Stow() {
+        return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
+                new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
+    }
+
+    public static Command StowL2() {
+        return new Lift(Constants.ScoringConstants.Stow.kElevatorPos)
+                .andThen(new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos));
+    }
+
+    public static Command SchloopCommand() {
         return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                 new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
-    }
-
-    public static Command returnHomeL2() {
-        return new Lift(Constants.ScoringConstants.Schloop.kElevatorPos)
-                .andThen(new MoveArm(Constants.ScoringConstants.Schloop.kArmStowPos));
-    }
-
-    public static Command getCoralCommand() {
-        return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
-                new Lift(0.66));
 
     }
 
     public static Runnable returnHomeRun() {
         return () -> {
             new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
-                    new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
+                    new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
         };
     }
 

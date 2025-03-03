@@ -35,7 +35,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
@@ -72,7 +71,7 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
   private Command autoCommand;
-  private SequentialCommandGroup autoCommandGroup;
+  
 
   private static GcStatsCollector gscollect = new GcStatsCollector();
   private static String lastAutoName;
@@ -94,7 +93,6 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
-    IntakePivot.getInstance().zeroIntake();
 
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
@@ -114,7 +112,7 @@ public class Robot extends TimedRobotstangs {
     firstPieceChooser.addOption("Center 2", " - C2");
     firstPieceChooser.addOption("Pro 1", " - P1");
     firstPieceChooser.addOption("Pro 2", " - P2");
-    firstPieceChooser.addOption("L", " - O1");
+    firstPieceChooser.addOption("Open 1", " - O1");
     firstPieceChooser.addOption("Open 2", " - O2");
 
     firstPieceRoLChooser.setDefaultOption("None", "");
@@ -180,13 +178,14 @@ public class Robot extends TimedRobotstangs {
 
     NamedCommands.registerCommand("L1 Prime", new PrintCommand("Hello!"));
     NamedCommands.registerCommand("L2 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L3 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L4 Prime", new PrintCommand("Hello!"));
+    NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position().withTimeout(3));
+    NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position().withTimeout(3));
     // TODO change this to spit
-    NamedCommands.registerCommand("Spit", new Spit());
+    NamedCommands.registerCommand("Spit", new Spit().withTimeout(3));
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
-    NamedCommands.registerCommand("Return Home", ScoringFactory.returnHome());
+    NamedCommands.registerCommand("Return Home", ScoringFactory.Stow().withTimeout(1));
+    // TODO add a delay to path
 
   }
 
@@ -226,15 +225,16 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
+    //TODO ake the motors nuetral or something so they dont go back to their setpoints
+    
 
   }
 
   @Override
   public void disabledPeriodic() {
 
-
-    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
-        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
+        firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
     /*
@@ -246,27 +246,28 @@ public class Robot extends TimedRobotstangs {
      * entirely
      */
 
-    publishTrajectory(autoName);
+    // publishTrajectory(autoName);
 
-    // teleopField.getObject("Starting Poseee").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
+    // teleopField.getObject("Starting
+    // Pose").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
   }
 
   public void autonomousInit() {
     unpublishTrajectory();
 
-    IntakePivot.getInstance().zeroIntake();
-    Climber.getInstance().zeroClimber();
-    
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
+
+      drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
-          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.25))
-          .withTimeout(1.5);
+          .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.15))
+          .withTimeout(1d);
 
-
-    } else if (autoName.equals("PTP")) {
-      autoCommand = new PathToPoint(Constants.ScoringConstants.k21BlueRReefPosePtP).andThen(ScoringFactory.L3Score());
+    }else if (autoName.equals("PTP")) {
+      autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
+          : FlippingUtil.flipFieldPose(Constants.ScoringConstants.k21BlueRReefPosePtP))
+          .andThen(ScoringFactory.L3Score());
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
@@ -274,36 +275,41 @@ public class Robot extends TimedRobotstangs {
     }
 
     // switch (startChooser.getSelected()) {
-    //   case "CStart":
-    //     drivetrain.resetPose(
-    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to center");
+    // case "CStart":
+    // drivetrain.resetPose(
+    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to center");
 
-    //     break;
-    //   case "OStart":
-    //     drivetrain.resetPose(
-    //         !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-    //             : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to open");
+    // break;
+    // case "OStart":
+    // drivetrain.resetPose(
+    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to open");
 
-    //     break;
+    // break;
 
-    //   case "PStart":
-    //     drivetrain.resetPose(!isRed()
-    //         ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-    //         : FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-    //     SmartDashboard.putString("Current Pose", "Pose reset to pro");
+    // case "PStart":
+    // drivetrain.resetPose(!isRed()
+    // ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
+    // :
+    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
+    // SmartDashboard.putString("Current Pose", "Pose reset to pro");
 
-    //     break;
+    // break;
 
-    //   default:
-    //     drivetrain.resetPose(drivetrain.getState().Pose);
+    // default:
+    // drivetrain.resetPose(drivetrain.getState().Pose);
 
-    //     break;
+    // break;
     // }
 
-    // new Retract().schedule();
+    IntakePivot.getInstance().zeroIntake();
+    Climber.getInstance().zeroClimber();
+    new Retract().schedule();
     new HomeElevator().schedule();
     autoCommand.schedule();
 
@@ -316,7 +322,11 @@ public class Robot extends TimedRobotstangs {
 
   @Override
   public void teleopInit() {
-
+    // only in pits
+    // if (!DriverStation.isFMSAttached()) {
+    //   ScoringFactory.Stow().schedule();
+    // }
+    
     unpublishTrajectory();
 
     // This makes sure that the autonomous stops running when
@@ -413,8 +423,7 @@ public class Robot extends TimedRobotstangs {
       publishfail.set(false);
       noAutoSelected.set(false);
       ShittyAlert.set(false);
-    }
-    catch (RuntimeException e) {
+    } catch (RuntimeException e) {
       // if we call it and we have a null auto name when we are publishing it
       System.out.println("Null Auto: " + autoName);
       nullAuto.setText("Null auto: " + autoName);

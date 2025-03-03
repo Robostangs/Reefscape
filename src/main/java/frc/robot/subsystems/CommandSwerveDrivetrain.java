@@ -9,7 +9,6 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.swerve.SimSwerveDrivetrain;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModule;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -44,7 +43,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
-    private SimSwerveDrivetrain m_simDrivetrain;
+    // private SimSwerveDrivetrain m_simDrivetrain;
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -55,8 +54,8 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
     /* Swerve requests to apply during SysId characterization */
     private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
-    private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
-    private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+    // private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
+    // private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
     private final SwerveRequest.ApplyRobotSpeeds AutoDrive = new SwerveRequest.ApplyRobotSpeeds();
 
@@ -80,17 +79,17 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
      * SysId routine for characterizing steer. This is used to find PID gains for
      * the steer motors.
      */
-    private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
-            new SysIdRoutine.Config(
-                    null, // Use default ramp rate (1 V/s)
-                    Volts.of(7), // Use dynamic voltage of 7 V
-                    null, // Use default timeout (10 s)
-                    // Log state with SignalLogger class
-                    state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
-            new SysIdRoutine.Mechanism(
-                    volts -> setControl(m_steerCharacterization.withVolts(volts)),
-                    null,
-                    this));
+    // private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
+    //         new SysIdRoutine.Config(
+    //                 null, // Use default ramp rate (1 V/s)
+    //                 Volts.of(7), // Use dynamic voltage of 7 V
+    //                 null, // Use default timeout (10 s)
+    //                 // Log state with SignalLogger class
+    //                 state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
+    //         new SysIdRoutine.Mechanism(
+    //                 volts -> setControl(m_steerCharacterization.withVolts(volts)),
+    //                 null,
+    //                 this));
 
     /*
      * SysId routine for characterizing rotation.
@@ -99,24 +98,24 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
      * See the documentation of SwerveRequest.SysIdSwerveRotation for info on
      * importing the log to SysId.
      */
-    private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
-            new SysIdRoutine.Config(
-                    /* This is in radians per second², but SysId only supports "volts per second" */
-                    Volts.of(Math.PI / 6).per(Second),
-                    /* This is in radians per second, but SysId only supports "volts" */
-                    Volts.of(Math.PI),
-                    null, // Use default timeout (10 s)
-                    // Log state with SignalLogger class
-                    state -> SignalLogger.writeString("SysIdRotation_State", state.toString())),
-            new SysIdRoutine.Mechanism(
-                    output -> {
-                        /* output is actually radians per second, but SysId only supports "volts" */
-                        setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
-                        /* also log the requested output for SysId */
-                        SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
-                    },
-                    null,
-                    this));
+    // private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
+    //         new SysIdRoutine.Config(
+    //                 /* This is in radians per second², but SysId only supports "volts per second" */
+    //                 Volts.of(Math.PI / 6).per(Second),
+    //                 /* This is in radians per second, but SysId only supports "volts" */
+    //                 Volts.of(Math.PI),
+    //                 null, // Use default timeout (10 s)
+    //                 // Log state with SignalLogger class
+    //                 state -> SignalLogger.writeString("SysIdRotation_State", state.toString())),
+    //         new SysIdRoutine.Mechanism(
+    //                 output -> {
+    //                     /* output is actually radians per second, but SysId only supports "volts" */
+    //                     setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
+    //                     /* also log the requested output for SysId */
+    //                     SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
+    //                 },
+    //                 null,
+    //                 this));
 
     /* The SysId routine to test */
     private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
@@ -321,14 +320,12 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 threePose = LimelightHelpers
                         .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
             }
-            SmartDashboard.putString("Im here","powewef");
 
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0
                     && LimelightHelpers.getTA(
                             Constants.VisionConstants.kLimelightOtherName) > Constants.VisionConstants.kTAThresholdThree) {
                 this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
-                SmartDashboard.putString("Three POSE","powewef");
                 
             }
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0
@@ -412,11 +409,11 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
     public void configurePathPlanner() {
         AutoBuilder.configure(
                 () -> this.getState().Pose,
-                pose -> this.seedFieldCentric(),
+                this::resetPose,
                 () -> this.getState().Speeds,
                 (speeds, feedforwards) -> this.setControl(AutoDrive.withSpeeds(speeds)
                         .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX())
-                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY())),
+                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY() )),
                 new PPHolonomicDriveController(Constants.SwerveConstants.AutoConstants.rotationPID,
                         Constants.SwerveConstants.AutoConstants.translationPID),
                 Constants.SwerveConstants.AutoConstants.robotConfig,

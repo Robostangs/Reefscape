@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.213030499454148,
-        "y": 3.5975560350709603
+        "x": 5.875042808219178,
+        "y": 3.6117936643835615
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.034768301512944,
-        "y": 2.1147597470521315
+        "x": 6.696780610277974,
+        "y": 2.1289973763647327
       },
       "isLocked": false,
       "linkedName": "Center 2R"
@@ -45,8 +45,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

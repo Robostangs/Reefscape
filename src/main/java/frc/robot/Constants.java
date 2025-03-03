@@ -54,10 +54,10 @@ public final class Constants {
 
     // Deploy Constants
     public static final double kMaxExtension = 125;
-       public static final double kExtensionDutyCycle = 1;
+       public static final double kExtensionDutyCycle = 0.9;
 
     // Reel Constants
-    public static final double kReelDutyCycle = -1;
+    public static final double kReelDutyCycle = -0.9;
     public static final double kReelSafe = 5;
 
   }
@@ -101,17 +101,17 @@ public final class Constants {
     public static final int kEndeffectorMotorId = 3;
     public static final int kEndeffectorSensorId = 0;
 
-    public static final double kEndeffectorSpit = -0.6;
+    public static final double kEndeffectorSpit = -0.75;
 
-    public static final double kEndeffectorSlurp = 0.6;
+    public static final double kEndeffectorSlurp = 0.75;
 
   }
 
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
-    public static final double kArmP = 2000;
-    public static final double kArmI = 2000;
+    public static final double kArmP = 10000;
+    public static final double kArmI = 5000;
     public static final double kArmD = 200;
     public static final double kArmS = 4;
     public static final double kArmV = 15;
@@ -128,7 +128,7 @@ public final class Constants {
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestSetpoint = -.2568;
+    public static final double kArmRestSetpoint = -.254;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
@@ -139,10 +139,10 @@ public final class Constants {
   public static class ElevatorConstants {
     public static final int kRightElevatorMotorId = 36;
     public static final int kLeftElevatorMotorId = 35;
+
     public static final double kElevatorP = 5000;
     public static final double kElevatorI = 20;
     public static final double kElevatorD = 220;
-    // public static final double kElevatorFF = 1;
     public static final double kElevatorV = 0;
     public static final double kElevatorA = 0;
     public static final double kElevatorG = 15;
@@ -156,14 +156,17 @@ public final class Constants {
     public static final double kMaxExtension = 1.6;// cm
     public static final double kMinExtension = .3;// cm
 
+
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeDutyCycle = 0.1;
+
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
 
     public static final double kRotationsToMeters = (1/0.0313)/(.57/.536);//*Detroit Reference */;
+    
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
@@ -175,19 +178,21 @@ public final class Constants {
     public static final double kElevatorGearing = 14 / 72d;
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
+
     public static final double kHomePosition = 0.82;
+    public static final double kSafeArmElevatorPosition = kHomePosition;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
   }
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
-    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.29, 0.29, Units.degreesToRadians(100));
+    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.25, 0.25, Units.degreesToRadians(100));
     public static final String kLimelightScoreSide = "limelight-score";
     public static final String kLimelightOtherName = "limelight-right";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
-    public static final double kTAThresholdFour = 0.01;
-    public static final double kTAThresholdThree = 0.01;
+    public static final double kTAThresholdFour = 3d;
+    public static final double kTAThresholdThree = 3d;
     public static final double kTxThresholdCoral = 5;
 
   }
@@ -234,6 +239,8 @@ public final class Constants {
 
 
     public static final double spitTimeout  = 2d;
+
+    
     public static class L1 {
       public static final double kArmScoringPosition = .37;
       public static final double kElevatorStart = 0.5;
@@ -262,13 +269,15 @@ public final class Constants {
 
     }
 
-    public static class Schloop{
-      public static final double kElevatorPos = 0.79;
+    public static class Stow{
+      public static final double kElevatorPos = 0.81;
       public static final double kArmStowPos = -0.25;
     }
 
-    public static class Stow{
-      public static final double kElevatorPos = 0.79;
+    public static class Schloop{
+      public static final double kElevatorPos = 0.66;
+      public static final double kArmSchloPos = -0.25;
+
     }
     
 
@@ -340,8 +349,8 @@ public final class Constants {
     public static final CANBus kCANBus = new CANBus("Canivore", "./logs/example.hoot");
 
     public static class AutoConstants {
-      public static final PIDConstants translationPID = new PIDConstants(0, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
+      public static final PIDConstants translationPID = new PIDConstants(100, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(10, 0, 0);
 
       public static final double kSlurpTimeout = 3d;
 

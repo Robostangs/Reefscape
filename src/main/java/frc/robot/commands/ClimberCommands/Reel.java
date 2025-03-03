@@ -35,7 +35,7 @@ public class Reel extends Command {
   public void end(boolean interrupted) {
 
     climber.runClimber(0d);
-    climber.postStatus("Climber Deployed");
+    climber.postStatus("Climber Reeled ");
     climber.setBrake();
   }
 

@@ -29,6 +29,7 @@ public class Extend extends Command {
   @Override
   public void execute() {
     aintake.runIntake(0.75);
+    intake.runIntakeMotionMagic();
 
   }
 
