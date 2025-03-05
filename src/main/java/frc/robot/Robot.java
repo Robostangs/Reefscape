@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
@@ -71,7 +72,7 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
   private Command autoCommand;
-  
+  private SequentialCommandGroup autoGroup;
 
   private static GcStatsCollector gscollect = new GcStatsCollector();
   private static String lastAutoName;
@@ -225,8 +226,10 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-    //TODO ake the motors nuetral or something so they dont go back to their setpoints
+    // TODO ake the motors nuetral or something so they dont go back to their
+    // setpoints
     
+
 
   }
 
@@ -236,15 +239,6 @@ public class Robot extends TimedRobotstangs {
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
         firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
-
-    /*
-     * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
-     * localization. The internal IMU is ignored entirely.
-     * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
-     * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
-     * 2 - Use internal IMU for MT2 localization. External imu data is ignored
-     * entirely
-     */
 
     // publishTrajectory(autoName);
 
@@ -264,7 +258,7 @@ public class Robot extends TimedRobotstangs {
               Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.15))
           .withTimeout(1d);
 
-    }else if (autoName.equals("PTP")) {
+    } else if (autoName.equals("PTP")) {
       autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
           : FlippingUtil.flipFieldPose(Constants.ScoringConstants.k21BlueRReefPosePtP))
           .andThen(ScoringFactory.L3Score());
@@ -274,44 +268,13 @@ public class Robot extends TimedRobotstangs {
       autoCommand = new PrintCommand("doing nothing!");
     }
 
-    // switch (startChooser.getSelected()) {
-    // case "CStart":
-    // drivetrain.resetPose(
-    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to center");
-
-    // break;
-    // case "OStart":
-    // drivetrain.resetPose(
-    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to open");
-
-    // break;
-
-    // case "PStart":
-    // drivetrain.resetPose(!isRed()
-    // ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to pro");
-
-    // break;
-
-    // default:
-    // drivetrain.resetPose(drivetrain.getState().Pose);
-
-    // break;
-    // }
-
     IntakePivot.getInstance().zeroIntake();
     Climber.getInstance().zeroClimber();
-    new Retract().schedule();
-    new HomeElevator().schedule();
-    autoCommand.schedule();
+
+    autoGroup.addCommands(
+        new Retract().alongWith(new HomeElevator()), 
+        autoCommand
+        );
 
   }
 
@@ -324,9 +287,9 @@ public class Robot extends TimedRobotstangs {
   public void teleopInit() {
     // only in pits
     // if (!DriverStation.isFMSAttached()) {
-    //   ScoringFactory.Stow().schedule();
+    // ScoringFactory.Stow().schedule();
     // }
-    
+
     unpublishTrajectory();
 
     // This makes sure that the autonomous stops running when

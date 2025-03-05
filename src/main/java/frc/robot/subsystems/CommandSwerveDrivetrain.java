@@ -39,7 +39,8 @@ import frc.robot.Robot;
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
  * Subsystem so it can easily be used in command-based projects.
  */
-public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerConstants.TunerSwerveDrivetrain implements Subsystem {
+public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerConstants.TunerSwerveDrivetrain
+        implements Subsystem {
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
@@ -54,8 +55,10 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
     /* Swerve requests to apply during SysId characterization */
     private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
-    // private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
-    // private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+    // private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization =
+    // new SwerveRequest.SysIdSwerveSteerGains();
+    // private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization =
+    // new SwerveRequest.SysIdSwerveRotation();
 
     private final SwerveRequest.ApplyRobotSpeeds AutoDrive = new SwerveRequest.ApplyRobotSpeeds();
 
@@ -80,16 +83,16 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
      * the steer motors.
      */
     // private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
-    //         new SysIdRoutine.Config(
-    //                 null, // Use default ramp rate (1 V/s)
-    //                 Volts.of(7), // Use dynamic voltage of 7 V
-    //                 null, // Use default timeout (10 s)
-    //                 // Log state with SignalLogger class
-    //                 state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
-    //         new SysIdRoutine.Mechanism(
-    //                 volts -> setControl(m_steerCharacterization.withVolts(volts)),
-    //                 null,
-    //                 this));
+    // new SysIdRoutine.Config(
+    // null, // Use default ramp rate (1 V/s)
+    // Volts.of(7), // Use dynamic voltage of 7 V
+    // null, // Use default timeout (10 s)
+    // // Log state with SignalLogger class
+    // state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
+    // new SysIdRoutine.Mechanism(
+    // volts -> setControl(m_steerCharacterization.withVolts(volts)),
+    // null,
+    // this));
 
     /*
      * SysId routine for characterizing rotation.
@@ -99,23 +102,24 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
      * importing the log to SysId.
      */
     // private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
-    //         new SysIdRoutine.Config(
-    //                 /* This is in radians per second², but SysId only supports "volts per second" */
-    //                 Volts.of(Math.PI / 6).per(Second),
-    //                 /* This is in radians per second, but SysId only supports "volts" */
-    //                 Volts.of(Math.PI),
-    //                 null, // Use default timeout (10 s)
-    //                 // Log state with SignalLogger class
-    //                 state -> SignalLogger.writeString("SysIdRotation_State", state.toString())),
-    //         new SysIdRoutine.Mechanism(
-    //                 output -> {
-    //                     /* output is actually radians per second, but SysId only supports "volts" */
-    //                     setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
-    //                     /* also log the requested output for SysId */
-    //                     SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
-    //                 },
-    //                 null,
-    //                 this));
+    // new SysIdRoutine.Config(
+    // /* This is in radians per second², but SysId only supports "volts per second"
+    // */
+    // Volts.of(Math.PI / 6).per(Second),
+    // /* This is in radians per second, but SysId only supports "volts" */
+    // Volts.of(Math.PI),
+    // null, // Use default timeout (10 s)
+    // // Log state with SignalLogger class
+    // state -> SignalLogger.writeString("SysIdRotation_State", state.toString())),
+    // new SysIdRoutine.Mechanism(
+    // output -> {
+    // /* output is actually radians per second, but SysId only supports "volts" */
+    // setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
+    // /* also log the requested output for SysId */
+    // SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
+    // },
+    // null,
+    // this));
 
     /* The SysId routine to test */
     private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
@@ -279,12 +283,11 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             }
 
         }
-        
+
         if (!Robot.isSimulation()
-         &&
+                &&
                 this.getPigeon2().getAngularVelocityZWorld()
-                        .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold
-                        ) {
+                        .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold) {
 
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
                     this.getState().Pose.getRotation().getDegrees(),
@@ -295,26 +298,35 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     0d);
             // TODO see if this is better than getting the odo pose rotation
 
-                LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
+            /*
+             * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
+             * localization. The internal IMU is ignored entirely.
+             * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
+             * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
+             * 2 - Use internal IMU for MT2 localization. External imu data is ignored
+             * entirely
+             */
+            LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
 
-                LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightScoreSide,
-                        this.getState().Pose.getRotation().getDegrees(),
-                        0d,
-                        0d,
-                        0d,
-                        0d,
-                        0d);
-         
+            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightScoreSide,
+                    this.getState().Pose.getRotation().getDegrees(),
+                    0d,
+                    0d,
+                    0d,
+                    0d,
+                    0d);
 
             LimelightHelpers.PoseEstimate fourPose, threePose;
             if (DriverStation.isDisabled()) {
 
-                NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide).getEntry("throttle-set").setNumber(200);
+                NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
+                        .getEntry("throttle-set").setNumber(200);
 
                 fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
             } else {
-                NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide).getEntry("throttle-set").setNumber(0);
+                NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
+                        .getEntry("throttle-set").setNumber(0);
                 fourPose = LimelightHelpers
                         .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers
@@ -326,19 +338,16 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                             Constants.VisionConstants.kLimelightOtherName) > Constants.VisionConstants.kTAThresholdThree) {
                 this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
-                
+
             }
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0
                     && LimelightHelpers.getTA(
-                            Constants.VisionConstants.kLimelightScoreSide) > Constants.VisionConstants.kTAThresholdFour
-                            ) {
+                            Constants.VisionConstants.kLimelightScoreSide) > Constants.VisionConstants.kTAThresholdFour) {
                 this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
                 Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
             }
         }
     }
-
-
 
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
@@ -405,7 +414,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 visionMeasurementStdDevs);
     }
 
-
     public void configurePathPlanner() {
         AutoBuilder.configure(
                 () -> this.getState().Pose,
@@ -413,7 +421,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 () -> this.getState().Speeds,
                 (speeds, feedforwards) -> this.setControl(AutoDrive.withSpeeds(speeds)
                         .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX())
-                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY() )),
+                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY())),
                 new PPHolonomicDriveController(Constants.SwerveConstants.AutoConstants.rotationPID,
                         Constants.SwerveConstants.AutoConstants.translationPID),
                 Constants.SwerveConstants.AutoConstants.robotConfig,

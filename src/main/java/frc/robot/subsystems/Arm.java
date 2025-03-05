@@ -110,7 +110,7 @@ public class Arm extends SubsystemBase {
         return (target > -180) || (target < 0);
     }
 
-
+  
 
     public void setArmPosition() {
 

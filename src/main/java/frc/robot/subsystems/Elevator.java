@@ -48,6 +48,8 @@ public class Elevator extends SubsystemBase {
 
     private final DigitalInput limitSwitchElevator;
 
+    private boolean isHome = false;
+
     
 
     public static Elevator getInstance() {
@@ -172,6 +174,12 @@ public class Elevator extends SubsystemBase {
 
     }
 
+    public void setHomed(boolean isHome) {
+        this.isHome = isHome;
+    }
+    public boolean getisHome(){
+        return isHome;
+    }
 
     public void setElevatorPosition(double elevatorPosition) {
         elevatorMotorRight.setPosition(elevatorPosition);

@@ -168,16 +168,15 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
                                 .whileTrue(new RunElevator(() -> -xManip.getRightY()/2));
 
-                xManip.a().toggleOnTrue(ScoringFactory.L4Position());
-                xManip.b().toggleOnTrue(ScoringFactory.L3Position());
-                xManip.y().toggleOnTrue(ScoringFactory.L2Position());
+                xManip.a().toggleOnTrue(ScoringFactory.L4Position().finallyDo(ScoringFactory.returnStow()));
+                xManip.b().toggleOnTrue(ScoringFactory.L3Position().finallyDo(ScoringFactory.returnStow()));
+                xManip.y().toggleOnTrue(ScoringFactory.L2Position().finallyDo(ScoringFactory.returnStow()));
 
 
                 xManip.povDown().toggleOnTrue(new Slurp());
 
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
-                xManip.povUp().toggleOnTrue(ScoringFactory.StowL2());
-                //not working
+                // xManip.povUp().toggleOnTrue(ScoringFactory.StowL2());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
