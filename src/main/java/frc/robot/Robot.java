@@ -81,6 +81,8 @@ public class Robot extends TimedRobotstangs {
   private static Alert noAutoSelected = new Alert("No Auto Selected", AlertType.kWarning);
   private static Alert ShittyAlert = new Alert("We going forward ", AlertType.kInfo);
 
+  private String oldAutoName = "";
+
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -192,8 +194,7 @@ public class Robot extends TimedRobotstangs {
 
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler. This is responsible for polling buttons, adding
-    // newly-scheduled
+
     // commands, running already-scheduled commands, removing finished or
     // interrupted commands,
     // and running subsystem periodic() methods. This must be called from the
@@ -228,19 +229,22 @@ public class Robot extends TimedRobotstangs {
   public void disabledInit() {
     // TODO ake the motors nuetral or something so they dont go back to their
     // setpoints
-    
+
 
 
   }
 
   @Override
   public void disabledPeriodic() {
-
+    
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
         firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-    // publishTrajectory(autoName);
+    if(!autoName.equals(oldAutoName)){
+      publishTrajectory(autoName);
+      oldAutoName = autoName;
+    }
 
     // teleopField.getObject("Starting
     // Pose").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
@@ -291,6 +295,8 @@ public class Robot extends TimedRobotstangs {
     // }
 
     unpublishTrajectory();
+
+    drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 0 : 180));
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
