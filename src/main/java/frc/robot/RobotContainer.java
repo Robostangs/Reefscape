@@ -170,13 +170,15 @@ public class RobotContainer {
 
                 xManip.a().toggleOnTrue(ScoringFactory.L4Position().finallyDo(ScoringFactory.returnStow()));
                 xManip.b().toggleOnTrue(ScoringFactory.L3Position().finallyDo(ScoringFactory.returnStow()));
+                
                 xManip.y().toggleOnTrue(ScoringFactory.L2Position().finallyDo(ScoringFactory.returnStow()));
+                
 
 
                 xManip.povDown().toggleOnTrue(new Slurp());
 
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
-                // xManip.povUp().toggleOnTrue(ScoringFactory.StowL2());
+                xManip.povUp().toggleOnTrue(ScoringFactory.StowL2());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());

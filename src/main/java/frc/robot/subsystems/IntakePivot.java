@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,6 +15,7 @@ public class IntakePivot extends SubsystemBase {
     private TalonFX pivotMotor;
     private static IntakePivot mInstance;
     MotionMagicExpoTorqueCurrentFOC pivotControl;
+
 
     public static IntakePivot getInstance() {
         if (mInstance == null)
@@ -29,9 +31,10 @@ public class IntakePivot extends SubsystemBase {
         slotpivotconfigs.kP = Constants.IntakeConstants.kPivotP;
         slotpivotconfigs.kI = Constants.IntakeConstants.kPivotI;
         slotpivotconfigs.kD = Constants.IntakeConstants.kPivotD;
-        slotpivotconfigs.kS = Constants.IntakeConstants.kPivotS;
-        // slotpivotconfigs.kG = Constants.IntakeConstants.kPivotG;
+        slotpivotconfigs.kG = Constants.IntakeConstants.kPivotG;
 
+        slotpivotconfigs.GravityType = GravityTypeValue.Arm_Cosine;
+        
         TalonFXConfiguration pivotMotorConfigs = new TalonFXConfiguration();
         pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.kStatorCurrentLimit;
 

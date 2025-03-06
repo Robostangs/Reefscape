@@ -333,16 +333,14 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                         .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
             }
 
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0
-                    && LimelightHelpers.getTA(
-                            Constants.VisionConstants.kLimelightOtherName) > Constants.VisionConstants.kTAThresholdThree) {
+            if ((LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0)
+                    && threePose != null) {
                 this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
 
             }
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0
-                    && LimelightHelpers.getTA(
-                            Constants.VisionConstants.kLimelightScoreSide) > Constants.VisionConstants.kTAThresholdFour) {
+            if ((LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0)
+                    && fourPose != null) {
                 this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
                 Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
             }

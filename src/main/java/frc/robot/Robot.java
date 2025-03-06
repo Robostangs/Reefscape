@@ -25,6 +25,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -181,8 +182,12 @@ public class Robot extends TimedRobotstangs {
 
     NamedCommands.registerCommand("L1 Prime", new PrintCommand("Hello!"));
     NamedCommands.registerCommand("L2 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position().withTimeout(3));
-    NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position().withTimeout(3));
+    NamedCommands.registerCommand("L3 Prime", new PrintCommand("L3")
+    // ScoringFactory.L3Position().withTimeout(3)
+    );
+    NamedCommands.registerCommand("L4 Prime", new PrintCommand("L4")
+    //  ScoringFactory.L4Position().withTimeout(3)
+     );
     // TODO change this to spit
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(3));
 
@@ -190,6 +195,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Return Home", ScoringFactory.Stow().withTimeout(1));
     // TODO add a delay to path
 
+    LiveWindow.enableAllTelemetry();
   }
 
   @Override
@@ -230,18 +236,16 @@ public class Robot extends TimedRobotstangs {
     // TODO ake the motors nuetral or something so they dont go back to their
     // setpoints
 
-
-
   }
 
   @Override
   public void disabledPeriodic() {
-    
+
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
         firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-    if(!autoName.equals(oldAutoName)){
+    if (!autoName.equals(oldAutoName)) {
       publishTrajectory(autoName);
       oldAutoName = autoName;
     }
@@ -274,12 +278,17 @@ public class Robot extends TimedRobotstangs {
 
     IntakePivot.getInstance().zeroIntake();
     Climber.getInstance().zeroClimber();
+    new HomeElevator().schedule();
+    new Retract().schedule();
 
-    autoGroup.addCommands(
-        new Retract().alongWith(new HomeElevator()), 
-        autoCommand
-        );
+    // autoGroup.addCommands(
+    // new Retract().alongWith(new HomeElevator()),
+    // autoCommand
+    // );
 
+    // autoGroup.schedule();
+
+    autoCommand.schedule();
   }
 
   /** This function is called periodically during autonomous. */

@@ -79,14 +79,14 @@ public final class Constants {
     public static final int kIntakeSensorId = 8;
 
     public static final double kExtendSetpoint = -14.07;
-    public static final double kRetractSetpoint = -2.5d;
-    public static final double kHeimlichSetpoint = -5d;
+    public static final double kRetractSetpoint = -3d;
+    public static final double kHeimlichSetpoint = -11.7;
 
 
-    public static final double kPivotP = 2;
-    public static final double kPivotI = 4;
-    public static final double kPivotD = 8.5;
-    public static final double kPivotS = 23.5;
+    public static final double kPivotP = 100;
+    public static final double kPivotI = 3;
+    public static final double kPivotD = 4;
+    public static final double kPivotG = 0;
 
     public static final double kStatorCurrentLimit = 80d;
     public static final double kHomeStatorCurrentLimit = 40d;

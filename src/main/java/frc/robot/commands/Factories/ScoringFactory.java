@@ -1,7 +1,5 @@
 package frc.robot.commands.Factories;
 
-import java.lang.Thread.State;
-
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -10,11 +8,12 @@ import frc.robot.Constants;
 import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.EndeffectorCommands.Spit;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 
 public class ScoringFactory {
 
-    public enum ScoringPosition {
+    public static enum ScoringPosition {
         L1, L2, L3, L4, Stow, Schloop
     }
 
@@ -25,9 +24,7 @@ public class ScoringFactory {
     public static Command L1Position() {
         return new Lift(Constants.ScoringConstants.L1.kElevatorStart)
                 .andThen(new MoveArm(Constants.ScoringConstants.L1.kArmScoringPosition))
-                .andThen(new Lift(Constants.ScoringConstants.L1.kElevatorEnd)).finallyDo(() -> {
-                    ScoreState = ScoringPosition.L1;
-                });
+                .andThen(new Lift(Constants.ScoringConstants.L1.kElevatorEnd));
 
     }
 
@@ -35,9 +32,7 @@ public class ScoringFactory {
         ScoreState = ScoringPosition.L2;
         return new Lift(Constants.ScoringConstants.L2.kElevatorStart).andThen(
                 new MoveArm(Constants.ScoringConstants.L2.kArmScoringPosition))
-                .andThen(new Lift(Constants.ScoringConstants.L2.kElevatorEnd)).finallyDo(() -> {
-                    ScoreState = ScoringPosition.L2;
-                });
+                .andThen(new Lift(Constants.ScoringConstants.L2.kElevatorEnd));
     }
 
     public static Command L3Position() {
@@ -47,9 +42,7 @@ public class ScoringFactory {
                         () -> Elevator.getInstance()
                                 .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
                         .andThen(new MoveArm(Constants.ScoringConstants.L3.kArmScoringPosition)))
-                .finallyDo(() -> {
-                    ScoreState = ScoringPosition.L3;
-                });
+                ;
     }
 
     public static Command L4Position() {
@@ -61,10 +54,7 @@ public class ScoringFactory {
                                         .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
                                 .andThen(
                                         new MoveArm(Constants.ScoringConstants.L4.kArmScoringPosition)))
-                .finallyDo(
-                        () -> {
-                            ScoreState = ScoringPosition.L4;
-                        });
+              ;
     }
 
     public static Command L1Score() {
@@ -84,16 +74,20 @@ public class ScoringFactory {
     }
 
     public static Command Stow() {
-        if (ScoreState == ScoringPosition.L2) {
-            return new Lift(Constants.ScoringConstants.Stow.kElevatorPos)
-                    .andThen(new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos));
-        } else if ((ScoreState == ScoringPosition.L3) || (ScoreState == ScoringPosition.L4)) {
+
+        //  if (ScoreState == ScoringPosition.L2){
+        //     Climber.getInstance().postStatus("L2 STOWWWWWWW");
+        //     return new Lift(Constants.ScoringConstants.Stow.kElevatorPos)
+        //             .andThen(new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos));
+        // }  
+        // else if (ScoreState == ScoringPosition.L3 || ScoreState == ScoringPosition.L4
+        // ) {
             return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                     new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
-        } else {
-            stowAlert.set(true);
-            return new PrintCommand("Can't stow");
-        }
+        // }else {
+        //     stowAlert.set(true);
+        //     return new PrintCommand("Can't stow");
+        // }
 
     }
 
