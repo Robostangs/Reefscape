@@ -201,7 +201,8 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void robotPeriodic() {
 
-    // commands, running already-scheduled commands, removing finished or
+SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name()); 
+// commands, running already-scheduled commands, removing finished or
     // interrupted commands,
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
