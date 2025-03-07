@@ -174,9 +174,9 @@ public class RobotContainer {
                 xManip.y().toggleOnTrue(ScoringFactory.L2Position().finallyDo(ScoringFactory.returnStowL2()));
                 
 
+                xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
 
                 xManip.povDown().toggleOnTrue(new Slurp());
-
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
                 xManip.povUp().toggleOnTrue(ScoringFactory.StowL2());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());

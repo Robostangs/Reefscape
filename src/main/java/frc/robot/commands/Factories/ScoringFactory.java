@@ -103,13 +103,18 @@ public class ScoringFactory {
 
     }
 
+    public static Command SourceIntake(){
+        return new Lift(Constants.ScoringConstants.Source.kElevatorPos)
+        .andThen( new MoveArm(Constants.ScoringConstants.Source.kArmSourcePosition));
+    }
+
     public static Command StowL2() {
         return new Lift(Constants.ScoringConstants.Stow.kElevatorPos)
                 .andThen(new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos));
     }
 
     public static Command SchloopCommand() {
-        return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
+        return new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos).andThen(
                 new Lift(Constants.ScoringConstants.Schloop.kElevatorPos));
 
     }
@@ -128,7 +133,7 @@ public class ScoringFactory {
         };
     }
 
-    public static Runnable getCoral() {
+    public static Runnable getSchloop() {
         return () -> {
             new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                     new Lift(Constants.ScoringConstants.Source.kElevatorPos));

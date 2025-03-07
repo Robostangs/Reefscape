@@ -29,7 +29,7 @@ public class IntakeFactory {
     public static Command Schloop() {
         return new Extend()
                 .alongWith(new RunIntake()).andThen(new Retract())
-                .finallyDo(ScoringFactory.getCoral());
+                .finallyDo(ScoringFactory.getSchloop());
     }
 
     /**

@@ -179,7 +179,7 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
 
-    public static final double kHomePosition = 0.82;
+    public static final double kHomePosition = 0.83;
     public static final double kSafeArmElevatorPosition = kHomePosition;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
   }
@@ -251,21 +251,21 @@ public final class Constants {
     public static class L2 {
       //Homepos
       public static final double kElevatorStart =0.87;
-      public static final double kArmScoringPosition = .347;
-      public static final double kElevatorEnd = 0.51;
+      public static final double kArmScoringPosition = .376;
+      public static final double kElevatorEnd = 0.541;
       public static final double kArmSafePosition = 0;
 
     }
 
     public static class L3 {
-      public static final double kElevatorPos = .87;
-      public static final double kArmScoringPosition = .33;
+      public static final double kElevatorPos = .947;
+      public static final double kArmScoringPosition = .379;
 
     }
 
     public static class L4 {
-      public static final double kElevatorPos = 1.55;
-      public static final double kArmScoringPosition = .37;
+      public static final double kElevatorPos = 1.5;
+      public static final double kArmScoringPosition = .354;
 
     }
 
@@ -275,7 +275,7 @@ public final class Constants {
     }
 
     public static class Schloop{
-      public static final double kElevatorPos = 0.66;
+      public static final double kElevatorPos = 0.645;
       public static final double kArmSchloPos = -0.25;
 
     }
@@ -283,8 +283,8 @@ public final class Constants {
 
 
     public static class Source {
-      public static final double kElevatorPos = 2;
-      public static final double kArmSourcePosition = 165;
+      public static final double kElevatorPos = 1.32;
+      public static final double kArmSourcePosition = -0.145;
 
 
     }
