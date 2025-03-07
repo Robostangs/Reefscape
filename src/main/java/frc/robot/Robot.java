@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
@@ -185,6 +186,8 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position().withTimeout(1.5));
     // TODO change this to spit
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
+    NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));
+
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
     NamedCommands.registerCommand("Return Home", ScoringFactory.Stow().withTimeout(1.5));

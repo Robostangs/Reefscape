@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Start to Pro 2L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4 Prime"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Home"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Misc & 1 Pieces",
+  "choreoAuto": false
+}

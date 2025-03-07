@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6637733692685588,
-        "y": 0.7409610398471602
+        "x": 1.292208904109589,
+        "y": 0.9973244863013702
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.498008355790856,
-        "y": 1.4632034074346958
+        "x": 2.126443890631887,
+        "y": 1.7195668538889057
       },
       "isLocked": false,
       "linkedName": "Pro Feeder"
     },
     {
       "anchor": {
-        "x": 3.4706998697916656,
-        "y": 3.0633557581018516
+        "x": 3.516010273972603,
+        "y": 2.9656892123287673
       },
       "prevControl": {
-        "x": 3.077620508104395,
-        "y": 2.5772893638761962
+        "x": 3.1229309122853324,
+        "y": 2.479622818103112
       },
       "nextControl": null,
       "isLocked": false,
@@ -74,7 +74,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 143.33530767666156
+    "rotation": -35.140808384730384
   },
   "useDefaultConstraints": true
 }

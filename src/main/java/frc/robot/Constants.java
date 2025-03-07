@@ -101,9 +101,9 @@ public final class Constants {
     public static final int kEndeffectorMotorId = 3;
     public static final int kEndeffectorSensorId = 0;
 
-    public static final double kEndeffectorSpit = -0.75;
+    public static final double kEndeffectorSpit = -0.5;
 
-    public static final double kEndeffectorSlurp = 0.75;
+    public static final double kEndeffectorSlurp = 0.5;
 
   }
 
@@ -271,12 +271,12 @@ public final class Constants {
 
     public static class Stow{
       public static final double kElevatorPos = 0.81;
-      public static final double kArmStowPos = -0.25;
+      public static final double kArmStowPos = -0.252;
     }
 
     public static class Schloop{
       public static final double kElevatorPos = 0.645;
-      public static final double kArmSchloPos = -0.25;
+      public static final double kArmSchloPos = -0.252;
 
     }
     

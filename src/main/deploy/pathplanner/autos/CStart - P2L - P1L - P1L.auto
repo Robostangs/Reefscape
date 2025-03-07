@@ -13,6 +13,12 @@
         {
           "type": "named",
           "data": {
+            "name": "L4 Prime"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Spit"
           }
         },
@@ -31,6 +37,18 @@
         {
           "type": "named",
           "data": {
+            "name": "Feeder Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Slurp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Return Home"
           }
         },
@@ -38,6 +56,12 @@
           "type": "path",
           "data": {
             "pathName": "Pro Feeder to Pro 1L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4 Prime"
           }
         },
         {
@@ -56,6 +80,18 @@
           "type": "path",
           "data": {
             "pathName": "Pro 1L to Pro Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Feeder Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Slurp"
           }
         },
         {
@@ -73,19 +109,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
+            "name": "L3 Prime"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro 1L to Pro Feeder"
+            "name": "Spit"
           }
         },
         {

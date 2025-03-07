@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6637733692685588,
-        "y": 0.7409610398471602
+        "x": 1.292208904109589,
+        "y": 0.9973244863013702
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.498008355790856,
-        "y": 1.4632034074346958
+        "x": 2.126443890631886,
+        "y": 1.7195668538889057
       },
       "isLocked": false,
       "linkedName": "Pro Feeder"
     },
     {
       "anchor": {
-        "x": 3.4706998697916656,
-        "y": 3.0633557581018516
+        "x": 3.516010273972603,
+        "y": 2.9656892123287673
       },
       "prevControl": {
-        "x": 3.258011393071223,
-        "y": 2.5372081937115882
+        "x": 3.3033217972521602,
+        "y": 2.439541647938504
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,19 +45,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "L3 Prime",
-      "waypointRelativePos": 0.27463942307692324,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "L3 Prime"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 1.5,
@@ -74,7 +62,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 143.33530767666156
+    "rotation": -35.140808384730384
   },
   "useDefaultConstraints": true
 }

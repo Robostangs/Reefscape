@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4706998697916656,
-        "y": 3.0633557581018516
+        "x": 3.516010273972603,
+        "y": 2.9656892123287673
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.478606775571628,
-        "y": 2.330184281750362
+        "x": 2.5239171797525652,
+        "y": 2.232517735977278
       },
       "isLocked": false,
       "linkedName": "Pro 1L"
     },
     {
       "anchor": {
-        "x": 1.6637733692685588,
-        "y": 0.7409610398471602
+        "x": 1.292208904109589,
+        "y": 0.9973244863013702
       },
       "prevControl": {
-        "x": 2.627829899017466,
-        "y": 1.5475513441593873
+        "x": 2.256265433858496,
+        "y": 1.8039147906135973
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,19 +31,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Feeder Intake",
-      "waypointRelativePos": 0.45,
-      "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Feeder Intake"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 1.5,
@@ -54,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 143.33530767666156
+    "rotation": -35.140808384730384
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
