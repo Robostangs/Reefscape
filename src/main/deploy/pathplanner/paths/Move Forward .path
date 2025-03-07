@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.2273544520547945,
-        "y": 3.9423587328767122
+        "x": 7.167251712328767,
+        "y": 3.8972816780821917
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.732809497316319,
-        "y": 3.9387090037936816
+        "x": 6.672706757590292,
+        "y": 3.893631948999161
       },
       "isLocked": false,
       "linkedName": "Center Start"
@@ -48,7 +48,7 @@
   "folder": "Goofy Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

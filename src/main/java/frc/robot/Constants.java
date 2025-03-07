@@ -79,7 +79,7 @@ public final class Constants {
     public static final int kIntakeSensorId = 8;
 
     public static final double kExtendSetpoint = -14.07;
-    public static final double kRetractSetpoint = -3d;
+    public static final double kRetractSetpoint = -3.7;
     public static final double kHeimlichSetpoint = -11.7;
 
 
@@ -160,7 +160,7 @@ public final class Constants {
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
-    public static final double kElevatorHomeDutyCycle = 0.1;
+    public static final double kElevatorHomeDutyCycle = 0.2;
 
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
@@ -349,8 +349,8 @@ public final class Constants {
     public static final CANBus kCANBus = new CANBus("Canivore", "./logs/example.hoot");
 
     public static class AutoConstants {
-      public static final PIDConstants translationPID = new PIDConstants(100, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(10, 0, 0);
+      public static final PIDConstants translationPID = new PIDConstants(25, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(2.5, 0, 0);
 
       public static final double kSlurpTimeout = 3d;
 

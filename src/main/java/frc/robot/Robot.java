@@ -73,7 +73,6 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
   private Command autoCommand;
-  private SequentialCommandGroup autoGroup;
 
   private static GcStatsCollector gscollect = new GcStatsCollector();
   private static String lastAutoName;
@@ -182,17 +181,13 @@ public class Robot extends TimedRobotstangs {
 
     NamedCommands.registerCommand("L1 Prime", new PrintCommand("Hello!"));
     NamedCommands.registerCommand("L2 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L3 Prime", new PrintCommand("L3")
-    // ScoringFactory.L3Position().withTimeout(3)
-    );
-    NamedCommands.registerCommand("L4 Prime", new PrintCommand("L4")
-    //  ScoringFactory.L4Position().withTimeout(3)
-     );
+    NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position().withTimeout(1.5));
+    NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position().withTimeout(1.5));
     // TODO change this to spit
-    NamedCommands.registerCommand("Spit", new Spit().withTimeout(3));
+    NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
-    NamedCommands.registerCommand("Return Home", ScoringFactory.Stow().withTimeout(1));
+    NamedCommands.registerCommand("Return Home", ScoringFactory.Stow().withTimeout(1.5));
     // TODO add a delay to path
 
     LiveWindow.enableAllTelemetry();
@@ -201,8 +196,8 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void robotPeriodic() {
 
-SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name()); 
-// commands, running already-scheduled commands, removing finished or
+    SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
+    // commands, running already-scheduled commands, removing finished or
     // interrupted commands,
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
@@ -257,6 +252,11 @@ SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
 
   public void autonomousInit() {
     unpublishTrajectory();
+    
+    IntakePivot.getInstance().zeroIntake();
+    Climber.getInstance().zeroClimber();
+    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),new HomeElevator().withTimeout(1.5));
+
 
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
@@ -277,19 +277,13 @@ SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
       autoCommand = new PrintCommand("doing nothing!");
     }
 
-    IntakePivot.getInstance().zeroIntake();
-    Climber.getInstance().zeroClimber();
-    new HomeElevator().schedule();
-    new Retract().schedule();
 
-    // autoGroup.addCommands(
-    // new Retract().alongWith(new HomeElevator()),
-    // autoCommand
-    // );
+    autoGroup.addCommands(
+        autoCommand);
 
-    // autoGroup.schedule();
+    autoGroup.schedule();
 
-    autoCommand.schedule();
+    // autoCommand.schedule();
   }
 
   /** This function is called periodically during autonomous. */

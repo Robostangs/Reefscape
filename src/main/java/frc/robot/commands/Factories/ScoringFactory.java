@@ -83,17 +83,22 @@ public class ScoringFactory {
     }
 
     public static Command Stow(){
-        return new DeferredCommand(()->{
-            if (ScoreState.equals(ScoringPosition.L2)) {
-                return StowL2();
-            } else if (ScoreState.equals( ScoringPosition.L3) || ScoreState.equals( ScoringPosition.L4)) {
-                return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
-                        new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
-            } else {
-                stowAlert.set(true);
-                return new PrintCommand("Can't stow");
-            }
-        }, Set.of(Arm.getInstance(),Elevator.getInstance()));
+
+
+        return new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos).andThen(
+                            new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
+
+        // return new DeferredCommand(()->{
+        //     if (ScoreState.equals(ScoringPosition.L2)) {
+        //         return StowL2();
+        //     } else if (ScoreState.equals( ScoringPosition.L3) || ScoreState.equals( ScoringPosition.L4)) {
+        //         return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
+        //                 new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
+        //     } else {
+        //         stowAlert.set(true);
+        //         return new PrintCommand("Can't stow");
+        //     }
+        // }, Set.of(Arm.getInstance(),Elevator.getInstance()));
 
 
     }

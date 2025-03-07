@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.2273544520547945,
-        "y": 3.9423587328767122
+        "x": 7.167251712328767,
+        "y": 3.8972816780821917
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.445791849391745,
-        "y": 3.7554830505622605
+        "x": 6.385689109665718,
+        "y": 3.71040599576774
       },
       "isLocked": true,
       "linkedName": "Center Start"
@@ -74,7 +74,7 @@
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }
