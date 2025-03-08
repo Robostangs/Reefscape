@@ -28,7 +28,7 @@ public class Extend extends Command {
 
   @Override
   public void execute() {
-    aintake.runIntake(0.75);
+    aintake.runDutyCycleIntake(0.75);
     intake.runIntakeMotionMagic();
 
   }
@@ -37,7 +37,7 @@ public class Extend extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("Retracted");
-    aintake.runIntake(0);
+    aintake.runDutyCycleIntake(0);
     // intake.setIntakePiviotBrake();
     intake.stopBar();
 

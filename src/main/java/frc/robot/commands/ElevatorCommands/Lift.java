@@ -45,10 +45,8 @@ public class Lift extends Command {
 
   @Override
   public boolean isFinished() {
-    if (Robot.isSimulation()) {
-      return false;
-    } else {
+
       return elevator.isElevatorAtTarget();
     }
   }
-}
+

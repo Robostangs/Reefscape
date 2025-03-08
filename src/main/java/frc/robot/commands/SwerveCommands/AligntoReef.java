@@ -50,14 +50,6 @@ public class AligntoReef extends Command {
 
         this.setName("Align to Reef");
 
-        map = AprilTagFields.k2025ReefscapeWelded;
-
-        theMap = AprilTagFieldLayout.loadField(map);
-
-        AprilTagID = LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[0].id;
-
-        reefPose = theMap.getTagPose(AprilTagID).get();
-
         getTargetRotation = () -> {
             double deltaX = drivetrain.getPose().getX() - reefPose.getX();
             double deltaY = drivetrain.getPose().getY() - reefPose.getY();
@@ -65,6 +57,23 @@ public class AligntoReef extends Command {
             return Rotation2d.fromRadians(Math.atan2(deltaY, deltaX) + Units.degreesToRadians(90));
 
         };
+    }
+
+    public Pose3d getTargetPose() {
+        if(LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide) != null){
+            return new Pose3d();
+        }
+        else{
+        Pose3d targetPose = new Pose3d();
+        map = AprilTagFields.k2025ReefscapeWelded;
+
+        theMap = AprilTagFieldLayout.loadField(map);
+
+        AprilTagID = LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[0].id;
+
+        targetPose = theMap.getTagPose(AprilTagID).get();
+        return targetPose;
+        }
     }
 
     @Override

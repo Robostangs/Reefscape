@@ -23,7 +23,7 @@ public class RunIntake extends Command {
   @Override
   public void execute() {
 
-    intake.runIntake(0.75);
+    intake.runDutyCycleIntake(0.75);
 
 
   }
@@ -31,7 +31,7 @@ public class RunIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("Coral In");
-    intake.runIntake(0d);
+    intake.runDutyCycleIntake(0d);
 
 
   }

@@ -6,7 +6,9 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -50,7 +52,7 @@ public class Elevator extends SubsystemBase {
 
     private boolean isHome = false;
 
-    
+    private Alert notHomedAlert = new Alert("ELevator isn't homed, home to use it", AlertType.kWarning);
 
     public static Elevator getInstance() {
         if (mInstance == null)
@@ -62,7 +64,7 @@ public class Elevator extends SubsystemBase {
     public Runnable runElePID = () -> {
 
         elevatorMotorRight.setControl(new MotionMagicTorqueCurrentFOC(Constants.ElevatorConstants.kHomePosition));
-        
+
     };
 
     public Elevator() {
@@ -98,7 +100,6 @@ public class Elevator extends SubsystemBase {
 
         TalonFXConfiguration elevatorMotorRightConfigs = new TalonFXConfiguration();
 
-    
         elevatorMotorRightConfigs.Slot0.GravityType = GravityTypeValue.Elevator_Static;
 
         elevatorMotorRightConfigs.Slot0.kS = Constants.ElevatorConstants.kElevatorS;
@@ -116,7 +117,7 @@ public class Elevator extends SubsystemBase {
 
         // TODO do peak reverse output and current limits
 
-        elevatorMotorRightConfigs.MotorOutput.PeakReverseDutyCycle =  Constants.ElevatorConstants.kElevatorPeakReverseDutyCycle;
+        elevatorMotorRightConfigs.MotorOutput.PeakReverseDutyCycle = Constants.ElevatorConstants.kElevatorPeakReverseDutyCycle;
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;
 
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
@@ -141,7 +142,6 @@ public class Elevator extends SubsystemBase {
 
         elevatorMotorLeftConfigs.CurrentLimits.StatorCurrentLimit = 60;
 
-
         elevatorMotorLeft.getConfigurator().apply(elevatorMotorLeftConfigs);
 
         elevatorMotorLeft
@@ -153,12 +153,17 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPositionMeters(double TargetElevatorMeters) {
-        if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtension) {
-            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtension;
-        } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxExtension) {
-            elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxExtension;
+        if (isHome) {
+            notHomedAlert.set(false);
+            if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtension) {
+                elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtension;
+            } else if (TargetElevatorMeters > Constants.ElevatorConstants.kMaxExtension) {
+                elevatorMotionMagic.Position = Constants.ElevatorConstants.kMaxExtension;
+            } else {
+                elevatorMotionMagic.Position = TargetElevatorMeters;
+            }
         } else {
-            elevatorMotionMagic.Position = TargetElevatorMeters;
+            notHomedAlert.set(true);
         }
     }
 
@@ -170,14 +175,16 @@ public class Elevator extends SubsystemBase {
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
         elevatorMotorRight.set(elevatorDutyCycle);
 
-        elevatorMotorLeft.setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
+        elevatorMotorLeft
+                .setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
 
     }
 
     public void setHomed(boolean isHome) {
         this.isHome = isHome;
     }
-    public boolean getisHome(){
+
+    public boolean getisHome() {
         return isHome;
     }
 
@@ -253,9 +260,8 @@ public class Elevator extends SubsystemBase {
     public void setElevatorMotionMagic() {
         elevatorMotorRight.setControl(elevatorMotionMagic);
         elevatorMotorLeft
-                .setControl(new Follower(elevatorMotorRight.getDeviceID(),Constants.ElevatorConstants.kIsLeftInvert));
+                .setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
     }
-
 
     @Override
     public void periodic() {
@@ -269,10 +275,11 @@ public class Elevator extends SubsystemBase {
         updateElevatorPosition();
 
         // SmartDashboard.putNumber("Elevator-Test/Torque current",
-        //         elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
-        // SmartDashboard.putNumber("Elevator-Test/Velocity", elevatorMotorRight.getVelocity().getValueAsDouble());
-        // SmartDashboard.putNumber("Elevator-Test/Acceleration", elevatorMotorRight.getAcceleration().getValueAsDouble());
-
+        // elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
+        // SmartDashboard.putNumber("Elevator-Test/Velocity",
+        // elevatorMotorRight.getVelocity().getValueAsDouble());
+        // SmartDashboard.putNumber("Elevator-Test/Acceleration",
+        // elevatorMotorRight.getAcceleration().getValueAsDouble());
 
         SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
 
@@ -288,7 +295,7 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putBoolean("Elevator/brownout left", elevatorMotorLeft.getFault_BridgeBrownout().getValue());
 
         // SmartDashboard.putNumber("right stator current limit",
-        //         elevatorMotorRight.getStatorCurrent().getValueAsDouble());
+        // elevatorMotorRight.getStatorCurrent().getValueAsDouble());
 
     }
 }
