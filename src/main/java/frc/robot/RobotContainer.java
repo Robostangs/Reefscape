@@ -19,7 +19,9 @@ import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.commands.IntakeCommands.Heimlich;
 import frc.robot.commands.IntakeCommands.HomeIntake;
+import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
@@ -34,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.IntakePivot;
 
 public class RobotContainer {
         // max angular velocity
@@ -123,17 +126,23 @@ public class RobotContainer {
                 xTest.rightStick().whileTrue(new Spit());
                 xTest.leftStick().whileTrue(new Slurp());
 
-                xTest.a().whileTrue(new HomeElevator());
+                // xTest.a().whileTrue(new HomeElevator());
+
+                xTest.a().onTrue(IntakePivot.getInstance().runOnce(IntakePivot.getInstance().zeroIntakeRun));
+
 
                 xTest.x().toggleOnTrue(new Retract());
                 xTest.y().toggleOnTrue(new Extend());
-                xTest.b().toggleOnTrue(new RunIntake());
+                //xTest.b().toggleOnTrue(new RunIntake());
+                xTest.b().toggleOnTrue(new Heimlich());
 
                 // xTest.a().whileTrue(Arm.getInstance().run(Arm.getInstance().gotoSchloop));
 
                 xTest.povUp().whileTrue(new HomeIntake());
-                new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
-                                .whileTrue(new RunArm(() -> xTest.getLeftY()));
+                new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.02)
+                                .whileTrue(new ManualIntake(() -> xTest.getLeftY()*0.25));
+                // new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
+                // .whileTrue(new RunArm(() -> xTest.getLeftY()));
 
                 new Trigger(() -> Math.abs(xTest.getRightY()) > 0.02)
                                 .whileTrue(new RunElevator(() -> -xTest.getRightY()));
@@ -143,10 +152,10 @@ public class RobotContainer {
         private void configureDriverBindings() {
 
                 new Trigger(() -> DriverStation.getMatchTime() > 30).and(() -> DriverStation.getMatchTime() < 15)
-                .onTrue(
-                        new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0.5)))
-                .onFalse(
-                        new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
+                                .onTrue(
+                                                new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0.5)))
+                                .onFalse(
+                                                new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
 
@@ -173,9 +182,9 @@ public class RobotContainer {
 
                 new Trigger(() -> DriverStation.getMatchTime() > 30).and(() -> DriverStation.getMatchTime() < 15)
                                 .onTrue(
-                                        new RunCommand(() -> xManip.setRumble(RumbleType.kBothRumble, 0.5)))
+                                                new RunCommand(() -> xManip.setRumble(RumbleType.kBothRumble, 0.5)))
                                 .onFalse(
-                                        new RunCommand(() -> xManip.setRumble(RumbleType.kBothRumble, 0)));
+                                                new RunCommand(() -> xManip.setRumble(RumbleType.kBothRumble, 0)));
 
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
                                 .whileTrue(new RunArm(() -> xManip.getLeftY() / 2));
@@ -184,9 +193,8 @@ public class RobotContainer {
 
                 xManip.a().toggleOnTrue(ScoringFactory.L4Position().finallyDo(ScoringFactory.returnStow()));
                 xManip.b().toggleOnTrue(ScoringFactory.L3Position().finallyDo(ScoringFactory.returnStow()));
-                
+
                 xManip.y().toggleOnTrue(ScoringFactory.L2Position().finallyDo(ScoringFactory.returnStowL2()));
-                
 
                 xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
 

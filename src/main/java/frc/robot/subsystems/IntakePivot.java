@@ -3,10 +3,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicExpoTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -14,7 +16,7 @@ import frc.robot.Constants;
 public class IntakePivot extends SubsystemBase {
     private TalonFX pivotMotor;
     private static IntakePivot mInstance;
-    MotionMagicExpoTorqueCurrentFOC pivotControl;
+    MotionMagicTorqueCurrentFOC pivotControl;
 
 
     public static IntakePivot getInstance() {
@@ -27,21 +29,28 @@ public class IntakePivot extends SubsystemBase {
 
         pivotMotor = new TalonFX(Constants.IntakeConstants.kPivotMotorId);
 
-        var slotpivotconfigs = new Slot0Configs();
-        slotpivotconfigs.kP = Constants.IntakeConstants.kPivotP;
-        slotpivotconfigs.kI = Constants.IntakeConstants.kPivotI;
-        slotpivotconfigs.kD = Constants.IntakeConstants.kPivotD;
-        slotpivotconfigs.kG = Constants.IntakeConstants.kPivotG;
 
-        slotpivotconfigs.GravityType = GravityTypeValue.Arm_Cosine;
-        
         TalonFXConfiguration pivotMotorConfigs = new TalonFXConfiguration();
+
         pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.kStatorCurrentLimit;
 
-        pivotMotor.getConfigurator().apply(pivotMotorConfigs);
-        pivotMotor.getConfigurator().apply(slotpivotconfigs);
+        pivotMotorConfigs.Feedback.SensorToMechanismRatio =  Constants.IntakeConstants.kSensorToMechanismRatio;
 
-        pivotControl = new MotionMagicExpoTorqueCurrentFOC(pivotMotor.getPosition().getValueAsDouble());
+        pivotMotorConfigs.Slot0.kP = Constants.IntakeConstants.kPivotP;
+        pivotMotorConfigs.Slot0.kI = Constants.IntakeConstants.kPivotI;
+        pivotMotorConfigs.Slot0.kD = Constants.IntakeConstants.kPivotD;
+        pivotMotorConfigs.Slot0.kG = Constants.IntakeConstants.kPivotG;
+        pivotMotorConfigs.Slot0.kS = Constants.IntakeConstants.kPivotS;
+        pivotMotorConfigs.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+
+        pivotMotorConfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.IntakeConstants.kMotionMagicVelocity;
+        pivotMotorConfigs.MotionMagic.MotionMagicAcceleration = Constants.IntakeConstants.kMotionMagicAcceleration;
+
+
+        
+        pivotMotor.getConfigurator().apply(pivotMotorConfigs);
+
+        pivotControl = new MotionMagicTorqueCurrentFOC(pivotMotor.getPosition().getValueAsDouble());
 
     }
 
@@ -50,11 +59,12 @@ public class IntakePivot extends SubsystemBase {
     }
 
     public Runnable zeroIntakeRun = () -> {
-        pivotMotor.setPosition(0);
+        point3Intake();
     };
 
-    public void zeroIntake() {
-        pivotMotor.setPosition(0d);
+    
+    public void point3Intake() {
+        pivotMotor.setPosition(Constants.IntakeConstants.kHardstopPosition);
     }
 
     public void setExtendPosition() {
@@ -75,10 +85,6 @@ public class IntakePivot extends SubsystemBase {
     public void postStatus(String status) {
         SmartDashboard.putString("Intake/status", status);
 
-    }
-
-    public void setPivotZero() {
-        pivotMotor.setPosition(0);
     }
 
     public void stopIntake() {

@@ -54,7 +54,7 @@ public final class Constants {
 
     // Deploy Constants
     public static final double kMaxExtension = 125;
-       public static final double kExtensionDutyCycle = 0.9;
+    public static final double kExtensionDutyCycle = 0.9;
 
     // Reel Constants
     public static final double kReelDutyCycle = -0.9;
@@ -78,15 +78,15 @@ public final class Constants {
     public static final int kPivotMotorId = 15;
     public static final int kIntakeSensorId = 8;
 
-    public static final double kExtendSetpoint = -14.07;
-    public static final double kRetractSetpoint = -3.7;
-    public static final double kHeimlichSetpoint = -11.7;
+    public static final double kExtendSetpoint = -0.085;
+    public static final double kRetractSetpoint = 0.246;
+    public static final double kHeimlichSetpoint = 0.013;
 
-
-    public static final double kPivotP = 100;
-    public static final double kPivotI = 3;
-    public static final double kPivotD = 4;
-    public static final double kPivotG = 0;
+    public static final double kPivotP = 1000;
+    public static final double kPivotI = 10;
+    public static final double kPivotD = 100;
+    public static final double kPivotG = 15;
+    public static final double kPivotS = 9;
 
     public static final double kStatorCurrentLimit = 80d;
     public static final double kHomeStatorCurrentLimit = 40d;
@@ -94,6 +94,10 @@ public final class Constants {
 
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
+    public static final double kSensorToMechanismRatio = 42;
+    public static final double kMotionMagicVelocity = 2;
+    public static final double kMotionMagicAcceleration = 5;
+    public static final double kHardstopPosition = 0.315;
   }
 
   public static class EndeffectorConstants {
@@ -156,7 +160,6 @@ public final class Constants {
     public static final double kMaxExtension = 1.6;// cm
     public static final double kMinExtension = .3;// cm
 
-
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
@@ -165,8 +168,8 @@ public final class Constants {
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
 
-    public static final double kRotationsToMeters = (1/0.0313)/(.57/.536);//*Detroit Reference */;
-    
+    public static final double kRotationsToMeters = (1 / 0.0313) / (.57 / .536);// *Detroit Reference */;
+
     public static final double kElevatorWeight = 24d;
     public static final double kElevatorHeight = 1d;
     public static final double kElevatorWidth = 1d;
@@ -198,7 +201,6 @@ public final class Constants {
   }
 
   public static class ScoringConstants {
-
 
     // Align Poses
     public static final Pose2d k17BlueLReefPose = new Pose2d(4, 3.7, new Rotation2d(0));
@@ -237,20 +239,18 @@ public final class Constants {
     public static final Pose2d kCageMiddle = new Pose2d(8.76, 6.150, new Rotation2d(0d));
     public static final Pose2d kCageBottom = new Pose2d(8.79, 5.06, new Rotation2d(0d));
 
+    public static final double spitTimeout = 2d;
 
-    public static final double spitTimeout  = 2d;
-
-    
     public static class L1 {
       public static final double kArmScoringPosition = .37;
       public static final double kElevatorStart = 0.5;
-    public static final double kArmSafePosition = 0;
-    public static final double kElevatorEnd = 0;
+      public static final double kArmSafePosition = 0;
+      public static final double kElevatorEnd = 0;
     }
 
     public static class L2 {
-      //Homepos
-      public static final double kElevatorStart =0.87;
+      // Homepos
+      public static final double kElevatorStart = 0.87;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd = 0.541;
       public static final double kArmSafePosition = 0;
@@ -269,23 +269,20 @@ public final class Constants {
 
     }
 
-    public static class Stow{
+    public static class Stow {
       public static final double kElevatorPos = 0.81;
       public static final double kArmStowPos = -0.252;
     }
 
-    public static class Schloop{
+    public static class Schloop {
       public static final double kElevatorPos = 0.645;
       public static final double kArmSchloPos = -0.252;
 
     }
-    
-
 
     public static class Source {
       public static final double kElevatorPos = 1.32;
       public static final double kArmSourcePosition = -0.145;
-
 
     }
   }
@@ -522,7 +519,6 @@ public final class Constants {
        * Creates a CommandSwerveDrivetrain instance.
        * This should only be called once in your robot program,.
        */
-
 
       /**
        * Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected

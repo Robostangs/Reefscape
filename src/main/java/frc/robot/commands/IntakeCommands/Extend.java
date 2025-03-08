@@ -20,7 +20,6 @@ public class Extend extends Command {
   public void initialize() {
 
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
-    intake.setPivotZero();
 
     intake.setExtendPosition();
 

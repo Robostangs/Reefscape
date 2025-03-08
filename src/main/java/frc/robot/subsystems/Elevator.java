@@ -153,7 +153,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPositionMeters(double TargetElevatorMeters) {
-        if (isHome) {
+        // if (isHome) {
             notHomedAlert.set(false);
             if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtension) {
                 elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtension;
@@ -162,9 +162,9 @@ public class Elevator extends SubsystemBase {
             } else {
                 elevatorMotionMagic.Position = TargetElevatorMeters;
             }
-        } else {
-            notHomedAlert.set(true);
-        }
+        // } else {
+        //     notHomedAlert.set(true);
+        // }
     }
 
     public Runnable zeroElevator = () -> {

@@ -260,7 +260,7 @@ public class Robot extends TimedRobotstangs {
   public void autonomousInit() {
     unpublishTrajectory();
     
-    IntakePivot.getInstance().zeroIntake();
+    IntakePivot.getInstance().point3Intake();
     Climber.getInstance().zeroClimber();
     SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),new HomeElevator().withTimeout(1.5));
 

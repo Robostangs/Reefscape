@@ -1,33 +1,35 @@
 package frc.robot.commands.IntakeCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakePivot;
 
-public class HomeIntake extends Command{
-
+public class ManualIntake extends Command {
+    
     IntakePivot intake;
-    public HomeIntake() {
+    DoubleSupplier dutycycleIntake;
+    public ManualIntake(DoubleSupplier dutycycleIntake) {
         intake = IntakePivot.getInstance();
-
+        this.dutycycleIntake = dutycycleIntake;
         addRequirements(intake);
     }
 
     @Override
     public void initialize() {
-        intake.postStatus("intake homing");
+        intake.postStatus("intake manny movieeee");
     }
 
     @Override
     public void execute() {
-        intake.setPiviotDutyCycle(Constants.IntakeConstants.kIntakeHomeDutyCycle);
+        intake.setPiviotDutyCycle(dutycycleIntake.getAsDouble());
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.setPiviotDutyCycle(0);
-        intake.point3Intake();
-        intake.postStatus("intake homed");
+        intake.postStatus("intake not movieeee");
 
 
         
