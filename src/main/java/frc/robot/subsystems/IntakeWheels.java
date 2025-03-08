@@ -24,7 +24,7 @@ public class IntakeWheels extends SubsystemBase {
 
     }
 
-    public void runIntake(double IntakeDutyCycle) {
+    public void runDutyCycleIntake(double IntakeDutyCycle) {
         intakeMotor.set(IntakeDutyCycle);
     }
 

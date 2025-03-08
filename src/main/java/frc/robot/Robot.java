@@ -43,9 +43,12 @@ import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.SwerveCommands.PathToPoint;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.IntakePivot;
+import frc.robot.subsystems.IntakeWheels;
 
 public class Robot extends TimedRobotstangs {
 
@@ -232,6 +235,7 @@ public class Robot extends TimedRobotstangs {
     // TODO ake the motors nuetral or something so they dont go back to their
     // setpoints
 
+    setAllMotorsSafe();
   }
 
   @Override
@@ -438,6 +442,14 @@ public class Robot extends TimedRobotstangs {
     for (TalonFX falcon : falcons) {
       verifyMotor(falcon);
     }
+  }
+
+  public void setAllMotorsSafe(){
+    Arm.getInstance().setArmDutyCycle(0);
+    Elevator.getInstance().setElevatorDutyCycle(0);
+    IntakePivot.getInstance().setPiviotDutyCycle(0);
+    IntakeWheels.getInstance().runDutyCycleIntake(0);
+
   }
 
   /**

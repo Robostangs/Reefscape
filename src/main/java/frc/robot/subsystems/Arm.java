@@ -141,6 +141,7 @@ public class Arm extends SubsystemBase {
         }
     }
 
+
     public void setArmMotionMagic() {
         // if (IntakePivot.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
         //         || Robot.isSimulation()) {
