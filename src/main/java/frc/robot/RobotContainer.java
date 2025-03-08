@@ -24,7 +24,11 @@ import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoCage;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Arm;
@@ -138,6 +142,12 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
+                new Trigger(() -> DriverStation.getMatchTime() > 30).and(() -> DriverStation.getMatchTime() < 15)
+                .onTrue(
+                        new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0.5)))
+                .onFalse(
+                        new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
+
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
 
                 xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
@@ -149,12 +159,10 @@ public class RobotContainer {
 
                 xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
-
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
 
-                                                
                 // reset the field-centric heading on left bumper press
                 xDrive.rightBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
@@ -163,10 +171,16 @@ public class RobotContainer {
 
         private void configureManipBindings() {
 
+                new Trigger(() -> DriverStation.getMatchTime() > 30).and(() -> DriverStation.getMatchTime() < 15)
+                                .onTrue(
+                                        new RunCommand(() -> xManip.setRumble(RumbleType.kBothRumble, 0.5)))
+                                .onFalse(
+                                        new RunCommand(() -> xManip.setRumble(RumbleType.kBothRumble, 0)));
+
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
-                                .whileTrue(new RunArm(() -> xManip.getLeftY()/2));
+                                .whileTrue(new RunArm(() -> xManip.getLeftY() / 2));
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
-                                .whileTrue(new RunElevator(() -> -xManip.getRightY()/2));
+                                .whileTrue(new RunElevator(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(ScoringFactory.L4Position().finallyDo(ScoringFactory.returnStow()));
                 xManip.b().toggleOnTrue(ScoringFactory.L3Position().finallyDo(ScoringFactory.returnStow()));
@@ -187,7 +201,8 @@ public class RobotContainer {
                 // xManip.rightStick().and(xManip.leftTrigger(0.1)).whileTrue(new Deploy(true));
                 // xManip.leftStick().and(xManip.leftTrigger(0.1)).whileTrue(new Reel(true));
 
-                // xManip.rightStick().and(xManip.rightTrigger(0.1)).whileTrue(new Deploy(false));
+                // xManip.rightStick().and(xManip.rightTrigger(0.1)).whileTrue(new
+                // Deploy(false));
                 // xManip.leftStick().and(xManip.rightTrigger(0.1)).whileTrue(new Reel(false));
 
         }
@@ -202,17 +217,11 @@ public class RobotContainer {
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
 
-                new Trigger(() -> xSim.getRawButton(2)).toggleOnTrue(
-                                ScoringFactory.Stow());
+                new Trigger(() -> xSim.getRawButton(2)).onTrue(
+                                ScoringFactory.StowL2());
 
                 new Trigger(() -> xSim.getRawButton(3))
-                                .toggleOnTrue(new AligntoCage(() -> xSim.getRawAxis(0)
-                                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                .in(MetersPerSecond),
-                                                () -> xSim.getRawAxis(1)
-                                                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                                .in(MetersPerSecond),
-                                                1));
+                                .onTrue(ScoringFactory.L2Position());
 
         }
 

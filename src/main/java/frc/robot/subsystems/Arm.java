@@ -5,6 +5,8 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -116,7 +118,7 @@ public class Arm extends SubsystemBase {
 
         if (Robot.isSimulation()) {
             armEncoder.getSimState().setRawPosition(armControl.Position);
-            targetArm.setAngle(armControl.Position);
+            targetArm.setAngle(Units.rotationsToDegrees( armControl.Position));
         } else {
             arm.setAngle(armEncoder.getPosition().getValueAsDouble());
 
