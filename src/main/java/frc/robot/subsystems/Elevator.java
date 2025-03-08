@@ -82,7 +82,7 @@ public class Elevator extends SubsystemBase {
                 0d);
 
         targetElevator_mechanism = new Mechanism2d(5, 5);
-        targetElevatorBaseRoot = targetElevator_mechanism.getRoot("Target Elevator Root", 2.5, 0);
+        targetElevatorBaseRoot = targetElevator_mechanism.getRoot("Target Elevator Root", 2, 0);
         m_targetElevatorMech2d = targetElevatorBaseRoot.append(
                 new MechanismLigament2d("Elevator",
                         simElevatorTarget.getPositionMeters(), 90, 6, new Color8Bit(Color.kBlue)));
@@ -92,8 +92,8 @@ public class Elevator extends SubsystemBase {
                 Constants.ElevatorConstants.kMinExtension, Constants.ElevatorConstants.kMaxExtension, false,
                 0d);
 
-        profileElevator_mechanism = new Mechanism2d(20, 5);
-        profileElevatorBaseRoot = profileElevator_mechanism.getRoot("Profile Elevator Root", 2.5, 0);
+        profileElevator_mechanism = new Mechanism2d(20, 3);
+        profileElevatorBaseRoot = profileElevator_mechanism.getRoot("Profile Elevator Root", 2, 0);
         m_profileElevatorMech2d = profileElevatorBaseRoot.append(
                 new MechanismLigament2d("Elevator",
                         simElevatorProfile.getPositionMeters(), 90, 6, new Color8Bit(Color.kOrange)));
