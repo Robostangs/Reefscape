@@ -254,12 +254,16 @@ public final class Constants {
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd = 0.541;
       public static final double kArmSafePosition = 0;
+    public static final double kELevatorAlgepos = 0;
+    public static final double kArmAlgePos = 0;
 
     }
 
     public static class L3 {
       public static final double kElevatorPos = .947;
       public static final double kArmScoringPosition = .379;
+    public static final double kELevatorAlgepos = 0;
+    public static final double kArmAlgePos = 0;
 
     }
 

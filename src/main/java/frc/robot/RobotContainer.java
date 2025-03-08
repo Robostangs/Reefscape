@@ -13,6 +13,7 @@ import com.pathplanner.lib.util.FlippingUtil;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
@@ -25,15 +26,12 @@ import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
-import frc.robot.commands.SwerveCommands.AligntoCage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakePivot;
@@ -136,7 +134,6 @@ public class RobotContainer {
                 //xTest.b().toggleOnTrue(new RunIntake());
                 xTest.b().toggleOnTrue(new Heimlich());
 
-                // xTest.a().whileTrue(Arm.getInstance().run(Arm.getInstance().gotoSchloop));
 
                 xTest.povUp().whileTrue(new HomeIntake());
                 new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.02)
@@ -193,9 +190,7 @@ public class RobotContainer {
 
                 xManip.a().toggleOnTrue(ScoringFactory.L4Position().finallyDo(ScoringFactory.returnStow()));
                 xManip.b().toggleOnTrue(ScoringFactory.L3Position().finallyDo(ScoringFactory.returnStow()));
-
-                xManip.y().toggleOnTrue(ScoringFactory.L2Position().finallyDo(ScoringFactory.returnStowL2()));
-
+                xManip.y().toggleOnTrue(ScoringFactory.L2Position().finallyDo(ScoringFactory.returnStow()));
                 xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
 
                 xManip.povDown().toggleOnTrue(new Slurp());
@@ -205,13 +200,6 @@ public class RobotContainer {
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
-
-                // xManip.rightStick().and(xManip.leftTrigger(0.1)).whileTrue(new Deploy(true));
-                // xManip.leftStick().and(xManip.leftTrigger(0.1)).whileTrue(new Reel(true));
-
-                // xManip.rightStick().and(xManip.rightTrigger(0.1)).whileTrue(new
-                // Deploy(false));
-                // xManip.leftStick().and(xManip.rightTrigger(0.1)).whileTrue(new Reel(false));
 
         }
 
@@ -226,10 +214,12 @@ public class RobotContainer {
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2)).onTrue(
-                                ScoringFactory.StowL2());
+                                ScoringFactory.L4Position()
+                                );
+                                
 
                 new Trigger(() -> xSim.getRawButton(3))
-                                .onTrue(ScoringFactory.L2Position());
+                                .onTrue(new Lift(Constants.ScoringConstants.L4.kElevatorPos));
 
         }
 
