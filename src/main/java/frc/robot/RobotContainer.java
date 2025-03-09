@@ -12,6 +12,8 @@ import com.pathplanner.lib.util.FlippingUtil;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.RunArm;
+import frc.robot.commands.ClimberCommands.Deploy;
+import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
@@ -199,6 +201,9 @@ public class RobotContainer {
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
                 xManip.povUp().toggleOnTrue(ScoringFactory.StowL2());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
+
+                xManip.rightStick().whileTrue(new Deploy(false));
+                xManip.leftStick().whileTrue(new Reel(false));
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());

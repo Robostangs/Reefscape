@@ -156,9 +156,13 @@ public class Arm extends SubsystemBase {
     public void periodic() {
 
         setArmPosition();
+        SmartDashboard.putNumber("Arm/acceleration", armMotor.getAcceleration().getValueAsDouble());
         SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
         SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
+
+
+        armControl.FeedForward = -40*(CommandSwerveDrivetrain.getInstance().getPigeon2().getAccelerationY().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());

@@ -102,17 +102,14 @@ public class ScoringFactory {
                 return StowL2().finallyDo(() -> {
                     ScoreState = ScoringPosition.Stow;
                 });
-            } else if (ScoreState.equals(ScoringPosition.L3) || ScoreState.equals(ScoringPosition.L4)|| ScoreState.equals(ScoringPosition.Algeeeee)) {
+            } else {
                 return new MoveArm(Constants.ArmConstants.kArmRestSetpoint).andThen(
                         new Lift(Constants.ScoringConstants.Stow.kElevatorPos)
                                 .finallyDo(() -> {
                                     ScoreState = ScoringPosition.Stow;
                                 }));
             } 
-            else {
-                stowAlert.set(true);
-                return new PrintCommand("Can't stow");
-            }
+           
         }, Set.of(Arm.getInstance(), Elevator.getInstance()));
 
     }

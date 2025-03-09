@@ -253,6 +253,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         super.setOperatorPerspectiveForward(
                 Rotation2d.fromDegrees((Robot.isRed() ? 180 : 0)));
 
+                SmartDashboard.putNumber("Robot Y Acceleration",this.getPigeon2().getAccelerationY().getValueAsDouble() );
         /*
          * Periodically try to apply the operator perspective.
          * If we haven't applied the operator perspective before, then we should apply
