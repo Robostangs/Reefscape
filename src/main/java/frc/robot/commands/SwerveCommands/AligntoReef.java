@@ -4,11 +4,13 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,8 +18,6 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import static edu.wpi.first.units.Units.*;
-
 import frc.robot.commands.SwerveCommands.AligntoReef;
 
 public class AligntoReef extends Command {
@@ -30,78 +30,97 @@ public class AligntoReef extends Command {
     Supplier<Rotation2d> getTargetRotation;
     int AprilTagID;
     boolean Right;
-    Pose3d reefPose;
+    Pose2d targetPose;
     AprilTagFields map;
     AprilTagFieldLayout theMap;
 
     public AligntoReef(boolean Right) {
-        this(() -> 0d, () -> 0d, Right);
-    }
-
-    public AligntoReef(Supplier<Double> translateX, Supplier<Double> translateY, boolean Right) {
 
         drivetrain = CommandSwerveDrivetrain.getInstance();
 
+        this.Right = Right;
+
         this.addRequirements(drivetrain);
 
-        this.translateX = translateX;
-        this.translateY = translateY;
-        this.Right = Right;
+        getTargetRotation = () -> {
+
+            return getTargetPose().getRotation();
+        };
 
         this.setName("Align to Reef");
 
-        getTargetRotation = () -> {
-            double deltaX = drivetrain.getPose().getX() - reefPose.getX();
-            double deltaY = drivetrain.getPose().getY() - reefPose.getY();
-
-            return Rotation2d.fromRadians(Math.atan2(deltaY, deltaX) + Units.degreesToRadians(90));
-
-        };
     }
 
-    public Pose3d getTargetPose() {
-        if(LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide) != null){
-            return new Pose3d();
+    public Pose2d getTargetPose() {
+        if (LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide).length != 0 ||
+                LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide) == null) {
+            return null;
+        } else {
+
+            Pose2d targetPose = getReefPose();
+            if (Right) {
+                targetPose = targetPose.transformBy(
+                        new Transform2d(new Translation2d(Units.inchesToMeters(7 - 10), 0),
+                                Rotation2d.fromDegrees(270)));
+            } else {
+                targetPose = targetPose.transformBy(
+                        new Transform2d(new Translation2d(Units.inchesToMeters(-7 - 10), 0),
+                                Rotation2d.fromDegrees(270)));
+
+            }
+            return targetPose;
         }
-        else{
-        Pose3d targetPose = new Pose3d();
-        map = AprilTagFields.k2025ReefscapeWelded;
 
-        theMap = AprilTagFieldLayout.loadField(map);
+    }
 
-        AprilTagID = LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[0].id;
+    public Pose2d getReefPose() {
 
-        targetPose = theMap.getTagPose(AprilTagID).get();
-        return targetPose;
+        if (!Robot.isSimulation()) {
+            map = AprilTagFields.k2025ReefscapeWelded;
+
+            theMap = AprilTagFieldLayout.loadField(map);
+
+            AprilTagID = LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[0].id;
+
+            return theMap.getTagPose(AprilTagID).get().toPose2d();
+        } else {
+            map = AprilTagFields.k2025ReefscapeWelded;
+
+            theMap = AprilTagFieldLayout.loadField(map);
+
+            AprilTagID = 17;
+
+            return theMap.getTagPose(AprilTagID).get().toPose2d();
         }
     }
 
+    // target pose is rotate and translate in tag space
     @Override
     public void initialize() {
+
         driveRequest = new SwerveRequest.FieldCentricFacingAngle();
         driveRequest.HeadingController = new PhoenixPIDController(6, 0, 1);
 
-        // this is for tuning and now we can tune the PID controller
-        SmartDashboard.putData("Align to Reef PID", driveRequest.HeadingController);
         drivetrain.postStatus("Aligning to Reef");
 
-        driveRequest.Deadband = Constants.OperatorConstants.kDriverDeadband;
-        driveRequest.RotationalDeadband = Constants.OperatorConstants.rotationalDeadband;
     }
 
     @Override
     public void execute() {
 
+        targetPose = getTargetPose();
+
         driveRequest.TargetDirection = getTargetRotation.get();
 
-        driveRequest
-                .withVelocityX(translateX.get()
-                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
-                .withVelocityY(translateY.get()
-                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
         drivetrain.setControl(driveRequest);
+
+
+        new PathToPoint(getTargetPose()).schedule();
+
+
         Robot.teleopField.getObject("Reef Align Pose")
-                .setPose(new Pose2d(reefPose.getX(), reefPose.getY(), reefPose.getRotation().toRotation2d()));
+                .setPose(new Pose2d(targetPose.getX(), targetPose.getY(), targetPose.getRotation()));
+
         SmartDashboard.putNumber("Drivetrain/April Tag ID", AprilTagID);
     }
 
@@ -112,13 +131,9 @@ public class AligntoReef extends Command {
 
     @Override
     public boolean isFinished() {
-        if (Robot.isSimulation()) {
-            return false;
-        }
 
-        else {
-            return false;
-        }
+        return (Math.abs(drivetrain.getPose().getY() - targetPose.getY()) < 0.1)
+                && (Math.abs(drivetrain.getPose().getY() - targetPose.getY()) < 0.1);
 
     }
 }

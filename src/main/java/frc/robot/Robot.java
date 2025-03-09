@@ -100,6 +100,7 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 1);
 
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
@@ -258,6 +259,8 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void autonomousInit() {
+
+    
     unpublishTrajectory();
     
     IntakePivot.getInstance().point3Intake();
@@ -296,6 +299,7 @@ public class Robot extends TimedRobotstangs {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   @Override

@@ -26,6 +26,8 @@ import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
+import frc.robot.commands.SwerveCommands.AligntoReef;
+import frc.robot.commands.SwerveCommands.PathToPoint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -214,12 +216,12 @@ public class RobotContainer {
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2)).onTrue(
-                                ScoringFactory.L4Position()
+                                new AligntoReef(false)
                                 );
                                 
 
                 new Trigger(() -> xSim.getRawButton(3))
-                                .onTrue(new Lift(Constants.ScoringConstants.L4.kElevatorPos));
+                                .onTrue(new PathToPoint(Constants.ScoringConstants.kResetPose));
 
         }
 

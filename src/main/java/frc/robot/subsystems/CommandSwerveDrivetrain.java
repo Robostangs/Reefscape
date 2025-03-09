@@ -289,6 +289,23 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 this.getPigeon2().getAngularVelocityZWorld()
                         .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold) {
 
+            
+            /*
+             * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
+             * localization. The internal IMU is ignored entirely.
+             * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
+             * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
+             * 2 - Use internal IMU for MT2 localization. External imu data is ignored entirely
+             */
+
+            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
+                    LimelightHelpers.getIMUData(Constants.VisionConstants.kLimelightScoreSide).Yaw,
+                    0d,
+                    0d,
+                    0d,
+                    0d,
+                    0d);
+
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
                     this.getState().Pose.getRotation().getDegrees(),
                     0d,
@@ -296,25 +313,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     0d,
                     0d,
                     0d);
-            // TODO see if this is better than getting the odo pose rotation
-
-            /*
-             * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
-             * localization. The internal IMU is ignored entirely.
-             * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
-             * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
-             * 2 - Use internal IMU for MT2 localization. External imu data is ignored
-             * entirely
-             */
-            LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
-
-            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightScoreSide,
-                    this.getState().Pose.getRotation().getDegrees(),
-                    0d,
-                    0d,
-                    0d,
-                    0d,
-                    0d);
+            // TODO Tune angular velocity threshold and TA
 
             LimelightHelpers.PoseEstimate fourPose, threePose;
             if (DriverStation.isDisabled()) {
@@ -328,9 +327,9 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(0);
                 fourPose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightOtherName);
             }
 
             if ((LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0)
@@ -345,6 +344,8 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
             }
         }
+
+        SmartDashboard.putNumber("Angular Veloctiy ", this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble());
     }
 
     private void startSimThread() {

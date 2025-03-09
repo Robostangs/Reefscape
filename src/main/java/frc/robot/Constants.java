@@ -194,6 +194,7 @@ public final class Constants {
     public static final String kLimelightOtherName = "limelight-right";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
+    public static final double kMegaTagTwoThreshold = 22.5;
     public static final double kTAThresholdFour = 3d;
     public static final double kTAThresholdThree = 3d;
     public static final double kTxThresholdCoral = 5;
@@ -359,6 +360,13 @@ public final class Constants {
         public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.degreesToRadians(180)));
         public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(180)));
         public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.degreesToRadians(180)));
+
+      }
+
+      public static class AlignConstants{
+
+        public static final double feedforwardX = 5;
+        public static final double feedforwardY = 5;
 
       }
 
