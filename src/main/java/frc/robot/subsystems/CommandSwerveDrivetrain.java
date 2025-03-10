@@ -253,7 +253,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         super.setOperatorPerspectiveForward(
                 Rotation2d.fromDegrees((Robot.isRed() ? 180 : 0)));
 
-                SmartDashboard.putNumber("Robot Y Acceleration",this.getPigeon2().getAccelerationY().getValueAsDouble() );
+        SmartDashboard.putNumber("Robot Y Acceleration", this.getPigeon2().getAccelerationY().getValueAsDouble());
         /*
          * Periodically try to apply the operator perspective.
          * If we haven't applied the operator perspective before, then we should apply
@@ -290,17 +290,17 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 this.getPigeon2().getAngularVelocityZWorld()
                         .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold) {
 
-            
             /*
              * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
              * localization. The internal IMU is ignored entirely.
              * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
              * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
-             * 2 - Use internal IMU for MT2 localization. External imu data is ignored entirely
+             * 2 - Use internal IMU for MT2 localization. External imu data is ignored
+             * entirely
              */
 
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
-                    LimelightHelpers.getIMUData(Constants.VisionConstants.kLimelightScoreSide).Yaw,
+                    this.getPigeon2().getRotation2d().getDegrees(),
                     0d,
                     0d,
                     0d,
@@ -308,7 +308,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     0d);
 
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
-                    this.getState().Pose.getRotation().getDegrees(),
+                    this.getPigeon2().getRotation2d().getDegrees(),
                     0d,
                     0d,
                     0d,
@@ -328,7 +328,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(0);
                 fourPose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
+                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers
                         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightOtherName);
             }

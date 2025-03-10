@@ -54,10 +54,10 @@ public final class Constants {
 
     // Deploy Constants
     public static final double kMaxExtension = 125;
-    public static final double kExtensionDutyCycle = 0.9;
+    public static final double kExtensionDutyCycle = 0.5;
 
     // Reel Constants
-    public static final double kReelDutyCycle = -0.9;
+    public static final double kReelDutyCycle = -0.5;
     public static final double kReelSafe = 5;
 
   }
@@ -255,16 +255,16 @@ public final class Constants {
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd = 0.541;
       public static final double kArmSafePosition = 0;
-    public static final double kELevatorAlgepos = 0;
-    public static final double kArmAlgePos = 0;
+      public static final double kELevatorAlgepos = 0;
+      public static final double kArmAlgePos = 0;
 
     }
 
     public static class L3 {
       public static final double kElevatorPos = .947;
       public static final double kArmScoringPosition = .379;
-    public static final double kELevatorAlgepos = 0;
-    public static final double kArmAlgePos = 0;
+      public static final double kELevatorAlgepos = 0;
+      public static final double kArmAlgePos = 0;
 
     }
 
@@ -344,7 +344,11 @@ public final class Constants {
                 .withStatorCurrentLimitEnable(true));
     private static final CANcoderConfiguration encoderInitialConfigs = new CANcoderConfiguration();
     // Configs for the Pigeon 2; leave this null to skip applying Pigeon 2 configs
-    private static final Pigeon2Configuration pigeonConfigs = null;
+    static final Pigeon2Configuration pigeonConfigs = null;
+    // new Pigeon2Configuration()
+    //     .withMountPose(new MountPoseConfigs().withMountPosePitch(0.57)
+    //         .withMountPoseYaw(-91.79)
+    //         .withMountPoseRoll(0.7));
 
     // CAN bus that the devices are located on;
     // All swerve devices must share the same CAN bus
@@ -352,7 +356,8 @@ public final class Constants {
 
     public static class AutoConstants {
       public static final PIDConstants translationPID = new PIDConstants(25, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(2.5, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(0.5, 0, 0
+      );
 
       public static final double kSlurpTimeout = 3d;
 
@@ -363,7 +368,7 @@ public final class Constants {
 
       }
 
-      public static class AlignConstants{
+      public static class AlignConstants {
 
         public static final double feedforwardX = 5;
         public static final double feedforwardY = 5;
