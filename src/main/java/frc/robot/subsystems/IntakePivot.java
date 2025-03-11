@@ -12,6 +12,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class IntakePivot extends SubsystemBase {
     private TalonFX pivotMotor;
@@ -119,6 +120,8 @@ public class IntakePivot extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        Robot.verifyMotor(pivotMotor);
         pivotMotor.setControl(pivotControl);
 
         SmartDashboard.putNumber("Intake/Setpoint", pivotControl.Position);

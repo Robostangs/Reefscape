@@ -155,6 +155,8 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
 
+        Robot.verifyMotor(armMotor);
+        Robot.verifyCANcoder(armEncoder);
         setArmPosition();
         SmartDashboard.putNumber("Arm/acceleration", armMotor.getAcceleration().getValueAsDouble());
         SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
