@@ -266,6 +266,9 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
 
+        Robot.verifyMotor(elevatorMotorLeft);
+        Robot.verifyMotor(elevatorMotorRight);
+        
         if (Robot.isSimulation()) {
             updateSimElevatorTarget();
         } else {
