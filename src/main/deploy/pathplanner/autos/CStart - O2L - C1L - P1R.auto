@@ -19,7 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Open Feeder to Center 1L L3"
+            "pathName": "Open Clean Up"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Feeder to Center 1L"
           }
         },
         {

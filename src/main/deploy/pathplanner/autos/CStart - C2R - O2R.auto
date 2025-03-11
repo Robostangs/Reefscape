@@ -11,9 +11,39 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "L4 Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Stow"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Center 2R to Open Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Ground Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Clean Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract"
           }
         },
         {
@@ -23,9 +53,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Open 2R to Open Feeder"
+            "name": "L4 Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Stow"
           }
         }
       ]
