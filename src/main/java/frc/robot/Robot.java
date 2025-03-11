@@ -184,17 +184,21 @@ public class Robot extends TimedRobotstangs {
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-    NamedCommands.registerCommand("L1 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L2 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position().withTimeout(1.5));
-    NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position().withTimeout(1.5));
-    // TODO change this to spit
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score().andThen(ScoringFactory.Stow()));
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow()));
+
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
     NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));
 
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
-    NamedCommands.registerCommand("Return Home", ScoringFactory.Stow().withTimeout(1.5));
+    NamedCommands.registerCommand("Ground Intake", IntakeFactory.IntakeCoral());
+    NamedCommands.registerCommand("Retract", new Retract());
+
+    NamedCommands.registerCommand("Return Stow", ScoringFactory.Stow());
+    NamedCommands.registerCommand("Schloop", ScoringFactory.SchloopCommand());
+
+
     // TODO add a delay to path
 
     LiveWindow.enableAllTelemetry();

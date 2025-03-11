@@ -5,6 +5,7 @@
   "pathFolders": [
     "Feeder to Reef Paths",
     "Goofy Paths",
+    "Feeder Clean Up",
     "Reef to Feeder Paths",
     "Stack Paths",
     "Start to Reef Paths"
@@ -15,8 +16,8 @@
     "Open Start",
     "Pro Start"
   ],
-  "defaultMaxVel": 2.0,
-  "defaultMaxAccel": 1.5,
+  "defaultMaxVel": 4.73,
+  "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,

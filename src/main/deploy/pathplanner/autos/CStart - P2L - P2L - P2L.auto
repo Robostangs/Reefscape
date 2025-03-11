@@ -11,18 +11,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Pro 2L to Pro Feeder"
@@ -35,18 +23,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Pro 2L to Pro Feeder"
@@ -56,18 +32,6 @@
           "type": "path",
           "data": {
             "pathName": "Pro Feeder to Pro 2L"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
           }
         },
         {

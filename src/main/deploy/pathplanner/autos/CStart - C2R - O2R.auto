@@ -11,27 +11,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Center 2R to Open Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
           }
         },
         {
@@ -41,27 +23,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Open 2R to Open Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
           }
         }
       ]

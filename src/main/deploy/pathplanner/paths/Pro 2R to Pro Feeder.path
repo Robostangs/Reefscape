@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.292208904109589,
-        "y": 0.9973244863013702
+        "x": 2.248634556361607,
+        "y": 0.6928545270647316
       },
       "prevControl": {
-        "x": 2.8961590780997626,
-        "y": 1.8294606421419815
+        "x": 3.8525847303517806,
+        "y": 1.5249906829053428
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,22 +31,10 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Feeder Intake",
-      "waypointRelativePos": 0.5323255258126195,
-      "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Feeder Intake"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 1.5,
+    "maxVelocity": 4.73,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -54,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -35.140808384730384
+    "rotation": 150.34424913921308
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",

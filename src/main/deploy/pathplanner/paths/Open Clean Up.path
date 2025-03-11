@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.815,
-        "y": 3.75
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 6.124095775462963,
-        "y": 5.78305591724537
-      },
-      "isLocked": false,
-      "linkedName": "Center 2R"
-    },
-    {
-      "anchor": {
         "x": 2.2894919259207587,
         "y": 7.332151576450892
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.52391357421875,
+        "y": 7.409836687360491
+      },
+      "isLocked": false,
+      "linkedName": "Open Feeder"
+    },
+    {
+      "anchor": {
+        "x": 0.7491537911551339,
+        "y": 6.427372523716517
+      },
       "prevControl": {
-        "x": 5.896687509042243,
-        "y": 6.260823322275958
+        "x": 0.9569091796875,
+        "y": 6.781010654994419
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Open Feeder"
+      "linkedName": "Open Feeder End"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.1622965294840295,
-      "rotationDegrees": 90.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -145.57714341902755
+    "rotation": -127.94955510801222
   },
   "reversed": false,
-  "folder": "Reef to Feeder Paths",
+  "folder": "Feeder Clean Up",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 89.45981646471772
+    "rotation": -145.57714341902755
   },
   "useDefaultConstraints": true
 }

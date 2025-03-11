@@ -11,27 +11,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Pro 2R to Pro Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
           }
         },
         {
@@ -41,27 +23,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Center 1R to Open Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
           }
         },
         {
@@ -71,27 +35,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Open 1L to Open Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
           }
         }
       ]

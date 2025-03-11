@@ -3,170 +3,10 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.563717504776202,
-        "y": 1.9062410446233615
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 7.343847011360874,
-        "y": 1.7872579948839116
-      },
-      "isLocked": true,
-      "linkedName": "Pro Start"
-    },
-    {
-      "anchor": {
-        "x": 7.167251712328767,
-        "y": 3.8972816780821917
-      },
-      "prevControl": {
-        "x": 7.455989686537281,
-        "y": 3.1927250971597023
-      },
-      "nextControl": {
-        "x": 6.878513738120253,
-        "y": 4.601838259004682
-      },
-      "isLocked": true,
-      "linkedName": "Center Start"
-    },
-    {
-      "anchor": {
-        "x": 7.563717504776202,
-        "y": 6.160523420442139
-      },
-      "prevControl": {
-        "x": 7.429077894718889,
-        "y": 6.486582287117924
-      },
-      "nextControl": {
-        "x": 7.698357114833515,
-        "y": 5.834464553766354
-      },
-      "isLocked": true,
-      "linkedName": "Open Start"
-    },
-    {
-      "anchor": {
-        "x": 1.6339865072325326,
-        "y": 7.275260558815502
-      },
-      "prevControl": {
-        "x": 1.735569065798566,
-        "y": 7.046828985264081
-      },
-      "nextControl": {
-        "x": 1.532403948666499,
-        "y": 7.503692132366923
-      },
-      "isLocked": true,
-      "linkedName": "Open Feeder"
-    },
-    {
-      "anchor": {
-        "x": 1.292208904109589,
-        "y": 0.9973244863013702
-      },
-      "prevControl": {
-        "x": 1.2256120093353702,
-        "y": 1.2382909852310588
-      },
-      "nextControl": {
-        "x": 1.3588057988838078,
-        "y": 0.7563579873716815
-      },
-      "isLocked": true,
-      "linkedName": "Pro Feeder"
-    },
-    {
-      "anchor": {
-        "x": 4.824828197337962,
-        "y": 2.663709129050925
-      },
-      "prevControl": {
-        "x": 4.8961891755902185,
-        "y": 2.424110275166185
-      },
-      "nextControl": {
-        "x": 4.753467219085706,
-        "y": 2.9033079829356647
-      },
-      "isLocked": false,
-      "linkedName": "Pro 2R"
-    },
-    {
-      "anchor": {
-        "x": 4.853296232876712,
-        "y": 2.7703553082191785
-      },
-      "prevControl": {
-        "x": 4.804281239061576,
-        "y": 3.0155032847176644
-      },
-      "nextControl": {
-        "x": 4.902311226691848,
-        "y": 2.5252073317206927
-      },
-      "isLocked": false,
-      "linkedName": "Pro 2L"
-    },
-    {
-      "anchor": {
-        "x": 3.516010273972603,
-        "y": 2.9656892123287673
-      },
-      "prevControl": {
-        "x": 3.55440686203633,
-        "y": 2.718655404875082
-      },
-      "nextControl": {
-        "x": 3.4776136859088758,
-        "y": 3.2127230197824526
-      },
-      "isLocked": false,
-      "linkedName": "Pro 1L"
-    },
-    {
-      "anchor": {
-        "x": 3.7120135271990735,
-        "y": 2.9213859953703696
-      },
-      "prevControl": {
-        "x": 3.694438875745531,
-        "y": 3.170767493533899
-      },
-      "nextControl": {
-        "x": 3.729588178652616,
-        "y": 2.67200449720684
-      },
-      "isLocked": false,
-      "linkedName": "Pro 1R"
-    },
-    {
-      "anchor": {
-        "x": 3.142678674768517,
-        "y": 4.426568287037037
-      },
-      "prevControl": {
-        "x": 3.1662448889460313,
-        "y": 4.177681498417513
-      },
-      "nextControl": {
-        "x": 3.119112460591003,
-        "y": 4.675455075656561
-      },
-      "isLocked": false,
-      "linkedName": "Center 1L"
-    },
-    {
-      "anchor": {
         "x": 3.142678674768517,
         "y": 4.099478804976852
       },
-      "prevControl": {
-        "x": 3.0967052027062842,
-        "y": 4.345215330276904
-      },
+      "prevControl": null,
       "nextControl": {
         "x": 3.18865214683075,
         "y": 3.8537422796767995
@@ -192,80 +32,16 @@
     },
     {
       "anchor": {
-        "x": 4.174143156828703,
-        "y": 5.406439163773148
+        "x": 2.248634556361607,
+        "y": 0.6928545270647316
       },
       "prevControl": {
-        "x": 4.196271234311628,
-        "y": 5.655457934525294
-      },
-      "nextControl": {
-        "x": 4.1520150793457775,
-        "y": 5.157420393021002
-      },
-      "isLocked": false,
-      "linkedName": "Open 1R"
-    },
-    {
-      "anchor": {
-        "x": 5.231753833912036,
-        "y": 5.109222728587962
-      },
-      "prevControl": {
-        "x": 5.0470380873589855,
-        "y": 4.7161514213619995
-      },
-      "nextControl": {
-        "x": 5.416469580465086,
-        "y": 5.502294035813925
-      },
-      "isLocked": false,
-      "linkedName": "Open 2L"
-    },
-    {
-      "anchor": {
-        "x": 5.528970269097222,
-        "y": 4.96812644675926
-      },
-      "prevControl": {
-        "x": 5.624090734141126,
-        "y": 5.199323542610032
-      },
-      "nextControl": {
-        "x": 5.433849804053318,
-        "y": 4.736929350908487
-      },
-      "isLocked": false,
-      "linkedName": "open 2R"
-    },
-    {
-      "anchor": {
-        "x": 5.815,
-        "y": 3.75
-      },
-      "prevControl": {
-        "x": 5.757194451377512,
-        "y": 3.50677475758373
-      },
-      "nextControl": {
-        "x": 5.872805548622488,
-        "y": 3.9932252424162695
-      },
-      "isLocked": false,
-      "linkedName": "Center 2R"
-    },
-    {
-      "anchor": {
-        "x": 5.86677445023148,
-        "y": 3.9423587328767122
-      },
-      "prevControl": {
-        "x": 5.924579998853968,
-        "y": 4.185583975292982
+        "x": 2.7040067839723707,
+        "y": 2.157440806609504
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Center 2L"
+      "linkedName": "Pro Feeder"
     }
   ],
   "rotationTargets": [],
@@ -310,8 +86,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 1.5,
+    "maxVelocity": 4.73,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -319,13 +95,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.32498382997291
+    "rotation": 150.34424913921308
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.74480287297555
+    "rotation": -90.06148215412128
   },
   "useDefaultConstraints": true
 }
