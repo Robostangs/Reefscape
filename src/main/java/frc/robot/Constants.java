@@ -355,8 +355,8 @@ public final class Constants {
     public static final CANBus kCANBus = new CANBus("Canivore", "./logs/example.hoot");
 
     public static class AutoConstants {
-      public static final PIDConstants translationPID = new PIDConstants(25, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(0.5, 0, 0
+      public static final PIDConstants translationPID = new PIDConstants(1, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(20, 10, 0
       );
 
       public static final double kSlurpTimeout = 3d;

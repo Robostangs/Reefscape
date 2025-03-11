@@ -308,7 +308,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     0d);
 
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
-                    this.getPigeon2().getRotation2d().getDegrees(),
+                    this.getState().Pose.getRotation().getDegrees(),
                     0d,
                     0d,
                     0d,
@@ -330,7 +330,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 fourPose = LimelightHelpers
                         .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightOtherName);
+                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
             }
 
             if ((LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0)
@@ -422,8 +422,8 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 (speeds, feedforwards) -> this.setControl(AutoDrive.withSpeeds(speeds)
                         .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX())
                         .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY())),
-                new PPHolonomicDriveController(Constants.SwerveConstants.AutoConstants.rotationPID,
-                        Constants.SwerveConstants.AutoConstants.translationPID),
+                new PPHolonomicDriveController(Constants.SwerveConstants.AutoConstants.translationPID,
+                        Constants.SwerveConstants.AutoConstants.rotationPID),
                 Constants.SwerveConstants.AutoConstants.robotConfig,
                 () -> Robot.isRed(),
                 this);

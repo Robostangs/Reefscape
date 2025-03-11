@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.29576198630137,
-        "y": 3.0408176369863016
+        "x": 6.926840753424658,
+        "y": 3.1009203767123283
       },
       "isLocked": false,
       "linkedName": "Center Start"
     },
     {
       "anchor": {
-        "x": 4.838270547945205,
+        "x": 4.853296232876712,
         "y": 2.7703553082191785
       },
       "prevControl": {
-        "x": 5.484375,
-        "y": 2.0190710616438357
+        "x": 6.0553510273972595,
+        "y": 1.9589683219178085
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,19 +45,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "L4 Prime",
-      "waypointRelativePos": 0.3863664622015915,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "L4 Prime"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 1.5,

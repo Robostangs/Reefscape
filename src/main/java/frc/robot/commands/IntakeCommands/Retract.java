@@ -27,7 +27,6 @@ public class Retract extends Command {
 
   @Override
   public void execute() {
-    intake.runIntakeMotionMagic();
   }
 
   // Called once the command ends or is interrupted.

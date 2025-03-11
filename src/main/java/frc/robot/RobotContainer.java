@@ -15,7 +15,6 @@ import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
-import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
@@ -26,7 +25,6 @@ import frc.robot.commands.IntakeCommands.Heimlich;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
-import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoReef;
 import frc.robot.commands.SwerveCommands.PathToPoint;
@@ -158,7 +156,7 @@ public class RobotContainer {
                                 .onFalse(
                                                 new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
 
-                xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
+                xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo( Retract.Retract));
 
                 xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
 
