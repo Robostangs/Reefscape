@@ -7,6 +7,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +30,7 @@ public class Arm extends SubsystemBase {
 
     private Mechanism2d targetArmMechanism;
     private MechanismLigament2d targetArm;
+    private Alert armPastRotation;
 
     public static Arm getInstance() {
         if (mInstance == null)
@@ -39,6 +42,9 @@ public class Arm extends SubsystemBase {
         armMotor = new TalonFX(Constants.ArmConstants.kArmMotorId);
         armEncoder = new CANcoder(Constants.ArmConstants.kArmEncoderId);
         armControl = new MotionMagicTorqueCurrentFOC(Constants.ArmConstants.kArmRestSetpoint);
+
+        armPastRotation = new Alert("Arm is past 1 rotation and will tweak if it goes to setpoint", AlertType.kWarning);
+
 
         armControl.Slot = 0;
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
@@ -155,6 +161,12 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
 
+        if(armMotor.getPosition().getValueAsDouble() > 0.5){
+            armPastRotation.set(true);
+        }
+        else{
+            armPastRotation.set(false);
+        
         Robot.verifyMotor(armMotor);
         Robot.verifyCANcoder(armEncoder);
         setArmPosition();
@@ -184,4 +196,4 @@ public class Arm extends SubsystemBase {
 
     }
 
-}
+}}
