@@ -183,7 +183,7 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
 
-    public static final double kHomePosition = 0.83;
+    public static final double kHomePosition = 0.965;
     public static final double kSafeArmElevatorPosition = kHomePosition;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
   }
