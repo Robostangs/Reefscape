@@ -55,7 +55,7 @@ public class Deploy extends Command {
   @Override
   public boolean isFinished() {
     if (smart) {
-      return (climber.getClimberPosition()) >= Constants.ClimberConstants.kMaxExtension;
+      return climber.getClimberPosition() >= Constants.ClimberConstants.kMaxExtension;
 
     } else {
       return false;
