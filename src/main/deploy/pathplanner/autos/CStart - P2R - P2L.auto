@@ -11,9 +11,39 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "L4 Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Stow"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Pro 2R to Pro Feeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Ground Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pro Clean Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract"
           }
         },
         {
@@ -23,9 +53,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Pro 2L to Pro Feeder"
+            "name": "L4 Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Stow"
           }
         }
       ]
