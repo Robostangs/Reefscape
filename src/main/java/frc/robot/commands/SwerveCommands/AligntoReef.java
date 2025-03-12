@@ -82,7 +82,6 @@ public class AligntoReef extends Command {
 
             AprilTagID = LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[0].id;
 
-            return theMap.getTagPose(AprilTagID).get().toPose2d();
         } else {
             map = AprilTagFields.k2025ReefscapeWelded;
 
@@ -90,8 +89,9 @@ public class AligntoReef extends Command {
 
             AprilTagID = 17;
 
-            return theMap.getTagPose(AprilTagID).get().toPose2d();
         }
+        return theMap.getTagPose(AprilTagID).get().toPose2d();
+
     }
 
     // target pose is rotate and translate in tag space

@@ -22,12 +22,13 @@ public class Extend extends Command {
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
 
     intake.setExtendPosition();
+    aintake.runDutyCycleIntake(0.75);
+
 
   }
 
   @Override
   public void execute() {
-    aintake.runDutyCycleIntake(0.75);
 
   }
 

@@ -317,47 +317,45 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     0d);
             // TODO Tune angular velocity threshold and TA
 
-            LimelightHelpers.PoseEstimate fourPose, threePose;
+            LimelightHelpers.PoseEstimate scorePose, rightPose;
             if (DriverStation.isDisabled()) {
 
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(200);
 
-                fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
-                threePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide);
+                scorePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
+                rightPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide);
             } else {
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(0);
-                fourPose = LimelightHelpers
+                scorePose = LimelightHelpers
                         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
-                threePose = LimelightHelpers
+                rightPose = LimelightHelpers
                         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightRightSide);
             }
 
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightRightSide) > 0
                     && LimelightHelpers.getRawFiducials(
                             Constants.VisionConstants.kLimelightRightSide)[0].ambiguity < Constants.VisionConstants.AmbiguityThreshold
-                    && threePose != null) {
-                this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
-                Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
+                    && rightPose != null) {
+                this.addVisionMeasurement(rightPose.pose, rightPose.timestampSeconds);
+                Robot.teleopField.getObject("Limelight Three Pose").setPose(rightPose.pose);
 
             }
             if ((LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0
                     && LimelightHelpers.getRawFiducials(
                             Constants.VisionConstants.kLimelightScoreSide)[0].ambiguity < Constants.VisionConstants.AmbiguityThreshold)
-                    && fourPose != null) {
-                this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
-                Robot.teleopField.getObject("Limelight Four Pose").setPose(fourPose.pose);
+                    && scorePose != null) {
+                this.addVisionMeasurement(scorePose.pose, scorePose.timestampSeconds);
+                Robot.teleopField.getObject("Limelight Four Pose").setPose(scorePose.pose);
             }
 
-            for (int tags = 0; tags < LimelightHelpers
-                    .getRawFiducials(Constants.VisionConstants.kLimelightScoreSide).length; tags++) {
+            for (int tags = 0; tags < LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide).length; tags++) {
                 SmartDashboard.putNumber("Vision/Score Side Ambiguity " + tags, LimelightHelpers
                         .getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[tags].ambiguity);
             }
 
-            for (int tags = 0; tags < LimelightHelpers
-                    .getRawFiducials(Constants.VisionConstants.kLimelightRightSide).length; tags++) {
+            for (int tags = 0; tags < LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightRightSide).length; tags++) {
                 SmartDashboard.putNumber("Vision/Score Side Ambiguity " + tags, LimelightHelpers
                         .getRawFiducials(Constants.VisionConstants.kLimelightRightSide)[tags].ambiguity);
             }

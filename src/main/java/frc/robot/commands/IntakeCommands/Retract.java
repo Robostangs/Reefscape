@@ -2,13 +2,16 @@ package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakePivot;
+import frc.robot.subsystems.IntakeWheels;
 
 public class Retract extends Command {
 
   IntakePivot intake;
+  IntakeWheels intakeWheels;
 
   public Retract() {
     intake = IntakePivot.getInstance();
+    intakeWheels = IntakeWheels.getInstance();
     this.addRequirements(intake);
 
   }
@@ -22,6 +25,7 @@ public class Retract extends Command {
   public void initialize() {
     intake.postStatus("FALLING BACK");
     intake.setRetractPosition();
+    intakeWheels.stopIntake();
 
     
   }
