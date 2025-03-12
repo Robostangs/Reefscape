@@ -68,7 +68,6 @@ public class Climber extends SubsystemBase {
 
     }
 
-    //giggity
     public void setBrake() {
         // climberMotor.setNeutralMode(NeutralModeValue.Brake);
     }

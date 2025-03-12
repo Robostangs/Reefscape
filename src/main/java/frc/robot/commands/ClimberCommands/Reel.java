@@ -1,5 +1,6 @@
 package frc.robot.commands.ClimberCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
@@ -28,7 +29,7 @@ public class Reel extends Command {
   public void execute() {
 
       climber.runClimber(Constants.ClimberConstants.kReelDutyCycle);
-    
+    SmartDashboard.putBoolean("Climber/Are we intelligente", smart);
   }
 
   @Override
@@ -36,13 +37,13 @@ public class Reel extends Command {
 
     climber.runClimber(0d);
     climber.postStatus("Climber Reeled ");
-    climber.setBrake();
+    
   }
 
   @Override
   public boolean isFinished() {
     if (smart) {
-      return (climber.getClimberPosition()) <= Constants.ClimberConstants.kReelSafe;
+      return climber.getClimberPosition() <= Constants.ClimberConstants.kReelSafe;
     } else {
       return false;
     }
