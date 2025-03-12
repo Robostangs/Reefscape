@@ -203,9 +203,11 @@ public class RobotContainer {
                 xManip.leftStick().toggleOnTrue(new Reel(true));
 
 
-                xManip.povUp().onTrue(new Spit().withTimeout(0.1).andThen(new Slurp().withTimeout(0.1).onlyIf(
-                        xManip.rightTrigger(0.3)
-                )));
+                // xManip.povUp().onTrue(new Spit().withTimeout(0.1).andThen(new Slurp().withTimeout(0.1).onlyIf(
+                //         xManip.rightTrigger(0.3)
+                // )));
+
+                xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
