@@ -100,7 +100,6 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
 
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
@@ -208,6 +207,8 @@ public class Robot extends TimedRobotstangs {
   public void robotPeriodic() {
 
     SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
+
     // commands, running already-scheduled commands, removing finished or
     // interrupted commands,
     // and running subsystem periodic() methods. This must be called from the
@@ -249,7 +250,6 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
         firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
@@ -304,7 +304,6 @@ public class Robot extends TimedRobotstangs {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
 
   }
 
@@ -328,7 +327,6 @@ public class Robot extends TimedRobotstangs {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
   }
 
   @Override

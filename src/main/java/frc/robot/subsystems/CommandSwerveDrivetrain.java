@@ -300,7 +300,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
              * entirely
              */
 
-            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
+            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightRightSide,
                     this.getState().Pose.getRotation().getDegrees(),
                     0d,
                     0d,
@@ -324,19 +324,19 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                         .getEntry("throttle-set").setNumber(200);
 
                 fourPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
-                threePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
+                threePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide);
             } else {
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(0);
                 fourPose = LimelightHelpers
                         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightOtherName);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightRightSide);
             }
 
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0
+            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightRightSide) > 0
                     && LimelightHelpers.getRawFiducials(
-                            Constants.VisionConstants.kLimelightOtherName)[0].ambiguity < Constants.VisionConstants.AmbiguityThreshold
+                            Constants.VisionConstants.kLimelightRightSide)[0].ambiguity < Constants.VisionConstants.AmbiguityThreshold
                     && threePose != null) {
                 this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
@@ -357,9 +357,9 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             }
 
             for (int tags = 0; tags < LimelightHelpers
-                    .getRawFiducials(Constants.VisionConstants.kLimelightOtherName).length; tags++) {
+                    .getRawFiducials(Constants.VisionConstants.kLimelightRightSide).length; tags++) {
                 SmartDashboard.putNumber("Vision/Score Side Ambiguity " + tags, LimelightHelpers
-                        .getRawFiducials(Constants.VisionConstants.kLimelightOtherName)[tags].ambiguity);
+                        .getRawFiducials(Constants.VisionConstants.kLimelightRightSide)[tags].ambiguity);
             }
         }
 
