@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
+import frc.robot.LimelightHelpers.RawFiducial;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -300,7 +301,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
              */
 
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
-                    this.getPigeon2().getRotation2d().getDegrees(),
+                    this.getState().Pose.getRotation().getDegrees(),
                     0d,
                     0d,
                     0d,
@@ -308,7 +309,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     0d);
 
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightOtherName,
-                    this.getState().Pose.getRotation().getDegrees(),
+                    LimelightHelpers.getIMUData(Constants.VisionConstants.kLimelightScoreSide).Yaw,
                     0d,
                     0d,
                     0d,
@@ -328,25 +329,43 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(0);
                 fourPose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
                 threePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightOtherName);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightOtherName);
             }
 
-            if ((LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0)
+            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightOtherName) > 0
+                    && LimelightHelpers.getRawFiducials(
+                            Constants.VisionConstants.kLimelightOtherName)[0].ambiguity < Constants.VisionConstants.AmbiguityThreshold
                     && threePose != null) {
                 this.addVisionMeasurement(threePose.pose, threePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePose.pose);
 
             }
-            if ((LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0)
+            if ((LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0
+                    && LimelightHelpers.getRawFiducials(
+                            Constants.VisionConstants.kLimelightScoreSide)[0].ambiguity < Constants.VisionConstants.AmbiguityThreshold)
                     && fourPose != null) {
                 this.addVisionMeasurement(fourPose.pose, fourPose.timestampSeconds);
-                Robot.teleopField.getObject("LimelightFour Pose").setPose(fourPose.pose);
+                Robot.teleopField.getObject("Limelight Four Pose").setPose(fourPose.pose);
+            }
+
+            for (int tags = 0; tags < LimelightHelpers
+                    .getRawFiducials(Constants.VisionConstants.kLimelightScoreSide).length; tags++) {
+                SmartDashboard.putNumber("Vision/Score Side Ambiguity " + tags, LimelightHelpers
+                        .getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[tags].ambiguity);
+            }
+
+            for (int tags = 0; tags < LimelightHelpers
+                    .getRawFiducials(Constants.VisionConstants.kLimelightOtherName).length; tags++) {
+                SmartDashboard.putNumber("Vision/Score Side Ambiguity " + tags, LimelightHelpers
+                        .getRawFiducials(Constants.VisionConstants.kLimelightOtherName)[tags].ambiguity);
             }
         }
 
-        SmartDashboard.putNumber("Angular Veloctiy ", this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble());
+        SmartDashboard.putNumber("Vision/Angular Velocity ",
+                this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble());
+
     }
 
     private void startSimThread() {

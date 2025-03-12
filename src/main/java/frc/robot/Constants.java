@@ -199,6 +199,7 @@ public final class Constants {
     public static final double kTAThresholdFour = 3d;
     public static final double kTAThresholdThree = 3d;
     public static final double kTxThresholdCoral = 5;
+    public static final double AmbiguityThreshold = 1;
 
   }
 
