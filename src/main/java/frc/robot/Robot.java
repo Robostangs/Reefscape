@@ -11,6 +11,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -23,11 +24,15 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -37,12 +42,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SwerveCommands.PathToPoint;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -75,6 +83,8 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> secondPieceRoLChooser = new SendableChooser<>();
   private SendableChooser<String> thirdPieceChooser = new SendableChooser<>();
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
+
+  static NetworkTableEntry pathDelay;
 
   private Command autoCommand;
 
@@ -150,6 +160,7 @@ public class Robot extends TimedRobotstangs {
     thirdPieceRoLChooser.addOption("Right", "R");
     thirdPieceRoLChooser.addOption("Left", "L");
 
+
     autoTab.add("Start Chooser", startChooser)
         .withSize(2, 1)
         .withPosition(0, 0);
@@ -178,10 +189,21 @@ public class Robot extends TimedRobotstangs {
         .withSize(1, 1)
         .withPosition(2, 3);
 
+    // autoTab.add("Delay Start", pathDelay)
+    // .withPosition(4, 0)
+    // .withSize(2, 0)
+    // .withWidget(BuiltInWidgets.kNumberBar);
+
     // autoTab.add("", Alert.class.get);
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+        
+		teleopTab.addNumber("Match Time", () -> Timer.getMatchTime())
+				.withSize(3, 4)
+				.withPosition(3, 0)
+				.withWidget("Match Time")
+				.withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score().andThen(ScoringFactory.Stow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow()));
@@ -189,14 +211,13 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
     NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));
 
-
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
-    NamedCommands.registerCommand("Ground Intake", IntakeFactory.IntakeCoral());
-    NamedCommands.registerCommand("Retract", new Retract());
+    NamedCommands.registerCommand("Ground Intake", new Extend().withTimeout(0.5));
+    NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
+    NamedCommands.registerCommand("Intake", new RunIntake());
 
     NamedCommands.registerCommand("Return Stow", ScoringFactory.Stow());
     NamedCommands.registerCommand("Schloop", ScoringFactory.SchloopCommand());
-
 
     // TODO add a delay to path
 
@@ -265,12 +286,13 @@ public class Robot extends TimedRobotstangs {
 
   public void autonomousInit() {
 
-    
     unpublishTrajectory();
-    
+
+    pathDelay = NetworkTableInstance.getDefault().getTable("Shuffleboard").getSubTable(autoTab.getTitle())
+    .getEntry("Delay Start");
+
     IntakePivot.getInstance().point3Intake();
     Climber.getInstance().zeroClimber();
-    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),new HomeElevator().withTimeout(1.5));
 
 
     if (autoName.equals("shitting")) {
@@ -284,6 +306,7 @@ public class Robot extends TimedRobotstangs {
 
     } else if (autoName.equals("PTP")) {
       autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
+
           : FlippingUtil.flipFieldPose(Constants.ScoringConstants.k21BlueRReefPosePtP))
           .andThen(ScoringFactory.L3Score());
     } else if (!autoName.equals("")) {
@@ -293,8 +316,11 @@ public class Robot extends TimedRobotstangs {
     }
 
 
+    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),
+    new HomeElevator().withTimeout(1.5));
+
     autoGroup.addCommands(
-        autoCommand);
+        new WaitUntilCommand(pathDelay.getDouble(0)),autoCommand);
 
     autoGroup.schedule();
 
@@ -456,7 +482,7 @@ public class Robot extends TimedRobotstangs {
     }
   }
 
-  public void setAllMotorsSafe(){
+  public void setAllMotorsSafe() {
     Arm.getInstance().setArmDutyCycle(0);
     Elevator.getInstance().setElevatorDutyCycle(0);
     IntakePivot.getInstance().setPiviotDutyCycle(0);

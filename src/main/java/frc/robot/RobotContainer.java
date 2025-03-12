@@ -202,8 +202,10 @@ public class RobotContainer {
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
 
-                xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
+                xManip.povUp().onTrue(new Spit().withTimeout(0.1).andThen(new Slurp().withTimeout(0.1).onlyIf(
+                        xManip.rightTrigger(0.3)
+                )));
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
                 xManip.leftBumper().whileTrue(new Spit());
@@ -212,16 +214,12 @@ public class RobotContainer {
 
         private void configureSimBindings() {
 
-                // new Trigger(() -> xSim.getRawButtonPressed(1))
-                // .toggleOnTrue(
-                // ScoringFactory.L4Position());
-
                 new Trigger(() -> xSim.getRawButtonPressed(1)).onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2)).onTrue(
-                                new AligntoReef(false)
+                                new AligntoReef(true)
                                 );
                                 
 

@@ -17,12 +17,13 @@ public class Untake extends Command{
     public void initialize() {
 
         intake.postStatus("Untaking");
+        intake.runDutyCycleIntake(-0.75);
+
     }
 
     @Override
     public void execute() {
 
-        intake.runDutyCycleIntake(-0.75);
 
     }
 
