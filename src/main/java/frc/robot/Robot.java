@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -94,6 +95,7 @@ public class Robot extends TimedRobotstangs {
   private static Alert publishfail = new Alert("Publishing failed", AlertType.kError);
   private static Alert noAutoSelected = new Alert("No Auto Selected", AlertType.kWarning);
   private static Alert ShittyAlert = new Alert("We going forward ", AlertType.kInfo);
+  private Timer timer = new Timer();
 
   private String oldAutoName = "";
 
@@ -160,7 +162,6 @@ public class Robot extends TimedRobotstangs {
     thirdPieceRoLChooser.addOption("Right", "R");
     thirdPieceRoLChooser.addOption("Left", "L");
 
-
     autoTab.add("Start Chooser", startChooser)
         .withSize(2, 1)
         .withPosition(0, 0);
@@ -189,21 +190,25 @@ public class Robot extends TimedRobotstangs {
         .withSize(1, 1)
         .withPosition(2, 3);
 
-    // autoTab.add("Delay Start", pathDelay)
-    // .withPosition(4, 0)
-    // .withSize(2, 0)
-    // .withWidget(BuiltInWidgets.kNumberBar);
+    autoTab.add("Path Delay", 0)
+        .withSize(3, 1)
+        .withPosition(4, 4)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 15, "block increment", 15, "Divisions", 6));
 
-    // autoTab.add("", Alert.class.get);
+    pathDelay = NetworkTableInstance.create().getTable("Shuffleboard")
+        .getSubTable(autoTab.getTitle())
+        .getEntry("Delay Start");
+
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
-        
-		teleopTab.addNumber("Match Time", () -> Timer.getMatchTime())
-				.withSize(3, 4)
-				.withPosition(3, 0)
-				.withWidget("Match Time")
-				.withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
+
+    teleopTab.addNumber("Match Time", () -> Timer.getMatchTime())
+        .withSize(3, 4)
+        .withPosition(3, 0)
+        .withWidget("Match Time")
+        .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score().andThen(ScoringFactory.Stow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow()));
@@ -288,12 +293,8 @@ public class Robot extends TimedRobotstangs {
 
     unpublishTrajectory();
 
-    pathDelay = NetworkTableInstance.getDefault().getTable("Shuffleboard").getSubTable(autoTab.getTitle())
-    .getEntry("Delay Start");
-
     IntakePivot.getInstance().point3Intake();
     Climber.getInstance().zeroClimber();
-
 
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
@@ -301,7 +302,7 @@ public class Robot extends TimedRobotstangs {
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.15))
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
           .withTimeout(1d);
 
     } else if (autoName.equals("PTP")) {
@@ -315,12 +316,14 @@ public class Robot extends TimedRobotstangs {
       autoCommand = new PrintCommand("doing nothing!");
     }
 
-
     SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),
-    new HomeElevator().withTimeout(1.5));
+        new HomeElevator().withTimeout(1.5));
 
     autoGroup.addCommands(
-        new WaitUntilCommand(pathDelay.getDouble(0)),autoCommand);
+        new InstantCommand(timer::restart),
+        new WaitUntilCommand(() -> timer.get() > pathDelay.getDouble(0)),
+        autoCommand,
+        new InstantCommand(timer::stop));
 
     autoGroup.schedule();
 

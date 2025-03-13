@@ -301,7 +301,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
              */
 
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightRightSide,
-                    this.getState().Pose.getRotation().getDegrees(),
+                    getState().Pose.getRotation().getDegrees(),
                     0d,
                     0d,
                     0d,
@@ -309,7 +309,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     0d);
 
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightScoreSide,
-                    this.getState().Pose.getRotation().getDegrees(),
+                    getState().Pose.getRotation().getDegrees(),
                     0d,
                     0d,
                     0d,
