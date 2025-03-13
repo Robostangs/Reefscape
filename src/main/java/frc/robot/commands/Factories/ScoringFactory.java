@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.Constants.ScoringConstants.Stow;
 import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.EndeffectorCommands.Spit;

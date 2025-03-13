@@ -267,8 +267,6 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-    // TODO ake the motors nuetral or something so they dont go back to their
-    // setpoints
 
     setAllMotorsSafe();
   }

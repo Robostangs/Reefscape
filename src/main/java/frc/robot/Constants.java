@@ -133,7 +133,7 @@ public final class Constants {
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestSetpoint = -.254;
+    public static final double kArmRestSetpoint = -.244;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
@@ -250,12 +250,12 @@ public final class Constants {
       public static final double kArmSafePosition = 0;
       public static final double kElevatorEnd = 0;
     }
-
+//.965
     public static class L2 {
       // Homepos
-      public static final double kElevatorStart = 0.87;
+      public static final double kElevatorStart = ElevatorConstants.kHomePosition-0.095;
       public static final double kArmScoringPosition = .376;
-      public static final double kElevatorEnd = 0.541;
+      public static final double kElevatorEnd =  ElevatorConstants.kHomePosition - 0.277;
       public static final double kArmSafePosition = 0;
       public static final double kELevatorAlgepos = 0;
       public static final double kArmAlgePos = 0;
@@ -263,32 +263,33 @@ public final class Constants {
     }
 
     public static class L3 {
-      public static final double kElevatorPos = .947;
-      public static final double kArmScoringPosition = .379;
+      public static final double kElevatorPos =  ElevatorConstants.kHomePosition + 0.013;
+      public static final double kArmScoringPosition = .33;
       public static final double kELevatorAlgepos = 0;
       public static final double kArmAlgePos = 0;
 
     }
 
     public static class L4 {
-      public static final double kElevatorPos = 1.5;
+      public static final double kElevatorPos =  ElevatorConstants.kHomePosition + .635;
       public static final double kArmScoringPosition = .354;
 
     }
 
     public static class Stow {
-      public static final double kElevatorPos = 0.81;
-      public static final double kArmStowPos = -0.252;
+      public static final double kElevatorPos =  ElevatorConstants.kHomePosition - 0.035;
+      public static final double kArmStowPos = ArmConstants.kArmRestSetpoint;
     }
 
     public static class Schloop {
-      public static final double kElevatorPos = 0.645;
-      public static final double kArmSchloPos = -0.252;
+      public static final double kElevatorPos =  ElevatorConstants.kHomePosition - .165;
+      public static final double kArmSchloPos = ArmConstants.kArmRestSetpoint;
 
     }
 
     public static class Source {
-      public static final double kElevatorPos = 1.32;
+      public static final double kElevatorPos = ElevatorConstants.kHomePosition+0.355
+      ;
       public static final double kArmSourcePosition = -0.145;
 
     }
