@@ -45,12 +45,12 @@ public class AligntoCage extends Command {
         this.setName("Align to Coral");
 
         if (cageID == 1) {
-            cagePose = Constants.ScoringConstants.kCageTop;
+            cagePose = Constants.ScoringConstants.kCageMiddle;
         } else if (cageID == 2) {
-            cagePose = Constants.ScoringConstants.kCageTop;
+            cagePose = Constants.ScoringConstants.kCageBottom;
 
         } else if (cageID == 3) {
-            cagePose = Constants.ScoringConstants.kCageTop;
+            cagePose = Constants.ScoringConstants.kCageMiddle;
 
         } else {
             cagePose = new Pose2d(0, 0, new Rotation2d());
@@ -64,7 +64,7 @@ public class AligntoCage extends Command {
             double deltaX = drivetrain.getPose().getX() - cagePose.getX();
             double deltaY = drivetrain.getPose().getY() - cagePose.getY();
 
-            return Rotation2d.fromRadians(Math.atan2(deltaY, deltaX) + Units.degreesToRadians(180));
+            return Rotation2d.fromRadians(Math.atan2(deltaY, deltaX) );
 
         };
 

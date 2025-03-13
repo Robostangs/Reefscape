@@ -26,6 +26,7 @@ import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.Untake;
+import frc.robot.commands.SwerveCommands.AligntoCage;
 import frc.robot.commands.SwerveCommands.AligntoReef;
 import frc.robot.commands.SwerveCommands.PathToPoint;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -162,6 +163,8 @@ public class RobotContainer {
 
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
+
+                xDrive.a().toggleOnTrue(new AligntoCage(() -> xDrive.getLeftX(), () -> xDrive.getLeftY(), 2));
 
                 xDrive.leftStick().toggleOnTrue(new HomeIntake());
 

@@ -37,11 +37,27 @@
       },
       "prevControl": {
         "x": 2.7040067839723707,
-        "y": 2.1574408066095043
+        "y": 2.1574408066095048
+      },
+      "nextControl": {
+        "x": 1.7932623287508431,
+        "y": -0.7717317524800417
+      },
+      "isLocked": false,
+      "linkedName": "Pro Feeder"
+    },
+    {
+      "anchor": {
+        "x": 8.8,
+        "y": 6.106
+      },
+      "prevControl": {
+        "x": 5.331669691772682,
+        "y": 2.6671054422531295
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Pro Feeder"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
