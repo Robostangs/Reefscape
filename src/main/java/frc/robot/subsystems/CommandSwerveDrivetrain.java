@@ -334,18 +334,18 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             }
 
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightRightSide) > 0
-                    && LimelightHelpers.getRawFiducials(
-                    Constants.VisionConstants.kLimelightRightSide)[0].ambiguity <
-                    Constants.VisionConstants.AmbiguityThreshold
+                    // && LimelightHelpers.getRawFiducials(
+                    // Constants.VisionConstants.kLimelightRightSide)[0].ambiguity <
+                    // Constants.VisionConstants.AmbiguityThreshold
                     && rightPose != null) {
                 this.addVisionMeasurement(rightPose.pose, rightPose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(rightPose.pose);
 
             }
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0
-                    && LimelightHelpers.getRawFiducials(
-                    Constants.VisionConstants.kLimelightScoreSide)[0].ambiguity <
-                    Constants.VisionConstants.AmbiguityThreshold
+                    // && LimelightHelpers.getRawFiducials(
+                    // Constants.VisionConstants.kLimelightScoreSide)[0].ambiguity <
+                    // Constants.VisionConstants.AmbiguityThreshold
                     && scorePose != null) {
                 this.addVisionMeasurement(scorePose.pose, scorePose.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Four Pose").setPose(scorePose.pose);

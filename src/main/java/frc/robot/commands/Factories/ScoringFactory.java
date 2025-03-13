@@ -24,7 +24,6 @@ public class ScoringFactory {
     static Alert stowAlert = new Alert("Can't go to stow", Alert.AlertType.kError);
     static Alert algeAlert = new Alert("Can't knock out alge", Alert.AlertType.kError);
 
-
     public static ScoringPosition ScoreState = ScoringPosition.Stow;
 
     public static Command L2Position() {
@@ -67,11 +66,14 @@ public class ScoringFactory {
             case L2:
 
                 return new Lift(Constants.ScoringConstants.L2.kELevatorAlgepos)
-                        .andThen(new MoveArm(Constants.ScoringConstants.L2.kArmAlgePos));
+                        .andThen(new MoveArm(Constants.ScoringConstants.L2.kArmAlgePos)
+                        .finallyDo(() -> ScoreState = ScoringPosition.Algeeeee));
+                        
 
             case L3:
                 return new Lift(Constants.ScoringConstants.L3.kELevatorAlgepos)
-                        .andThen(new MoveArm(Constants.ScoringConstants.L3.kArmAlgePos));
+                        .andThen(new MoveArm(Constants.ScoringConstants.L3.kArmAlgePos)
+                                .finallyDo(() -> ScoreState = ScoringPosition.Algeeeee));
             default:
                 algeAlert.set(true);
                 return new PrintCommand("Can't go to alge");
@@ -107,8 +109,8 @@ public class ScoringFactory {
                                 .finallyDo(() -> {
                                     ScoreState = ScoringPosition.Stow;
                                 }));
-            } 
-           
+            }
+
         }, Set.of(Arm.getInstance(), Elevator.getInstance()));
 
     }

@@ -20,6 +20,7 @@ import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.Factories.ScoringFactory.ScoringPosition;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Heimlich;
 import frc.robot.commands.IntakeCommands.HomeIntake;
@@ -201,6 +202,10 @@ public class RobotContainer {
                 xManip.povDown().toggleOnTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
+
+
+                xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlge(ScoringPosition.L3));
+
 
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));

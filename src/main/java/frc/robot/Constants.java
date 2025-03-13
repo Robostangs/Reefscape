@@ -256,17 +256,17 @@ public final class Constants {
       public static final double kElevatorStart = ElevatorConstants.kHomePosition-0.095;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  ElevatorConstants.kHomePosition - 0.277;
-      public static final double kArmSafePosition = 0;
-      public static final double kELevatorAlgepos = 0;
-      public static final double kArmAlgePos = 0;
+      public static final double kArmSafePosition = 0.25;
+      public static final double kELevatorAlgepos = 0.91;
+      public static final double kArmAlgePos = -0.75;
 
     }
 
     public static class L3 {
       public static final double kElevatorPos =  ElevatorConstants.kHomePosition + 0.013;
       public static final double kArmScoringPosition = .33;
-      public static final double kELevatorAlgepos = 0;
-      public static final double kArmAlgePos = 0;
+      public static final double kELevatorAlgepos = 1.18;
+      public static final double kArmAlgePos = -0.75;
 
     }
 
