@@ -194,9 +194,9 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
                                 .whileTrue(new RunElevator(() -> -xManip.getRightY() / 2));
 
-                xManip.a().toggleOnTrue(ScoringFactory.L4Position().finallyDo(ScoringFactory.returnStow()));
-                xManip.b().toggleOnTrue(ScoringFactory.L3Position().finallyDo(ScoringFactory.returnStow()));
-                xManip.y().toggleOnTrue(ScoringFactory.L2Position().finallyDo(ScoringFactory.returnStow()));
+                xManip.a().toggleOnTrue(ScoringFactory.L4Score(() -> xManip.leftBumper().getAsBoolean()).finallyDo(ScoringFactory.returnStow()));
+                xManip.b().toggleOnTrue(ScoringFactory.L3Score(() -> xManip.leftBumper().getAsBoolean()).finallyDo(ScoringFactory.returnStow()));
+                xManip.y().toggleOnTrue(ScoringFactory.L2Score(() -> xManip.leftBumper().getAsBoolean()).finallyDo(ScoringFactory.returnStow()));
                 xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
 
                 xManip.povDown().toggleOnTrue(new Slurp());
@@ -218,7 +218,7 @@ public class RobotContainer {
                 xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 xManip.rightBumper().toggleOnTrue(new HomeElevator());
-                xManip.leftBumper().whileTrue(new Spit());
+                // xManip.leftBumper().whileTrue(new Spit());
 
         }
 

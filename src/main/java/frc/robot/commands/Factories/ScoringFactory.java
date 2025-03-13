@@ -1,6 +1,7 @@
 package frc.robot.commands.Factories;
 
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -80,16 +81,16 @@ public class ScoringFactory {
         }
     }
 
-    public static Command L2Score() {
-        return L2Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
+    public static Command L2Score(BooleanSupplier manipBumper) {
+        return L2Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout).onlyIf(manipBumper);
     }
 
-    public static Command L3Score() {
-        return L3Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
+    public static Command L3Score(BooleanSupplier manipBumper) {
+        return L3Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout).onlyIf(manipBumper);
     }
 
-    public static Command L4Score() {
-        return L4Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout);
+    public static Command L4Score(BooleanSupplier manipBumper) {
+        return L4Position().andThen(new Spit()).withTimeout(Constants.ScoringConstants.spitTimeout).onlyIf(manipBumper);
     }
 
     public static Command StowL2() {

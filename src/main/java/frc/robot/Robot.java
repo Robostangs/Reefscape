@@ -210,8 +210,8 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
-    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score().andThen(ScoringFactory.Stow()));
-    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow()));
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score(() -> true).andThen(ScoringFactory.Stow()));
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score(() -> true).andThen(ScoringFactory.Stow()));
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
     NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));
@@ -307,7 +307,7 @@ public class Robot extends TimedRobotstangs {
       autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
 
           : FlippingUtil.flipFieldPose(Constants.ScoringConstants.k21BlueRReefPosePtP))
-          .andThen(ScoringFactory.L3Score());
+          .andThen(ScoringFactory.L4Score(() -> true));
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
