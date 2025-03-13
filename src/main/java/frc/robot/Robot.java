@@ -196,9 +196,9 @@ public class Robot extends TimedRobotstangs {
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", 0, "max_value", 15, "block increment", 15, "Divisions", 6));
 
-    pathDelay = NetworkTableInstance.create().getTable("Shuffleboard")
+    pathDelay = NetworkTableInstance.getDefault().getTable("Shuffleboard")
         .getSubTable(autoTab.getTitle())
-        .getEntry("Delay Start");
+        .getEntry("Path Delay");
 
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
