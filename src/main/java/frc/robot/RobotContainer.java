@@ -153,9 +153,9 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
-                new Trigger(() -> DriverStation.getMatchTime() > 30).and(() -> DriverStation.getMatchTime() < 15)
+                new Trigger(() -> DriverStation.getMatchTime() < 30).and(() -> DriverStation.getMatchTime() < 15)
                                 .onTrue(
-                                                new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0.5)))
+                                                new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble, 1)))
                                 .onFalse(
                                                 new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
 
@@ -185,11 +185,11 @@ public class RobotContainer {
 
         private void configureManipBindings() {
 
-                new Trigger(() -> DriverStation.getMatchTime() > 30).and(() -> DriverStation.getMatchTime() < 15)
+                new Trigger(() -> DriverStation.getMatchTime() < 30).and(() -> DriverStation.getMatchTime() < 15)
                                 .onTrue(
-                                                new RunCommand(() -> xManip.setRumble(RumbleType.kBothRumble, 0.5)))
+                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble, 1)))
                                 .onFalse(
-                                                new RunCommand(() -> xManip.setRumble(RumbleType.kBothRumble, 0)));
+                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble, 0)));
 
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
                                 .whileTrue(new RunArm(() -> xManip.getLeftY() / 2));

@@ -53,12 +53,12 @@ public final class Constants {
     public static final double kGearboxRotationsToMechanismMeters = 1d;
 
     // Deploy Constants
-    public static final double kMaxExtension = 150;
+    public static final double kMaxExtension = 140;
     public static final double kExtensionDutyCycle = 0.5;
 
     // Reel Constants
-    public static final double kReelDutyCycle = -0.5;
-    public static final double kReelSafe = 20;
+    public static final double kReelDutyCycle = -0.7;
+    public static final double kReelSafe = 15;
 
 
   }
@@ -115,9 +115,9 @@ public final class Constants {
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
-    public static final double kArmP = 10000;
+    public static final double kArmP = 9000;
     public static final double kArmI = 5000;
-    public static final double kArmD = 200;
+    public static final double kArmD = 500;
     public static final double kArmS = 4;
     public static final double kArmV = 15;
     public static final double kArmA = 10;
@@ -183,7 +183,7 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
 
-    public static final double kHomePosition = 0.965;
+    public static final double kHomePosition = 0.95885;
     public static final double kSafeArmElevatorPosition = kHomePosition;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
   }
@@ -277,7 +277,7 @@ public final class Constants {
     }
 
     public static class Stow {
-      public static final double kElevatorPos =  ElevatorConstants.kHomePosition - 0.035;
+      public static final double kElevatorPos =  ElevatorConstants.kHomePosition - 0.03;
       public static final double kArmStowPos = ArmConstants.kArmRestSetpoint;
     }
 

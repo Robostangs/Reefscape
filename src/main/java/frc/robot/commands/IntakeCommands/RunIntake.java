@@ -18,7 +18,7 @@ public class RunIntake extends Command {
   public void initialize() {
 
     intake.postStatus("Intaking");
-    intake.runDutyCycleIntake(0.75);
+    intake.runDutyCycleIntake(0.65);
 
   }
 
