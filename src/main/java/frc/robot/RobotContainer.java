@@ -11,6 +11,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.util.FlippingUtil;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
@@ -27,6 +28,7 @@ import frc.robot.commands.IntakeCommands.Heimlich;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoCage;
 import frc.robot.commands.SwerveCommands.AligntoReef;
@@ -133,18 +135,21 @@ public class RobotContainer {
 
                 xTest.a().onTrue(IntakePivot.getInstance().runOnce(IntakePivot.getInstance().zeroIntakeRun));
 
-
                 xTest.x().toggleOnTrue(new Retract());
                 xTest.y().toggleOnTrue(new Extend());
-                //xTest.b().toggleOnTrue(new RunIntake());
-                xTest.b().toggleOnTrue(new Heimlich());
+                xTest.b().toggleOnTrue(new RunIntake());
 
+                xTest.povLeft().whileTrue(new HomeIntake());
 
-                xTest.povUp().whileTrue(new HomeIntake());
-                new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.02)
-                                .whileTrue(new ManualIntake(() -> xTest.getLeftY()*0.25));
-                // new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
-                // .whileTrue(new RunArm(() -> xTest.getLeftY()));
+                xTest.povUp().toggleOnTrue(new Lift(Constants.ScoringConstants.L3.kElevatorPos));
+                xTest.povRight().toggleOnTrue(new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos));
+
+                xTest.povDown().toggleOnTrue(ScoringFactory.Stow());
+
+                // new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.02)
+                // .whileTrue(new ManualIntake(() -> xTest.getLeftY()*0.25));
+                new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
+                                .whileTrue(new RunArm(() -> xTest.getLeftY()));
 
                 new Trigger(() -> Math.abs(xTest.getRightY()) > 0.02)
                                 .whileTrue(new RunElevator(() -> -xTest.getRightY()));
@@ -155,11 +160,12 @@ public class RobotContainer {
 
                 new Trigger(() -> DriverStation.getMatchTime() < 30).and(() -> DriverStation.getMatchTime() < 15)
                                 .onTrue(
-                                                new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble, 1)))
+                                                new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble,
+                                                                1)))
                                 .onFalse(
                                                 new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
 
-                xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo( Retract.Retract));
+                xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo(Retract.Retract));
 
                 // xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
 
@@ -187,9 +193,11 @@ public class RobotContainer {
 
                 new Trigger(() -> DriverStation.getMatchTime() < 30).and(() -> DriverStation.getMatchTime() < 15)
                                 .onTrue(
-                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble, 1)))
+                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
+                                                                1)))
                                 .onFalse(
-                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble, 0)));
+                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
+                                                                0)));
 
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
                                 .whileTrue(new RunArm(() -> xManip.getLeftY() / 2));
@@ -205,21 +213,20 @@ public class RobotContainer {
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
 
-
                 xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlge(ScoringPosition.L3));
-
 
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
 
-
-                // xManip.povUp().onTrue(new Spit().withTimeout(0.1).andThen(new Slurp().withTimeout(0.1).onlyIf(
-                //         xManip.rightTrigger(0.3)
+                // xManip.povUp().onTrue(new Spit().withTimeout(0.1).andThen(new
+                // Slurp().withTimeout(0.1).onlyIf(
+                // xManip.rightTrigger(0.3)
                 // )));
 
                 xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
-                xManip.rightBumper().toggleOnTrue(new HomeElevator().andThen(new Lift(Constants.ScoringConstants.Stow.kElevatorPos)));
+                xManip.rightBumper().toggleOnTrue(
+                                new HomeElevator().andThen(new Lift(Constants.ScoringConstants.Stow.kElevatorPos)));
                 xManip.leftBumper().whileTrue(new Spit());
 
         }
@@ -231,9 +238,7 @@ public class RobotContainer {
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2)).onTrue(
-                                new AligntoReef(true)
-                                );
-                                
+                                new AligntoReef(true));
 
                 new Trigger(() -> xSim.getRawButton(3))
                                 .onTrue(new PathToPoint(Constants.ScoringConstants.kResetPose));
