@@ -242,7 +242,7 @@ public final class Constants {
     public static final Pose2d kCageMiddle = new Pose2d(8.76, 6.150, new Rotation2d(0d));
     public static final Pose2d kCageBottom = new Pose2d(8.79, 5.06, new Rotation2d(0d));
 
-    public static final double spitTimeout = 2d;
+    public static final double spitTimeout = 1.5;
 
     public static class L1 {
       public static final double kArmScoringPosition = .37;
@@ -252,10 +252,10 @@ public final class Constants {
     }
 //.965
     public static class L2 {
-      // Homepos
-      public static final double kElevatorStart = ElevatorConstants.kHomePosition-0.095;
+      // Homepos095
+      public static final double kElevatorStart = ElevatorConstants.kHomePosition;
       public static final double kArmScoringPosition = .376;
-      public static final double kElevatorEnd =  ElevatorConstants.kHomePosition - 0.277;
+      public static final double kElevatorEnd =  ElevatorConstants.kHomePosition - 0.275;
       public static final double kArmSafePosition = 0.25;
       public static final double kELevatorAlgepos = 0.91;
       public static final double kArmAlgePos = -0.75;
@@ -282,7 +282,7 @@ public final class Constants {
     }
 
     public static class Schloop {
-      public static final double kElevatorPos =  ElevatorConstants.kHomePosition - .165;
+      public static final double kElevatorPos =  ElevatorConstants.kHomePosition - .175;
       public static final double kArmSchloPos = ArmConstants.kArmRestSetpoint;
 
     }
@@ -350,7 +350,7 @@ public final class Constants {
     static final Pigeon2Configuration pigeonConfigs = null;
     // new Pigeon2Configuration()
     //     .withMountPose(new MountPoseConfigs().withMountPosePitch(0.57)
-    //         .withMountPoseYaw(-91.79)
+    //         .withMo[\]untPoseYaw(-91.79)
     //         .withMountPoseRoll(0.7));
 
     // CAN bus that the devices are located on;
@@ -358,8 +358,8 @@ public final class Constants {
     public static final CANBus kCANBus = new CANBus("Canivore", "./logs/example.hoot");
 
     public static class AutoConstants {
-      public static final PIDConstants translationPID = new PIDConstants(1, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(20, 10, 0
+      public static final PIDConstants translationPID = new PIDConstants(10, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(5, 0, 0
       );
 
       public static final double kSlurpTimeout = 3d;

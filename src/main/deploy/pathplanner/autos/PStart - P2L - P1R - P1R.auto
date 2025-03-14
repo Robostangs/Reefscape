@@ -17,12 +17,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Pro 2L to Pro Feeder"
@@ -59,12 +53,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Pro 1R to Pro Feeder"
@@ -98,12 +86,6 @@
           "type": "named",
           "data": {
             "name": "L3 Score"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
           }
         }
       ]

@@ -22,7 +22,6 @@ public class Extend extends Command {
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
 
     intake.setExtendPosition();
-    aintake.runDutyCycleIntake(0.75);
 
 
   }
@@ -36,8 +35,6 @@ public class Extend extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("Retracted");
-    aintake.runDutyCycleIntake(0);
-    // intake.setIntakePiviotBrake();
     intake.stopBar();
 
   }

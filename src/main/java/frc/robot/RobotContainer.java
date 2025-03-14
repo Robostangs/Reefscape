@@ -15,6 +15,7 @@ import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
@@ -160,8 +161,9 @@ public class RobotContainer {
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo( Retract.Retract));
 
-                xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
+                // xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
 
+                xDrive.b().toggleOnTrue(new Extend());
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
 
@@ -194,9 +196,9 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
                                 .whileTrue(new RunElevator(() -> -xManip.getRightY() / 2));
 
-                xManip.a().toggleOnTrue(ScoringFactory.L4Score(() -> xManip.leftBumper().getAsBoolean()).finallyDo(ScoringFactory.returnStow()));
-                xManip.b().toggleOnTrue(ScoringFactory.L3Score(() -> xManip.leftBumper().getAsBoolean()).finallyDo(ScoringFactory.returnStow()));
-                xManip.y().toggleOnTrue(ScoringFactory.L2Score(() -> xManip.leftBumper().getAsBoolean()).finallyDo(ScoringFactory.returnStow()));
+                xManip.a().toggleOnTrue(ScoringFactory.L4Position());
+                xManip.b().toggleOnTrue(ScoringFactory.L3Position());
+                xManip.y().toggleOnTrue(ScoringFactory.L2Position());
                 xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
 
                 xManip.povDown().toggleOnTrue(new Slurp());
@@ -217,8 +219,8 @@ public class RobotContainer {
 
                 xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
-                xManip.rightBumper().toggleOnTrue(new HomeElevator());
-                // xManip.leftBumper().whileTrue(new Spit());
+                xManip.rightBumper().toggleOnTrue(new HomeElevator().andThen(new Lift(Constants.ScoringConstants.Stow.kElevatorPos)));
+                xManip.leftBumper().whileTrue(new Spit());
 
         }
 

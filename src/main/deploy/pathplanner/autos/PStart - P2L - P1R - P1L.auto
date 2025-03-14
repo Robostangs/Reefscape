@@ -17,33 +17,40 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Pro 2L to Pro Feeder"
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Ground Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro Clean Up"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pro Clean Up"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Retract"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Schloop"
           }
         },
         {
@@ -59,33 +66,40 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Pro 1R to Pro Feeder"
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Ground Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro Clean Up"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pro Clean Up"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Retract"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Schloop"
           }
         },
         {
@@ -98,12 +112,6 @@
           "type": "named",
           "data": {
             "name": "L4 Score"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
           }
         }
       ]

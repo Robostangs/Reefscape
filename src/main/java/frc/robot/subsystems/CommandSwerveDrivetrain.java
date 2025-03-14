@@ -328,9 +328,9 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(0);
                 scorePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
                 rightPose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide);
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightRightSide);
             }
 
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightRightSide) > 0

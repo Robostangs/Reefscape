@@ -17,7 +17,8 @@ public class IntakeFactory {
      * @return A command extends intake then runs the wheels and finally retracts
      */
     public static Command IntakeCoral() {
-        return new Extend().andThen(new RunIntake())
+        return new Extend().alongWith(new RunIntake()
+        ).andThen(new RunIntake())
         // .finallyDo(Retract.Retract)
         ;
     }

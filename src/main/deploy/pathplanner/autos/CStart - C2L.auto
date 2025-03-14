@@ -13,13 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "L4 Score"
           }
         }
       ]
