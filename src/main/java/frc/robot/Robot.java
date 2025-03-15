@@ -298,7 +298,7 @@ public class Robot extends TimedRobotstangs {
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.3))
           .withTimeout(1d);
 
     } else if (autoName.equals("PTP")) {

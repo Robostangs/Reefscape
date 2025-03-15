@@ -352,9 +352,9 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     // Constants.VisionConstants.kLimelightScoreSide)[0].ambiguity <
                     // Constants.VisionConstants.AmbiguityThreshold
                     && scorePose != null) {
-                if(!DriverStation.isTeleop()){
-                this.addVisionMeasurement(scorePose.pose, scorePose.timestampSeconds);
-                }
+                // if(!DriverStation.isTeleop()){
+                // this.addVisionMeasurement(scorePose.pose, scorePose.timestampSeconds);
+                // }
                 Robot.teleopField.getObject("Limelight Four Pose").setPose(scorePose.pose);
             }
 
