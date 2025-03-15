@@ -15,6 +15,12 @@
           "data": {
             "name": "L4 Score"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "More Dump PooPoo"
+          }
         }
       ]
     }

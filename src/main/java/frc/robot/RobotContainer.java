@@ -136,7 +136,8 @@ public class RobotContainer {
 
                 // xTest.a().whileTrue(new HomeElevator());
 
-                xTest.a().onTrue(IntakePivot.getInstance().runOnce(IntakePivot.getInstance().zeroIntakeRun));
+                // xTest.a().onTrue(IntakePivot.getInstance().runOnce(IntakePivot.getInstance().zeroIntakeRun));
+                xTest.a().toggleOnTrue(new HomeElevator());
 
                 xTest.x().toggleOnTrue(new Retract());
                 xTest.y().toggleOnTrue(new Extend());
@@ -220,10 +221,7 @@ public class RobotContainer {
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
 
-                // xManip.povUp().onTrue(new Spit().withTimeout(0.1).andThen(new
-                // Slurp().withTimeout(0.1).onlyIf(
-                // xManip.rightTrigger(0.3)
-                // )));
+     
 
                 xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
