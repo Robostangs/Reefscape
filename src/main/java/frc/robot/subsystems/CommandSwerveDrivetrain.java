@@ -319,7 +319,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
             LimelightHelpers.PoseEstimate scorePose, rightPose;
             if (DriverStation.isDisabled()) {
-
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(200);
 

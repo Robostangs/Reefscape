@@ -294,11 +294,10 @@ public class Robot extends TimedRobotstangs {
 
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
-
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.3))
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.5))
           .withTimeout(1d);
 
     } else if (autoName.equals("PTP")) {
