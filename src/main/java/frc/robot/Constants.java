@@ -115,12 +115,12 @@ public final class Constants {
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
-    // public static final double kArmP = 9000;
-    // public static final double kArmI = 5000;
-    // public static final double kArmD = 500;
-        public static final double kArmP = 5000;
-    public static final double kArmI = 500;
-    public static final double kArmD = 400;
+    public static final double kArmP = 9000;
+    public static final double kArmI = 5000;
+    public static final double kArmD = 500;
+    //     public static final double kArmP = 5000;
+    // public static final double kArmI = 500;
+    // public static final double kArmD = 400;
     public static final double kArmS = 4;
     public static final double kArmV = 15;
     public static final double kArmA = 10;
