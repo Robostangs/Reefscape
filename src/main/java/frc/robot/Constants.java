@@ -193,7 +193,7 @@ public final class Constants {
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
-    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.25, 0.25, Units.degreesToRadians(100));
+    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightScoreSide = "limelight-score";
     public static final String kLimelightRightSide = "limelight-right";
     public static final String kLimelightCoralName = "TheBEEPEE";

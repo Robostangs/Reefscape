@@ -322,15 +322,25 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(200);
 
-                scorePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
-                rightPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide);
+                scorePose = !Robot.isRed()
+                        ? LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide)
+                        : LimelightHelpers.getBotPoseEstimate_wpiRed(Constants.VisionConstants.kLimelightScoreSide);
+                rightPose = !Robot.isRed()
+                        ? LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide)
+                        : LimelightHelpers.getBotPoseEstimate_wpiRed(Constants.VisionConstants.kLimelightRightSide);
             } else {
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(0);
-                scorePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
-                rightPose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightRightSide);
+                scorePose = !Robot.isRed()
+                        ? LimelightHelpers
+                                .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide)
+                        : LimelightHelpers
+                                .getBotPoseEstimate_wpiRed_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
+
+                rightPose = !Robot.isRed()
+                        ? LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide)
+                        : LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
+
             }
 
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightRightSide) > 0
