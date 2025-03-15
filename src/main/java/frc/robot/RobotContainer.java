@@ -161,12 +161,12 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
-                // new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
-                //                 .onTrue(
-                //                                 new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble,
-                //                                                 1)))
-                //                 .onFalse(
-                //                                 new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
+                new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
+                                .onTrue(
+                                                new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble,
+                                                                1)))
+                                .onFalse(
+                                                new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo(Retract.Retract));
 
@@ -193,13 +193,13 @@ public class RobotContainer {
 
         private void configureManipBindings() {
 
-                // new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
-                //                 .onTrue(
-                //                                 new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
-                //                                                 1)))
-                //                 .onFalse(
-                //                                 new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
-                //                                                 0)));
+                new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
+                                .onTrue(
+                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
+                                                                1)))
+                                .onFalse(
+                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
+                                                                0)));
 
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
                                 .whileTrue(new RunArm(() -> xManip.getLeftY() / 2));

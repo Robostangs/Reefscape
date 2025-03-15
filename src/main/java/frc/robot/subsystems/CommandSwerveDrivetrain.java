@@ -299,7 +299,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
              * entirely
              */
 
-             //TODO find out why mega tag 2 isn't working
+            // TODO find out why mega tag 2 isn't working
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightRightSide,
                     getState().Pose.getRotation().getDegrees(),
                     0d,
@@ -323,24 +323,15 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(200);
 
-                scorePose = !Robot.isRed()
-                        ? LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide)
-                        : LimelightHelpers.getBotPoseEstimate_wpiRed(Constants.VisionConstants.kLimelightScoreSide);
-                rightPose = !Robot.isRed()
-                        ? LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide)
-                        : LimelightHelpers.getBotPoseEstimate_wpiRed(Constants.VisionConstants.kLimelightRightSide);
+                scorePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
+                rightPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide);
             } else {
                 NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
                         .getEntry("throttle-set").setNumber(0);
-                scorePose = !Robot.isRed()
-                        ? LimelightHelpers
-                                .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide)
-                        : LimelightHelpers
-                                .getBotPoseEstimate_wpiRed(Constants.VisionConstants.kLimelightScoreSide);
-
-                rightPose = !Robot.isRed()
-                        ? LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide)
-                        : LimelightHelpers.getBotPoseEstimate_wpiRed(Constants.VisionConstants.kLimelightScoreSide);
+                scorePose = LimelightHelpers
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
+                rightPose = LimelightHelpers
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightRightSide);
 
             }
 
@@ -349,7 +340,10 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     // Constants.VisionConstants.kLimelightRightSide)[0].ambiguity <
                     // Constants.VisionConstants.AmbiguityThreshold
                     && rightPose != null) {
-                this.addVisionMeasurement(rightPose.pose, rightPose.timestampSeconds);
+
+                        if(!DriverStation.isTeleop()){
+                            this.addVisionMeasurement(rightPose.pose, rightPose.timestampSeconds);
+                        }
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(rightPose.pose);
 
             }
@@ -358,7 +352,9 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     // Constants.VisionConstants.kLimelightScoreSide)[0].ambiguity <
                     // Constants.VisionConstants.AmbiguityThreshold
                     && scorePose != null) {
+                if(!DriverStation.isTeleop()){
                 this.addVisionMeasurement(scorePose.pose, scorePose.timestampSeconds);
+                }
                 Robot.teleopField.getObject("Limelight Four Pose").setPose(scorePose.pose);
             }
 
