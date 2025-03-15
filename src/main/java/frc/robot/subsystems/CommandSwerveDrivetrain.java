@@ -301,7 +301,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
             // TODO find out why mega tag 2 isn't working
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightRightSide,
-                    getState().Pose.getRotation().getDegrees(),
+                    this.getState().Pose.getRotation().getDegrees(),
                     0d,
                     0d,
                     0d,
@@ -342,7 +342,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                     && rightPose != null) {
 
                         if(!DriverStation.isTeleop()){
-                            this.addVisionMeasurement(rightPose.pose, rightPose.timestampSeconds);
+                            // this.addVisionMeasurement(rightPose.pose, rightPose.timestampSeconds);
                         }
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(rightPose.pose);
 

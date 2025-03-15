@@ -28,7 +28,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -226,7 +225,6 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Schloop", ScoringFactory.SchloopCommand().withTimeout(0.5));
 
 
-    LiveWindow.enableAllTelemetry();
   }
 
   @Override
