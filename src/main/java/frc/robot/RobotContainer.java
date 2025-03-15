@@ -6,6 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.util.FlippingUtil;
@@ -42,6 +43,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakePivot;
+import edu.wpi.first.wpilibj.Timer;
+
 
 public class RobotContainer {
         // max angular velocity
@@ -158,7 +161,7 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
-                new Trigger(() -> DriverStation.getMatchTime() < 30).and(() -> DriverStation.getMatchTime() < 15)
+                new Trigger(() -> Timer.getMatchTime() < 30).and(() -> Timer.getMatchTime() > 25)
                                 .onTrue(
                                                 new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble,
                                                                 1)))
@@ -191,7 +194,7 @@ public class RobotContainer {
 
         private void configureManipBindings() {
 
-                new Trigger(() -> DriverStation.getMatchTime() < 30).and(() -> DriverStation.getMatchTime() < 15)
+                new Trigger(() -> Timer.getMatchTime() < 30).and(() -> Timer.getMatchTime() > 25)
                                 .onTrue(
                                                 new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
                                                                 1)))

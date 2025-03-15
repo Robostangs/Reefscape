@@ -42,15 +42,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Retract"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Schloop"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Retract"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Schloop"
+                }
+              }
+            ]
           }
         },
         {
@@ -91,15 +98,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Retract"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Schloop"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Retract"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Schloop"
+                }
+              }
+            ]
           }
         },
         {

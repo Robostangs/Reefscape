@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 5.7,
-        "y": 3.6896109102074233
+        "y": 3.755
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.521737802058796,
-        "y": 2.2068146221885945
+        "y": 2.272203711981171
       },
       "isLocked": false,
       "linkedName": "Center 2R"
