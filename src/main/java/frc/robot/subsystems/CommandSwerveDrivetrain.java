@@ -299,6 +299,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
              * entirely
              */
 
+             //TODO find out why mega tag 2 isn't working
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightRightSide,
                     getState().Pose.getRotation().getDegrees(),
                     0d,
@@ -333,13 +334,13 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                         .getEntry("throttle-set").setNumber(0);
                 scorePose = !Robot.isRed()
                         ? LimelightHelpers
-                                .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide)
+                                .getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide)
                         : LimelightHelpers
-                                .getBotPoseEstimate_wpiRed_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
+                                .getBotPoseEstimate_wpiRed(Constants.VisionConstants.kLimelightScoreSide);
 
                 rightPose = !Robot.isRed()
-                        ? LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide)
-                        : LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
+                        ? LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide)
+                        : LimelightHelpers.getBotPoseEstimate_wpiRed(Constants.VisionConstants.kLimelightScoreSide);
 
             }
 

@@ -161,7 +161,7 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
-                new Trigger(() -> Timer.getMatchTime() < 30).and(() -> Timer.getMatchTime() > 25)
+                new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
                                 .onTrue(
                                                 new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble,
                                                                 1)))
@@ -170,7 +170,6 @@ public class RobotContainer {
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo(Retract.Retract));
 
-                // xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
 
                 xDrive.b().toggleOnTrue(new Extend());
                 xDrive.y().toggleOnTrue(new Untake());
@@ -194,7 +193,7 @@ public class RobotContainer {
 
         private void configureManipBindings() {
 
-                new Trigger(() -> Timer.getMatchTime() < 30).and(() -> Timer.getMatchTime() > 25)
+                new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
                                 .onTrue(
                                                 new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
                                                                 1)))
@@ -212,7 +211,7 @@ public class RobotContainer {
                 xManip.y().toggleOnTrue(ScoringFactory.L2Position());
                 xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
 
-                xManip.povDown().toggleOnTrue(new Slurp());
+                xManip.povDown().whileTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
 
@@ -229,7 +228,7 @@ public class RobotContainer {
                 xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 xManip.rightBumper().toggleOnTrue(
-                                new HomeElevator().andThen(new Lift(Constants.ScoringConstants.Stow.kElevatorPos)));
+                                new HomeElevator().andThen(ScoringFactory.Stow()));
                 xManip.leftBumper().whileTrue(new Spit());
 
         }

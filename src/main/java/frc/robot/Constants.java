@@ -331,7 +331,6 @@ public final class Constants {
     private static final SteerFeedbackType kSteerFeedbackType = SteerFeedbackType.FusedCANcoder;
 
     // The stator current at which the wheels start to slip;
-    // TODO tune
     // This needs to be tuned to your individual robot
     private static final Current kSlipCurrent = Amps.of(120.0);
 

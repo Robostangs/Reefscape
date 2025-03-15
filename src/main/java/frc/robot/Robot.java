@@ -225,7 +225,6 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Return Stow", ScoringFactory.Stow());
     NamedCommands.registerCommand("Schloop", ScoringFactory.SchloopCommand().withTimeout(0.5));
 
-    // TODO add a delay to path
 
     LiveWindow.enableAllTelemetry();
   }
