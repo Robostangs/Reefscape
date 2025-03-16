@@ -117,7 +117,7 @@ public final class Constants {
 
     public static final double kArmP = 9000;
     public static final double kArmI = 5000;
-    public static final double kArmD = 500;
+    public static final double kArmD = 250;
     //     public static final double kArmP = 5000;
     // public static final double kArmI = 500;
     // public static final double kArmD = 400;
@@ -186,8 +186,8 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
 
-    public static final double kHomePosition = 0.9525;
-    public static final double kSafeArmElevatorPosition = kHomePosition;
+    public static final double kHomePosition = 0.97155;
+    public static final double kSafeArmElevatorPosition =0.941;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
   }
 
