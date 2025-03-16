@@ -196,6 +196,8 @@ public final class Constants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightScoreSide = "limelight-score";
     public static final String kLimelightRightSide = "limelight-right";
+    //TODO find the 
+    public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kMegaTagTwoThreshold = 22.5;
@@ -257,7 +259,7 @@ public final class Constants {
     public static class L2 {
       // Homepos095
       public static final double kElevatorStart = ElevatorConstants.kHomePosition;
-      public static final double kArmScoringPosition = .329;
+      public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
       public static final double kArmSafePosition = 0.25;
       public static final double kELevatorAlgepos = 0.91;

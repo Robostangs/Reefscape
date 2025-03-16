@@ -357,22 +357,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 Robot.teleopField.getObject("Limelight Four Pose").setPose(scorePose.pose);
             }
 
-            // for (int tags = 0; tags <
-            // LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide).length;
-            // tags++) {
-            // SmartDashboard.putNumber("Vision/Score Side Ambiguity " + tags,
-            // LimelightHelpers
-            // .getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[tags].ambiguity);
-            // }
-
-            // for (int tags = 0; tags <
-            // LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightRightSide).length;
-            // tags++) {
-            // SmartDashboard.putNumber("Vision/Score Side Ambiguity " + tags,
-            // LimelightHelpers
-            // .getRawFiducials(Constants.VisionConstants.kLimelightRightSide)[tags].ambiguity);
-            // }
-        }
+           }
 
         SmartDashboard.putNumber("Vision/Angular Velocity ",
                 this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble());

@@ -22,6 +22,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -210,6 +211,8 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
+    teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightRightSide, Constants.VisionConstants.kLimelightRightSideIP)  );
+
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score().andThen(ScoringFactory.Stow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow()));
 
@@ -283,6 +286,11 @@ public class Robot extends TimedRobotstangs {
 
     // teleopField.getObject("Starting
     // Pose").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
+  }
+
+  @Override
+  public void disabledExit() {
+
   }
 
   public void autonomousInit() {
@@ -382,6 +390,7 @@ public class Robot extends TimedRobotstangs {
    */
   public static void publishTrajectory(String autoName) {
 
+
     PathPlannerAuto auto = new PathPlannerAuto(autoName);
     if (autoName == null) {
       teleopField.getObject(Constants.SwerveConstants.AutoConstants.kFieldObjectName)
@@ -449,6 +458,7 @@ public class Robot extends TimedRobotstangs {
       e.printStackTrace();
     }
 
+    
     Robot.teleopField.getObject(Constants.SwerveConstants.AutoConstants.kFieldObjectName).setPoses(poses);
   }
 
