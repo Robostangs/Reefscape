@@ -275,15 +275,15 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             });
         }
 
-        for (SwerveModule<TalonFX, TalonFX, CANcoder> swerveModule : getModules()) {
-            if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
-                swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
-            }
-            if (Robot.verifyMotor(swerveModule.getSteerMotor())) {
-                swerveModule.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
-            }
+        // for (SwerveModule<TalonFX, TalonFX, CANcoder> swerveModule : getModules()) {
+        //     if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
+        //         swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
+        //     }
+        //     if (Robot.verifyMotor(swerveModule.getSteerMotor())) {
+        //         swerveModule.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
+        //     }
 
-        }
+        // }
 
         if (!Robot.isSimulation()
                 &&
@@ -335,9 +335,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             }
 
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightRightSide) > 0
-                    // && LimelightHelpers.getRawFiducials(
-                    // Constants.VisionConstants.kLimelightRightSide)[0].ambiguity <
-                    // Constants.VisionConstants.AmbiguityThreshold
                     && rightPose != null) {
 
                         if(!DriverStation.isTeleop()){
@@ -347,9 +344,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
             }
             if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0
-                    // && LimelightHelpers.getRawFiducials(
-                    // Constants.VisionConstants.kLimelightScoreSide)[0].ambiguity <
-                    // Constants.VisionConstants.AmbiguityThreshold
                     && scorePose != null) {
                 // if(!DriverStation.isTeleop()){
                 // this.addVisionMeasurement(scorePose.pose, scorePose.timestampSeconds);
