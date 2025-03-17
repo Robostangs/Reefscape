@@ -18,13 +18,15 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import frc.robot.commands.SwerveCommands.AligntoReef;
 
 public class AligntoReef extends Command {
 
     CommandSwerveDrivetrain drivetrain;
 
-    SwerveRequest.FieldCentricFacingAngle driveRequest;
+    SwerveRequest.RobotCentricFacingAngle driveRequest;
+
 
     Supplier<Double> translateX, translateY;
     Supplier<Rotation2d> getTargetRotation;
@@ -52,12 +54,10 @@ public class AligntoReef extends Command {
     }
 
     public Pose2d getTargetPose() {
-        if (LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide).length != 0 ||
-                LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide) == null) {
-            return null;
-        } else {
+        Pose2d targetPose = getReefPose();
 
-            Pose2d targetPose = getReefPose();
+
+  
             if (Right) {
                 targetPose = targetPose.transformBy(
                         new Transform2d(new Translation2d(Units.inchesToMeters(7 - 10), 0),
@@ -66,10 +66,8 @@ public class AligntoReef extends Command {
                 targetPose = targetPose.transformBy(
                         new Transform2d(new Translation2d(Units.inchesToMeters(-7 - 10), 0),
                                 Rotation2d.fromDegrees(270)));
-
-            }
-            return targetPose;
         }
+        return targetPose;
 
     }
 
@@ -98,10 +96,13 @@ public class AligntoReef extends Command {
     @Override
     public void initialize() {
 
-        driveRequest = new SwerveRequest.FieldCentricFacingAngle();
+        driveRequest = new SwerveRequest.RobotCentricFacingAngle();
         driveRequest.HeadingController = new PhoenixPIDController(6, 0, 1);
 
         drivetrain.postStatus("Aligning to Reef");
+
+        Robot.teleopField.getObject("Reef Align Pose")
+                .setPose(new Pose2d(getTargetPose().getX(), getTargetPose().getY(), getTargetPose().getRotation()));
 
     }
 
@@ -112,14 +113,24 @@ public class AligntoReef extends Command {
 
         driveRequest.TargetDirection = getTargetRotation.get();
 
+        if(getTargetPose().getX() - CommandSwerveDrivetrain.getInstance().getState().Pose.getX() > 0){
+            driveRequest.withVelocityX(-Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.2);
+        }
+        else{
+            driveRequest.withVelocityX(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.2);
+        }
+
+
+        if(getTargetPose().getY() - CommandSwerveDrivetrain.getInstance().getState().Pose.getY() > 0){
+            driveRequest.withVelocityY(-Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.2);
+        }
+        else{
+            driveRequest.withVelocityY(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.2);
+        }
+
         drivetrain.setControl(driveRequest);
 
 
-        new PathToPoint(getTargetPose()).schedule();
-
-
-        Robot.teleopField.getObject("Reef Align Pose")
-                .setPose(new Pose2d(targetPose.getX(), targetPose.getY(), targetPose.getRotation()));
 
         SmartDashboard.putNumber("Drivetrain/April Tag ID", AprilTagID);
     }
@@ -133,7 +144,7 @@ public class AligntoReef extends Command {
     public boolean isFinished() {
 
         return (Math.abs(drivetrain.getPose().getY() - targetPose.getY()) < 0.1)
-                && (Math.abs(drivetrain.getPose().getY() - targetPose.getY()) < 0.1);
+                && (Math.abs(drivetrain.getPose().getX() - targetPose.getX()) < 0.1);
 
     }
 }

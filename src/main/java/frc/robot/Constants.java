@@ -201,6 +201,10 @@ public final class Constants {
     public static final double kTxThresholdCoral = 5;
     public static final double AmbiguityThreshold = 0.5;
 
+    public static class ReefAlign{
+      
+    }
+
   }
 
   public static class ScoringConstants {
