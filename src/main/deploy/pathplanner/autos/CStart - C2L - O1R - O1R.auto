@@ -13,13 +13,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
+            "name": "L4 Score"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "Return Stow"
           }
         },
         {
@@ -31,7 +31,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "Ground Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Clean Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract"
           }
         },
         {
@@ -43,13 +55,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
+            "name": "L4 Score"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "Return Stow"
           }
         },
         {
@@ -61,37 +73,37 @@
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "Ground Intake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open Feeder to Open 1R L3"
+            "pathName": "Open Clean Up"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "Retract"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Open 1R to Open Feeder"
+            "pathName": "Open Feeder to Open 1R"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "L3 Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Return Stow"
           }
         }
       ]

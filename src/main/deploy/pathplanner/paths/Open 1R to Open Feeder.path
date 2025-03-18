@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.000520264737991,
-        "y": 5.766708174126637
+        "x": 4.071960616438356,
+        "y": 5.294670376712329
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3122837001188765,
-        "y": 5.677894297966872
+        "x": 2.3837240518192413,
+        "y": 5.205856500552564
       },
       "isLocked": false,
       "linkedName": "Open 1R"
     },
     {
       "anchor": {
-        "x": 1.6339865072325326,
-        "y": 7.275260558815502
+        "x": 2.2894919259207587,
+        "y": 7.332151576450892
       },
       "prevControl": {
-        "x": 2.9257401932266616,
-        "y": 5.951552524164352
+        "x": 3.5812456119148877,
+        "y": 6.008443541799743
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,30 +31,18 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Feeder Intake",
-      "waypointRelativePos": 0.3719003943594646,
-      "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Feeder Intake"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 1.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 4.73,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 773.5,
+    "maxAngularAcceleration": 171.89,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 36.36428895949701
+    "rotation": -145.57714341902755
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",

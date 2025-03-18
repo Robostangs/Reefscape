@@ -17,19 +17,20 @@ public class Untake extends Command{
     public void initialize() {
 
         intake.postStatus("Untaking");
+        intake.runDutyCycleIntake(-0.75);
+
     }
 
     @Override
     public void execute() {
 
-        intake.runIntake(-0.75);
 
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.postStatus("Coral Out");
-        intake.runIntake(0d);
+        intake.runDutyCycleIntake(0d);
 
     }
 

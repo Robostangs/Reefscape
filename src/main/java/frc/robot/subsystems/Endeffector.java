@@ -39,6 +39,7 @@ public class Endeffector extends SubsystemBase {
 
     @Override
     public void periodic() {
+
         SmartDashboard.putNumber("Speed Endeffector", endeffectorMotor.getMotorOutputPercent());
     }
 

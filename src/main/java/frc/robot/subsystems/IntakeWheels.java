@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class IntakeWheels extends SubsystemBase {
     private TalonFX intakeMotor;
@@ -24,7 +25,7 @@ public class IntakeWheels extends SubsystemBase {
 
     }
 
-    public void runIntake(double IntakeDutyCycle) {
+    public void runDutyCycleIntake(double IntakeDutyCycle) {
         intakeMotor.set(IntakeDutyCycle);
     }
 
@@ -49,7 +50,7 @@ public class IntakeWheels extends SubsystemBase {
     
     @Override
     public void periodic() {
-
+        // Robot.verifyMotor(intakeMotor);
         // SmartDashboard.putBoolean("Intake/Sensor", IntakeSensor.get());
 
     }

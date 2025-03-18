@@ -18,12 +18,13 @@ public class RunIntake extends Command {
   public void initialize() {
 
     intake.postStatus("Intaking");
+    intake.runDutyCycleIntake(0.65);
+
   }
 
   @Override
   public void execute() {
 
-    intake.runIntake(0.75);
 
 
   }
@@ -31,19 +32,15 @@ public class RunIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("Coral In");
-    intake.runIntake(0d);
+    intake.runDutyCycleIntake(0d);
 
 
   }
 
   @Override
   public boolean isFinished() {
-    if(Robot.isSimulation()){
       return false;
-    }
-    else{
-      return intake.getIntakeSensor();
-    }   
+ 
   }
 
 }

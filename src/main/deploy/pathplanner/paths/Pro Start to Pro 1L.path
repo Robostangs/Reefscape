@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.563717504776202,
-        "y": 1.9062410446233615
+        "x": 7.19730308219178,
+        "y": 1.913891267123288
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.002695994814412,
-        "y": 1.8032593306495632
+        "x": 4.636281572229991,
+        "y": 1.8109095531494896
       },
       "isLocked": false,
       "linkedName": "Pro Start"
     },
     {
       "anchor": {
-        "x": 3.29516537595524,
-        "y": 2.7575864833515276
+        "x": 3.6211900684931506,
+        "y": 3.0558433219178083
       },
       "prevControl": {
-        "x": 4.616368883809438,
-        "y": 1.8379103331463273
+        "x": 4.942393576347348,
+        "y": 2.1361671717126085
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,24 +50,12 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "L4 Prime",
-      "waypointRelativePos": 0.36012102122015915,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "L4 Prime"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 1.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 4.73,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 773.5,
+    "maxAngularAcceleration": 171.89,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -79,7 +67,7 @@
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.74480287297555
+    "rotation": 91.74426616692426
   },
   "useDefaultConstraints": true
 }

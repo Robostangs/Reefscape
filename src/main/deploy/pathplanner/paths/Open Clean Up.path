@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.2894919259207587,
+        "y": 7.332151576450892
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.52391357421875,
+        "y": 7.409836687360491
+      },
+      "isLocked": false,
+      "linkedName": "Open Feeder"
+    },
+    {
+      "anchor": {
+        "x": 0.7491537911551339,
+        "y": 6.427372523716517
+      },
+      "prevControl": {
+        "x": 0.9569091796875,
+        "y": 6.781010654994419
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Open Feeder End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.73,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 773.5,
+    "maxAngularAcceleration": 171.89,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -127.94955510801222
+  },
+  "reversed": false,
+  "folder": "Feeder Clean Up",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -145.57714341902755
+  },
+  "useDefaultConstraints": true
+}

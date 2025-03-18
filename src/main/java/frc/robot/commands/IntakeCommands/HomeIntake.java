@@ -26,7 +26,7 @@ public class HomeIntake extends Command{
     @Override
     public void end(boolean interrupted) {
         intake.setPiviotDutyCycle(0);
-        intake.setPivotZero();
+        intake.point3Intake();
         intake.postStatus("intake homed");
 
 

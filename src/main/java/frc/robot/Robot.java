@@ -11,6 +11,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -21,12 +22,17 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -34,16 +40,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.ElevatorCommands.Lift;
+import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SwerveCommands.PathToPoint;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.IntakePivot;
+import frc.robot.subsystems.IntakeWheels;
 
 public class Robot extends TimedRobotstangs {
 
@@ -70,8 +86,9 @@ public class Robot extends TimedRobotstangs {
   private SendableChooser<String> thirdPieceChooser = new SendableChooser<>();
   private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
 
+  static NetworkTableEntry pathDelay;
+
   private Command autoCommand;
-  
 
   private static GcStatsCollector gscollect = new GcStatsCollector();
   private static String lastAutoName;
@@ -79,6 +96,9 @@ public class Robot extends TimedRobotstangs {
   private static Alert publishfail = new Alert("Publishing failed", AlertType.kError);
   private static Alert noAutoSelected = new Alert("No Auto Selected", AlertType.kWarning);
   private static Alert ShittyAlert = new Alert("We going forward ", AlertType.kInfo);
+  private Timer timer = new Timer();
+
+  private String oldAutoName = "";
 
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -171,28 +191,52 @@ public class Robot extends TimedRobotstangs {
         .withSize(1, 1)
         .withPosition(2, 3);
 
-    // autoTab.add("", Alert.class.get);
+    autoTab.add("Path Delay", 0)
+        .withSize(3, 1)
+        .withPosition(4, 4)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 15, "block increment", 15, "Divisions", 6));
+
+    pathDelay = NetworkTableInstance.getDefault().getTable("Shuffleboard")
+        .getSubTable(autoTab.getTitle())
+        .getEntry("Path Delay");
+
     autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
         + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-    NamedCommands.registerCommand("L1 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L2 Prime", new PrintCommand("Hello!"));
-    NamedCommands.registerCommand("L3 Prime", ScoringFactory.L3Position().withTimeout(3));
-    NamedCommands.registerCommand("L4 Prime", ScoringFactory.L4Position().withTimeout(3));
-    // TODO change this to spit
-    NamedCommands.registerCommand("Spit", new Spit().withTimeout(3));
+    teleopTab.addNumber("Match Time", () -> Timer.getMatchTime())
+        .withSize(3, 4)
+        .withPosition(3, 0)
+        .withWidget("Match Time")
+        .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
+
+    teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightRightSide, Constants.VisionConstants.kLimelightRightSideIP)  );
+
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score().andThen(ScoringFactory.Stow()));
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow())
+    );
+
+    NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
+    NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));
 
     NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
-    NamedCommands.registerCommand("Return Home", ScoringFactory.Stow().withTimeout(1));
-    // TODO add a delay to path
+    NamedCommands.registerCommand("Ground Intake", new Extend());
+    NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
+    NamedCommands.registerCommand("Intake", new RunIntake());
+
+    NamedCommands.registerCommand("Return Stow", ScoringFactory.Stow());
+    NamedCommands.registerCommand("Schloop", ScoringFactory.SchloopCommand().withTimeout(0.5));
+
 
   }
 
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler. This is responsible for polling buttons, adding
-    // newly-scheduled
+
+    SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
+    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
+
     // commands, running already-scheduled commands, removing finished or
     // interrupted commands,
     // and running subsystem periodic() methods. This must be called from the
@@ -225,9 +269,8 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-    //TODO ake the motors nuetral or something so they dont go back to their setpoints
-    
 
+    setAllMotorsSafe();
   }
 
   @Override
@@ -237,97 +280,78 @@ public class Robot extends TimedRobotstangs {
         firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-    /*
-     * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
-     * localization. The internal IMU is ignored entirely.
-     * 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
-     * the LL4 internal IMU’s fused yaw to match the submitted yaw value.
-     * 2 - Use internal IMU for MT2 localization. External imu data is ignored
-     * entirely
-     */
-
-    // publishTrajectory(autoName);
+    // if (!autoName.equals(oldAutoName)) {
+    //   publishTrajectory(autoName);
+    //   oldAutoName = autoName;
+    // }
 
     // teleopField.getObject("Starting
     // Pose").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
   }
 
+  @Override
+  public void disabledExit() {
+
+  }
+
   public void autonomousInit() {
+
     unpublishTrajectory();
+
+    IntakePivot.getInstance().point3Intake();
+    Climber.getInstance().zeroClimber();
 
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
-
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.15))
-          .withTimeout(1d);
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.5))
+          .withTimeout(1d).andThen(CommandSwerveDrivetrain.getInstance()
+          .applyRequest(() -> new SwerveRequest.RobotCentric().withRotationalRate(
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.3)).withTimeout(1));
 
-    }else if (autoName.equals("PTP")) {
+    } else if (autoName.equals("PTP")) {
       autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
+
           : FlippingUtil.flipFieldPose(Constants.ScoringConstants.k21BlueRReefPosePtP))
-          .andThen(ScoringFactory.L3Score());
+          .andThen(ScoringFactory.L4Score());
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
       autoCommand = new PrintCommand("doing nothing!");
     }
 
-    // switch (startChooser.getSelected()) {
-    // case "CStart":
-    // drivetrain.resetPose(
-    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to center");
+    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),
+        new HomeElevator().withTimeout(1.5).andThen(ScoringFactory.Stow()));
 
-    // break;
-    // case "OStart":
-    // drivetrain.resetPose(
-    // !isRed() ? Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to open");
+    autoGroup.addCommands(
+        new InstantCommand(timer::restart),
+        new WaitUntilCommand(() -> timer.get() > pathDelay.getDouble(0)),
+        autoCommand,
+        new InstantCommand(timer::stop));
 
-    // break;
+    autoGroup.schedule();
 
-    // case "PStart":
-    // drivetrain.resetPose(!isRed()
-    // ? Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose
-    // :
-    // FlippingUtil.flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose));
-    // SmartDashboard.putString("Current Pose", "Pose reset to pro");
-
-    // break;
-
-    // default:
-    // drivetrain.resetPose(drivetrain.getState().Pose);
-
-    // break;
-    // }
-
-    IntakePivot.getInstance().zeroIntake();
-    Climber.getInstance().zeroClimber();
-    new Retract().schedule();
-    new HomeElevator().schedule();
-    autoCommand.schedule();
-
+    // autoCommand.schedule();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   @Override
   public void teleopInit() {
     // only in pits
     // if (!DriverStation.isFMSAttached()) {
-    //   ScoringFactory.Stow().schedule();
+    // ScoringFactory.Stow().schedule();
     // }
-    
+
     unpublishTrajectory();
+
+    drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 0 : 180));
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -368,6 +392,7 @@ public class Robot extends TimedRobotstangs {
    * @param autoName what auto you want to publish
    */
   public static void publishTrajectory(String autoName) {
+
 
     PathPlannerAuto auto = new PathPlannerAuto(autoName);
     if (autoName == null) {
@@ -436,6 +461,7 @@ public class Robot extends TimedRobotstangs {
       e.printStackTrace();
     }
 
+    
     Robot.teleopField.getObject(Constants.SwerveConstants.AutoConstants.kFieldObjectName).setPoses(poses);
   }
 
@@ -465,6 +491,14 @@ public class Robot extends TimedRobotstangs {
     for (TalonFX falcon : falcons) {
       verifyMotor(falcon);
     }
+  }
+
+  public void setAllMotorsSafe() {
+    Arm.getInstance().setArmDutyCycle(0);
+    Elevator.getInstance().setElevatorDutyCycle(0);
+    IntakePivot.getInstance().setPiviotDutyCycle(0);
+    IntakeWheels.getInstance().runDutyCycleIntake(0);
+
   }
 
   /**

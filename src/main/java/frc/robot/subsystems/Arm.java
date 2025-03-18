@@ -5,6 +5,10 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +30,7 @@ public class Arm extends SubsystemBase {
 
     private Mechanism2d targetArmMechanism;
     private MechanismLigament2d targetArm;
+    private Alert armPastRotation;
 
     public static Arm getInstance() {
         if (mInstance == null)
@@ -37,6 +42,9 @@ public class Arm extends SubsystemBase {
         armMotor = new TalonFX(Constants.ArmConstants.kArmMotorId);
         armEncoder = new CANcoder(Constants.ArmConstants.kArmEncoderId);
         armControl = new MotionMagicTorqueCurrentFOC(Constants.ArmConstants.kArmRestSetpoint);
+
+        armPastRotation = new Alert("Arm is past 1 rotation and will tweak if it goes to setpoint", AlertType.kWarning);
+
 
         armControl.Slot = 0;
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
@@ -110,13 +118,13 @@ public class Arm extends SubsystemBase {
         return (target > -180) || (target < 0);
     }
 
-
+  
 
     public void setArmPosition() {
 
         if (Robot.isSimulation()) {
             armEncoder.getSimState().setRawPosition(armControl.Position);
-            targetArm.setAngle(armControl.Position);
+            targetArm.setAngle(Units.rotationsToDegrees( armControl.Position));
         } else {
             arm.setAngle(armEncoder.getPosition().getValueAsDouble());
 
@@ -139,6 +147,7 @@ public class Arm extends SubsystemBase {
         }
     }
 
+
     public void setArmMotionMagic() {
         // if (IntakePivot.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
         //         || Robot.isSimulation()) {
@@ -152,10 +161,22 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
 
+        if(armMotor.getPosition().getValueAsDouble() > 0.5){
+            armPastRotation.set(true);
+        }
+        else{
+            armPastRotation.set(false);
+        
+        // Robot.verifyMotor(armMotor);
+        Robot.verifyCANcoder(armEncoder);
         setArmPosition();
+        SmartDashboard.putNumber("Arm/acceleration", armMotor.getAcceleration().getValueAsDouble());
         SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
         SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
+
+
+        armControl.FeedForward = -40*(CommandSwerveDrivetrain.getInstance().getPigeon2().getAccelerationY().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
@@ -175,4 +196,4 @@ public class Arm extends SubsystemBase {
 
     }
 
-}
+}}

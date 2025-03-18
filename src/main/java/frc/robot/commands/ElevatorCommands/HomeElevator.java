@@ -17,11 +17,12 @@ public class HomeElevator extends Command {
     @Override
     public void initialize() {
         elevator.postStatus("elevator homing");
+        elevator.setElevatorDutyCycle(Constants.ElevatorConstants.kElevatorHomeDutyCycle);
+
     }
 
     @Override
     public void execute() {
-        elevator.setElevatorDutyCycle(Constants.ElevatorConstants.kElevatorHomeDutyCycle);
     }
 
     @Override

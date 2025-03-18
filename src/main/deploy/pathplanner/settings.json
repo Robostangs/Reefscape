@@ -5,6 +5,7 @@
   "pathFolders": [
     "Feeder to Reef Paths",
     "Goofy Paths",
+    "Feeder Clean Up",
     "Reef to Feeder Paths",
     "Stack Paths",
     "Start to Reef Paths"
@@ -15,10 +16,10 @@
     "Open Start",
     "Pro Start"
   ],
-  "defaultMaxVel": 2.0,
-  "defaultMaxAccel": 1.5,
-  "defaultMaxAngVel": 540.0,
-  "defaultMaxAngAccel": 720.0,
+  "defaultMaxVel": 4.73,
+  "defaultMaxAccel": 3.0,
+  "defaultMaxAngVel": 773.5,
+  "defaultMaxAngAccel": 171.89,
   "defaultNominalVoltage": 12.0,
   "robotMass": 65.317,
   "robotMOI": 6.883,
@@ -40,7 +41,7 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.254,\"y\":1.5},\"end\":{\"x\":0.254,\"y\":0.0},\"strokeWidth\":0.02}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.1,\"y\":1.4},\"end\":{\"x\":0.1,\"y\":0.0},\"strokeWidth\":0.02}}",
     "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.0,\"y\":0.0},\"end\":{\"x\":-3.0,\"y\":0.0},\"strokeWidth\":0.02}}"
   ]
 }

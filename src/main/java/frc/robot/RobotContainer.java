@@ -6,30 +6,45 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.util.FlippingUtil;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArmCommands.MoveArm;
 import frc.robot.commands.ArmCommands.RunArm;
+import frc.robot.commands.ClimberCommands.Deploy;
+import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.Factories.ScoringFactory.ScoringPosition;
 import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.commands.IntakeCommands.Heimlich;
 import frc.robot.commands.IntakeCommands.HomeIntake;
+import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoCage;
+import frc.robot.commands.SwerveCommands.AligntoReef;
+import frc.robot.commands.SwerveCommands.PathToPoint;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.IntakePivot;
+import edu.wpi.first.wpilibj.Timer;
+
 
 public class RobotContainer {
         // max angular velocity
@@ -119,15 +134,24 @@ public class RobotContainer {
                 xTest.rightStick().whileTrue(new Spit());
                 xTest.leftStick().whileTrue(new Slurp());
 
-                xTest.a().whileTrue(new HomeElevator());
+                // xTest.a().whileTrue(new HomeElevator());
+
+                // xTest.a().onTrue(IntakePivot.getInstance().runOnce(IntakePivot.getInstance().zeroIntakeRun));
+                xTest.a().toggleOnTrue(new HomeElevator());
 
                 xTest.x().toggleOnTrue(new Retract());
                 xTest.y().toggleOnTrue(new Extend());
                 xTest.b().toggleOnTrue(new RunIntake());
 
-                // xTest.a().whileTrue(Arm.getInstance().run(Arm.getInstance().gotoSchloop));
+                xTest.povLeft().whileTrue(new HomeIntake());
 
-                xTest.povUp().whileTrue(new HomeIntake());
+                xTest.povUp().toggleOnTrue(new Lift(Constants.ScoringConstants.L3.kElevatorPos));
+                xTest.povRight().toggleOnTrue(new MoveArm(Constants.ScoringConstants.Stow.kArmStowPos));
+
+                xTest.povDown().toggleOnTrue(ScoringFactory.Stow());
+
+                // new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.02)
+                // .whileTrue(new ManualIntake(() -> xTest.getLeftY()*0.25));
                 new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
                                 .whileTrue(new RunArm(() -> xTest.getLeftY()));
 
@@ -138,23 +162,30 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
-                xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
+                new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
+                                .onTrue(
+                                                new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble,
+                                                                1)))
+                                .onFalse(
+                                                new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
 
-                xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
+                xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo(Retract.Retract));
 
+
+                xDrive.b().toggleOnTrue(new RunIntake());
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
+
+                xDrive.a().toggleOnTrue(new AligntoCage(() -> xDrive.getLeftX(), () -> xDrive.getLeftY(), 2));
 
                 xDrive.leftStick().toggleOnTrue(new HomeIntake());
 
                 xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
-
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
 
-                                                
                 // reset the field-centric heading on left bumper press
                 xDrive.rightBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
@@ -163,55 +194,54 @@ public class RobotContainer {
 
         private void configureManipBindings() {
 
+                new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
+                                .onTrue(
+                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
+                                                                1)))
+                                .onFalse(
+                                                new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
+                                                                0)));
+
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
-                                .whileTrue(new RunArm(() -> xManip.getLeftY()/2));
+                                .whileTrue(new RunArm(() -> xManip.getLeftY() / 2));
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
-                                .whileTrue(new RunElevator(() -> -xManip.getRightY()/2));
+                                .whileTrue(new RunElevator(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(ScoringFactory.L4Position());
                 xManip.b().toggleOnTrue(ScoringFactory.L3Position());
                 xManip.y().toggleOnTrue(ScoringFactory.L2Position());
+                xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
 
-
-                xManip.povDown().toggleOnTrue(new Slurp());
-
+                xManip.povDown().whileTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
-                xManip.povUp().toggleOnTrue(ScoringFactory.StowL2());
-                //not working
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
 
-                xManip.rightBumper().toggleOnTrue(new HomeElevator());
+                xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlge(ScoringPosition.L3));
+
+                xManip.rightStick().toggleOnTrue(new Deploy(true));
+                xManip.leftStick().toggleOnTrue(new Reel(true));
+
+     
+
+                xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
+
+                xManip.rightBumper().toggleOnTrue(
+                                new HomeElevator().andThen(ScoringFactory.Stow()));
                 xManip.leftBumper().whileTrue(new Spit());
-
-                // xManip.rightStick().and(xManip.leftTrigger(0.1)).whileTrue(new Deploy(true));
-                // xManip.leftStick().and(xManip.leftTrigger(0.1)).whileTrue(new Reel(true));
-
-                // xManip.rightStick().and(xManip.rightTrigger(0.1)).whileTrue(new Deploy(false));
-                // xManip.leftStick().and(xManip.rightTrigger(0.1)).whileTrue(new Reel(false));
 
         }
 
         private void configureSimBindings() {
 
-                // new Trigger(() -> xSim.getRawButtonPressed(1))
-                // .toggleOnTrue(
-                // ScoringFactory.L4Position());
-
                 new Trigger(() -> xSim.getRawButtonPressed(1)).onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
 
-                new Trigger(() -> xSim.getRawButton(2)).toggleOnTrue(
-                                ScoringFactory.Stow());
+                new Trigger(() -> xSim.getRawButton(2)).onTrue(
+                                new AligntoReef(true));
 
                 new Trigger(() -> xSim.getRawButton(3))
-                                .toggleOnTrue(new AligntoCage(() -> xSim.getRawAxis(0)
-                                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                .in(MetersPerSecond),
-                                                () -> xSim.getRawAxis(1)
-                                                                * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                                .in(MetersPerSecond),
-                                                1));
+                                .onTrue(new PathToPoint(Constants.ScoringConstants.kResetPose));
 
         }
 

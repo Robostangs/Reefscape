@@ -13,19 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "L4 Prime"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "L4 Score"
           }
         }
       ]

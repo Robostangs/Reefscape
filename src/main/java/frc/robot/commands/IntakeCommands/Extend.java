@@ -20,16 +20,14 @@ public class Extend extends Command {
   public void initialize() {
 
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
-    intake.setPivotZero();
 
     intake.setExtendPosition();
+
 
   }
 
   @Override
   public void execute() {
-    aintake.runIntake(0.75);
-    intake.runIntakeMotionMagic();
 
   }
 
@@ -37,8 +35,6 @@ public class Extend extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("Retracted");
-    aintake.runIntake(0);
-    // intake.setIntakePiviotBrake();
     intake.stopBar();
 
   }

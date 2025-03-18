@@ -13,13 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "L4 Score"
           }
         },
         {
@@ -29,9 +23,41 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Return Home"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pro Clean Up"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Retract"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Schloop"
+                }
+              }
+            ]
           }
         },
         {
@@ -43,13 +69,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "L4 Score"
           }
         },
         {
@@ -59,9 +79,41 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Return Home"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pro Clean Up"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Retract"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Schloop"
+                }
+              }
+            ]
           }
         },
         {
@@ -73,25 +125,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro 1L to Pro Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "L4 Score"
           }
         }
       ]

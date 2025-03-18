@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
+            "name": "L4 Score"
           }
         },
         {
@@ -31,7 +31,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "Ground Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Clean Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract"
           }
         },
         {
@@ -43,7 +55,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
+            "name": "L4 Score"
           }
         },
         {
@@ -61,7 +73,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "Ground Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open Clean Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract"
           }
         },
         {
@@ -73,25 +97,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
+            "name": "L4 Score"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Open 1R to Open Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "Return Stow"
           }
         }
       ]
