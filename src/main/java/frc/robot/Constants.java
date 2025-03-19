@@ -117,7 +117,10 @@ public final class Constants {
 
     public static final double kArmP = 9000;
     public static final double kArmI = 5000;
-    public static final double kArmD = 500;
+    public static final double kArmD = 250;
+    //     public static final double kArmP = 5000;
+    // public static final double kArmI = 500;
+    // public static final double kArmD = 400;
     public static final double kArmS = 4;
     public static final double kArmV = 15;
     public static final double kArmA = 10;
@@ -133,7 +136,7 @@ public final class Constants {
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestSetpoint = -.252;
+    public static final double kArmRestSetpoint = -.25;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
@@ -158,7 +161,7 @@ public final class Constants {
 
     public static final int kLimitSwitchId = 9;
 
-    public static final double kMaxExtension = 1.6;// cm
+    public static final double kMaxExtension = 1.7;// cm
     public static final double kMinExtension = .3;// cm
 
     public static final double kElevatorMaxCurrent = 40.0d;
@@ -183,16 +186,18 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
 
-    public static final double kHomePosition = 0.95885;
-    public static final double kSafeArmElevatorPosition = kHomePosition;
+    public static final double kHomePosition = 0.97155;
+    public static final double kSafeArmElevatorPosition =0.941;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
   }
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
-    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.25, 0.25, Units.degreesToRadians(100));
+    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightScoreSide = "limelight-score";
     public static final String kLimelightRightSide = "limelight-right";
+    //TODO find the 
+    public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kMegaTagTwoThreshold = 22.5;
@@ -259,7 +264,7 @@ public final class Constants {
       // Homepos095
       public static final double kElevatorStart = ElevatorConstants.kHomePosition;
       public static final double kArmScoringPosition = .376;
-      public static final double kElevatorEnd =  ElevatorConstants.kHomePosition - 0.275;
+      public static final double kElevatorEnd =  .6775;
       public static final double kArmSafePosition = 0.25;
       public static final double kELevatorAlgepos = 0.91;
       public static final double kArmAlgePos = -0.75;
@@ -267,26 +272,26 @@ public final class Constants {
     }
 
     public static class L3 {
-      public static final double kElevatorPos =  ElevatorConstants.kHomePosition + 0.013;
-      public static final double kArmScoringPosition = .33;
+      public static final double kElevatorPos = .9655;
+      public static final double kArmScoringPosition = .329;
       public static final double kELevatorAlgepos = 1.18;
       public static final double kArmAlgePos = -0.75;
 
     }
 
     public static class L4 {
-      public static final double kElevatorPos =  ElevatorConstants.kHomePosition + .635;
-      public static final double kArmScoringPosition = .354;
+      public static final double kElevatorPos =  1.62;
+      public static final double kArmScoringPosition = .329;
 
     }
 
     public static class Stow {
-      public static final double kElevatorPos =  ElevatorConstants.kHomePosition - 0.03;
+      public static final double kElevatorPos = 0.9225;
       public static final double kArmStowPos = ArmConstants.kArmRestSetpoint;
     }
 
     public static class Schloop {
-      public static final double kElevatorPos =  ElevatorConstants.kHomePosition - .175;
+      public static final double kElevatorPos = .764;
       public static final double kArmSchloPos = ArmConstants.kArmRestSetpoint;
 
     }
@@ -332,7 +337,6 @@ public final class Constants {
     private static final SteerFeedbackType kSteerFeedbackType = SteerFeedbackType.FusedCANcoder;
 
     // The stator current at which the wheels start to slip;
-    // TODO tune
     // This needs to be tuned to your individual robot
     private static final Current kSlipCurrent = Amps.of(120.0);
 
@@ -479,7 +483,7 @@ public final class Constants {
     private static final int kFrontLeftDriveMotorId = 12;
     private static final int kFrontLeftSteerMotorId = 13;
     private static final int kFrontLeftEncoderId = 11;
-    private static final Angle kFrontLeftEncoderOffset = Rotations.of(-0.009765625);
+    private static final Angle kFrontLeftEncoderOffset = Rotations.of(-0.017822265625);
     private static final boolean kFrontLeftSteerMotorInverted = true;
     private static final boolean kFrontLeftEncoderInverted = false;
 
@@ -490,7 +494,7 @@ public final class Constants {
     private static final int kFrontRightDriveMotorId = 22;
     private static final int kFrontRightSteerMotorId = 23;
     private static final int kFrontRightEncoderId = 21;
-    private static final Angle kFrontRightEncoderOffset = Rotations.of(-0.324951171875);
+    private static final Angle kFrontRightEncoderOffset = Rotations.of(-0.31787109375);
     private static final boolean kFrontRightSteerMotorInverted = true;
     private static final boolean kFrontRightEncoderInverted = false;
 
@@ -501,7 +505,7 @@ public final class Constants {
     private static final int kBackLeftDriveMotorId = 32;
     private static final int kBackLeftSteerMotorId = 33;
     private static final int kBackLeftEncoderId = 31;
-    private static final Angle kBackLeftEncoderOffset = Rotations.of(-0.2265625);
+    private static final Angle kBackLeftEncoderOffset = Rotations.of(-0.236083984375);
     private static final boolean kBackLeftSteerMotorInverted = true;
     private static final boolean kBackLeftEncoderInverted = false;
 

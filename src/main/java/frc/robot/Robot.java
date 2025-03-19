@@ -22,13 +22,13 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -210,8 +210,11 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
+    teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightRightSide, Constants.VisionConstants.kLimelightRightSideIP)  );
+
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score().andThen(ScoringFactory.Stow()));
-    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow()));
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow())
+    );
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
     NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));
@@ -224,9 +227,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Return Stow", ScoringFactory.Stow());
     NamedCommands.registerCommand("Schloop", ScoringFactory.SchloopCommand().withTimeout(0.5));
 
-    // TODO add a delay to path
 
-    LiveWindow.enableAllTelemetry();
   }
 
   @Override
@@ -278,13 +279,18 @@ public class Robot extends TimedRobotstangs {
         firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-    if (!autoName.equals(oldAutoName)) {
-      publishTrajectory(autoName);
-      oldAutoName = autoName;
-    }
+    // if (!autoName.equals(oldAutoName)) {
+    //   publishTrajectory(autoName);
+    //   oldAutoName = autoName;
+    // }
 
     // teleopField.getObject("Starting
     // Pose").setPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
+  }
+
+  @Override
+  public void disabledExit() {
+
   }
 
   public void autonomousInit() {
@@ -296,12 +302,13 @@ public class Robot extends TimedRobotstangs {
 
     if (autoName.equals("shitting")) {
       // TODO do the shit with the shit
-
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
-          .withTimeout(1d);
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.5))
+          .withTimeout(1d).andThen(CommandSwerveDrivetrain.getInstance()
+          .applyRequest(() -> new SwerveRequest.RobotCentric().withRotationalRate(
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.3)).withTimeout(1));
 
     } else if (autoName.equals("PTP")) {
       autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
@@ -385,6 +392,7 @@ public class Robot extends TimedRobotstangs {
    */
   public static void publishTrajectory(String autoName) {
 
+
     PathPlannerAuto auto = new PathPlannerAuto(autoName);
     if (autoName == null) {
       teleopField.getObject(Constants.SwerveConstants.AutoConstants.kFieldObjectName)
@@ -452,6 +460,7 @@ public class Robot extends TimedRobotstangs {
       e.printStackTrace();
     }
 
+    
     Robot.teleopField.getObject(Constants.SwerveConstants.AutoConstants.kFieldObjectName).setPoses(poses);
   }
 

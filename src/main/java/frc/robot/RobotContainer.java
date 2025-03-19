@@ -6,6 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.util.FlippingUtil;
@@ -42,6 +43,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakePivot;
+import edu.wpi.first.wpilibj.Timer;
+
 
 public class RobotContainer {
         // max angular velocity
@@ -133,7 +136,8 @@ public class RobotContainer {
 
                 // xTest.a().whileTrue(new HomeElevator());
 
-                xTest.a().onTrue(IntakePivot.getInstance().runOnce(IntakePivot.getInstance().zeroIntakeRun));
+                // xTest.a().onTrue(IntakePivot.getInstance().runOnce(IntakePivot.getInstance().zeroIntakeRun));
+                xTest.a().toggleOnTrue(new HomeElevator());
 
                 xTest.x().toggleOnTrue(new Retract());
                 xTest.y().toggleOnTrue(new Extend());
@@ -158,7 +162,7 @@ public class RobotContainer {
 
         private void configureDriverBindings() {
 
-                new Trigger(() -> DriverStation.getMatchTime() < 30).and(() -> DriverStation.getMatchTime() < 15)
+                new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
                                 .onTrue(
                                                 new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble,
                                                                 1)))
@@ -167,9 +171,8 @@ public class RobotContainer {
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo(Retract.Retract));
 
-                // xDrive.b().toggleOnTrue(IntakeFactory.Vomit());
 
-                xDrive.b().toggleOnTrue(new Extend());
+                xDrive.b().toggleOnTrue(new RunIntake());
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
 
@@ -191,7 +194,7 @@ public class RobotContainer {
 
         private void configureManipBindings() {
 
-                new Trigger(() -> DriverStation.getMatchTime() < 30).and(() -> DriverStation.getMatchTime() < 15)
+                new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
                                 .onTrue(
                                                 new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
                                                                 1)))
@@ -209,7 +212,7 @@ public class RobotContainer {
                 xManip.y().toggleOnTrue(ScoringFactory.L2Position());
                 xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
 
-                xManip.povDown().toggleOnTrue(new Slurp());
+                xManip.povDown().whileTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
 
@@ -218,15 +221,12 @@ public class RobotContainer {
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
 
-                // xManip.povUp().onTrue(new Spit().withTimeout(0.1).andThen(new
-                // Slurp().withTimeout(0.1).onlyIf(
-                // xManip.rightTrigger(0.3)
-                // )));
+     
 
                 xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 xManip.rightBumper().toggleOnTrue(
-                                new HomeElevator().andThen(new Lift(Constants.ScoringConstants.Stow.kElevatorPos)));
+                                new HomeElevator().andThen(ScoringFactory.Stow()));
                 xManip.leftBumper().whileTrue(new Spit());
 
         }

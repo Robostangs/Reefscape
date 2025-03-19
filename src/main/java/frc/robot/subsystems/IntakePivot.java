@@ -118,7 +118,7 @@ public class IntakePivot extends SubsystemBase {
     @Override
     public void periodic() {
 
-        Robot.verifyMotor(pivotMotor);
+        // Robot.verifyMotor(pivotMotor);
         pivotMotor.setControl(pivotControl);
 
         SmartDashboard.putNumber("Intake/Setpoint", pivotControl.Position);
