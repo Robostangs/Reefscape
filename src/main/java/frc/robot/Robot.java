@@ -210,7 +210,7 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
-    teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightRightSide, Constants.VisionConstants.kLimelightRightSideIP)  );
+    teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightThree, Constants.VisionConstants.kLimelightRightSideIP)  );
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score().andThen(ScoringFactory.Stow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score().andThen(ScoringFactory.Stow())
@@ -234,7 +234,6 @@ public class Robot extends TimedRobotstangs {
   public void robotPeriodic() {
 
     SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
-    LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
 
     // commands, running already-scheduled commands, removing finished or
     // interrupted commands,
@@ -349,8 +348,6 @@ public class Robot extends TimedRobotstangs {
     // }
 
     unpublishTrajectory();
-
-    drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 0 : 180));
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

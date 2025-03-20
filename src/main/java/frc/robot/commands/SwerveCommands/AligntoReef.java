@@ -30,7 +30,7 @@ public class AligntoReef extends Command {
 
     Supplier<Double> translateX, translateY;
     Supplier<Rotation2d> getTargetRotation;
-    int AprilTagID;
+    double AprilTagID;
     boolean Right;
     Pose2d targetPose;
     AprilTagFields map;
@@ -78,8 +78,8 @@ public class AligntoReef extends Command {
 
             theMap = AprilTagFieldLayout.loadField(map);
 
-            AprilTagID = LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[0].id;
-
+            AprilTagID = LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour);
+            
         } else {
             map = AprilTagFields.k2025ReefscapeWelded;
 
@@ -88,7 +88,7 @@ public class AligntoReef extends Command {
             AprilTagID = 17;
 
         }
-        return theMap.getTagPose(AprilTagID).get().toPose2d();
+        return theMap.getTagPose(((int)AprilTagID)).get().toPose2d();
 
     }
 

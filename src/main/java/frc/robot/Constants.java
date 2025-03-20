@@ -194,12 +194,13 @@ public final class Constants {
   // WE ARE WELDEDkg
   public static class VisionConstants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
-    public static final String kLimelightScoreSide = "limelight-score";
-    public static final String kLimelightRightSide = "limelight-right";
+    public static final String kLimelightFour = "limelight-score";
+    public static final String kLimelightThree = "limelight-right";
     //TODO find the 
     public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
+    public static final double kLL4SeedMaxWz = 1;
     public static final double kMegaTagTwoThreshold = 22.5;
     public static final double kTAThresholdFour = 3d;
     public static final double kTAThresholdThree = 3d;
@@ -438,7 +439,9 @@ public final class Constants {
 
     private static final double kDriveGearRatio = 6.746031746031747;
     private static final double kSteerGearRatio = 21.428571428571427;
-    private static final Distance kWheelRadius = Inches.of(2);
+
+    //2*(what it acutally is/what it thinks)
+    private static final Distance kWheelRadius = Inches.of(2*(4.37/4.42));
 
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;
@@ -547,6 +550,7 @@ public final class Constants {
        * Creates a CommandSwerveDrivetrain instance.
        * This should only be called once in your robot program,.
        */
+
 
       /**
        * Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected

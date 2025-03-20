@@ -171,6 +171,7 @@ public class RobotContainer {
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo(Retract.Retract));
 
+                xDrive.leftBumper().toggleOnFalse(new AligntoReef(false));
 
                 xDrive.b().toggleOnTrue(new RunIntake());
                 xDrive.y().toggleOnTrue(new Untake());

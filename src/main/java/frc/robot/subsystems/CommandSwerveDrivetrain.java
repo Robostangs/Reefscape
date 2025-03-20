@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
+import frc.robot.LimelightHelpers.PoseEstimate;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -250,10 +251,10 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
     @Override
     public void periodic() {
-        super.setOperatorPerspectiveForward(
-                Rotation2d.fromDegrees((Robot.isRed() ? 180 : 0)));
 
         SmartDashboard.putNumber("Robot Y Acceleration", this.getPigeon2().getAccelerationY().getValueAsDouble());
+        SmartDashboard.putNumber("Raw fiducial ",
+                LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour));
         /*
          * Periodically try to apply the operator perspective.
          * If we haven't applied the operator perspective before, then we should apply
@@ -263,7 +264,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
          * Otherwise, only check and apply the operator perspective if the DS is
          * disabled.
          * This ensures driving behavior doesn't change until an explicit disable event
-         * occurs during testing.
+         * occurs during testing.me
          */
         if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
             DriverStation.getAlliance().ifPresent(allianceColor -> {
@@ -276,20 +277,21 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         }
 
         // for (SwerveModule<TalonFX, TalonFX, CANcoder> swerveModule : getModules()) {
-        //     if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
-        //         swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
-        //     }
-        //     if (Robot.verifyMotor(swerveModule.getSteerMotor())) {
-        //         swerveModule.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
-        //     }
+        // if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
+        // swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
+        // }
+        // if (Robot.verifyMotor(swerveModule.getSteerMotor())) {
+        // swerveModule.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
+        // }
 
         // }
 
-        if (!Robot.isSimulation()
-                &&
-                this.getPigeon2().getAngularVelocityZWorld()
-                        .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold) {
-
+        /*
+         * Only seed ll4 with external yaw angle if not rotating fast, otherwise use
+         * internal imu with mode 2
+         */
+        if (this.getPigeon2().getAngularVelocityZWorld()
+                .getValueAsDouble() > Constants.VisionConstants.kLL4SeedMaxWz) {
             /*
              * 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
              * localization. The internal IMU is ignored entirely.
@@ -298,64 +300,88 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
              * 2 - Use internal IMU for MT2 localization. External imu data is ignored
              * entirely
              */
+            LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFour, 2);
+        } else {
+            LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightFour, 1);
+
+            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightFour,
+                    this.getState().Pose.getRotation().getDegrees(),
+                    0d,
+                    0d,
+                    0d,
+                    0d,
+                    0d);
+
+        }
+
+        /** Seed the three uncondiontially bc it doesn't got that dawg(imu) in him */
+        LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightThree,
+                this.getState().Pose.getRotation().getDegrees(),
+                0d,
+                0d,
+                0d,
+                0d,
+                0d);
+
+        if (DriverStation.isDisabled()) {
+            NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightFour)
+                    .getEntry("throttle-set").setNumber(200);
+        } else {
+            NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightFour)
+                    .getEntry("throttle-set").setNumber(0);
+        }
+        if (!Robot.isSimulation()) {
 
             // TODO find out why mega tag 2 isn't working
-            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightRightSide,
-                    this.getState().Pose.getRotation().getDegrees(),
-                    0d,
-                    0d,
-                    0d,
-                    0d,
-                    0d);
 
-            LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightScoreSide,
-                    this.getState().Pose.getRotation().getDegrees(),
-                    0d,
-                    0d,
-                    0d,
-                    0d,
-                    0d);
             // TODO Tune angular velocity threshold and TA
 
-            LimelightHelpers.PoseEstimate scorePose, rightPose;
+            LimelightHelpers.PoseEstimate fourPoseEsti, threePoseEsti;
             if (DriverStation.isDisabled()) {
-                NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
-                        .getEntry("throttle-set").setNumber(200);
 
-                scorePose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightScoreSide);
-                rightPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightRightSide);
+                fourPoseEsti = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightFour);
+                threePoseEsti = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.VisionConstants.kLimelightThree);
+            } else if (this.getPigeon2().getAngularVelocityZWorld()
+                    .getValueAsDouble() < Constants.VisionConstants.kVisionAngularThreshold) {
+
+                fourPoseEsti = LimelightHelpers
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightFour);
+                threePoseEsti = LimelightHelpers
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightThree);
             } else {
-                NetworkTableInstance.getDefault().getTable(Constants.VisionConstants.kLimelightScoreSide)
-                        .getEntry("throttle-set").setNumber(0);
-                scorePose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightScoreSide);
-                rightPose = LimelightHelpers
-                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightRightSide);
+                fourPoseEsti = LimelightHelpers
+                        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.VisionConstants.kLimelightFour);
+                threePoseEsti = null;
 
             }
 
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightRightSide) > 0
-                    && rightPose != null) {
-
-                        if(!DriverStation.isTeleop()){
-                            // this.addVisionMeasurement(rightPose.pose, rightPose.timestampSeconds);
-                        }
-                Robot.teleopField.getObject("Limelight Three Pose").setPose(rightPose.pose);
-
+            //TODO make an enable visoin thingy
+            if(isPosegoo(threePoseEsti)){
+                this.addVisionMeasurement(threePoseEsti.pose, threePoseEsti.timestampSeconds);
+                Robot.teleopField.getObject("Limelight Three Pose").setPose(threePoseEsti.pose);
             }
-            if (LimelightHelpers.getTargetCount(Constants.VisionConstants.kLimelightScoreSide) > 0
-                    && scorePose != null) {
-                // if(!DriverStation.isTeleop()){
-                // this.addVisionMeasurement(scorePose.pose, scorePose.timestampSeconds);
-                // }
-                Robot.teleopField.getObject("Limelight Four Pose").setPose(scorePose.pose);
+            
+            if(isPosegoo(fourPoseEsti)){
+                this.addVisionMeasurement(fourPoseEsti.pose, fourPoseEsti.timestampSeconds);
+                Robot.teleopField.getObject("Limelight Four Pose").setPose(fourPoseEsti.pose);
             }
+            
 
-           }
+        }
 
         SmartDashboard.putNumber("Vision/Angular Velocity ",
                 this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble());
 
+    }
+
+    private boolean isPosegoo(LimelightHelpers.PoseEstimate yoPoseEsti){
+        if(yoPoseEsti == null){
+            return false;
+        }
+        if(yoPoseEsti.tagCount < 1){
+            return false;
+        }
+        return true;
     }
 
     private void startSimThread() {
