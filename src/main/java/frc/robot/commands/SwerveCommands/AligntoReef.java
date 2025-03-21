@@ -13,7 +13,11 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
@@ -56,52 +60,42 @@ public class AligntoReef extends Command {
   }
 
   public Pose2d getTargetPose() {
-    Pose2d targetPose;
-    try {
-      targetPose = getReefPose();
+    Pose2d targetPose = getReefPose();
 
-    } catch (Exception e) {
-      targetPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
-    }
 
     if (isRightScore) {
       targetPose = targetPose.transformBy(
-          new Transform2d(new Translation2d(Units.inchesToMeters(7 - 10), 0),
+          new Transform2d(new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset, Constants.VisionConstants.ReefAlign.kTagRelativeYOffset),
               Rotation2d.fromDegrees(0)));
     } else {
       targetPose = targetPose.transformBy(
-          new Transform2d(new Translation2d(Units.inchesToMeters(-7 - 10), 0),
+          new Transform2d(new Translation2d(-Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,Constants.VisionConstants.ReefAlign.kTagRelativeYOffset),
               Rotation2d.fromDegrees(0)));
     }
+
     return targetPose;
 
   }
 
   public Pose2d getReefPose() {
-    try {
-      if (!Robot.isSimulation()) {
-        map = AprilTagFields.k2025ReefscapeWelded;
-        theMap = AprilTagFieldLayout.loadField(map);
 
-        AprilTagID = LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour);
-        if (AprilTagID == -1) {
-          reefNoSeeID.set(true);
-          throw new Exception("Invalid AprilTag ID");
-        }
-      } else {
-        map = AprilTagFields.k2025ReefscapeWelded;
-        theMap = AprilTagFieldLayout.loadField(map);
+    map = AprilTagFields.k2025ReefscapeWelded;
+    theMap = AprilTagFieldLayout.loadField(map);
 
-        AprilTagID = 17;
-      }
+    Pose2d currentPose = drivetrain.getState().Pose;
 
-      reefNoSeeID.set(false);
-      return theMap.getTagPose((int) AprilTagID).get().toPose2d();
-    } catch (Exception e) {
-      reefNoSeeID.set(true);
-      return CommandSwerveDrivetrain.getInstance().getState().Pose;
+    if (Robot.isRed()) {
+      return currentPose.nearest(
+          theMap.getTags().subList(5, 12).stream().map((ting) -> ting.pose.toPose2d()).collect(Collectors.toList()));
+    } else {
+      return currentPose.nearest(
+          theMap.getTags().subList(16, 22
+          ).stream().map((ting) -> ting.pose.toPose2d()).collect(Collectors.toList()));
+
     }
   }
+
+
 
   @Override
   public void initialize() {
@@ -111,6 +105,10 @@ public class AligntoReef extends Command {
     this.dontSeeTagTimer.start();
 
     targetPose = getTargetPose();
+
+
+
+    
 
     getTargetRotation = () -> {
 
@@ -131,14 +129,12 @@ public class AligntoReef extends Command {
     yController.setSetpoint(getTargetPose().getY());
     yController.setTolerance(Constants.VisionConstants.Y_TOLERANCE_REEF_ALIGNMENT);
 
-    tagID = LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour);
   }
 
   @Override
   public void execute() {
     if (LimelightHelpers.getTV(Constants.VisionConstants.kLimelightFour)
         && LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour) == tagID) {
-      this.dontSeeTagTimer.reset();
 
       double xSpeed = xController.calculate(drivetrain.getState().Pose.getX());
       double ySpeed = -yController.calculate(drivetrain.getState().Pose.getX());
@@ -174,7 +170,6 @@ public class AligntoReef extends Command {
   public boolean isFinished() {
     // Requires the robot to stay in the correct position for 0.3 seconds, as long
     // as it gets a tag in the camera
-    return this.dontSeeTagTimer.hasElapsed(1) ||
-        stopTimer.hasElapsed(0.3);
+    return stopTimer.hasElapsed(0.3);
   }
 }

@@ -209,8 +209,13 @@ public final class Constants {
     public static final double X_TOLERANCE_REEF_ALIGNMENT = 0;
     public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0;
 
+    
+
     public static class ReefAlign{
-      
+      public static final double kCentertoEndeffectorDistanceMeters = .1203;
+      public static final double kTagRelativeXOffset = Units.inchesToMeters(4)+kCentertoEndeffectorDistanceMeters;
+      public static final double kTagRelativeYOffset = Units.inchesToMeters(-18);
+
     }
 
   }
@@ -264,7 +269,8 @@ public final class Constants {
     }
 //.965
     public static class L2 {
-      // Homepos095
+      // Homepos0.97155
+      
       public static final double kElevatorStart = ElevatorConstants.kHomePosition;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
