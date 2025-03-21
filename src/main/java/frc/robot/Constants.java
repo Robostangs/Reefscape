@@ -206,6 +206,8 @@ public final class Constants {
     public static final double kTAThresholdThree = 3d;
     public static final double kTxThresholdCoral = 5;
     public static final double AmbiguityThreshold = 0.5;
+    public static final double X_TOLERANCE_REEF_ALIGNMENT = 0;
+    public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0;
 
     public static class ReefAlign{
       

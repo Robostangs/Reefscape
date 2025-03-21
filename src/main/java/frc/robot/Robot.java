@@ -358,7 +358,10 @@ public class Robot extends TimedRobotstangs {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-  }
+    // if(LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour) != null){
+      SmartDashboard.putNumber("ID Seen", LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour));
+    }
+  // }
 
   @Override
   public void testInit() {
