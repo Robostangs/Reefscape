@@ -25,16 +25,12 @@ import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.Factories.ScoringFactory.ScoringPosition;
 import frc.robot.commands.IntakeCommands.Extend;
-import frc.robot.commands.IntakeCommands.Heimlich;
 import frc.robot.commands.IntakeCommands.HomeIntake;
-import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoCage;
 import frc.robot.commands.SwerveCommands.AligntoReef;
-import frc.robot.commands.SwerveCommands.PathToPoint;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -42,7 +38,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.IntakePivot;
 import edu.wpi.first.wpilibj.Timer;
 
 
@@ -210,10 +205,10 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
                                 .whileTrue(new RunElevator(() -> -xManip.getRightY() / 2));
 
-                xManip.a().toggleOnTrue(ScoringFactory.L4Position());
-                xManip.b().toggleOnTrue(ScoringFactory.L3Position());
-                xManip.y().toggleOnTrue(ScoringFactory.L2Position());
-                xManip.x().toggleOnTrue(ScoringFactory.SourceIntake());
+                xManip.a().toggleOnTrue(ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.Stow()));
+                xManip.b().toggleOnTrue(ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.Stow()));
+                xManip.y().toggleOnTrue(ScoringFactory.L2Score(xManip.leftBumper()).andThen(ScoringFactory.Stow()));
+                xManip.x().toggleOnTrue(ScoringFactory.SourceIntake().andThen(ScoringFactory.Stow()));
 
                 xManip.povDown().whileTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());

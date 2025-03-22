@@ -51,7 +51,6 @@ public class IntakeWheels extends SubsystemBase {
     @Override
     public void periodic() {
         // Robot.verifyMotor(intakeMotor);
-        // SmartDashboard.putBoolean("Intake/Sensor", IntakeSensor.get());
 
     }
 
