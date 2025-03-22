@@ -52,7 +52,6 @@ import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
-import frc.robot.commands.SwerveCommands.PathToPoint;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -298,20 +297,12 @@ public class Robot extends TimedRobotstangs {
     Climber.getInstance().zeroClimber();
 
     if (autoName.equals("shitting")) {
-      // TODO do the shit with the shit
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
               Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.5))
-          .withTimeout(1d).andThen(CommandSwerveDrivetrain.getInstance()
-          .applyRequest(() -> new SwerveRequest.RobotCentric().withRotationalRate(
-            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.3)).withTimeout(1));
+          .withTimeout(1d);
 
-    } else if (autoName.equals("PTP")) {
-      autoCommand = new PathToPoint(!isRed() ? Constants.ScoringConstants.k21BlueRReefPosePtP
-
-          : FlippingUtil.flipFieldPose(Constants.ScoringConstants.k21BlueRReefPosePtP))
-          .andThen(ScoringFactory.L4Score(() -> true));
     } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {

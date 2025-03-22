@@ -5,14 +5,14 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 
-public class RunElevator extends Command {
+public class SetElevatorDutyCycle extends Command {
   Elevator elevator;
   DoubleSupplier speed;
   /**
    * A command that runs the elevator at a duty cycle
    * @param speed the percent to run the elevator at
    */
-  public RunElevator(DoubleSupplier speed) {
+  public SetElevatorDutyCycle(DoubleSupplier speed) {
     elevator = Elevator.getInstance();
     addRequirements(elevator);
     this.speed = speed;
@@ -30,7 +30,7 @@ public class RunElevator extends Command {
 
   @Override
   public void end(boolean interrupted) {
-      elevator.setElevatorDutyCycle(0.0325);
+      elevator.setElevatorDutyCycle(0);
     
     elevator.postStatus("Elevator Stopped");
 

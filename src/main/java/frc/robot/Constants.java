@@ -91,7 +91,7 @@ public final class Constants {
 
     public static final double kStatorCurrentLimit = 80d;
     public static final double kHomeStatorCurrentLimit = 40d;
-    public static final double kIntakeHomeDutyCycle = 0.1d;
+    public static final double kIntakeHomeDutyCycle = 0.3;
 
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
@@ -118,9 +118,7 @@ public final class Constants {
     public static final double kArmP = 9000;
     public static final double kArmI = 5000;
     public static final double kArmD = 250;
-    //     public static final double kArmP = 5000;
-    // public static final double kArmI = 500;
-    // public static final double kArmD = 400;
+
     public static final double kArmS = 4;
     public static final double kArmV = 15;
     public static final double kArmA = 10;
@@ -277,16 +275,16 @@ public final class Constants {
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
       public static final double kArmSafePosition = 0.25;
-      public static final double kELevatorAlgepos = 0.91;
-      public static final double kArmAlgePos = -0.75;
+      public static final double kELevatorAlgaepos = 0.91;
+      public static final double kArmAlgaePos = -0.75;
 
     }
 
     public static class L3 {
       public static final double kElevatorPos = .9655;
       public static final double kArmScoringPosition = .329;
-      public static final double kELevatorAlgepos = 1.18;
-      public static final double kArmAlgePos = -0.75;
+      public static final double kELevatorAlgaepos = 1.18;
+      public static final double kArmAlgaePos = -0.75;
 
     }
 

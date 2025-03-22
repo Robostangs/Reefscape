@@ -5,16 +5,16 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
-public class RunArm extends Command {
+public class SetArmDutyCycle extends Command {
 
   Arm arm;
   DoubleSupplier speed;
 
   /**
-   * a command that runs the arm at a duty cycle
+   * A command that runs the arm at a duty cycle
    * @param speed the percent to run the arm at
    */
-  public RunArm(DoubleSupplier speed) {
+  public SetArmDutyCycle(DoubleSupplier speed) {
     arm = Arm.getInstance();
     addRequirements(arm);
     this.speed = speed;
