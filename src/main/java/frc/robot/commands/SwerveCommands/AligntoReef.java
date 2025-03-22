@@ -13,6 +13,8 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
@@ -57,13 +59,21 @@ public class AligntoReef {
         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared);
 
+    List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
+    rotationTargets.add(new RotationTarget(0.8, endPose.getRotation()));
     PathPlannerPath path = new PathPlannerPath(
         waypoints,
+        rotationTargets,
+        Collections.emptyList(),
+
+        Collections.emptyList(),
+
+        Collections.emptyList(),
+
         constraints,
         null,
-        new GoalEndState(0.0, targetPose.getRotation()));
+        new GoalEndState(0.0, targetPose.getRotation()), false);
 
-    path.getRotationTargets().add(new RotationTarget(0.8, endPose.getRotation()));
 
     path.preventFlipping = true;
 
