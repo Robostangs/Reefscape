@@ -355,17 +355,16 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
             }
 
-            //TODO make an enable visoin thingy
-            if(isPosegoo(threePoseEsti)){
+            // TODO make an enable visoin thingy
+            if (isPosegoo(threePoseEsti)) {
                 this.addVisionMeasurement(threePoseEsti.pose, threePoseEsti.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePoseEsti.pose);
             }
-            
-            if(isPosegoo(fourPoseEsti)){
+
+            if (isPosegoo(fourPoseEsti)) {
                 this.addVisionMeasurement(fourPoseEsti.pose, fourPoseEsti.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Four Pose").setPose(fourPoseEsti.pose);
             }
-            
 
         }
 
@@ -374,11 +373,11 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
     }
 
-    private boolean isPosegoo(LimelightHelpers.PoseEstimate yoPoseEsti){
-        if(yoPoseEsti == null){
+    private boolean isPosegoo(LimelightHelpers.PoseEstimate yoPoseEsti) {
+        if (yoPoseEsti == null) {
             return false;
         }
-        if(yoPoseEsti.tagCount < 1){
+        if (yoPoseEsti.tagCount < 1) {
             return false;
         }
         return true;
@@ -463,8 +462,11 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
                 () -> Robot.isRed(),
                 this);
 
-        PathPlannerLogging.setLogActivePathCallback((poses) -> Robot.teleopField
-                .getObject("Trajectory").setPoses(poses));
+        PathPlannerLogging.setLogActivePathCallback((poses) -> {
+            if (poses.size() > 0)
+                Robot.teleopField
+                        .getObject("Trajectory").setPoses(poses);
+        });
 
     }
 

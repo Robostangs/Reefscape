@@ -171,7 +171,9 @@ public class RobotContainer {
 
                 xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral().finallyDo(Retract.Retract));
 
-                xDrive.leftBumper().toggleOnTrue(new AligntoReef(false));
+                xDrive.leftBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> true));
+                xDrive.rightBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> false));
+
 
                 xDrive.b().toggleOnTrue(new RunIntake());
                 xDrive.y().toggleOnTrue(new Untake());
@@ -188,7 +190,7 @@ public class RobotContainer {
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 // reset the field-centric heading on left bumper press
-                xDrive.rightBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+                xDrive.rightTrigger().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
                 drivetrain.registerTelemetry(logger::telemeterize);
         }
@@ -239,10 +241,10 @@ public class RobotContainer {
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2)).onTrue(
-                                new AligntoReef(true));
+                                AligntoReef.getAlignToReef(() ->true));
 
                 new Trigger(() -> xSim.getRawButton(3))
-                                .onTrue(new PathToPoint(Constants.ScoringConstants.kResetPose));
+                                .onTrue(  AligntoReef.getAlignToReef(() ->false));
 
         }
 

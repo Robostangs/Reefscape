@@ -212,9 +212,11 @@ public final class Constants {
     
 
     public static class ReefAlign{
-      public static final double kCentertoEndeffectorDistanceMeters = .1203;
-      public static final double kTagRelativeXOffset = Units.inchesToMeters(4)+kCentertoEndeffectorDistanceMeters;
-      public static final double kTagRelativeYOffset = Units.inchesToMeters(-18);
+      public static final double kCentertoEndeffectorDistanceMeters = -.1203;
+      public static final double kTagRelativeYOffsetRight = Units.inchesToMeters(6.5)+kCentertoEndeffectorDistanceMeters;
+      public static final double kTagRelativeYOffsetLeft = Units.inchesToMeters(-6.5)+kCentertoEndeffectorDistanceMeters;
+
+      public static final double kTagRelativeXOffset = Units.inchesToMeters(16);
 
     }
 

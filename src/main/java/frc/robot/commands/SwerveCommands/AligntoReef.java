@@ -4,172 +4,120 @@
 
 package frc.robot.commands.SwerveCommands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
-import java.util.ArrayList;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
 import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
+import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.RotationTarget;
+import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj.Alert.AlertType;
 import frc.robot.Robot;
 
-public class AligntoReef extends Command {
-  private PIDController xController, yController;
-  Supplier<Rotation2d> getTargetRotation;
+public class AligntoReef {
 
-  private boolean isRightScore;
-  private Timer dontSeeTagTimer, stopTimer;
-  private SwerveRequest.RobotCentricFacingAngle driveRequest;
-  private CommandSwerveDrivetrain drivetrain;
-  private double tagID = -1;
-  Pose2d targetPose;
-  AprilTagFields map;
-  AprilTagFieldLayout theMap;
-  double AprilTagID;
-  Alert reefNoSeeID;
+  public static PathPlannerPath generatePath(Pose2d targetPose) {
 
-  public AligntoReef(boolean isRightScore) {
-    xController = new PIDController(1, 0.0, 2); // Vertical movement
-    yController = new PIDController(5, 0.0, 4); // Horitontal movement
+    Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
+    Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
+        currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
+    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
+        targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
+    List<Waypoint> waypoints;
 
-    this.isRightScore = isRightScore;
+    if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
+      waypoints = PathPlannerPath.waypointsFromPoses(
+          startPose, endPose);
+    } else {
+      waypoints = PathPlannerPath.waypointsFromPoses(startPose,
+          endPose.transformBy(new Transform2d(18, 0, Rotation2d.kZero)), endPose);
+    }
 
-    reefNoSeeID = new Alert("Lock in lil bro you can't see no april tag", AlertType.kError);
+    PathConstraints constraints = new PathConstraints(
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared);
 
-    this.drivetrain = CommandSwerveDrivetrain.getInstance();
-    addRequirements(drivetrain);
+    PathPlannerPath path = new PathPlannerPath(
+        waypoints,
+        constraints,
+        null,
+        new GoalEndState(0.0, targetPose.getRotation()));
+
+    path.getRotationTargets().add(new RotationTarget(0.8, endPose.getRotation()));
+
+    path.preventFlipping = true;
+
+    return path;
   }
 
-  public Pose2d getTargetPose() {
+  public static Pose2d getTargetPose(boolean isRight) {
     Pose2d targetPose = getReefPose();
 
-
-    if (isRightScore) {
+    if (isRight) {
       targetPose = targetPose.transformBy(
-          new Transform2d(new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset, Constants.VisionConstants.ReefAlign.kTagRelativeYOffset),
-              Rotation2d.fromDegrees(0)));
+          new Transform2d(
+              new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                  Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetRight),
+              Rotation2d.fromDegrees(90)));
     } else {
       targetPose = targetPose.transformBy(
-          new Transform2d(new Translation2d(-Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,Constants.VisionConstants.ReefAlign.kTagRelativeYOffset),
-              Rotation2d.fromDegrees(0)));
+          new Transform2d(
+              new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                  Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetLeft),
+              Rotation2d.fromDegrees(90)));
     }
 
     return targetPose;
 
   }
 
-  public Pose2d getReefPose() {
+  public static Pose2d getReefPose() {
 
-    map = AprilTagFields.k2025ReefscapeWelded;
-    theMap = AprilTagFieldLayout.loadField(map);
+    AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
 
-    Pose2d currentPose = drivetrain.getState().Pose;
+    AprilTagFieldLayout theMap = AprilTagFieldLayout.loadField(map);
+
+    Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
 
     if (Robot.isRed()) {
       return currentPose.nearest(
           theMap.getTags().subList(5, 12).stream().map((ting) -> ting.pose.toPose2d()).collect(Collectors.toList()));
     } else {
       return currentPose.nearest(
-          theMap.getTags().subList(16, 22
-          ).stream().map((ting) -> ting.pose.toPose2d()).collect(Collectors.toList()));
+          theMap.getTags().subList(16, 22).stream().map((ting) -> ting.pose.toPose2d()).collect(Collectors.toList()));
 
     }
   }
 
+  public static Command getAlignToReef(BooleanSupplier isRight) {
 
+    return new DeferredCommand(() -> {
+      Robot.teleopField.getObject("Reef Align Pose").setPose(getTargetPose((isRight.getAsBoolean())));
 
-  @Override
-  public void initialize() {
-    this.stopTimer = new Timer();
-    this.stopTimer.start();
-    this.dontSeeTagTimer = new Timer();
-    this.dontSeeTagTimer.start();
-
-    targetPose = getTargetPose();
-
-
-
-    
-
-    getTargetRotation = () -> {
-
-      return (targetPose.getRotation().plus(Rotation2d.fromDegrees(90)));
-    };
-
-    Robot.teleopField.getObject("Reef Align Pose")
-        .setPose(targetPose);
-
-    driveRequest = new SwerveRequest.RobotCentricFacingAngle();
-    driveRequest.HeadingController = new PhoenixPIDController(24, 0, 1);
-
-    drivetrain.postStatus("Aligning to Reef");
-
-    xController.setSetpoint(getTargetPose().getX());
-    xController.setTolerance(Constants.VisionConstants.X_TOLERANCE_REEF_ALIGNMENT);
-
-    yController.setSetpoint(getTargetPose().getY());
-    yController.setTolerance(Constants.VisionConstants.Y_TOLERANCE_REEF_ALIGNMENT);
+      return AutoBuilder.followPath(generatePath(getTargetPose(isRight.getAsBoolean())));
+    },
+        Set.of(CommandSwerveDrivetrain.getInstance()));
 
   }
 
-  @Override
-  public void execute() {
-    if (LimelightHelpers.getTV(Constants.VisionConstants.kLimelightFour)
-        && LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour) == tagID) {
-
-      double xSpeed = xController.calculate(drivetrain.getState().Pose.getX());
-      double ySpeed = -yController.calculate(drivetrain.getState().Pose.getX());
-
-      SmartDashboard.putNumber("Align/ Target X", xController.getSetpoint());
-      SmartDashboard.putNumber("Align/Position X", drivetrain.getState().Pose.getX());
-
-      SmartDashboard.putNumber("Align/ Target Y", yController.getSetpoint());
-      SmartDashboard.putNumber("Align/Position Y", drivetrain.getState().Pose.getY());
-
-      driveRequest.TargetDirection = getTargetRotation.get();
-
-      driveRequest.withVelocityX(xSpeed);
-      driveRequest.withVelocityY(ySpeed);
-
-      drivetrain.setControl(driveRequest);
-
-      if (!yController.atSetpoint() ||
-          !xController.atSetpoint()) {
-        stopTimer.reset();
-      }
-    }
-
-    SmartDashboard.putNumber("poseValidTimer", stopTimer.get());
-  }
-
-  @Override
-  public void end(boolean interrupted) {
-    drivetrain.postStatus("Aligned to Reef");
-  }
-
-  @Override
-  public boolean isFinished() {
-    // Requires the robot to stay in the correct position for 0.3 seconds, as long
-    // as it gets a tag in the camera
-    return stopTimer.hasElapsed(0.3);
-  }
 }
