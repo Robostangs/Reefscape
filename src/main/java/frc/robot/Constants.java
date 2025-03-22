@@ -297,7 +297,7 @@ public final class Constants {
     }
 
     public static class Stow {
-      public static final double kElevatorPos = 0.9225;
+      public static final double kElevatorPos = 0.925;
       public static final double kArmStowPos = ArmConstants.kArmRestSetpoint;
     }
 

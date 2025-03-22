@@ -32,6 +32,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Robot;
 
 public class AligntoReef {
@@ -50,7 +51,7 @@ public class AligntoReef {
           startPose, endPose);
     } else {
       waypoints = PathPlannerPath.waypointsFromPoses(startPose,
-          endPose.transformBy(new Transform2d(18, 0, Rotation2d.kZero)), endPose);
+          endPose.transformBy(new Transform2d(Units.inchesToMeters(18), 0, Rotation2d.kZero)), endPose);
     }
 
     PathConstraints constraints = new PathConstraints(
@@ -60,7 +61,7 @@ public class AligntoReef {
         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared);
 
     List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
-    rotationTargets.add(new RotationTarget(0.8, endPose.getRotation()));
+    rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
     PathPlannerPath path = new PathPlannerPath(
         waypoints,
         rotationTargets,
