@@ -141,6 +141,21 @@ public class ScoringFactory {
         return L4Position().andThen(new Spit()).onlyWhile(manipBumper);
     }
 
+
+    public static Command AutoL4Score(){
+        return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
+                .alongWith(
+                        new WaitUntilCommand(
+                                () -> Elevator.getInstance()
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                                .onlyIf(() -> !Robot.isSimulation())
+                                .andThen(
+                                    //TODO Find this setpoint
+                                        new SetArmPosition(Constants.ScoringConstants.L4.kArmAutoScoringPosition))
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.L4;
+                                }));
+    }
     /**
      * A command that executes the following commands:
      * *

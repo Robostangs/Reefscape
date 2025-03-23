@@ -6,7 +6,11 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveModule;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -30,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -271,15 +276,15 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             });
         }
 
-        // for (SwerveModule<TalonFX, TalonFX, CANcoder> swerveModule : getModules()) {
-        // if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
-        // swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
-        // }
-        // if (Robot.verifyMotor(swerveModule.getSteerMotor())) {
-        // swerveModule.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
-        // }
+        for (SwerveModule<TalonFX, TalonFX, CANcoder> swerveModule : getModules()) {
+        if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
+        swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
+        }
+        if (Robot.verifyMotor(swerveModule.getSteerMotor())) {
+        swerveModule.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
+        }
 
-        // }
+        }
 
         /*
          * Only seed ll4 with external yaw angle if not rotating fast, otherwise use
@@ -309,7 +314,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
         }
 
-        /** Seed the three uncondiontially bc it doesn't got that dawg(imu) in him */
+        /** Seed the three unconditionally bc it doesn't got that dawg(imu) in him */
         LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.kLimelightThree,
                 this.getState().Pose.getRotation().getDegrees(),
                 0d,
@@ -327,7 +332,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         }
         if (!Robot.isSimulation()) {
 
-            // TODO find out why mega tag 2 isn't working
 
             // TODO Tune angular velocity threshold and TA
 
@@ -350,7 +354,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
             }
 
-            // TODO make an enable visoin thingy
             if (isPosegoo(threePoseEsti)) {
                 this.addVisionMeasurement(threePoseEsti.pose, threePoseEsti.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePoseEsti.pose);
@@ -375,7 +378,8 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         if (yoPoseEsti.tagCount < 1) {
             return false;
         }
-        return true;
+
+        return RobotContainer.useVision;
     }
 
     private void startSimThread() {

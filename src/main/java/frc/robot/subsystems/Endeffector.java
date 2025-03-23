@@ -18,7 +18,6 @@ public class Endeffector extends SubsystemBase {
         return mInstance;
     }
 
-    // just spit and put in break mode
     public Endeffector() {
         endeffectorMotor = new TalonSRX(Constants.EndeffectorConstants.kEndeffectorMotorId);
     }

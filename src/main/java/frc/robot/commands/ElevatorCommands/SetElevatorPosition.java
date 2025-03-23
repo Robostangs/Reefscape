@@ -13,7 +13,7 @@ public class SetElevatorPosition extends Command {
   double position;
 
   /** 
-   * A command that uses Motion Magic to set the elevator to the spesified position
+   * A command that uses Motion Magic to set the elevator to the specified position
    * @param position the setpoint for the elevator
    */
   public SetElevatorPosition(double position) {

@@ -105,9 +105,6 @@ public class Elevator extends SubsystemBase {
         elevatorMotorRightConfigs.Slot0.kS = Constants.ElevatorConstants.kElevatorS;
         elevatorMotorRightConfigs.Slot0.kG = Constants.ElevatorConstants.kElevatorG;
 
-        elevatorMotorRightConfigs.Slot0.kV = Constants.ElevatorConstants.kElevatorV;
-        elevatorMotorRightConfigs.Slot0.kA = Constants.ElevatorConstants.kElevatorA;
-
         elevatorMotorRightConfigs.Slot0.kP = Constants.ElevatorConstants.kElevatorP;
         elevatorMotorRightConfigs.Slot0.kI = Constants.ElevatorConstants.kElevatorI;
         elevatorMotorRightConfigs.Slot0.kD = Constants.ElevatorConstants.kElevatorD;
@@ -129,11 +126,7 @@ public class Elevator extends SubsystemBase {
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.ElevatorConstants.kMinExtension;
 
         elevatorMotorRightConfigs.CurrentLimits.StatorCurrentLimit = 60;
-
-        /**
-         * 
-         */
-
+        
         elevatorMotionMagic.Slot = 0;
 
         elevatorMotorRight.getConfigurator().apply(elevatorMotorRightConfigs);
@@ -266,8 +259,8 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
 
-        // Robot.verifyMotor(elevatorMotorLeft);
-        // Robot.verifyMotor(elevatorMotorRight);
+        Robot.verifyMotor(elevatorMotorLeft);
+        Robot.verifyMotor(elevatorMotorRight);
         
         if (Robot.isSimulation()) {
             updateSimElevatorTarget();

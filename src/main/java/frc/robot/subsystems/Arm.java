@@ -149,12 +149,8 @@ public class Arm extends SubsystemBase {
 
 
     public void setArmMotionMagic() {
-        // if (IntakePivot.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
-        //         || Robot.isSimulation()) {
+
             armMotor.setControl(armControl);
-        // } else {
-            // postStatus("cant move, intake in way");
-        // }
 
     }
 
@@ -167,32 +163,23 @@ public class Arm extends SubsystemBase {
         else{
             armPastRotation.set(false);
         
-        // Robot.verifyMotor(armMotor);
+        Robot.verifyMotor(armMotor);
         Robot.verifyCANcoder(armEncoder);
         setArmPosition();
-        SmartDashboard.putNumber("Arm/acceleration", armMotor.getAcceleration().getValueAsDouble());
         SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
         SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
 
 
+        //TODO see if we can do without this
         armControl.FeedForward = -40*(CommandSwerveDrivetrain.getInstance().getPigeon2().getAccelerationY().getValueAsDouble());
+
         // SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
 
         
-        // SmartDashboard.putNumber("Torque current  -kg ",
-        //         (armMotor.getTorqueCurrent().getValueAsDouble()
-        //                 - (Constants.ArmConstants.kArmG
-        //                         * Math.cos(Units.rotationsToRadians(armMotor.getPosition().getValueAsDouble())))
-        //         // / armMotor.getVelocity().getValueAsDouble()
-        //         ));
-
-        // SmartDashboard.putNumber("Torque current over velocity ",
-        //         Math.min(100, Math.max(-100, armMotor.getTorqueCurrent().getValueAsDouble()
-        //                         / armMotor.getVelocity().getValueAsDouble())));
 
     }
 
