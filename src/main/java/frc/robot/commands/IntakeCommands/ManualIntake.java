@@ -9,6 +9,10 @@ public class ManualIntake extends Command {
     
     IntakePivot intake;
     DoubleSupplier dutycycleIntake;
+    /**
+     * A command that sets the intake to a manual duty cycle
+     * @param dutycycleIntake the duty cycle to set the intake to
+     */
     public ManualIntake(DoubleSupplier dutycycleIntake) {
         intake = IntakePivot.getInstance();
         this.dutycycleIntake = dutycycleIntake;

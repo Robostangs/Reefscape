@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class Climber extends SubsystemBase {
     private static Climber mInstance;
     private TalonFX climberMotor;
     private Servo cliServo;
 
-    //
+    
     public static Climber getInstance() {
         if (mInstance == null)
             mInstance = new Climber();
@@ -67,9 +68,7 @@ public class Climber extends SubsystemBase {
 
     }
 
-    //giggity
     public void setBrake() {
-        // climberMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public double getClimberPosition() {
@@ -78,6 +77,8 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        Robot.verifyMotor(climberMotor);
 
         SmartDashboard.putNumber("Climber/Kraken Position", climberMotor.getPosition().getValueAsDouble());
     }

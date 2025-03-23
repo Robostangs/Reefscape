@@ -7,6 +7,9 @@ import frc.robot.subsystems.IntakePivot;
 public class HomeIntake extends Command{
 
     IntakePivot intake;
+    /**
+     * A command that runs the intake at a duty cycle and then when it ends sets the setpoint to the hardstop
+     */
     public HomeIntake() {
         intake = IntakePivot.getInstance();
 
@@ -16,12 +19,11 @@ public class HomeIntake extends Command{
     @Override
     public void initialize() {
         intake.postStatus("intake homing");
+        intake.setPiviotDutyCycle(Constants.IntakeConstants.kIntakeHomeDutyCycle);
     }
 
     @Override
-    public void execute() {
-        intake.setPiviotDutyCycle(Constants.IntakeConstants.kIntakeHomeDutyCycle);
-    }
+    public void execute() {}
 
     @Override
     public void end(boolean interrupted) {

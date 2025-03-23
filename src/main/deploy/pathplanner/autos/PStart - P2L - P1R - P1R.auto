@@ -13,13 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "L4 Score"
           }
         },
         {
@@ -31,7 +25,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "Ground Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pro Clean Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract"
           }
         },
         {
@@ -43,13 +49,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "L4 Score"
           }
         },
         {
@@ -61,37 +61,31 @@
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "Ground Intake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro Feeder to Pro 1R L3"
+            "pathName": "Pro Clean Up"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Spit"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Home"
+            "name": "Retract"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pro 1R to Pro Feeder"
+            "pathName": "Pro Feeder to Pro 1R"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Return Home"
+            "name": "L3 Score"
           }
         }
       ]

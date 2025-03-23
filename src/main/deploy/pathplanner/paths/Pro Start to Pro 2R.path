@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.563717504776202,
-        "y": 1.9062410446233615
+        "x": 7.19730308219178,
+        "y": 1.913891267123288
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.527963140565067,
-        "y": 2.1427527437386877
+        "x": 6.161548717980645,
+        "y": 2.150402966238614
       },
       "isLocked": true,
       "linkedName": "Pro Start"
     },
     {
       "anchor": {
-        "x": 4.824828197337962,
-        "y": 2.663709129050925
+        "x": 5.183861301369863,
+        "y": 2.980714897260274
       },
       "prevControl": {
-        "x": 6.4255686156355365,
-        "y": 1.4614148014507609
+        "x": 6.784601719667437,
+        "y": 1.7784205696601099
       },
       "nextControl": null,
       "isLocked": true,
@@ -49,8 +49,8 @@
   "globalConstraints": {
     "maxVelocity": 4.73,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 773.5,
+    "maxAngularAcceleration": 171.89,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -62,7 +62,7 @@
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.74480287297555
+    "rotation": 91.74426616692426
   },
   "useDefaultConstraints": true
 }

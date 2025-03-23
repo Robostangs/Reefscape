@@ -53,12 +53,13 @@ public final class Constants {
     public static final double kGearboxRotationsToMechanismMeters = 1d;
 
     // Deploy Constants
-    public static final double kMaxExtension = 125;
+    public static final double kMaxExtension = 140;
     public static final double kExtensionDutyCycle = 0.5;
 
     // Reel Constants
-    public static final double kReelDutyCycle = -0.5;
-    public static final double kReelSafe = 5;
+    public static final double kReelDutyCycle = -0.7;
+    public static final double kReelSafe = 15;
+
 
   }
 
@@ -90,7 +91,7 @@ public final class Constants {
 
     public static final double kStatorCurrentLimit = 80d;
     public static final double kHomeStatorCurrentLimit = 40d;
-    public static final double kIntakeHomeDutyCycle = 0.1d;
+    public static final double kIntakeHomeDutyCycle = 0.3;
 
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
@@ -107,16 +108,17 @@ public final class Constants {
 
     public static final double kEndeffectorSpit = -0.85;
 
-    public static final double kEndeffectorSlurp = 0.85;
+    public static final double kEndeffectorSlurp = 0.5;
 
   }
 
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
-    public static final double kArmP = 10000;
+    public static final double kArmP = 9000;
     public static final double kArmI = 5000;
-    public static final double kArmD = 200;
+    public static final double kArmD = 250;
+
     public static final double kArmS = 4;
     public static final double kArmV = 15;
     public static final double kArmA = 10;
@@ -132,7 +134,7 @@ public final class Constants {
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestSetpoint = -.254;
+    public static final double kArmRestSetpoint = -.25;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
@@ -157,7 +159,7 @@ public final class Constants {
 
     public static final int kLimitSwitchId = 9;
 
-    public static final double kMaxExtension = 1.6;// cm
+    public static final double kMaxExtension = 1.7;// cm
     public static final double kMinExtension = .3;// cm
 
     public static final double kElevatorMaxCurrent = 40.0d;
@@ -182,8 +184,8 @@ public final class Constants {
     public static final double kDrumRadius = Units.inchesToMeters(1);
     public static final boolean kIsLeftInvert = true;
 
-    public static final double kHomePosition = 0.83;
-    public static final double kSafeArmElevatorPosition = kHomePosition;
+    public static final double kHomePosition = 0.97155;
+    public static final double kSafeArmElevatorPosition =0.941;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
     public static final double kElevatorZeroPose = 0.0;
     public static final double kElevatorTargetPosition = 0.5;
@@ -192,15 +194,31 @@ public final class Constants {
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
-    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.25, 0.25, Units.degreesToRadians(100));
-    public static final String kLimelightScoreSide = "limelight-score";
-    public static final String kLimelightOtherName = "limelight-right";
+    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
+    public static final String kLimelightFour = "limelight-score";
+    public static final String kLimelightThree = "limelight-right";
+    public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
+    public static final double kLL4SeedMaxWz = 1;
     public static final double kMegaTagTwoThreshold = 22.5;
     public static final double kTAThresholdFour = 3d;
     public static final double kTAThresholdThree = 3d;
     public static final double kTxThresholdCoral = 5;
+    public static final double AmbiguityThreshold = 0.5;
+    public static final double X_TOLERANCE_REEF_ALIGNMENT = 0;
+    public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0;
+
+    
+
+    public static class ReefAlign{
+      public static final double kCentertoEndeffectorDistanceMeters = -.1203;
+      public static final double kTagRelativeYOffsetRight = Units.inchesToMeters(6.5)+kCentertoEndeffectorDistanceMeters;
+      public static final double kTagRelativeYOffsetLeft = Units.inchesToMeters(-6.5)+kCentertoEndeffectorDistanceMeters;
+
+      public static final double kTagRelativeXOffset = Units.inchesToMeters(16);
+
+    }
 
   }
 
@@ -243,7 +261,7 @@ public final class Constants {
     public static final Pose2d kCageMiddle = new Pose2d(8.76, 6.150, new Rotation2d(0d));
     public static final Pose2d kCageBottom = new Pose2d(8.79, 5.06, new Rotation2d(0d));
 
-    public static final double spitTimeout = 2d;
+    public static final double spitTimeout = 1.5;
 
     public static class L1 {
       public static final double kArmScoringPosition = .37;
@@ -251,45 +269,48 @@ public final class Constants {
       public static final double kArmSafePosition = 0;
       public static final double kElevatorEnd = 0;
     }
-
+//.965
     public static class L2 {
-      // Homepos
-      public static final double kElevatorStart = 0.87;
+      // Homepos0.97155
+      
+      public static final double kElevatorStart = ElevatorConstants.kHomePosition;
       public static final double kArmScoringPosition = .376;
-      public static final double kElevatorEnd = 0.541;
-      public static final double kArmSafePosition = 0;
-      public static final double kELevatorAlgepos = 0;
-      public static final double kArmAlgePos = 0;
+      public static final double kElevatorEnd =  .6775;
+      public static final double kArmSafePosition = 0.25;
+      public static final double kELevatorAlgaepos = 0.91;
+      public static final double kArmAlgaePos = -0.75;
 
     }
 
     public static class L3 {
-      public static final double kElevatorPos = .947;
-      public static final double kArmScoringPosition = .379;
-      public static final double kELevatorAlgepos = 0;
-      public static final double kArmAlgePos = 0;
+      public static final double kElevatorPos = .9655;
+      public static final double kArmScoringPosition = .329;
+      public static final double kELevatorAlgaepos = 1.18;
+      public static final double kArmAlgaePos = -0.75;
 
     }
 
     public static class L4 {
-      public static final double kElevatorPos = 1.5;
-      public static final double kArmScoringPosition = .354;
+      public static final double kElevatorPos =  1.62;
+      public static final double kArmScoringPosition = .329;
+      public static final double kArmAutoScoringPosition = .329;
 
     }
 
     public static class Stow {
-      public static final double kElevatorPos = 0.81;
-      public static final double kArmStowPos = -0.252;
+      public static final double kElevatorPos = 0.925;
+      public static final double kArmStowPos = ArmConstants.kArmRestSetpoint;
     }
 
     public static class Schloop {
-      public static final double kElevatorPos = 0.645;
-      public static final double kArmSchloPos = -0.252;
+      public static final double kElevatorPos = .764;
+      public static final double kArmSchloPos = ArmConstants.kArmRestSetpoint;
 
     }
 
     public static class Source {
-      public static final double kElevatorPos = 1.32;
+      public static final double kElevatorPos = ElevatorConstants.kHomePosition+0.355
+      ;
       public static final double kArmSourcePosition = -0.145;
 
     }
@@ -333,7 +354,6 @@ public final class Constants {
 
     public static final double MAX_SPEED_METERS_PER_SECOND = 5.96;
     // The stator current at which the wheels start to slip;
-    // TODO tune
     // This needs to be tuned to your individual robot
     private static final Current kSlipCurrent = Amps.of(120.0);
 
@@ -355,7 +375,7 @@ public final class Constants {
     static final Pigeon2Configuration pigeonConfigs = null;
     // new Pigeon2Configuration()
     //     .withMountPose(new MountPoseConfigs().withMountPosePitch(0.57)
-    //         .withMountPoseYaw(-91.79)
+    //         .withMo[\]untPoseYaw(-91.79)
     //         .withMountPoseRoll(0.7));
 
     // CAN bus that the devices are located on;
@@ -363,8 +383,8 @@ public final class Constants {
     public static final CANBus kCANBus = new CANBus("Canivore", "./logs/example.hoot");
 
     public static class AutoConstants {
-      public static final PIDConstants translationPID = new PIDConstants(1, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(20, 10, 0
+      public static final PIDConstants translationPID = new PIDConstants(10, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(5, 0, 0
       );
 
       public static final double kSlurpTimeout = 3d;
@@ -435,7 +455,9 @@ public final class Constants {
 
     private static final double kDriveGearRatio = 6.746031746031747;
     private static final double kSteerGearRatio = 21.428571428571427;
-    private static final Distance kWheelRadius = Inches.of(2);
+
+    //2*(what it acutally is/what it thinks)
+    private static final Distance kWheelRadius = Inches.of(2*(4.37/4.42));
 
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;
@@ -480,7 +502,7 @@ public final class Constants {
     private static final int kFrontLeftDriveMotorId = 12;
     private static final int kFrontLeftSteerMotorId = 13;
     private static final int kFrontLeftEncoderId = 11;
-    private static final Angle kFrontLeftEncoderOffset = Rotations.of(-0.009765625);
+    private static final Angle kFrontLeftEncoderOffset = Rotations.of(-0.017822265625);
     private static final boolean kFrontLeftSteerMotorInverted = true;
     private static final boolean kFrontLeftEncoderInverted = false;
 
@@ -491,7 +513,7 @@ public final class Constants {
     private static final int kFrontRightDriveMotorId = 22;
     private static final int kFrontRightSteerMotorId = 23;
     private static final int kFrontRightEncoderId = 21;
-    private static final Angle kFrontRightEncoderOffset = Rotations.of(-0.324951171875);
+    private static final Angle kFrontRightEncoderOffset = Rotations.of(-0.31787109375);
     private static final boolean kFrontRightSteerMotorInverted = true;
     private static final boolean kFrontRightEncoderInverted = false;
 
@@ -502,7 +524,7 @@ public final class Constants {
     private static final int kBackLeftDriveMotorId = 32;
     private static final int kBackLeftSteerMotorId = 33;
     private static final int kBackLeftEncoderId = 31;
-    private static final Angle kBackLeftEncoderOffset = Rotations.of(-0.2265625);
+    private static final Angle kBackLeftEncoderOffset = Rotations.of(-0.236083984375);
     private static final boolean kBackLeftSteerMotorInverted = true;
     private static final boolean kBackLeftEncoderInverted = false;
 
@@ -544,6 +566,7 @@ public final class Constants {
        * Creates a CommandSwerveDrivetrain instance.
        * This should only be called once in your robot program,.
        */
+
 
       /**
        * Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected

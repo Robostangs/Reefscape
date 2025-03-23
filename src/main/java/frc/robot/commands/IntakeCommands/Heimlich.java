@@ -6,27 +6,24 @@ import frc.robot.subsystems.IntakePivot;
 public class Heimlich extends Command {
 
   IntakePivot intake;
-
+/**
+ * A command the sets the intake position be horizontally out 
+ */
   public Heimlich() {
     intake = IntakePivot.getInstance();
     this.addRequirements(intake);
 
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     intake.postStatus("Going to puke");
     intake.setHeimlichPosition();
-
   }
 
   @Override
-  public void execute() {
+  public void execute() {}
 
-  }
-
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     intake.postStatus("Puked");
@@ -34,7 +31,6 @@ public class Heimlich extends Command {
     intake.stopBar();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
