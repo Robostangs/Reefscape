@@ -5,6 +5,7 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Percent;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
@@ -35,21 +36,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Retract;
+import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SwerveCommands.PathToPoint;
+
+
+import frc.robot.commands.SwerveCommands.PathToPoint;
+
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
+
+
 
 public class Robot extends TimedRobotstangs {
 
@@ -64,7 +75,11 @@ public class Robot extends TimedRobotstangs {
   private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", AlertType.kError);
   private static Alert CANcoderAlert = new Alert("Can tweaking", AlertType.kError);
   private static Alert MotorAlert = new Alert("Can tweaking", AlertType.kError);
-
+  public boolean testConfigured = false;
+	public static SendableChooser<Command> SwerveCommands = new SendableChooser<>();
+  public static SendableChooser<Command> ElevatorCommands = new SendableChooser<>();
+  public static SendableChooser<Command> IntakeCommands = new SendableChooser<>();
+  public static SendableChooser<Command> EndeffectorCommands = new SendableChooser<>();
   private static String autoName = "";
 
   // Autos
@@ -203,10 +218,95 @@ public class Robot extends TimedRobotstangs {
 
     LiveWindow.enableAllTelemetry();
   }
+  @Override
+  public void testInit(){  
+    if (!testConfigured) {
+    //swerve drivetrain
+    SwerveCommands.setDefaultOption("Do nothin(basically reseting the gyro)",
+      drivetrain.getInstance()
+        .runOnce(() -> drivetrain.getInstance()
+          .seedFieldRealtivePose(!Robot.isRed()
+          ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+          : GeometryUtil 
+            .flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose)
+          .withName("reset swereve")
+        )));
 
+    SwerveCommands.addOption("Drive forward",
+      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+      .withVelocityY(
+        //TODO make this into k12volts auto speeds
+          Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.05))
+      .withName("Drive Forward"));
+    
+    SwerveCommamds.addOption("Drive Backward",
+      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+      .withVelocityY(
+          Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.05))
+      .withName("Drive Backward"));
+        
+    SwerveCommands.addOption("Drive Left",
+      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+      .withVelocityX(
+          Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.05))
+      .withName("Drive Left"));
+    
+    SwerveCommands.addOption("Drive Right",
+      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+      .withVelocityX(
+          Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.05))
+      .withName("Drive Right"));
+    
+    SwerveCommands.addOption("Rotate",
+      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
+      .withVelocityZ(
+          Constants.SwerveConstants.kMaxAngularSpeedRadiansPerSecond * 0.05))
+      .withName("Rotate"));
+
+      testTab.add("Swerve", SwerveCommands)
+        .withSize(2, 1)
+        .withPosition(0, 0);  
+
+    ElevatorCommands.setDefaultOption("nothin", new InstantCommand());
+      Elevator.getInstance()
+        .runOnce(() -> Elevator.getInstance().zeroElevator()
+          .withName("reset elevator"));
+
+
+    ElevatorCommands.addOption("Elevator up", new Lift());
+    ElevatorCommands.addOption("Elevator down", new HomeElevator());
+    testTab.add("Elevator", ElevatorCommands)
+      .withSize(2, 1)
+      .withPosition(0, 1);
+    
+    
+    //Intake
+    IntakeCommands.setDefaultOption("nothin", new InstantCommand());
+      Intake.getInstance()
+        .runOnce(() -> Intake.getInstance().zeroIntake())
+          .withName("reset intake");
+    IntakeCommands.addOption("Intake", new extend());
+    IntakeCommands.addOption("Retract", new Retract());
+    IntakeCommands.addOption("RunIntake", new RunIntake());
+    testTab.add("IntakeCommadns", IntakeCommands)
+      .withSize(2, 1)
+      .withPosition(0, 2);
+    
+    //endeffector
+    EndeffectorCommands.setDefaultOption("nothin", new InstantCommand());
+      Endeffector.getInstance()
+        .runOnce(() -> Endeffector.getInstance().zeroEndeffector())
+          .withName("reset endeffector");
+    EndeffectorCommands.addOption("Spit", new Spit());
+    EndeffectorCommands.addOption("Slurp", new Slurp());
+    testTab.add("EndeffectorCommands", EndeffectorCommands)
+      .withSize(2, 1)
+      .withPosition(0, 3);
+    }
+    
+      
   @Override
   public void robotPeriodic() {
-
     SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
     // commands, running already-scheduled commands, removing finished or
     // interrupted commands,
@@ -220,8 +320,9 @@ public class Robot extends TimedRobotstangs {
     SmartDashboard.putString("Auto/Current Auto", autoName);
 
     CommandScheduler.getInstance().run();
-
   }
+
+   
 
   @Override
   public void driverStationConnected() {
@@ -239,12 +340,6 @@ public class Robot extends TimedRobotstangs {
         .onCommandFinish((action) -> DataLogManager.log(action.getName() + " Command Finished"));
   }
 
-  public void disabledInit() {
-    // TODO ake the motors nuetral or something so they dont go back to their
-    // setpoints
-
-    setAllMotorsSafe();
-  }
 
   @Override
   public void disabledPeriodic() {
@@ -331,11 +426,6 @@ public class Robot extends TimedRobotstangs {
     LimelightHelpers.SetIMUMode(Constants.VisionConstants.kLimelightScoreSide, 0);
   }
 
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-  }
 
   /** This function is called periodically during test mode. */
   @Override
@@ -540,7 +630,6 @@ public class Robot extends TimedRobotstangs {
         gcAlert.set(false);
 
       }
-
     }
   }
 

@@ -185,6 +185,9 @@ public final class Constants {
     public static final double kHomePosition = 0.83;
     public static final double kSafeArmElevatorPosition = kHomePosition;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
+    public static final double kElevatorZeroPose = 0.0;
+    public static final double kElevatorTargetPosition = 0.5;
+    
   }
 
   // WE ARE WELDEDkg
@@ -298,6 +301,10 @@ public final class Constants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with
     // the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
+    public static final double kMaxSpeedMetersPerSecond = AutoConstants.AutoSpeeds.kSpeedAt12Volts.baseUnitMagnitude();
+
+			// public static final double kMaxAngularSpeedMetersPerSecond = 4 * Math.PI;
+			public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond / 0.44;
     private static final Slot0Configs steerGains = new Slot0Configs()
         .withKP(100).withKI(0).withKD(0.5)
         .withKS(0.1).withKV(2.66).withKA(0)
@@ -324,6 +331,7 @@ public final class Constants {
     // When not Pro-licensed, Fused*/Sync* automatically fall back to Remote*
     private static final SteerFeedbackType kSteerFeedbackType = SteerFeedbackType.FusedCANcoder;
 
+    public static final double MAX_SPEED_METERS_PER_SECOND = 5.96;
     // The stator current at which the wheels start to slip;
     // TODO tune
     // This needs to be tuned to your individual robot
