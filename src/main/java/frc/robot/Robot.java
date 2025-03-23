@@ -100,9 +100,6 @@ public class Robot extends TimedRobotstangs {
   private String oldAutoName = "";
 
   public Robot() {
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
-    // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
   }
 
@@ -113,6 +110,7 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void robotInit() {
 
+    Elevator.getInstance().isHome = false;
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
     autoTab = Shuffleboard.getTab("Autonomous");
@@ -212,8 +210,8 @@ public class Robot extends TimedRobotstangs {
 
     teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightThree, Constants.VisionConstants.kLimelightRightSideIP)  );
 
-    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score(new Trigger(() -> true)).andThen(ScoringFactory.SmartStow()));
-    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score(new Trigger(() -> true)).andThen(ScoringFactory.SmartStow())
+    NamedCommands.registerCommand("L3 Score", (ScoringFactory.L3Score(new Trigger(() -> true)).andThen(ScoringFactory.SmartStow())).withTimeout(1));
+    NamedCommands.registerCommand("L4 Score", (ScoringFactory.L4Score(new Trigger(() -> true)).andThen(ScoringFactory.SmartStow())).withTimeout(1)
     );
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
@@ -267,7 +265,7 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-
+    Elevator.getInstance().isHome = false;
     setAllMotorsSafe();
   }
 
@@ -311,7 +309,7 @@ public class Robot extends TimedRobotstangs {
     }
 
     SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),
-        new HomeElevator().withTimeout(1.5).andThen(ScoringFactory.SmartStow()));
+        new HomeElevator().withTimeout(1.5).andThen(ScoringFactory.SmartStow()).withTimeout(0.1));
 
     autoGroup.addCommands(
         new InstantCommand(timer::restart),

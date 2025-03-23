@@ -252,9 +252,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
     @Override
     public void periodic() {
 
-        SmartDashboard.putNumber("Robot Y Acceleration", this.getPigeon2().getAccelerationY().getValueAsDouble());
-        SmartDashboard.putNumber("Raw fiducial ",
-                LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour));
         /*
          * Periodically try to apply the operator perspective.
          * If we haven't applied the operator perspective before, then we should apply

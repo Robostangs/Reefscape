@@ -50,9 +50,11 @@ public class Elevator extends SubsystemBase {
 
     private final DigitalInput limitSwitchElevator;
 
-    private boolean isHome = false;
+    public boolean isHome = false;
 
-    private Alert notHomedAlert = new Alert("ELevator isn't homed, home to use it", AlertType.kWarning);
+    private static boolean isHomed;
+
+    private Alert notHomedAlert = new Alert("Elevator isn't homed, home to use it", AlertType.kWarning);
 
     public static Elevator getInstance() {
         if (mInstance == null)
@@ -62,9 +64,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public Runnable runElePID = () -> {
-
         elevatorMotorRight.setControl(new MotionMagicTorqueCurrentFOC(Constants.ElevatorConstants.kHomePosition));
-
     };
 
     public Elevator() {
@@ -126,7 +126,7 @@ public class Elevator extends SubsystemBase {
         elevatorMotorRightConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.ElevatorConstants.kMinExtension;
 
         elevatorMotorRightConfigs.CurrentLimits.StatorCurrentLimit = 60;
-        
+
         elevatorMotionMagic.Slot = 0;
 
         elevatorMotorRight.getConfigurator().apply(elevatorMotorRightConfigs);
@@ -146,7 +146,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPositionMeters(double TargetElevatorMeters) {
-        // if (isHome) {
+        if (isHomed) {
             notHomedAlert.set(false);
             if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtension) {
                 elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtension;
@@ -155,9 +155,9 @@ public class Elevator extends SubsystemBase {
             } else {
                 elevatorMotionMagic.Position = TargetElevatorMeters;
             }
-        // } else {
-        //     notHomedAlert.set(true);
-        // }
+        } else {
+            notHomedAlert.set(true);
+        }
     }
 
     public Runnable zeroElevator = () -> {
@@ -173,13 +173,6 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    public void setHomed(boolean isHome) {
-        this.isHome = isHome;
-    }
-
-    public boolean getisHome() {
-        return isHome;
-    }
 
     public void setElevatorPosition(double elevatorPosition) {
         elevatorMotorRight.setPosition(elevatorPosition);
