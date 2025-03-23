@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-
 import static edu.wpi.first.units.Units.MetersPerSecond;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,98 +34,125 @@ import frc.robot.Robot;
 
 public class AligntoReef {
 
-  public static PathPlannerPath generatePath(Pose2d targetPose) {
+    /**
+     * Generates a path to the reef
+     * <p>
+     * NOTE: The rotations of that poses in this method are NOT
+     * the rotation of the robot but the rotation that the robot
+     * should be going to be heading towards(the control points in path planner)
+     * 
+     * @param targetPose the target pose to generate a path to
+     * 
+     */
+    public static PathPlannerPath generatePath(Pose2d targetPose) {
 
-    Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
-    Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
-        currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
-    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
-        targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
-    List<Waypoint> waypoints;
+        Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
 
-    if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
-      waypoints = PathPlannerPath.waypointsFromPoses(
-          startPose, endPose);
-    } else {
-      waypoints = PathPlannerPath.waypointsFromPoses(startPose,
-          endPose.transformBy(new Transform2d(Units.inchesToMeters(18), 0, Rotation2d.kZero)), endPose);
+        // start pose should be your X and Y but the rotation should be where your
+        // heading to
+        Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
+                currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
+
+        // ending pose should be the reef X and Y but the rotation should be where your heading to
+        Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
+                targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
+
+        List<Waypoint> waypoints;
+
+        //if the robot rotation isn't that off from the target rotation then it should be a simple path 
+        if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
+            waypoints = PathPlannerPath.waypointsFromPoses(
+                    startPose, endPose);
+        } 
+        //if the robot rotation is off by a lot then we should add a point before so we have time to rotate
+        else {
+            waypoints = PathPlannerPath.waypointsFromPoses(startPose,
+                    endPose.transformBy(new Transform2d(Units.inchesToMeters(18), 0, Rotation2d.kZero)), endPose);
+        }
+
+        PathConstraints constraints = new PathConstraints(
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared);
+
+        List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
+        //this is what the rotation of the actual robot should be 
+        rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
+        PathPlannerPath path = new PathPlannerPath(
+                waypoints,
+                rotationTargets,
+                Collections.emptyList(),
+
+                Collections.emptyList(),
+
+                Collections.emptyList(),
+
+                constraints,
+                null,
+                new GoalEndState(0.0, targetPose.getRotation()), false);
+
+        path.preventFlipping = true;
+
+        return path;
     }
 
-    PathConstraints constraints = new PathConstraints(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared);
+    public static Pose2d getTargetPose(boolean isRight) {
+        Pose2d targetPose = getReefPose();
 
-    List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
-    rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
-    PathPlannerPath path = new PathPlannerPath(
-        waypoints,
-        rotationTargets,
-        Collections.emptyList(),
+        //take the reef pose and move it to the right or left
+        if (isRight) {
+            targetPose = targetPose.transformBy(
+                    new Transform2d(
+                            new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                                    Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetRight),
+                            Rotation2d.fromDegrees(90)));
+        } else {
+            targetPose = targetPose.transformBy(
+                    new Transform2d(
+                            new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                                    Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetLeft),
+                            Rotation2d.fromDegrees(90)));
+        }
 
-        Collections.emptyList(),
-
-        Collections.emptyList(),
-
-        constraints,
-        null,
-        new GoalEndState(0.0, targetPose.getRotation()), false);
-
-
-    path.preventFlipping = true;
-
-    return path;
-  }
-
-  public static Pose2d getTargetPose(boolean isRight) {
-    Pose2d targetPose = getReefPose();
-
-    if (isRight) {
-      targetPose = targetPose.transformBy(
-          new Transform2d(
-              new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
-                  Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetRight),
-              Rotation2d.fromDegrees(90)));
-    } else {
-      targetPose = targetPose.transformBy(
-          new Transform2d(
-              new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
-                  Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetLeft),
-              Rotation2d.fromDegrees(90)));
-    }
-
-    return targetPose;
-
-  }
-
-  public static Pose2d getReefPose() {
-
-    AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
-
-    AprilTagFieldLayout theMap = AprilTagFieldLayout.loadField(map);
-
-    Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
-
-    if (Robot.isRed()) {
-      return currentPose.nearest(
-          theMap.getTags().subList(5, 12).stream().map((ting) -> ting.pose.toPose2d()).collect(Collectors.toList()));
-    } else {
-      return currentPose.nearest(
-          theMap.getTags().subList(16, 22).stream().map((ting) -> ting.pose.toPose2d()).collect(Collectors.toList()));
+        return targetPose;
 
     }
-  }
 
-  public static Command getAlignToReef(BooleanSupplier isRight) {
+    public static Pose2d getReefPose() {
 
-    return new DeferredCommand(() -> {
-      Robot.teleopField.getObject("Reef Align Pose").setPose(getTargetPose((isRight.getAsBoolean())));
+        AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
 
-      return AutoBuilder.followPath(generatePath(getTargetPose(isRight.getAsBoolean())));
-    },
-        Set.of(CommandSwerveDrivetrain.getInstance()));
+        AprilTagFieldLayout theMap = AprilTagFieldLayout.loadField(map);
 
-  }
+        Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
+
+        if (Robot.isRed()) {
+            return currentPose.nearest(
+                    theMap.getTags().subList(5, 12).stream().map((ting) -> ting.pose.toPose2d())
+                            .collect(Collectors.toList()));
+        } else {
+            return currentPose.nearest(
+                    theMap.getTags().subList(16, 22).stream().map((ting) -> ting.pose.toPose2d())
+                            .collect(Collectors.toList()));
+
+        }
+    }
+
+    /**
+     * Aligns the robot to the reef using path planner
+     * 
+     * @param isRight align to the right or left branch of the reef
+     */
+    public static Command getAlignToReef(BooleanSupplier isRight) {
+
+        return new DeferredCommand(() -> {
+            Robot.teleopField.getObject("Reef Align Pose").setPose(getTargetPose((isRight.getAsBoolean())));
+
+            return AutoBuilder.followPath(generatePath(getTargetPose(isRight.getAsBoolean())));
+        },
+                Set.of(CommandSwerveDrivetrain.getInstance()));
+
+    }
 
 }

@@ -1,19 +1,20 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
 import frc.robot.subsystems.IntakeWheels;
 
 public class RunIntake extends Command {
 
     IntakeWheels intake;
 
+    /**
+     * A command that runs the intake wheels to intake the coral
+     */
     public RunIntake() {
         intake = IntakeWheels.getInstance();
         addRequirements(intake);
     }
     
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 

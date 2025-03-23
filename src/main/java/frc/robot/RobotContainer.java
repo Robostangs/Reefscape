@@ -23,13 +23,11 @@ import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
-import frc.robot.commands.Factories.ScoringFactory.ScoringPosition;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
-import frc.robot.commands.SwerveCommands.AligntoCage;
 import frc.robot.commands.SwerveCommands.AligntoReef;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -143,7 +141,7 @@ public class RobotContainer {
                 xTest.povUp().toggleOnTrue(new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos));
                 xTest.povRight().toggleOnTrue(new SetArmPosition(Constants.ScoringConstants.Stow.kArmStowPos));
 
-                xTest.povDown().toggleOnTrue(ScoringFactory.Stow());
+                xTest.povDown().toggleOnTrue(ScoringFactory.SmartStow());
 
                 // new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.02)
                 // .whileTrue(new ManualIntake(() -> xTest.getLeftY()*0.25));
@@ -205,14 +203,14 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
-                xManip.a().toggleOnTrue(ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.Stow()));
-                xManip.b().toggleOnTrue(ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.Stow()));
-                xManip.y().toggleOnTrue(ScoringFactory.L2Score(xManip.leftBumper()).andThen(ScoringFactory.Stow()));
-                xManip.x().toggleOnTrue(ScoringFactory.SourceIntake().andThen(ScoringFactory.Stow()));
+                xManip.a().toggleOnTrue(ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
+                xManip.b().toggleOnTrue(ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
+                xManip.y().toggleOnTrue(ScoringFactory.L2Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
+                xManip.x().toggleOnTrue(ScoringFactory.SourceIntake().andThen(ScoringFactory.SmartStow()));
 
                 xManip.povDown().whileTrue(new Slurp());
-                xManip.povRight().toggleOnTrue(ScoringFactory.SchloopCommand());
-                xManip.povLeft().toggleOnTrue(ScoringFactory.Stow());
+                xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());
+                xManip.povLeft().toggleOnTrue(ScoringFactory.SmartStow());
 
                 xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgae());
 
@@ -224,7 +222,7 @@ public class RobotContainer {
                 xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 xManip.rightBumper().toggleOnTrue(
-                                new HomeElevator().andThen(ScoringFactory.Stow()));
+                                new HomeElevator().andThen(ScoringFactory.SmartStow()));
                 xManip.leftBumper().whileTrue(new Spit());
 
         }

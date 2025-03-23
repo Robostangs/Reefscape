@@ -44,6 +44,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
@@ -211,8 +212,8 @@ public class Robot extends TimedRobotstangs {
 
     teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightThree, Constants.VisionConstants.kLimelightRightSideIP)  );
 
-    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score(() -> true).andThen(ScoringFactory.Stow()));
-    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score(() -> true).andThen(ScoringFactory.Stow())
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3Score(new Trigger(() -> true)).andThen(ScoringFactory.SmartStow()));
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4Score(new Trigger(() -> true)).andThen(ScoringFactory.SmartStow())
     );
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
@@ -223,8 +224,8 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
     NamedCommands.registerCommand("Intake", new RunIntake());
 
-    NamedCommands.registerCommand("Return Stow", ScoringFactory.Stow());
-    NamedCommands.registerCommand("Schloop", ScoringFactory.SchloopCommand().withTimeout(0.5));
+    NamedCommands.registerCommand("Return Stow", ScoringFactory.SmartStow());
+    NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.5));
 
 
   }
@@ -310,7 +311,7 @@ public class Robot extends TimedRobotstangs {
     }
 
     SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),
-        new HomeElevator().withTimeout(1.5).andThen(ScoringFactory.Stow()));
+        new HomeElevator().withTimeout(1.5).andThen(ScoringFactory.SmartStow()));
 
     autoGroup.addCommands(
         new InstantCommand(timer::restart),
