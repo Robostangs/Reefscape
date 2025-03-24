@@ -19,11 +19,13 @@ public class HomeIntake extends Command{
     @Override
     public void initialize() {
         intake.postStatus("intake homing");
-        intake.setPiviotDutyCycle(Constants.IntakeConstants.kIntakeHomeDutyCycle);
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+        intake.setPiviotDutyCycle(Constants.IntakeConstants.kIntakeHomeDutyCycle);
+
+    }
 
     @Override
     public void end(boolean interrupted) {

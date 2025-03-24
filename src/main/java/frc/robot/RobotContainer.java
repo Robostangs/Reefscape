@@ -127,9 +127,6 @@ public class RobotContainer {
                 xTest.rightStick().whileTrue(new Spit());
                 xTest.leftStick().whileTrue(new Slurp());
 
-                // xTest.a().whileTrue(new HomeElevator());
-
-                // xTest.a().onTrue(IntakePivot.getInstance().runOnce(IntakePivot.getInstance().zeroIntakeRun));
                 xTest.a().toggleOnTrue(new HomeElevator());
 
                 xTest.x().toggleOnTrue(new Retract());
@@ -143,8 +140,6 @@ public class RobotContainer {
 
                 xTest.povDown().toggleOnTrue(ScoringFactory.SmartStow());
 
-                // new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.02)
-                // .whileTrue(new ManualIntake(() -> xTest.getLeftY()*0.25));
                 new Trigger(() -> Math.abs(xTest.getLeftY()) > 0.01)
                                 .whileTrue(new SetArmDutyCycle(() -> xTest.getLeftY()));
 
@@ -210,11 +205,11 @@ public class RobotContainer {
                                 ScoringFactory.L2Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.x().toggleOnTrue(ScoringFactory.SourceIntake().andThen(ScoringFactory.SmartStow()));
 
+                xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgae());
+
                 xManip.povDown().whileTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.SmartStow());
-
-                xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgae());
 
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
@@ -224,7 +219,6 @@ public class RobotContainer {
                 xManip.rightBumper().toggleOnTrue(
                                 new HomeElevator().andThen(ScoringFactory.SmartStow()));
                 xManip.leftBumper().whileTrue(new Spit());
-
         }
 
         private void configureSimBindings() {

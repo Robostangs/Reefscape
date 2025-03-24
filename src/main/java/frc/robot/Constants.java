@@ -91,7 +91,7 @@ public final class Constants {
 
     public static final double kStatorCurrentLimit = 80d;
     public static final double kHomeStatorCurrentLimit = 40d;
-    public static final double kIntakeHomeDutyCycle = 0.3;
+    public static final double kIntakeHomeDutyCycle = 0.2;
 
     public static final boolean kTopIntakeMotorInverted = false;
     public static final boolean kBottomIntakeMotorInverted = false;
@@ -213,7 +213,7 @@ public final class Constants {
       public static final double kTagRelativeYOffsetRight = Units.inchesToMeters(6.5)+kCentertoEndeffectorDistanceMeters;
       public static final double kTagRelativeYOffsetLeft = Units.inchesToMeters(-6.5)+kCentertoEndeffectorDistanceMeters;
 
-      public static final double kTagRelativeXOffset = Units.inchesToMeters(16);
+      public static final double kTagRelativeXOffset = Units.inchesToMeters(10);
 
     }
 
@@ -251,7 +251,7 @@ public final class Constants {
     public static final Pose2d k22BlueRReefPosePtP = new Pose2d(4.64, 3.54, new Rotation2d(-65 - 180));
 
     // reset pose
-    public static final Pose2d kResetPose = new Pose2d(2.84, 4, new Rotation2d(0));
+    public static final Pose2d kResetPose = new Pose2d(3.23, 4, new Rotation2d(Units.degreesToRadians(180)));
 
     // Cage poses
     public static final Pose2d kCageTop = new Pose2d(8.8, 7.3, new Rotation2d(0d));

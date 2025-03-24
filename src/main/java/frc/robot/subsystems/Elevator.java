@@ -50,9 +50,8 @@ public class Elevator extends SubsystemBase {
 
     private final DigitalInput limitSwitchElevator;
 
-    public boolean isHome = false;
 
-    private static boolean isHomed;
+    public static boolean isHomed = false;
 
     private Alert notHomedAlert = new Alert("Elevator isn't homed, home to use it", AlertType.kWarning);
 
@@ -262,6 +261,8 @@ public class Elevator extends SubsystemBase {
         }
 
         updateElevatorPosition();
+
+        SmartDashboard.putBoolean("Is it homed", isHomed);
 
         // SmartDashboard.putNumber("Elevator-Test/Torque current",
         // elevatorMotorRight.getTorqueCurrent().getValueAsDouble());

@@ -110,7 +110,7 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void robotInit() {
 
-    Elevator.getInstance().isHome = false;
+    Elevator.isHomed = false;
     SmartDashboard.putData("Field", teleopField);
     teleopTab = Shuffleboard.getTab("Teleoperated");
     autoTab = Shuffleboard.getTab("Autonomous");
@@ -265,7 +265,7 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void disabledInit() {
-    Elevator.getInstance().isHome = false;
+    Elevator.isHomed = false;
     setAllMotorsSafe();
   }
 
