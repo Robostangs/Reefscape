@@ -295,7 +295,7 @@ public final class Constants {
     }
 
     public static class Schloop {
-      public static final double kElevatorPos = .764;
+      public static final double kElevatorPos = .77;
       public static final double kArmSchloPos = ArmConstants.kArmRestSetpoint;
     }
 
