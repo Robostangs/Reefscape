@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.72478595890411,
-        "y": 3.755
+        "x": 5.675,
+        "y": 3.8
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.72478595890411,
-        "y": 3.755
+        "x": 6.675,
+        "y": 3.8
       },
       "isLocked": false,
       "linkedName": "Center 2R"

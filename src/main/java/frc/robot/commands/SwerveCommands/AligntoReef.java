@@ -18,6 +18,7 @@ import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.ConstraintsZone;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -34,7 +35,7 @@ import frc.robot.Robot;
 
 public class AligntoReef {
 
-    /**
+  /**
      * Generates a path to the reef
      * <p>
      * NOTE: The rotations of that poses in this method are NOT
@@ -71,20 +72,32 @@ public class AligntoReef {
         }
 
         PathConstraints constraints = new PathConstraints(
-                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
-                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
-                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
-                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared);
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.4,
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.4,
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.4,
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.4);
+
+
+                PathConstraints endconstraints = new PathConstraints(
+                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.1,
+                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.1,
+                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.1,
+                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.1);
+  
+        
 
         List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
         //this is what the rotation of the actual robot should be 
         rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
+
+        List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
+        zones.add(new ConstraintsZone(0.6, 1, endconstraints));
         PathPlannerPath path = new PathPlannerPath(
                 waypoints,
                 rotationTargets,
                 Collections.emptyList(),
 
-                Collections.emptyList(),
+                zones,
 
                 Collections.emptyList(),
 
@@ -97,62 +110,62 @@ public class AligntoReef {
         return path;
     }
 
-    public static Pose2d getTargetPose(boolean isRight) {
-        Pose2d targetPose = getReefPose();
+  public static Pose2d getTargetPose(boolean isRight) {
+    Pose2d targetPose = getReefPose();
 
-        //take the reef pose and move it to the right or left
-        if (isRight) {
-            targetPose = targetPose.transformBy(
-                    new Transform2d(
-                            new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
-                                    Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetRight),
-                            Rotation2d.fromDegrees(90)));
-        } else {
-            targetPose = targetPose.transformBy(
-                    new Transform2d(
-                            new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
-                                    Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetLeft),
-                            Rotation2d.fromDegrees(90)));
-        }
-
-        return targetPose;
-
+    // take the reef pose and move it to the right or left
+    if (isRight) {
+      targetPose = targetPose.transformBy(
+          new Transform2d(
+              new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                  Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetRight),
+              Rotation2d.fromDegrees(90)));
+    } else {
+      targetPose = targetPose.transformBy(
+          new Transform2d(
+              new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                  Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetLeft),
+              Rotation2d.fromDegrees(90)));
     }
 
-    public static Pose2d getReefPose() {
+    return targetPose;
 
-        AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
+  }
 
-        AprilTagFieldLayout theMap = AprilTagFieldLayout.loadField(map);
+  public static Pose2d getReefPose() {
 
-        Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
+    AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
 
-        if (Robot.isRed()) {
-            return currentPose.nearest(
-                    theMap.getTags().subList(5, 12).stream().map((ting) -> ting.pose.toPose2d())
-                            .collect(Collectors.toList()));
-        } else {
-            return currentPose.nearest(
-                    theMap.getTags().subList(16, 22).stream().map((ting) -> ting.pose.toPose2d())
-                            .collect(Collectors.toList()));
+    AprilTagFieldLayout theMap = AprilTagFieldLayout.loadField(map);
 
-        }
-    }
+    Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
 
-    /**
-     * Aligns the robot to the reef using path planner
-     * 
-     * @param isRight align to the right or left branch of the reef
-     */
-    public static Command getAlignToReef(BooleanSupplier isRight) {
-
-        return new DeferredCommand(() -> {
-            Robot.teleopField.getObject("Reef Align Pose").setPose(getTargetPose((isRight.getAsBoolean())));
-
-            return AutoBuilder.followPath(generatePath(getTargetPose(isRight.getAsBoolean())));
-        },
-                Set.of(CommandSwerveDrivetrain.getInstance()));
+    if (Robot.isRed()) {
+      return currentPose.nearest(
+          theMap.getTags().subList(5, 12).stream().map((ting) -> ting.pose.toPose2d())
+              .collect(Collectors.toList()));
+    } else {
+      return currentPose.nearest(
+          theMap.getTags().subList(16, 22).stream().map((ting) -> ting.pose.toPose2d())
+              .collect(Collectors.toList()));
 
     }
+  }
+
+  /**
+   * Aligns the robot to the reef using path planner
+   * 
+   * @param isRight align to the right or left branch of the reef
+   */
+  public static Command getAlignToReef(BooleanSupplier isRight) {
+
+    return new DeferredCommand(() -> {
+      Robot.teleopField.getObject("Reef Align Pose").setPose(getTargetPose((isRight.getAsBoolean())));
+
+      return AutoBuilder.followPath(generatePath(getTargetPose(isRight.getAsBoolean())));
+    },
+        Set.of(CommandSwerveDrivetrain.getInstance()));
+
+  }
 
 }

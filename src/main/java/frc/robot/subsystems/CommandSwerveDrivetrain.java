@@ -365,8 +365,14 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
         SmartDashboard.putNumber("Vision/Angular Velocity ",
                 this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble());
+        SmartDashboard.putBoolean("Are we using vision", RobotContainer.useVision);
 
     }
+
+    public static Runnable toggleVision = () -> {
+        RobotContainer.useVision = !RobotContainer.useVision;
+
+    };
 
     private boolean isPosegoo(LimelightHelpers.PoseEstimate yoPoseEsti) {
         if (yoPoseEsti == null) {

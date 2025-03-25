@@ -30,7 +30,8 @@ public class SetElevatorDutyCycle extends Command {
 
   @Override
   public void end(boolean interrupted) {
-      elevator.setElevatorDutyCycle(0);
+      elevator.setElevatorDutyCycle(0.03);
+      
     
     elevator.postStatus("Elevator Stopped");
 

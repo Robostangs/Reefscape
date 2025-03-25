@@ -209,7 +209,7 @@ public final class Constants {
     
 
     public static class ReefAlign{
-      public static final double kCentertoEndeffectorDistanceMeters = -.1203;
+      public static final double kCentertoEndeffectorDistanceMeters = -.078;
       public static final double kTagRelativeYOffsetRight = Units.inchesToMeters(6.5)+kCentertoEndeffectorDistanceMeters;
       public static final double kTagRelativeYOffsetLeft = Units.inchesToMeters(-6.5)+kCentertoEndeffectorDistanceMeters;
 
@@ -266,32 +266,27 @@ public final class Constants {
       public static final double kArmSafePosition = 0;
       public static final double kElevatorEnd = 0;
     }
-//.965
+
     public static class L2 {
-      // Homepos0.97155
-      
       public static final double kElevatorStart = ElevatorConstants.kHomePosition;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
       public static final double kArmSafePosition = 0.25;
       public static final double kELevatorAlgaepos = 0.91;
       public static final double kArmAlgaePos = -0.75;
-
     }
 
     public static class L3 {
-      public static final double kElevatorPos = .9655;
-      public static final double kArmScoringPosition = .329;
+      public static final double kElevatorPos = 1.08;
+      public static final double kArmScoringPosition = .367;
       public static final double kELevatorAlgaepos = 1.18;
       public static final double kArmAlgaePos = -0.75;
-
     }
 
     public static class L4 {
-      public static final double kElevatorPos =  1.62;
-      public static final double kArmScoringPosition = .329;
+      public static final double kElevatorPos =  1.61;
+      public static final double kArmScoringPosition = .341;
       public static final double kArmAutoScoringPosition = .329;
-
     }
 
     public static class Stow {
@@ -302,14 +297,11 @@ public final class Constants {
     public static class Schloop {
       public static final double kElevatorPos = .764;
       public static final double kArmSchloPos = ArmConstants.kArmRestSetpoint;
-
     }
 
     public static class Source {
-      public static final double kElevatorPos = ElevatorConstants.kHomePosition+0.355
-      ;
+      public static final double kElevatorPos = ElevatorConstants.kHomePosition+0.355;
       public static final double kArmSourcePosition = -0.145;
-
     }
   }
 
@@ -367,7 +359,7 @@ public final class Constants {
     static final Pigeon2Configuration pigeonConfigs = null;
     // new Pigeon2Configuration()
     //     .withMountPose(new MountPoseConfigs().withMountPosePitch(0.57)
-    //         .withMo[\]untPoseYaw(-91.79)
+    //         .withMountPoseYaw(-91.79)
     //         .withMountPoseRoll(0.7));
 
     // CAN bus that the devices are located on;

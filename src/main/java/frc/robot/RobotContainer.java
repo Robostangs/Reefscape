@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj.Timer;
 
 public class RobotContainer {
@@ -173,7 +174,7 @@ public class RobotContainer {
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
                 xDrive.povRight().onTrue(new RunCommand(() -> {
-                        useVision = !useVision;
+                       CommandSwerveDrivetrain.getInstance().runOnce(CommandSwerveDrivetrain.toggleVision);
                 }));
 
                 // reset the field-centric hea ding on left bumper press
@@ -198,7 +199,9 @@ public class RobotContainer {
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
-                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
+                        // ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow())
+                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
+                );
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.y().toggleOnTrue(
@@ -214,11 +217,11 @@ public class RobotContainer {
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
 
-                xManip.povUp().onTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
+                xManip.povUp().onTrue(Elevator.getInstance().runOnce(Elevator.getInstance().setHomePositionElevator));
 
                 xManip.rightBumper().toggleOnTrue(
                                 new HomeElevator().andThen(ScoringFactory.SmartStow()));
-                xManip.leftBumper().whileTrue(new Spit());
+                // xManip.leftBumper().whileTrue(new Spit());
         }
 
         private void configureSimBindings() {

@@ -210,9 +210,8 @@ public class Robot extends TimedRobotstangs {
 
     teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightThree, Constants.VisionConstants.kLimelightRightSideIP)  );
 
-    NamedCommands.registerCommand("L3 Score", (ScoringFactory.L3Score(new Trigger(() -> true)).andThen(ScoringFactory.SmartStow())).withTimeout(1));
-    NamedCommands.registerCommand("L4 Score", (ScoringFactory.L4Score(new Trigger(() -> true)).andThen(ScoringFactory.SmartStow())).withTimeout(1)
-    );
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
     NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));

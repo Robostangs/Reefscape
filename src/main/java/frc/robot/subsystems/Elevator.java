@@ -159,9 +159,9 @@ public class Elevator extends SubsystemBase {
         }
     }
 
-    public Runnable zeroElevator = () -> {
-        elevatorMotorRight.setPosition(0);
-        postStatus("zeroed");
+    public Runnable setHomePositionElevator = () -> {
+        elevatorMotorRight.setPosition(Constants.ElevatorConstants.kHomePosition);
+        postStatus("Homed");
     };
 
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
@@ -273,19 +273,17 @@ public class Elevator extends SubsystemBase {
 
         SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
 
-        SmartDashboard.putNumber("Elevator/Position", simElevatorTarget.getPositionMeters());
         // SmartDashboard.putNumber("Elevator/Velocity", getElevatorVelocityMeters());
         SmartDashboard.putNumber("Elevator/Target Elevator Meters", elevatorMotionMagic.Position);
         SmartDashboard.putNumber("Elevator/Position Meters", getElevatorPositionMeters());
         SmartDashboard.putBoolean("Elevator/At Position", isElevatorAtTarget());
-
-        SmartDashboard.putNumber("Elevator/elevator position", elevatorMotorRight.getPosition().getValueAsDouble());
 
         SmartDashboard.putBoolean("Elevator/brownout right", elevatorMotorRight.getFault_BridgeBrownout().getValue());
         SmartDashboard.putBoolean("Elevator/brownout left", elevatorMotorLeft.getFault_BridgeBrownout().getValue());
 
         // SmartDashboard.putNumber("right stator current limit",
         // elevatorMotorRight.getStatorCurrent().getValueAsDouble());
+
 
     }
 }

@@ -118,8 +118,8 @@ public class ScoringFactory {
      * @return A command to position at L2 and then spit
      */
     public static Command L2Score(Trigger manipBumper) {
-        return L2Position().andThen(new Spit()).onlyWhile(manipBumper);
-    }
+        return L2Position()
+        .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));    }
 
     /**
      * Returns {@code L3Position()} but then spits while the bumper is held
@@ -128,9 +128,21 @@ public class ScoringFactory {
      * @return A command to position at L3 and then spit
      */
     public static Command L3Score(Trigger manipBumper) {
-        return L3Position().andThen(new Spit()).onlyWhile(manipBumper);
-    }
+        return L3Position()
+        .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));    }
 
+
+
+
+    public static Command L3ScoreAuto() {
+        return L3Position()
+        .andThen(new Spit().withTimeout(1.3));    }
+
+        
+
+    public static Command L4ScoreAuto() {
+        return L4Position()
+        .andThen(new Spit().withTimeout(1.3));    }
     /**
      * Returns {@code L4Position()} but then spits while the bumper is held
      * 
@@ -138,11 +150,11 @@ public class ScoringFactory {
      * @return A command to position at L4 and then spit
      */
     public static Command L4Score(Trigger manipBumper) {
-        return L4Position().andThen(new Spit()).onlyWhile(manipBumper);
+        return L4Position()
+                .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));
     }
 
-
-    public static Command AutoL4Score(){
+    public static Command AutoL4Score() {
         return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
                 .alongWith(
                         new WaitUntilCommand(
@@ -150,12 +162,13 @@ public class ScoringFactory {
                                         .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
                                 .onlyIf(() -> !Robot.isSimulation())
                                 .andThen(
-                                    //TODO Find this setpoint
+                                        // TODO Find this setpoint
                                         new SetArmPosition(Constants.ScoringConstants.L4.kArmAutoScoringPosition))
                                 .finallyDo(() -> {
                                     ScoreState = ScoringPosition.L4;
                                 }));
     }
+
     /**
      * A command that executes the following commands:
      * *
@@ -210,23 +223,23 @@ public class ScoringFactory {
         }, Set.of(Arm.getInstance(), Elevator.getInstance()));
 
     }
-/**
- * Returns a command that does the following commands:
- * <p>
- * <ul>
- * <li>Move the elevator to the source position.</li>
- * <li>Move the arm to the source position.</li>
- * </ul>
- * <p>
- * 
- * @return A command intake from source if ground intake ever breaks
- */
+
+    /**
+     * Returns a command that does the following commands:
+     * <p>
+     * <ul>
+     * <li>Move the elevator to the source position.</li>
+     * <li>Move the arm to the source position.</li>
+     * </ul>
+     * <p>
+     * 
+     * @return A command intake from source if ground intake ever breaks
+     */
     public static Command SourceIntake() {
         return new SetElevatorPosition(Constants.ScoringConstants.Source.kElevatorPos)
                 .andThen(new SetArmPosition(Constants.ScoringConstants.Source.kArmSourcePosition)
                         .finallyDo(() -> ScoreState = ScoringPosition.Source));
     }
-
 
     /**
      * Returns a command that does the following commands:
