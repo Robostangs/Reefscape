@@ -5,6 +5,7 @@ import frc.robot.Constants;
 import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
 import frc.robot.commands.EndeffectorCommands.Slurp;
+import frc.robot.commands.IntakeCommands.Algae;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Heimlich;
 import frc.robot.commands.IntakeCommands.Retract;
@@ -34,7 +35,7 @@ public class IntakeFactory {
      * @return A command that extends the intake and runs the wheels
      */
     public static Command algaeNamNam() {
-        return new Heimlich().alongWith(new RunIntake())
+        return new Algae().alongWith(new RunIntake())
                 .finallyDo(Retract.Retract);
     }
 

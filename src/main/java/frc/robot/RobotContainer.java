@@ -164,7 +164,9 @@ public class RobotContainer {
                 xDrive.leftBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> false));
                 xDrive.rightBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> true));
 
+                xDrive.b().and(xDrive.povLeft()).toggleOnTrue(new Untake());
                 xDrive.b().toggleOnTrue(new RunIntake());
+
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
                 xDrive.a().toggleOnTrue(IntakeFactory.algaeNamNam());
@@ -174,7 +176,7 @@ public class RobotContainer {
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
                 xDrive.povRight().onTrue(new RunCommand(() -> {
-                       CommandSwerveDrivetrain.getInstance().runOnce(CommandSwerveDrivetrain.toggleVision);
+                        CommandSwerveDrivetrain.getInstance().runOnce(CommandSwerveDrivetrain.toggleVision);
                 }));
 
                 // reset the field-centric hea ding on left bumper press
@@ -199,8 +201,8 @@ public class RobotContainer {
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
-                        // ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow())
-                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
+                        ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow())
+                // ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
                 );
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));

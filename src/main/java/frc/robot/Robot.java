@@ -216,7 +216,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
     NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));
 
-    NamedCommands.registerCommand("Feeder Intake", IntakeFactory.SourceIntake());
+    NamedCommands.registerCommand("Feeder Intake", new PrintCommand("Hi!"));
     NamedCommands.registerCommand("Ground Intake", new Extend());
     NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
     NamedCommands.registerCommand("Intake", new RunIntake());
@@ -308,7 +308,7 @@ public class Robot extends TimedRobotstangs {
     }
 
     SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),
-        new HomeElevator().withTimeout(1.5).andThen(ScoringFactory.SmartStow()).withTimeout(0.1));
+        new HomeElevator().withTimeout(0.75),(ScoringFactory.SmartStow()).withTimeout(0.3));
 
     autoGroup.addCommands(
         new InstantCommand(timer::restart),
