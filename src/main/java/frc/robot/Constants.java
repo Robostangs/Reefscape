@@ -99,6 +99,7 @@ public final class Constants {
     public static final double kMotionMagicVelocity = 2;
     public static final double kMotionMagicAcceleration = 5;
     public static final double kHardstopPosition = 0.315;
+    public static final double kAlgaeSetpoint = 0.5;
   }
 
   public static class EndeffectorConstants {

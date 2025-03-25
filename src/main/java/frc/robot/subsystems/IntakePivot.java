@@ -80,6 +80,9 @@ public class IntakePivot extends SubsystemBase {
     public void setHeimlichPosition() {
         pivotControl.Position = Constants.IntakeConstants.kHeimlichSetpoint;
     }
+    public void setAlgaePosition(){
+        pivotControl.Position = Constants.IntakeConstants.kAlgaeSetpoint;
+    }
     public void postStatus(String status) {
         SmartDashboard.putString("Intake/status", status);
 
