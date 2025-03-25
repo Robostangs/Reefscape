@@ -39,12 +39,16 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.ArmCommands.RunArm;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.ElevatorCommands.Lift;
 import frc.robot.commands.ElevatorCommands.RunElevator;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SwerveCommands.PathToPoint;
@@ -80,6 +84,7 @@ public class Robot extends TimedRobotstangs {
   public static SendableChooser<Command> ElevatorCommands = new SendableChooser<>();
   public static SendableChooser<Command> IntakeCommands = new SendableChooser<>();
   public static SendableChooser<Command> EndeffectorCommands = new SendableChooser<>();
+  public static SendableChooser<Command> ArmCommands = new SendableChooser<>();
   private static String autoName = "";
 
   // Autos
@@ -223,58 +228,59 @@ public class Robot extends TimedRobotstangs {
     if (!testConfigured) {
     //swerve drivetrain
     SwerveCommands.setDefaultOption("Do nothin(basically reseting the gyro)",
-      drivetrain.getInstance()
-        .runOnce(() -> drivetrain.getInstance()
-          .seedFieldRealtivePose(!Robot.isRed()
+      CommandSwerveDrivetrain.getInstance()
+        .runOnce(() -> CommandSwerveDrivetrain.getInstance()
+          .resetPose(!Robot.isRed()
           ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-          : GeometryUtil 
+          : FlippingUtil
             .flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose)
-          .withName("reset swereve")
         )));
 
     SwerveCommands.addOption("Drive forward",
-      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
       .withVelocityY(
-        //TODO make this into k12volts auto speeds
-          Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.05))
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Drive Forward"));
     
-    SwerveCommamds.addOption("Drive Backward",
-      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+    SwerveCommands.addOption("Drive Backward",
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
       .withVelocityY(
-          Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.05))
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Drive Backward"));
         
     SwerveCommands.addOption("Drive Left",
-      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
       .withVelocityX(
-          Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.05))
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Drive Left"));
     
     SwerveCommands.addOption("Drive Right",
-      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
       .withVelocityX(
-          Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.05))
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Drive Right"));
     
     SwerveCommands.addOption("Rotate",
-      drivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
-      .withVelocityZ(
-          Constants.SwerveConstants.kMaxAngularSpeedRadiansPerSecond * 0.05))
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
+      .withRotationalRate(
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Rotate"));
 
       testTab.add("Swerve", SwerveCommands)
         .withSize(2, 1)
         .withPosition(0, 0);  
-
+    //Elevator
     ElevatorCommands.setDefaultOption("nothin", new InstantCommand());
       Elevator.getInstance()
-        .runOnce(() -> Elevator.getInstance().zeroElevator()
-          .withName("reset elevator"));
+        .runOnce(() -> Elevator.getInstance());
 
-
-    ElevatorCommands.addOption("Elevator up", new Lift());
-    ElevatorCommands.addOption("Elevator down", new HomeElevator());
+    ElevatorCommands.addOption("Elevator up", new RunElevator(() -> Constants.ElevatorConstants.ktestDutyCycle));
+    ElevatorCommands.addOption("Elevator down", new RunElevator(() -> -Constants.ElevatorConstants.ktestDutyCycle));
+    ElevatorCommands.addOption("L3", new Lift(Constants.ScoringConstants.L3.kElevatorPos));
+    ElevatorCommands.addOption("L2", new Lift(Constants.ScoringConstants.L2.kElevatorEnd));
+    ElevatorCommands.addOption("L4", new Lift(Constants.ScoringConstants.L4.kElevatorPos));
+    ElevatorCommands.addOption("Stow", new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
+    ElevatorCommands.addOption("Home Elevator", new HomeElevator());
     testTab.add("Elevator", ElevatorCommands)
       .withSize(2, 1)
       .withPosition(0, 1);
@@ -282,12 +288,13 @@ public class Robot extends TimedRobotstangs {
     
     //Intake
     IntakeCommands.setDefaultOption("nothin", new InstantCommand());
-      Intake.getInstance()
-        .runOnce(() -> Intake.getInstance().zeroIntake())
-          .withName("reset intake");
-    IntakeCommands.addOption("Intake", new extend());
+      IntakePivot.getInstance()
+        .runOnce(() -> IntakePivot.getInstance());
+    IntakeCommands.addOption("Extend", new Extend());
     IntakeCommands.addOption("Retract", new Retract());
     IntakeCommands.addOption("RunIntake", new RunIntake());
+    IntakeCommands.addOption("Home Intake", new HomeIntake());
+    
     testTab.add("IntakeCommadns", IntakeCommands)
       .withSize(2, 1)
       .withPosition(0, 2);
@@ -295,14 +302,26 @@ public class Robot extends TimedRobotstangs {
     //endeffector
     EndeffectorCommands.setDefaultOption("nothin", new InstantCommand());
       Endeffector.getInstance()
-        .runOnce(() -> Endeffector.getInstance().zeroEndeffector())
-          .withName("reset endeffector");
+        .runOnce(() -> Endeffector.getInstance());
     EndeffectorCommands.addOption("Spit", new Spit());
     EndeffectorCommands.addOption("Slurp", new Slurp());
     testTab.add("EndeffectorCommands", EndeffectorCommands)
       .withSize(2, 1)
       .withPosition(0, 3);
-    }
+    
+    //Arm
+    ArmCommands.setDefaultOption("Nothin", new InstantCommand());
+      Arm.getInstance()
+        .runOnce(() -> Arm.getInstance());
+    ArmCommands.addOption("postive", new RunArm(() -> Constants.ArmConstants.kArmDutyCycle));
+    ArmCommands.addOption("negative", new RunArm(() -> -Constants.ArmConstants.kArmDutyCycle));
+    ArmCommands.addOption("L4", new RunArm(() -> Constants.ScoringConstants.L4.kElevatorPos));
+    ArmCommands.addOption("L3", new RunArm(()-> Constants.ScoringConstants.L3.kElevatorPos));
+    ArmCommands.addOption("L2", new RunArm(() -> Constants.ScoringConstants.L2.kElevatorEnd));
+    testTab.add("ArmCommands", ArmCommands)
+      .withSize(2, 1)
+      .withPosition(0, 4);
+    }}
     
       
   @Override

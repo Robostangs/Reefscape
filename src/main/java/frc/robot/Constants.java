@@ -8,6 +8,8 @@ import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.Vector;
 
 import com.ctre.phoenix6.CANBus;
@@ -138,6 +140,8 @@ public final class Constants {
 
     public static final double kArmHumanPlayer = 165;
 
+    public static final double kArmDutyCycle = 0.1;
+
   }
 
   public static class ElevatorConstants {
@@ -187,6 +191,7 @@ public final class Constants {
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
     public static final double kElevatorZeroPose = 0.0;
     public static final double kElevatorTargetPosition = 0.5;
+    public static final double ktestDutyCycle = 0.1;
     
   }
 
