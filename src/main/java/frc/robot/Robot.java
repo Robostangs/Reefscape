@@ -44,25 +44,23 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.ArmCommands.RunArm;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ArmCommands.SetArmDutyCycle;
+import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
-import frc.robot.commands.ElevatorCommands.Lift;
-import frc.robot.commands.ElevatorCommands.RunElevator;
+import frc.robot.commands.ElevatorCommands.SetElevatorDutyCycle;
+import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
-import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SwerveCommands.PathToPoint;
 
-
-import frc.robot.commands.IntakeCommands.RunIntake;
 
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -297,12 +295,12 @@ public class Robot extends TimedRobotstangs {
       Elevator.getInstance()
         .runOnce(() -> Elevator.getInstance());
 
-    ElevatorCommands.addOption("Elevator up", new RunElevator(() -> Constants.ElevatorConstants.ktestDutyCycle));
-    ElevatorCommands.addOption("Elevator down", new RunElevator(() -> -Constants.ElevatorConstants.ktestDutyCycle));
-    ElevatorCommands.addOption("L3", new Lift(Constants.ScoringConstants.L3.kElevatorPos));
-    ElevatorCommands.addOption("L2", new Lift(Constants.ScoringConstants.L2.kElevatorEnd));
-    ElevatorCommands.addOption("L4", new Lift(Constants.ScoringConstants.L4.kElevatorPos));
-    ElevatorCommands.addOption("Stow", new Lift(Constants.ScoringConstants.Stow.kElevatorPos));
+    ElevatorCommands.addOption("Elevator up", new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));
+    ElevatorCommands.addOption("Elevator down", new SetElevatorDutyCycle(() -> -Constants.ElevatorConstants.ktestDutyCycle));
+    ElevatorCommands.addOption("L3", new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos));
+    ElevatorCommands.addOption("L2", new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd));
+    ElevatorCommands.addOption("L4", new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
+    ElevatorCommands.addOption("Stow", new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos));
     ElevatorCommands.addOption("Home Elevator", new HomeElevator());
     testTab.add("Elevator", ElevatorCommands)
       .withSize(2, 1)
@@ -336,11 +334,11 @@ public class Robot extends TimedRobotstangs {
     ArmCommands.setDefaultOption("Nothin", new InstantCommand());
       Arm.getInstance()
         .runOnce(() -> Arm.getInstance());
-    ArmCommands.addOption("postive", new RunArm(() -> Constants.ArmConstants.kArmDutyCycle));
-    ArmCommands.addOption("negative", new RunArm(() -> -Constants.ArmConstants.kArmDutyCycle));
-    ArmCommands.addOption("L4", new RunArm(() -> Constants.ScoringConstants.L4.kElevatorPos));
-    ArmCommands.addOption("L3", new RunArm(()-> Constants.ScoringConstants.L3.kElevatorPos));
-    ArmCommands.addOption("L2", new RunArm(() -> Constants.ScoringConstants.L2.kElevatorEnd));
+    ArmCommands.addOption("postive", new SetArmDutyCycle(() -> Constants.ArmConstants.kArmDutyCycle));
+    ArmCommands.addOption("negative", new SetArmDutyCycle(() -> -Constants.ArmConstants.kArmDutyCycle));
+    ArmCommands.addOption("L4", new SetArmPosition(Constants.ScoringConstants.L4.kElevatorPos));
+    ArmCommands.addOption("L3", new SetArmPosition(Constants.ScoringConstants.L3.kElevatorPos));
+    ArmCommands.addOption("L2", new SetArmPosition(Constants.ScoringConstants.L2.kElevatorEnd));
     testTab.add("ArmCommands", ArmCommands)
       .withSize(2, 1)
       .withPosition(0, 4);
