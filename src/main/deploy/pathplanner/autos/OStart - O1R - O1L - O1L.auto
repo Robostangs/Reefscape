@@ -17,12 +17,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Open 1R to Open Feeder"
@@ -59,12 +53,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Open 1L to Open Feeder"
@@ -98,12 +86,6 @@
           "type": "named",
           "data": {
             "name": "L3 Score"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
           }
         }
       ]

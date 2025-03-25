@@ -99,12 +99,6 @@
           "data": {
             "name": "L4 Score"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
-          }
         }
       ]
     }
