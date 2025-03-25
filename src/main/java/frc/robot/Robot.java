@@ -94,6 +94,12 @@ public class Robot extends TimedRobotstangs {
   public static SendableChooser<Command> EndeffectorCommands = new SendableChooser<>();
   public static SendableChooser<Command> ArmCommands = new SendableChooser<>();
   public static SendableChooser<Command> ClimberCommands = new SendableChooser<>();
+  Command lastSwerve;
+  Command lastClimber;
+  Command lastIntake;
+  Command lastElevator;
+  Command lastEndaffector;
+  Command lastArm;
   private static String autoName = "";
 
   // Autos
@@ -312,12 +318,11 @@ public class Robot extends TimedRobotstangs {
     
     //Intake
     IntakeCommands.setDefaultOption("nothin", new InstantCommand());
-      IntakePivot.getInstance()
-        .runOnce(() -> IntakePivot.getInstance());
+
     IntakeCommands.addOption("Extend", new Extend());
     IntakeCommands.addOption("Retract", new Retract());
     IntakeCommands.addOption("RunIntake", new RunIntake());
-    IntakeCommands.addOption("Home Intake", new HomeIntake());
+    IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
     
     testTab.add("IntakeCommadns", IntakeCommands)
       .withSize(2, 1)
@@ -325,8 +330,7 @@ public class Robot extends TimedRobotstangs {
     
     //endeffector
     EndeffectorCommands.setDefaultOption("nothin", new InstantCommand());
-      Endeffector.getInstance()
-        .runOnce(() -> Endeffector.getInstance());
+
     EndeffectorCommands.addOption("Spit", new Spit());
     EndeffectorCommands.addOption("Slurp", new Slurp());
     testTab.add("EndeffectorCommands", EndeffectorCommands)
@@ -335,8 +339,7 @@ public class Robot extends TimedRobotstangs {
     
     //Arm
     ArmCommands.setDefaultOption("Nothin", new InstantCommand());
-      Arm.getInstance()
-        .runOnce(() -> Arm.getInstance());
+
     ArmCommands.addOption("postive", new SetArmDutyCycle(() -> Constants.ArmConstants.kArmDutyCycle));
     ArmCommands.addOption("negative", new SetArmDutyCycle(() -> -Constants.ArmConstants.kArmDutyCycle));
     ArmCommands.addOption("L4", new SetArmPosition(Constants.ScoringConstants.L4.kElevatorPos));
@@ -354,7 +357,49 @@ public class Robot extends TimedRobotstangs {
     testTab.add("ClimberCommands", ClimberCommands)
       .withSize(2, 1)
       .withPosition(0, 5);
-    }}
+      lastSwerve = SwerveCommands.getSelected();
+      lastArm = ArmCommands.getSelected();
+      lastElevator = ElevatorCommands.getSelected();
+      lastClimber = ClimberCommands.getSelected();
+      lastIntake = IntakeCommands.getSelected();
+      lastEndaffector = EndeffectorCommands.getSelected();
+    }
+    testConfigured = true;
+
+  }
+@Override
+  public void testPeriodic() {
+    
+		if (SwerveCommands.getSelected() != lastSwerve) {
+			SwerveCommands.getSelected().schedule();
+		}
+
+		if (ArmCommands.getSelected() != lastArm) {
+			ArmCommands.getSelected().schedule();
+		}
+    if (ElevatorCommands.getSelected() != lastElevator){
+      ElevatorCommands.getSelected().schedule();
+    }
+    if (ClimberCommands.getSelected() != lastClimber){
+      ClimberCommands.getSelected().schedule();
+    }
+    if (IntakeCommands.getSelected() != lastIntake){
+      IntakeCommands.getSelected().schedule();
+    }
+    if (EndeffectorCommands.getSelected() != lastEndaffector){
+      EndeffectorCommands.getSelected().schedule();
+    }
+
+		
+    lastSwerve = SwerveCommands.getSelected();
+    lastArm = ArmCommands.getSelected();
+    lastElevator = ElevatorCommands.getSelected();
+    lastClimber = ClimberCommands.getSelected();
+    lastIntake = IntakeCommands.getSelected();
+    lastEndaffector = EndeffectorCommands.getSelected();
+
+  }
+
     
       
   @Override
@@ -480,11 +525,6 @@ public class Robot extends TimedRobotstangs {
     }
   // }
 
-
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {
-  }
 
   /** This function is called once when the robot is first started up. */
   @Override
