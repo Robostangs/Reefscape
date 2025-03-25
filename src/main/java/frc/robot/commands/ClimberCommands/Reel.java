@@ -20,7 +20,11 @@ public class Reel extends Command {
     this.smart = smart;
   }
 
-  @Override
+  public Reel(double kreeldutycycle) {
+    //TODO Auto-generated constructor stub
+}
+
+@Override
   public void initialize() {
     climber.postStatus("Retracting Climber");
   }

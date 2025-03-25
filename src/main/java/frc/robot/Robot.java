@@ -48,6 +48,8 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmCommands.SetArmDutyCycle;
 import frc.robot.commands.ArmCommands.SetArmPosition;
+import frc.robot.commands.ClimberCommands.Deploy;
+import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.SetElevatorDutyCycle;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
@@ -91,6 +93,7 @@ public class Robot extends TimedRobotstangs {
   public static SendableChooser<Command> IntakeCommands = new SendableChooser<>();
   public static SendableChooser<Command> EndeffectorCommands = new SendableChooser<>();
   public static SendableChooser<Command> ArmCommands = new SendableChooser<>();
+  public static SendableChooser<Command> ClimberCommands = new SendableChooser<>();
   private static String autoName = "";
 
   // Autos
@@ -342,6 +345,15 @@ public class Robot extends TimedRobotstangs {
     testTab.add("ArmCommands", ArmCommands)
       .withSize(2, 1)
       .withPosition(0, 4);
+    //climber
+    ClimberCommands.setDefaultOption("Nothin", new InstantCommand());
+      Climber.getInstance()
+        .runOnce(() -> Climber.getInstance());
+    ClimberCommands.addOption("Deploy", new Deploy(Constants.ClimberConstants.kExtensionDutyCycle));
+    ClimberCommands.addOption("Reel", new Reel(Constants.ClimberConstants.kReelDutyCycle));
+    testTab.add("ClimberCommands", ClimberCommands)
+      .withSize(2, 1)
+      .withPosition(0, 5);
     }}
     
       

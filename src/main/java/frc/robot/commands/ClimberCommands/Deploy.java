@@ -21,7 +21,11 @@ public class Deploy extends Command {
     this.smart = smart;
   }
 
-  // Called when the command is initially scheduled.
+  public Deploy(double kextensiondutycycle) {
+    //TODO Auto-generated constructor stub
+}
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
     climber.postStatus("Deploying Climber");
