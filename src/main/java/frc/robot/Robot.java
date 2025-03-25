@@ -71,6 +71,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
+import pabeles.concurrency.ConcurrencyOps.Reset;
 
 
 
@@ -300,9 +301,10 @@ public class Robot extends TimedRobotstangs {
         .withSize(2, 1)
         .withPosition(0, 0);  
     //Elevator
-    ElevatorCommands.setDefaultOption("nothin", new InstantCommand());
-      Elevator.getInstance()
-        .runOnce(() -> Elevator.getInstance());
+    ElevatorCommands.setDefaultOption("nothin",  
+    Elevator.getInstance()
+        .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
+        
 
     ElevatorCommands.addOption("Elevator up", new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));
     ElevatorCommands.addOption("Elevator down", new SetElevatorDutyCycle(() -> -Constants.ElevatorConstants.ktestDutyCycle));
@@ -318,6 +320,8 @@ public class Robot extends TimedRobotstangs {
     
     //Intake
     IntakeCommands.setDefaultOption("nothin", new InstantCommand());
+    IntakePivot.getInstance()
+      .runOnce(() -> IntakePivot.getInstance().setPiviotDutyCycle(0));
 
     IntakeCommands.addOption("Extend", new Extend());
     IntakeCommands.addOption("Retract", new Retract());
@@ -330,6 +334,8 @@ public class Robot extends TimedRobotstangs {
     
     //endeffector
     EndeffectorCommands.setDefaultOption("nothin", new InstantCommand());
+    Endeffector.getInstance()
+      .runOnce(() -> Endeffector.getInstance().setEneffdector(0));
 
     EndeffectorCommands.addOption("Spit", new Spit());
     EndeffectorCommands.addOption("Slurp", new Slurp());
@@ -339,6 +345,8 @@ public class Robot extends TimedRobotstangs {
     
     //Arm
     ArmCommands.setDefaultOption("Nothin", new InstantCommand());
+    Arm.getInstance()
+      .runOnce(() -> Arm.getInstance().setArmDutyCycle(0));
 
     ArmCommands.addOption("postive", new SetArmDutyCycle(() -> Constants.ArmConstants.kArmDutyCycle));
     ArmCommands.addOption("negative", new SetArmDutyCycle(() -> -Constants.ArmConstants.kArmDutyCycle));
@@ -351,7 +359,7 @@ public class Robot extends TimedRobotstangs {
     //climber
     ClimberCommands.setDefaultOption("Nothin", new InstantCommand());
       Climber.getInstance()
-        .runOnce(() -> Climber.getInstance());
+        .runOnce(() -> Climber.getInstance().runClimber(0));
     ClimberCommands.addOption("Deploy", new Deploy(Constants.ClimberConstants.kExtensionDutyCycle));
     ClimberCommands.addOption("Reel", new Reel(Constants.ClimberConstants.kReelDutyCycle));
     testTab.add("ClimberCommands", ClimberCommands)
