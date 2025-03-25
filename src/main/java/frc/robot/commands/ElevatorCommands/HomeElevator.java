@@ -8,6 +8,9 @@ public class HomeElevator extends Command {
 
     Elevator elevator;
 
+    /**
+     * Runs the elevator at a duty cycle until it hits limit switch
+     */
     public HomeElevator() {
         elevator = Elevator.getInstance();
 
@@ -30,6 +33,7 @@ public class HomeElevator extends Command {
         elevator.setElevatorDutyCycle(0);
         elevator.setElevatorPosition(Constants.ElevatorConstants.kHomePosition);
         elevator.postStatus("elevator homed");
+        elevator.isHome = true;
 
     }
 

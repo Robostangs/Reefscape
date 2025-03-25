@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center Start to Center 2L"
+            "pathName": "Shitty temp"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Spit"
+            "name": "L4 Score"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Return Home"
+            "pathName": "More Dump PooPoo"
           }
         }
       ]

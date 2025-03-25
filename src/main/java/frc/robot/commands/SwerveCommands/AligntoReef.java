@@ -1,139 +1,158 @@
+/// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.commands.SwerveCommands;
 
-import java.util.function.Supplier;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.DeferredCommand;
+import frc.robot.Constants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BooleanSupplier;
+import java.util.stream.Collectors;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.RotationTarget;
+import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.commands.SwerveCommands.AligntoReef;
 
-public class AligntoReef extends Command {
+public class AligntoReef {
 
-    CommandSwerveDrivetrain drivetrain;
+    /**
+     * Generates a path to the reef
+     * <p>
+     * NOTE: The rotations of that poses in this method are NOT
+     * the rotation of the robot but the rotation that the robot
+     * should be going to be heading towards(the control points in path planner)
+     * 
+     * @param targetPose the target pose to generate a path to
+     * 
+     */
+    public static PathPlannerPath generatePath(Pose2d targetPose) {
 
-    SwerveRequest.FieldCentricFacingAngle driveRequest;
+        Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
 
-    Supplier<Double> translateX, translateY;
-    Supplier<Rotation2d> getTargetRotation;
-    int AprilTagID;
-    boolean Right;
-    Pose2d targetPose;
-    AprilTagFields map;
-    AprilTagFieldLayout theMap;
+        // start pose should be your X and Y but the rotation should be where your
+        // heading to
+        Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
+                currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
 
-    public AligntoReef(boolean Right) {
+        // ending pose should be the reef X and Y but the rotation should be where your heading to
+        Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
+                targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
 
-        drivetrain = CommandSwerveDrivetrain.getInstance();
+        List<Waypoint> waypoints;
 
-        this.Right = Right;
-
-        this.addRequirements(drivetrain);
-
-        getTargetRotation = () -> {
-
-            return getTargetPose().getRotation();
-        };
-
-        this.setName("Align to Reef");
-
-    }
-
-    public Pose2d getTargetPose() {
-        if (LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide).length != 0 ||
-                LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide) == null) {
-            return null;
-        } else {
-
-            Pose2d targetPose = getReefPose();
-            if (Right) {
-                targetPose = targetPose.transformBy(
-                        new Transform2d(new Translation2d(Units.inchesToMeters(7 - 10), 0),
-                                Rotation2d.fromDegrees(270)));
-            } else {
-                targetPose = targetPose.transformBy(
-                        new Transform2d(new Translation2d(Units.inchesToMeters(-7 - 10), 0),
-                                Rotation2d.fromDegrees(270)));
-
-            }
-            return targetPose;
+        //if the robot rotation isn't that off from the target rotation then it should be a simple path 
+        if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
+            waypoints = PathPlannerPath.waypointsFromPoses(
+                    startPose, endPose);
+        } 
+        //if the robot rotation is off by a lot then we should add a point before so we have time to rotate
+        else {
+            waypoints = PathPlannerPath.waypointsFromPoses(startPose,
+                    endPose.transformBy(new Transform2d(Units.inchesToMeters(18), 0, Rotation2d.kZero)), endPose);
         }
 
+        PathConstraints constraints = new PathConstraints(
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared);
+
+        List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
+        //this is what the rotation of the actual robot should be 
+        rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
+        PathPlannerPath path = new PathPlannerPath(
+                waypoints,
+                rotationTargets,
+                Collections.emptyList(),
+
+                Collections.emptyList(),
+
+                Collections.emptyList(),
+
+                constraints,
+                null,
+                new GoalEndState(0.0, targetPose.getRotation()), false);
+
+        path.preventFlipping = true;
+
+        return path;
     }
 
-    public Pose2d getReefPose() {
+    public static Pose2d getTargetPose(boolean isRight) {
+        Pose2d targetPose = getReefPose();
 
-        if (!Robot.isSimulation()) {
-            map = AprilTagFields.k2025ReefscapeWelded;
-
-            theMap = AprilTagFieldLayout.loadField(map);
-
-            AprilTagID = LimelightHelpers.getRawFiducials(Constants.VisionConstants.kLimelightScoreSide)[0].id;
-
-            return theMap.getTagPose(AprilTagID).get().toPose2d();
+        //take the reef pose and move it to the right or left
+        if (isRight) {
+            targetPose = targetPose.transformBy(
+                    new Transform2d(
+                            new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                                    Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetRight),
+                            Rotation2d.fromDegrees(90)));
         } else {
-            map = AprilTagFields.k2025ReefscapeWelded;
+            targetPose = targetPose.transformBy(
+                    new Transform2d(
+                            new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                                    Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetLeft),
+                            Rotation2d.fromDegrees(90)));
+        }
 
-            theMap = AprilTagFieldLayout.loadField(map);
+        return targetPose;
 
-            AprilTagID = 17;
+    }
 
-            return theMap.getTagPose(AprilTagID).get().toPose2d();
+    public static Pose2d getReefPose() {
+
+        AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
+
+        AprilTagFieldLayout theMap = AprilTagFieldLayout.loadField(map);
+
+        Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
+
+        if (Robot.isRed()) {
+            return currentPose.nearest(
+                    theMap.getTags().subList(5, 12).stream().map((ting) -> ting.pose.toPose2d())
+                            .collect(Collectors.toList()));
+        } else {
+            return currentPose.nearest(
+                    theMap.getTags().subList(16, 22).stream().map((ting) -> ting.pose.toPose2d())
+                            .collect(Collectors.toList()));
+
         }
     }
 
-    // target pose is rotate and translate in tag space
-    @Override
-    public void initialize() {
+    /**
+     * Aligns the robot to the reef using path planner
+     * 
+     * @param isRight align to the right or left branch of the reef
+     */
+    public static Command getAlignToReef(BooleanSupplier isRight) {
 
-        driveRequest = new SwerveRequest.FieldCentricFacingAngle();
-        driveRequest.HeadingController = new PhoenixPIDController(6, 0, 1);
+        return new DeferredCommand(() -> {
+            Robot.teleopField.getObject("Reef Align Pose").setPose(getTargetPose((isRight.getAsBoolean())));
 
-        drivetrain.postStatus("Aligning to Reef");
-
-    }
-
-    @Override
-    public void execute() {
-
-        targetPose = getTargetPose();
-
-        driveRequest.TargetDirection = getTargetRotation.get();
-
-        drivetrain.setControl(driveRequest);
-
-
-        new PathToPoint(getTargetPose()).schedule();
-
-
-        Robot.teleopField.getObject("Reef Align Pose")
-                .setPose(new Pose2d(targetPose.getX(), targetPose.getY(), targetPose.getRotation()));
-
-        SmartDashboard.putNumber("Drivetrain/April Tag ID", AprilTagID);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        drivetrain.postStatus("Aligned");
-    }
-
-    @Override
-    public boolean isFinished() {
-
-        return (Math.abs(drivetrain.getPose().getY() - targetPose.getY()) < 0.1)
-                && (Math.abs(drivetrain.getPose().getY() - targetPose.getY()) < 0.1);
+            return AutoBuilder.followPath(generatePath(getTargetPose(isRight.getAsBoolean())));
+        },
+                Set.of(CommandSwerveDrivetrain.getInstance()));
 
     }
+
 }

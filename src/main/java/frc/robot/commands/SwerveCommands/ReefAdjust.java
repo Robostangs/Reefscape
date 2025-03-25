@@ -30,7 +30,7 @@ public class ReefAdjust extends Command {
         this.setName("Align to Coral");
 
         getTargetRotation = () -> {
-            double DegreeOffset = LimelightHelpers.getTX(Constants.VisionConstants.kLimelightScoreSide);
+            double DegreeOffset = LimelightHelpers.getTX(Constants.VisionConstants.kLimelightFour);
             return new Rotation2d(DegreeOffset + 90);
         };
     }
@@ -52,10 +52,10 @@ public class ReefAdjust extends Command {
     @Override
     public void execute() {
         if (Math.abs(LimelightHelpers
-                .getTX(Constants.VisionConstants.kLimelightScoreSide)) >= Constants.VisionConstants.kTxThresholdCoral) {
-            if (LimelightHelpers.getTX(Constants.VisionConstants.kLimelightScoreSide) > 0) {
+                .getTX(Constants.VisionConstants.kLimelightFour)) >= Constants.VisionConstants.kTxThresholdCoral) {
+            if (LimelightHelpers.getTX(Constants.VisionConstants.kLimelightFour) > 0) {
                 driveRequest.VelocityY = 2.3;
-            } else if (LimelightHelpers.getTX(Constants.VisionConstants.kLimelightScoreSide) < 0) {
+            } else if (LimelightHelpers.getTX(Constants.VisionConstants.kLimelightFour) < 0) {
                 driveRequest.VelocityY = -2.3;
             }
         } else {
@@ -82,7 +82,7 @@ public class ReefAdjust extends Command {
 
         else {
             return !(Math.abs(LimelightHelpers.getTX(
-                    Constants.VisionConstants.kLimelightScoreSide)) >= Constants.VisionConstants.kTxThresholdCoral);
+                    Constants.VisionConstants.kLimelightFour)) >= Constants.VisionConstants.kTxThresholdCoral);
         }
 
     }

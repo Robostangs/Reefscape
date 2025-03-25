@@ -7,24 +7,24 @@ public class Untake extends Command{
 
     IntakeWheels intake;
 
+    /**
+     * A command the sets the intake to a negative duty cycle to get coral out
+     */
     public Untake() {
         intake = IntakeWheels.getInstance();
         addRequirements(intake);
     }
 
-    // Called when the command is initially scheduled.
     @Override
     public void initialize() {
 
         intake.postStatus("Untaking");
-    }
-
-    @Override
-    public void execute() {
-
         intake.runDutyCycleIntake(-0.75);
 
     }
+
+    @Override
+    public void execute() {}
 
     @Override
     public void end(boolean interrupted) {

@@ -7,6 +7,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +30,7 @@ public class Arm extends SubsystemBase {
 
     private Mechanism2d targetArmMechanism;
     private MechanismLigament2d targetArm;
+    private Alert armPastRotation;
 
     public static Arm getInstance() {
         if (mInstance == null)
@@ -39,6 +42,9 @@ public class Arm extends SubsystemBase {
         armMotor = new TalonFX(Constants.ArmConstants.kArmMotorId);
         armEncoder = new CANcoder(Constants.ArmConstants.kArmEncoderId);
         armControl = new MotionMagicTorqueCurrentFOC(Constants.ArmConstants.kArmRestSetpoint);
+
+        armPastRotation = new Alert("Arm is past 1 rotation and will tweak if it goes to setpoint", AlertType.kWarning);
+
 
         armControl.Slot = 0;
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
@@ -143,43 +149,38 @@ public class Arm extends SubsystemBase {
 
 
     public void setArmMotionMagic() {
-        // if (IntakePivot.getInstance().getIntakePosition() <= Constants.IntakeConstants.kRetractSetpoint
-        //         || Robot.isSimulation()) {
+
             armMotor.setControl(armControl);
-        // } else {
-            // postStatus("cant move, intake in way");
-        // }
 
     }
 
     @Override
     public void periodic() {
 
+        if(armMotor.getPosition().getValueAsDouble() > 0.5){
+            armPastRotation.set(true);
+        }
+        else{
+            armPastRotation.set(false);
+        
+        Robot.verifyMotor(armMotor);
+        Robot.verifyCANcoder(armEncoder);
         setArmPosition();
-        SmartDashboard.putNumber("Arm/acceleration", armMotor.getAcceleration().getValueAsDouble());
         SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
         SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
 
 
+        //TODO see if we can do without this
         armControl.FeedForward = -40*(CommandSwerveDrivetrain.getInstance().getPigeon2().getAccelerationY().getValueAsDouble());
+
         // SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
         // SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
 
         
-        // SmartDashboard.putNumber("Torque current  -kg ",
-        //         (armMotor.getTorqueCurrent().getValueAsDouble()
-        //                 - (Constants.ArmConstants.kArmG
-        //                         * Math.cos(Units.rotationsToRadians(armMotor.getPosition().getValueAsDouble())))
-        //         // / armMotor.getVelocity().getValueAsDouble()
-        //         ));
-
-        // SmartDashboard.putNumber("Torque current over velocity ",
-        //         Math.min(100, Math.max(-100, armMotor.getTorqueCurrent().getValueAsDouble()
-        //                         / armMotor.getVelocity().getValueAsDouble())));
 
     }
 
-}
+}}

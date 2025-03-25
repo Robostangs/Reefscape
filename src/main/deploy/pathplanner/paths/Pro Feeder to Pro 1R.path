@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7459912981305803,
-        "y": 1.4551173618861606
+        "x": 0.9165667808219178,
+        "y": 1.5532748287671234
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.991605486188616,
-        "y": 1.2446585518973212
+        "x": 2.1621809688799534,
+        "y": 1.342816018778284
       },
       "isLocked": false,
       "linkedName": "Pro Feeder End"
     },
     {
       "anchor": {
-        "x": 3.7120135271990735,
-        "y": 2.9213859953703696
+        "x": 3.906678082191781,
+        "y": 2.8755351027397262
       },
       "prevControl": {
-        "x": 3.4978176811325614,
-        "y": 2.692802102333024
+        "x": 3.6924822361252687,
+        "y": 2.646951209702381
       },
       "nextControl": null,
       "isLocked": false,
@@ -54,8 +54,8 @@
   "globalConstraints": {
     "maxVelocity": 4.73,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 773.5,
+    "maxAngularAcceleration": 171.89,
     "nominalVoltage": 12.0,
     "unlimited": false
   },

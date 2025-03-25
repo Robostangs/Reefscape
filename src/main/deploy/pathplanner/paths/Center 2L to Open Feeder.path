@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.86677445023148,
-        "y": 3.9423587328767122
+        "x": 5.72478595890411,
+        "y": 4.0926155821917805
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.998873819932507,
-        "y": 6.000475671367919
+        "x": 5.856885328605137,
+        "y": 6.150732520682988
       },
       "isLocked": false,
       "linkedName": "Center 2L"
@@ -20,8 +20,8 @@
         "y": 7.332151576450892
       },
       "prevControl": {
-        "x": 5.765326799665177,
-        "y": 5.961108834402901
+        "x": 5.764892296447684,
+        "y": 5.9612802241565515
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.28393734643734647,
+      "waypointRelativePos": 0.2887700534759319,
       "rotationDegrees": 90.0
     }
   ],
@@ -40,8 +40,8 @@
   "globalConstraints": {
     "maxVelocity": 4.73,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 773.5,
+    "maxAngularAcceleration": 171.89,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
