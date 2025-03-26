@@ -47,6 +47,17 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
+      "name": "Schloop",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Schloop"
+        }
+      }
+    },
+    {
       "name": "L4 Score",
       "waypointRelativePos": 0.3593220338983052,
       "endWaypointRelativePos": null,
