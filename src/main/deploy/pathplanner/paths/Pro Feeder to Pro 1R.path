@@ -16,24 +16,19 @@
     },
     {
       "anchor": {
-        "x": 3.9517551369863013,
-        "y": 2.9656892123287673
+        "x": 3.906678082191781,
+        "y": 2.8755351027397262
       },
       "prevControl": {
-        "x": 3.7375592909197892,
-        "y": 2.737105319291422
+        "x": 3.6924822361252687,
+        "y": 2.646951209702381
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Pro 1R"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.45488858122362885,
-      "rotationDegrees": -65.39648073991403
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",

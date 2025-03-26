@@ -213,9 +213,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
-    NamedCommands.registerCommand("Slurp", new Slurp().withTimeout(1.5));
 
-    NamedCommands.registerCommand("Feeder Intake", new PrintCommand("Hi!"));
     NamedCommands.registerCommand("Ground Intake", new Extend());
     NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
     NamedCommands.registerCommand("Intake", new RunIntake());

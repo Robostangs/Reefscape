@@ -136,13 +136,13 @@ public class ScoringFactory {
 
     public static Command L3ScoreAuto() {
         return L3Position()
-        .andThen(new Spit().withTimeout(1.3));    }
+        .andThen(new Spit().withTimeout(0.5));    }
 
         
 
     public static Command L4ScoreAuto() {
         return L4Position()
-        .andThen(new Spit().withTimeout(1.3));    }
+        .andThen(new Spit().withTimeout(0.5));    }
     /**
      * Returns {@code L4Position()} but then spits while the bumper is held
      * 
