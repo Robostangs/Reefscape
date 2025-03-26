@@ -55,6 +55,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Schloop"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -62,12 +68,6 @@
                 "type": "named",
                 "data": {
                   "name": "Retract"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Schloop"
                 }
               },
               {
@@ -124,6 +124,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Schloop"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -131,12 +137,6 @@
                 "type": "named",
                 "data": {
                   "name": "Retract"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Schloop"
                 }
               },
               {
