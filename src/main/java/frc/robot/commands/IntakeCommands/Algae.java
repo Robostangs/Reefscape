@@ -4,7 +4,7 @@ import frc.robot.subsystems.IntakePivot;
 public class Algae extends Command {
 
 
-
+//PStart - P2L - P1R - P1L
 
   IntakePivot intake;
 /**

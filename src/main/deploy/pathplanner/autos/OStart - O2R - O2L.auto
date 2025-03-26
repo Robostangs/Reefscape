@@ -17,12 +17,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Open 2R to Open Feeder"
@@ -56,12 +50,6 @@
           "type": "named",
           "data": {
             "name": "L4 Score"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Return Stow"
           }
         }
       ]
