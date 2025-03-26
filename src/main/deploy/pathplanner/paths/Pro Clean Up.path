@@ -55,14 +55,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 145.49826290350538
+    "velocity": 2.5,
+    "rotation": 150.0
   },
   "reversed": false,
   "folder": "Feeder Clean Up",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 150.34424913921308
+    "velocity": 2.5,
+    "rotation": 150.0
   },
   "useDefaultConstraints": true
 }
