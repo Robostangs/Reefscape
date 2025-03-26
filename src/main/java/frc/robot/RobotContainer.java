@@ -30,6 +30,7 @@ import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoReef;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -175,9 +176,9 @@ public class RobotContainer {
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
-                xDrive.povRight().onTrue(new RunCommand(() -> {
-                        CommandSwerveDrivetrain.getInstance().runOnce(CommandSwerveDrivetrain.toggleVision);
-                }));
+                xDrive.povRight().onTrue(new InstantCommand(
+                        (() -> useVision = !useVision )));
+                
 
                 // reset the field-centric hea ding on left bumper press
                 xDrive.rightTrigger().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
@@ -201,8 +202,9 @@ public class RobotContainer {
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
-                        // ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow())
-                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
+                        ScoringFactory.L4PositionAuto()
+                        
+                // ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
                 );
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
@@ -241,5 +243,7 @@ public class RobotContainer {
                                 .onTrue(AligntoReef.getAlignToReef(() -> false));
 
         }
+
+        
 
 }

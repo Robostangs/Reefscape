@@ -97,6 +97,21 @@ public class ScoringFactory {
                                 }));
     }
 
+    public static Command L4PositionAuto() {
+        return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
+                .alongWith(
+                        new WaitUntilCommand(
+                                () -> Elevator.getInstance()
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                                .onlyIf(() -> !Robot.isSimulation())
+                                .andThen(
+                                        new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.L4;
+                                }));
+    }
+
+
     /**
      * Returns a command that makes the elevator go to the L3 setpoint then move the
      * arm up ot knock out algae
@@ -119,7 +134,8 @@ public class ScoringFactory {
      */
     public static Command L2Score(Trigger manipBumper) {
         return L2Position()
-        .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));    }
+                .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));
+    }
 
     /**
      * Returns {@code L3Position()} but then spits while the bumper is held
@@ -129,7 +145,8 @@ public class ScoringFactory {
      */
     public static Command L3Score(Trigger manipBumper) {
         return L3Position()
-        .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));    }
+                .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));
+    }
 
 
 
@@ -140,9 +157,16 @@ public class ScoringFactory {
 
         
 
+        //-0.643
     public static Command L4ScoreAuto() {
-        return L4Position()
+        return L4PositionAuto()
         .andThen(new Spit().withTimeout(0.5));    }
+
+        
+
+        //-0.643
+
+    
     /**
      * Returns {@code L4Position()} but then spits while the bumper is held
      * 
@@ -153,6 +177,7 @@ public class ScoringFactory {
         return L4Position()
                 .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));
     }
+
 
     public static Command AutoL4Score() {
         return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)

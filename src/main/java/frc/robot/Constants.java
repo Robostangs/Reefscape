@@ -195,7 +195,7 @@ public final class Constants {
     public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightFour = "limelight-score";
     public static final String kLimelightThree = "limelight-right";
-    public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
+    // public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kLL4SeedMaxWz = 1;
@@ -252,7 +252,7 @@ public final class Constants {
     public static final Pose2d k22BlueRReefPosePtP = new Pose2d(4.64, 3.54, new Rotation2d(-65 - 180));
 
     // reset pose
-    public static final Pose2d kResetPose = new Pose2d(3.23, 4, new Rotation2d(Units.degreesToRadians(180)));
+    public static final Pose2d kResetPose = new Pose2d(3.23, 4, new Rotation2d(Units.degreesToRadians(270)));
 
     // Cage poses
     public static final Pose2d kCageTop = new Pose2d(8.8, 7.3, new Rotation2d(0d));
@@ -288,6 +288,7 @@ public final class Constants {
       public static final double kElevatorPos =  1.666;
       public static final double kArmScoringPosition = .358;
       public static final double kArmAutoScoringPosition = .329;
+    public static final double kArmPosAuto = -0.643;
     }
 
     public static class Stow {
@@ -296,7 +297,7 @@ public final class Constants {
     }
 
     public static class Schloop {
-      public static final double kElevatorPos = .77;
+      public static final double kElevatorPos = .769;
       public static final double kArmSchloPos = ArmConstants.kArmRestSetpoint;
     }
 

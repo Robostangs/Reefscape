@@ -207,12 +207,14 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
-    teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightThree, Constants.VisionConstants.kLimelightRightSideIP)  );
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
-    NamedCommands.registerCommand("Spit", new Spit().withTimeout(1.5));
+    NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
+
+
+    NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.5).andThen(ScoringFactory.SmartStow()));
 
     NamedCommands.registerCommand("Ground Intake", new Extend());
     NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
