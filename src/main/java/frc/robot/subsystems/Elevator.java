@@ -153,9 +153,9 @@ public class Elevator extends SubsystemBase {
                 elevatorMotionMagic.Position = TargetElevatorMeters;
             }
         } 
-    public Runnable setHomePositionElevator = () -> {
-        elevatorMotorRight.setPosition(Constants.ElevatorConstants.kHomePosition);
-        postStatus("Homed");
+    public void setHomePositionElevator () {
+        elevatorMotorRight.setPosition(Constants.ElevatorConstants.kStartPos);
+        // postStatus("Homed");
     };
 
     public void setElevatorDutyCycle(double elevatorDutyCycle) {
