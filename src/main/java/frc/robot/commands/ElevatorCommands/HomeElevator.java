@@ -33,7 +33,6 @@ public class HomeElevator extends Command {
         elevator.setElevatorDutyCycle(0);
         elevator.setElevatorPosition(Constants.ElevatorConstants.kHomePosition);
         elevator.postStatus("elevator homed");
-        Elevator.isHomed = true;
 
     }
 

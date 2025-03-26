@@ -34,7 +34,14 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Robot;
 
 public class AligntoReef {
+  
+  private static final AprilTagFieldLayout theMap;
+static {
 
+  AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
+
+   theMap = AprilTagFieldLayout.loadField(map);
+}
   /**
      * Generates a path to the reef
      * <p>
@@ -134,9 +141,6 @@ public class AligntoReef {
 
   public static Pose2d getReefPose() {
 
-    AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
-
-    AprilTagFieldLayout theMap = AprilTagFieldLayout.loadField(map);
 
     Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
 

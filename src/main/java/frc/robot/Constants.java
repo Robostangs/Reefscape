@@ -109,7 +109,7 @@ public final class Constants {
 
     public static final double kEndeffectorSpit = -0.85;
 
-    public static final double kEndeffectorSlurp = 0.5;
+    public static final double kEndeffectorSlurp = 0.85;
 
   }
 

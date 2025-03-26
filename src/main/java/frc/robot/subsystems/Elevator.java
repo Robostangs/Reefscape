@@ -51,7 +51,6 @@ public class Elevator extends SubsystemBase {
     private final DigitalInput limitSwitchElevator;
 
 
-    public static boolean isHomed = false;
 
     private Alert notHomedAlert = new Alert("Elevator isn't homed, home to use it", AlertType.kWarning);
 
@@ -145,7 +144,6 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setElevatorPositionMeters(double TargetElevatorMeters) {
-        if (isHomed) {
             notHomedAlert.set(false);
             if (TargetElevatorMeters < Constants.ElevatorConstants.kMinExtension) {
                 elevatorMotionMagic.Position = Constants.ElevatorConstants.kMinExtension;
@@ -154,11 +152,7 @@ public class Elevator extends SubsystemBase {
             } else {
                 elevatorMotionMagic.Position = TargetElevatorMeters;
             }
-        } else {
-            notHomedAlert.set(true);
-        }
-    }
-
+        } 
     public Runnable setHomePositionElevator = () -> {
         elevatorMotorRight.setPosition(Constants.ElevatorConstants.kHomePosition);
         postStatus("Homed");
@@ -262,7 +256,6 @@ public class Elevator extends SubsystemBase {
 
         updateElevatorPosition();
 
-        SmartDashboard.putBoolean("Is it homed", isHomed);
 
         // SmartDashboard.putNumber("Elevator-Test/Torque current",
         // elevatorMotorRight.getTorqueCurrent().getValueAsDouble());
