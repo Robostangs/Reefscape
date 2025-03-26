@@ -17,9 +17,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Pro 2L to Pro Feeder"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pro 2L to Pro Feeder"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stow"
+                }
+              }
+            ]
           }
         },
         {
@@ -56,14 +69,14 @@
                 "data": {
                   "name": "Schloop"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pro Feeder to Pro 1R"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro Feeder to Pro 1R"
           }
         },
         {
@@ -73,9 +86,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "Pro 1R to Pro Feeder"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pro 1R to Pro Feeder"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stow"
+                }
+              }
+            ]
           }
         },
         {
@@ -112,14 +138,14 @@
                 "data": {
                   "name": "Schloop"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pro Feeder to Pro 1L"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Pro Feeder to Pro 1L"
           }
         },
         {
