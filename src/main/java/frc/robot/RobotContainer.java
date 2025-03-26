@@ -223,7 +223,7 @@ public class RobotContainer {
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
 
-                xManip.povUp().onTrue(Elevator.getInstance().runOnce(Elevator.getInstance().setHomePositionElevator));
+                // xManip.povUp().onTrue(Elevator.getInstance().runOnce(Elevator.getInstance().setHomePositionElevator));
 
                 xManip.rightBumper().toggleOnTrue(
                                 new HomeElevator().andThen(ScoringFactory.SmartStow()));

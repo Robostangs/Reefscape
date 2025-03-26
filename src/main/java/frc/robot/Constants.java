@@ -188,6 +188,7 @@ public final class Constants {
     public static final double kHomePosition = 0.97155;
     public static final double kSafeArmElevatorPosition =0.941;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
+    public static final double kStartPos = 0.797;
   }
 
   // WE ARE WELDEDkg
