@@ -13,7 +13,13 @@
         {
           "type": "named",
           "data": {
-            "name": "L4 Score"
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stow"
           }
         }
       ]

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.9165667808219178,
-        "y": 1.5532748287671234
+        "x": 2.0434931506849314,
+        "y": 1.8988655821917804
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1621809688799534,
-        "y": 1.342816018778284
+        "x": 3.289107338742967,
+        "y": 1.6884067722029412
       },
       "isLocked": false,
       "linkedName": "Pro Feeder End"
@@ -47,17 +47,6 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Schloop",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Schloop"
-        }
-      }
-    },
-    {
       "name": "L4 Score",
       "waypointRelativePos": 0.3593220338983052,
       "endWaypointRelativePos": null,
@@ -85,7 +74,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 150.0
+    "rotation": 42.6140559696112
   },
   "useDefaultConstraints": true
 }

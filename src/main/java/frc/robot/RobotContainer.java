@@ -36,7 +36,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj.Timer;
 
 public class RobotContainer {
@@ -202,9 +201,8 @@ public class RobotContainer {
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
-                        ScoringFactory.L4PositionAuto()
-                        
-                // ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
+                        // ScoringFactory.L4PositionAuto()
+                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
                 );
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));

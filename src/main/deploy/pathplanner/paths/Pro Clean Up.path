@@ -8,27 +8,48 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8835138960956637,
-        "y": 0.9176026610970327
+        "x": 2.0284674657534243,
+        "y": 0.8470676369863008
       },
       "isLocked": false,
       "linkedName": "Pro Feeder"
     },
     {
       "anchor": {
-        "x": 0.9165667808219178,
-        "y": 1.5532748287671234
+        "x": 0.9766695205479452,
+        "y": 1.6133775684931504
       },
       "prevControl": {
-        "x": 1.2609835164906094,
-        "y": 1.309722595368206
+        "x": 0.9315924657534247,
+        "y": 1.2527611301369859
+      },
+      "nextControl": {
+        "x": 1.013459993721418,
+        "y": 1.9077013538809326
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0434931506849314,
+        "y": 1.8988655821917804
+      },
+      "prevControl": {
+        "x": 1.3197639339708331,
+        "y": 2.2784956315117406
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Pro Feeder End"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.8663101604278082,
+      "rotationDegrees": 150.0
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
@@ -45,7 +66,19 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Schloop",
+      "waypointRelativePos": 1.8779661016949125,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Schloop"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.73,
     "maxAcceleration": 3.0,
@@ -55,8 +88,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
-    "rotation": 150.0
+    "velocity": 2.5,
+    "rotation": 42.6140559696112
   },
   "reversed": false,
   "folder": "Feeder Clean Up",

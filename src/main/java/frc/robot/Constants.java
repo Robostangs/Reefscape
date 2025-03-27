@@ -289,7 +289,7 @@ public final class Constants {
       public static final double kElevatorPos =  1.666;
       public static final double kArmScoringPosition = .358;
       public static final double kArmAutoScoringPosition = .329;
-    public static final double kArmPosAuto = -0.643;
+    public static final double kArmPosAuto = -0.635;
     }
 
     public static class Stow {

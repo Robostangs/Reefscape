@@ -217,7 +217,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean isElevatorAtTarget() {
-        if (Math.abs(elevatorPositionMeters - elevatorMotionMagic.Position) < 0.01) {
+        if (Math.abs(elevatorPositionMeters - elevatorMotionMagic.Position) < 0.04) {
             return true;
         } else {
             return false;

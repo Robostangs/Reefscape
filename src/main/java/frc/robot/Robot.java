@@ -22,7 +22,6 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -44,11 +43,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ElevatorCommands.HomeElevator;
-import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
-import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Retract;
@@ -221,7 +216,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Intake", new RunIntake());
 
     NamedCommands.registerCommand("Stow", ScoringFactory.SmartStow());
-    NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.5));
+    NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop());
 
 
   }

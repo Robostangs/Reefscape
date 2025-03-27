@@ -18,7 +18,7 @@ public class Spit extends Command {
 
     @Override
     public void initialize() {
-        endeffector.postStatus("Hawk Tuah");
+        endeffector.postStatus("Spitting");
 
     }
 
@@ -32,7 +32,7 @@ public class Spit extends Command {
     @Override
     public void end(boolean interrupted) {
 
-        endeffector.postStatus("Spitted on that thang");
+        endeffector.postStatus("Spat");
         endeffector.setEneffdector(0);
         endeffector.setEndeffectorBrake();
         

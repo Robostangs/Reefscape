@@ -141,6 +141,12 @@
           "data": {
             "name": "Spit"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stow"
+          }
         }
       ]
     }
