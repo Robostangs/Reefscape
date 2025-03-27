@@ -27,9 +27,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Stow"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.3
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stow"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -52,6 +65,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Schloop"
           }
         },
         {
@@ -90,9 +109,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Stow"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.3
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stow"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -115,6 +147,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Schloop"
           }
         },
         {

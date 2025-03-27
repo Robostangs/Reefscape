@@ -111,6 +111,19 @@ public class ScoringFactory {
                                 }));
     }
 
+    public static Command L3PositionAuto() {
+        return new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos)
+                .alongWith(
+                        new WaitUntilCommand(
+                                () -> Elevator.getInstance()
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                                .onlyIf(() -> !Robot.isSimulation())
+                                .andThen(
+                                        new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.L4;
+                                }));
+    }
 
     /**
      * Returns a command that makes the elevator go to the L3 setpoint then move the
