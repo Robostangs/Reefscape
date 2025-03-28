@@ -163,8 +163,7 @@ public class Arm extends SubsystemBase {
         else{
             armPastRotation.set(false);
         
-        Robot.verifyMotor(armMotor);
-        Robot.verifyCANcoder(armEncoder);
+ 
         setArmPosition();
         SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
         SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());

@@ -50,7 +50,7 @@ public class IntakeWheels extends SubsystemBase {
     
     @Override
     public void periodic() {
-        Robot.verifyMotor(intakeMotor);
+        // Robot.verifyMotor(intakeMotor);
 
     }
 
