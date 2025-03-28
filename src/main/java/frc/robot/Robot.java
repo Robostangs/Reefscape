@@ -207,8 +207,6 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
     NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
-    NamedCommands.registerCommand("L3 Position", ScoringFactory.L3PositionAuto());
-
 
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.5));
@@ -218,7 +216,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Intake", new RunIntake());
 
     NamedCommands.registerCommand("Stow", ScoringFactory.SmartStow());
-    NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.2));
+    NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop());
 
 
   }
