@@ -112,6 +112,11 @@ public final class Constants {
     public static final double kEndeffectorSlurp = 0.85;
 
   }
+  public static class AlgaeffectorConstants {
+    public static final int kalgaeffectorid = 55;
+    public static final double kAlgaeffectorDutyCyle = -0.7;
+    public static final double kAlgaeffectorSlurpCycle = 0.7;
+  }
 
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
