@@ -153,6 +153,10 @@ public class Elevator extends SubsystemBase {
                 elevatorMotionMagic.Position = TargetElevatorMeters;
             }
         } 
+
+    public double getElevatorAmps(){
+        return elevatorMotorRight.getStatorCurrent().getValueAsDouble();
+    }
     public void setHomePositionElevator () {
         elevatorMotorRight.setPosition(Constants.ElevatorConstants.kStartPos);
         // postStatus("Homed");

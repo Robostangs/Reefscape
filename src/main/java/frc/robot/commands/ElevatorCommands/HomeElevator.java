@@ -31,13 +31,13 @@ public class HomeElevator extends Command {
     @Override
     public void end(boolean interrupted) {
         elevator.setElevatorDutyCycle(0);
-        elevator.setElevatorPosition(Constants.ElevatorConstants.kHomePosition);
+        elevator.setElevatorPosition(Constants.ElevatorConstants.kStartPos);
         elevator.postStatus("elevator homed");
 
     }
 
     public boolean isFinished() {
-        return !elevator.getLimitSwitch();
+        return elevator.getElevatorAmps() > Constants.ElevatorConstants.kElevatorHomeStatorCurrentLimit;
     }
 
 }

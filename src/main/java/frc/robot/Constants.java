@@ -166,7 +166,7 @@ public final class Constants {
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
-    public static final double kElevatorHomeDutyCycle = 0.2;
+    public static final double kElevatorHomeDutyCycle = -0.2;
 
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
@@ -443,7 +443,7 @@ public final class Constants {
     private static final double kDriveGearRatio = 6.746031746031747;
     private static final double kSteerGearRatio = 21.428571428571427;
 
-    //2*(what it acutally is/what it thinks)
+    //2*(what it acutally is/what it thinks)in meters
     private static final Distance kWheelRadius = Inches.of(2*(4.37/4.42));
 
     private static final boolean kInvertLeftSide = false;

@@ -43,6 +43,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
@@ -286,7 +287,7 @@ public class Robot extends TimedRobotstangs {
 
     IntakePivot.getInstance().point3Intake();
     Climber.getInstance().zeroClimber();
-    Elevator.getInstance().setHomePositionElevator();
+    // Elevator.getInstance().setHomePositionElevator();
 
     if (autoName.equals("shitting")) {
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
@@ -301,9 +302,9 @@ public class Robot extends TimedRobotstangs {
       autoCommand = new PrintCommand("doing nothing!");
     }
 
-    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.1)
-        // new HomeElevator().withTimeout(0.75),
-        // (ScoringFactory.SmartStow()).withTimeout(0.3)
+    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.1),
+        new HomeElevator().withTimeout(0.2),
+        (ScoringFactory.SmartStow()).withTimeout(0.3)
         );
 
     autoGroup.addCommands(
