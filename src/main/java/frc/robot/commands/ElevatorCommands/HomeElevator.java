@@ -37,7 +37,7 @@ public class HomeElevator extends Command {
     }
 
     public boolean isFinished() {
-        return elevator.getElevatorAmps() > Constants.ElevatorConstants.kElevatorHomeStatorCurrentLimit;
+        return elevator.getElevatorAmps() >= 13 && elevator.getVelocity() <= 0.5;
     }
 
 }

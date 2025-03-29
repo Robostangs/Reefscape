@@ -195,7 +195,7 @@ public class Elevator extends SubsystemBase {
 
     public void updateSimElevatorTarget() {
 
-        simElevatorTarget.setState(elevatorMotionMagic.Position, getElevatorVelocityMeters());
+        simElevatorTarget.setState(elevatorMotionMagic.Position, getVelocity());
 
         simElevatorTarget.update(0.02);
 
@@ -216,9 +216,17 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    public double getElevatorVelocityMeters() {
+
+    
+    public double getTorqueCurrent(){
+        return elevatorMotorRight.getTorqueCurrent().getValueAsDouble();
+    }
+
+    
+    public double getVelocity(){
         return elevatorMotorRight.getVelocity().getValueAsDouble();
     }
+
 
     public boolean isElevatorAtTarget() {
         if (Math.abs(elevatorPositionMeters - elevatorMotionMagic.Position) < 0.04) {
@@ -246,6 +254,8 @@ public class Elevator extends SubsystemBase {
                 .setControl(new Follower(elevatorMotorRight.getDeviceID(), Constants.ElevatorConstants.kIsLeftInvert));
     }
 
+
+
     @Override
     public void periodic() {
 
@@ -270,7 +280,8 @@ public class Elevator extends SubsystemBase {
 
         SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
 
-        // SmartDashboard.putNumber("Elevator/Velocity", getElevatorVelocityMeters());
+        SmartDashboard.putNumber("Elevator/Velocity", getVelocity());
+        SmartDashboard.putNumber("Elevator/torque current", getTorqueCurrent());
         SmartDashboard.putNumber("Elevator/Target Elevator Meters", elevatorMotionMagic.Position);
         SmartDashboard.putNumber("Elevator/Position Meters", getElevatorPositionMeters());
         SmartDashboard.putBoolean("Elevator/At Position", isElevatorAtTarget());
