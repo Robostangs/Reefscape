@@ -68,12 +68,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Schloop"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -147,12 +141,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Schloop"
           }
         },
         {

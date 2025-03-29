@@ -117,17 +117,21 @@ public class IntakePivot extends SubsystemBase {
         pivotMotor.set(pivotDutyCycle);
     }
 
+    public void setPiviotMotionMagic(){
+        pivotMotor.setControl(pivotControl);
+
+    }
+
     @Override
     public void periodic() {
 
         // Robot.verifyMotor(pivotMotor);
-        pivotMotor.setControl(pivotControl);
 
         SmartDashboard.putNumber("Intake/Setpoint", pivotControl.Position);
         SmartDashboard.putNumber("Intake/Position", pivotMotor.getPosition().getValueAsDouble());
-        SmartDashboard.putBoolean("Intake/is at extend setpoint", isIntakeatSetpoint(true));
-        SmartDashboard.putBoolean("Intake/is at retract setpoint", isIntakeatSetpoint(false));
-        SmartDashboard.putNumber("Intake/Stator Current", pivotMotor.getStatorCurrent().getValueAsDouble());
+        // SmartDashboard.putBoolean("Intake/is at extend setpoint", isIntakeatSetpoint(true));
+        // SmartDashboard.putBoolean("Intake/is at retract setpoint", isIntakeatSetpoint(false));
+        // SmartDashboard.putNumber("Intake/Stator Current", pivotMotor.getStatorCurrent().getValueAsDouble());
 
     }
 

@@ -278,16 +278,16 @@ public class Elevator extends SubsystemBase {
         // SmartDashboard.putNumber("Elevator-Test/Acceleration",
         // elevatorMotorRight.getAcceleration().getValueAsDouble());
 
-        SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
+        // SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
 
-        SmartDashboard.putNumber("Elevator/Velocity", getVelocity());
-        SmartDashboard.putNumber("Elevator/torque current", getTorqueCurrent());
+        // SmartDashboard.putNumber("Elevator/Velocity", getVelocity());
+        // SmartDashboard.putNumber("Elevator/torque current", getTorqueCurrent());
         SmartDashboard.putNumber("Elevator/Target Elevator Meters", elevatorMotionMagic.Position);
         SmartDashboard.putNumber("Elevator/Position Meters", getElevatorPositionMeters());
         SmartDashboard.putBoolean("Elevator/At Position", isElevatorAtTarget());
 
-        SmartDashboard.putBoolean("Elevator/brownout right", elevatorMotorRight.getFault_BridgeBrownout().getValue());
-        SmartDashboard.putBoolean("Elevator/brownout left", elevatorMotorLeft.getFault_BridgeBrownout().getValue());
+        // SmartDashboard.putBoolean("Elevator/brownout right", elevatorMotorRight.getFault_BridgeBrownout().getValue());
+        // SmartDashboard.putBoolean("Elevator/brownout left", elevatorMotorLeft.getFault_BridgeBrownout().getValue());
 
         // SmartDashboard.putNumber("right stator current limit",
         // elevatorMotorRight.getStatorCurrent().getValueAsDouble());

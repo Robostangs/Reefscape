@@ -359,8 +359,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
         }
 
-        SmartDashboard.putNumber("Vision/Angular Velocity ",
-                this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble());
         SmartDashboard.putBoolean("Are we using vision", RobotContainer.useVision);
 
     }

@@ -78,7 +78,6 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
 
-        Robot.verifyMotor(climberMotor);
 
         SmartDashboard.putNumber("Climber/Kraken Position", climberMotor.getPosition().getValueAsDouble());
     }
