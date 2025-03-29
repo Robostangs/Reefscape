@@ -23,7 +23,6 @@ public class Heimlich extends Command {
 
   @Override
   public void execute() {
-    intake.setPiviotMotionMagic();
 
   }
 

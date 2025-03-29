@@ -24,7 +24,6 @@ public class Algae extends Command {
 
   @Override
   public void execute() {
-    intake.setPiviotMotionMagic();
 
   }
 

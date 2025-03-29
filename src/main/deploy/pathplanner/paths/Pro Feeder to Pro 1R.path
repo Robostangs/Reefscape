@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.46440677966101696,
+      "minWaypointRelativePos": 0.43728813559322033,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.5,
@@ -48,7 +48,7 @@
   "eventMarkers": [
     {
       "name": "L4 Score",
-      "waypointRelativePos": 0.10169491525423724,
+      "waypointRelativePos": 0.057627118644067755,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

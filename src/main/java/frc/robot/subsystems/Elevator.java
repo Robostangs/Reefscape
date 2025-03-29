@@ -29,7 +29,7 @@ public class Elevator extends SubsystemBase {
     private TalonFX elevatorMotorLeft;
 
     private MotionMagicTorqueCurrentFOC elevatorMotionMagic;
-    private double elevatorPositionMeters;
+    // private double elevatorPositionMeters;
 
     // simulated elevator
     private ElevatorSim simElevatorTarget;
@@ -229,23 +229,23 @@ public class Elevator extends SubsystemBase {
 
 
     public boolean isElevatorAtTarget() {
-        if (Math.abs(elevatorPositionMeters - elevatorMotionMagic.Position) < 0.04) {
+        if (Math.abs(elevatorMotorRight.getPosition().getValueAsDouble() - elevatorMotionMagic.Position) < 0.04) {
             return true;
         } else {
             return false;
         }
     }
 
-    public void updateElevatorPosition() {
-        if (Robot.isSimulation()) {
-            elevatorPositionMeters = simElevatorTarget.getPositionMeters();
-        } else {
-            elevatorPositionMeters = elevatorMotorRight.getPosition().getValueAsDouble();
-        }
-    }
+    // public void updateElevatorPosition() {
+    //     if (Robot.isSimulation()) {
+    //         elevatorPositionMeters = simElevatorTarget.getPositionMeters();
+    //     } else {
+    //         elevatorPositionMeters = elevatorMotorRight.getPosition().getValueAsDouble();
+    //     }
+    // }
 
     public double getElevatorPositionMeters() {
-        return elevatorPositionMeters;
+        return elevatorMotorRight.getPosition().getValueAsDouble();
     }
 
     public void setElevatorMotionMagic() {
@@ -262,13 +262,13 @@ public class Elevator extends SubsystemBase {
         // Robot.verifyMotor(elevatorMotorLeft);
         // Robot.verifyMotor(elevatorMotorRight);
         
-        if (Robot.isSimulation()) {
-            updateSimElevatorTarget();
-        } else {
-            updateSimElevatorProfile();
-        }
+        // if (Robot.isSimulation()) {
+        //     updateSimElevatorTarget();
+        // } else {
+        //     updateSimElevatorProfile();
+        // }
 
-        updateElevatorPosition();
+        // updateElevatorPosition();
 
 
         // SmartDashboard.putNumber("Elevator-Test/Torque current",
@@ -283,7 +283,7 @@ public class Elevator extends SubsystemBase {
         // SmartDashboard.putNumber("Elevator/Velocity", getVelocity());
         // SmartDashboard.putNumber("Elevator/torque current", getTorqueCurrent());
         SmartDashboard.putNumber("Elevator/Target Elevator Meters", elevatorMotionMagic.Position);
-        SmartDashboard.putNumber("Elevator/Position Meters", getElevatorPositionMeters());
+        SmartDashboard.putNumber("Elevator/Position Meters", elevatorMotorRight.getPosition().getValueAsDouble());
         SmartDashboard.putBoolean("Elevator/At Position", isElevatorAtTarget());
 
         // SmartDashboard.putBoolean("Elevator/brownout right", elevatorMotorRight.getFault_BridgeBrownout().getValue());

@@ -117,13 +117,10 @@ public class IntakePivot extends SubsystemBase {
         pivotMotor.set(pivotDutyCycle);
     }
 
-    public void setPiviotMotionMagic(){
-        pivotMotor.setControl(pivotControl);
-
-    }
 
     @Override
     public void periodic() {
+        pivotMotor.setControl(pivotControl);
 
         // Robot.verifyMotor(pivotMotor);
 

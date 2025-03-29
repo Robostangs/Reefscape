@@ -25,7 +25,6 @@ public class Extend extends Command {
 
   @Override
   public void execute() {
-    intake.setPiviotMotionMagic();
   }
 
   @Override

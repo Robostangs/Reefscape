@@ -34,7 +34,6 @@ public class Retract extends Command {
 
   @Override
   public void execute() {
-    intake.setPiviotMotionMagic();
 
   }
 
