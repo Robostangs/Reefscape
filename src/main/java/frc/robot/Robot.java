@@ -62,8 +62,7 @@ import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SwerveCommands.PathToPoint;
-
-
+import frc.robot.subsystems.Algaeffector;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -95,12 +94,14 @@ public class Robot extends TimedRobotstangs {
   public static SendableChooser<Command> EndeffectorCommands = new SendableChooser<>();
   public static SendableChooser<Command> ArmCommands = new SendableChooser<>();
   public static SendableChooser<Command> ClimberCommands = new SendableChooser<>();
+  public static SendableChooser<Command> AlgaeffectorCommands = new SendableChooser<>();
   Command lastSwerve;
   Command lastClimber;
   Command lastIntake;
   Command lastElevator;
   Command lastEndaffector;
   Command lastArm;
+  Command lastAlgaeffector;
   private static String autoName = "";
 
   // Autos
@@ -365,12 +366,22 @@ public class Robot extends TimedRobotstangs {
     testTab.add("ClimberCommands", ClimberCommands)
       .withSize(2, 1)
       .withPosition(0, 5);
+    //Algaeffector
+    AlgaeffectorCommands.setDefaultOption("Nothin", new InstantCommand());
+      Algaeffector.getInstance()
+        .runOnce(() -> Algaeffector.getInstance().setDutyCycle(0));
+    AlgaeffectorCommands.addOption("Slurp", new Slurp());
+    AlgaeffectorCommands.addOption("Spit", new Spit());
+    testTab.add("AlgaeffectorCommands", AlgaeffectorCommands)
+      .withSize(2, 1)
+      .withPosition(0, 6);
       lastSwerve = SwerveCommands.getSelected();
       lastArm = ArmCommands.getSelected();
       lastElevator = ElevatorCommands.getSelected();
       lastClimber = ClimberCommands.getSelected();
       lastIntake = IntakeCommands.getSelected();
       lastEndaffector = EndeffectorCommands.getSelected();
+      lastAlgaeffector = AlgaeffectorCommands.getSelected();
     }
     testConfigured = true;
 
@@ -397,6 +408,9 @@ public class Robot extends TimedRobotstangs {
     if (EndeffectorCommands.getSelected() != lastEndaffector){
       EndeffectorCommands.getSelected().schedule();
     }
+    if (AlgaeffectorCommands.getSelected() != lastAlgaeffector){
+      AlgaeffectorCommands.getSelected().schedule();
+    }
 
 		
     lastSwerve = SwerveCommands.getSelected();
@@ -405,6 +419,7 @@ public class Robot extends TimedRobotstangs {
     lastClimber = ClimberCommands.getSelected();
     lastIntake = IntakeCommands.getSelected();
     lastEndaffector = EndeffectorCommands.getSelected();
+    lastAlgaeffector = AlgaeffectorCommands.getSelected();
 
   }
 

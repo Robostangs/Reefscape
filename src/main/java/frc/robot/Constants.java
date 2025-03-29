@@ -48,6 +48,7 @@ import edu.wpi.first.units.measure.*;
 public final class Constants {
   public static final String logDirectory = "";
 
+
   public static class ClimberConstants {
 
     public static final int kClimberMotorId = 46;
@@ -144,6 +145,11 @@ public final class Constants {
 
     public static final double kArmDutyCycle = 0.1;
 
+  }
+  public static class AlgaeffectorConstants{
+    public static final int kalgaeffectorid = 55;
+    public static final double kAlgaeffectorDutyCyle = -0.7;
+    public static final double kAlgaeffectorSlurpCycle = 0.7;
   }
 
   public static class ElevatorConstants {
