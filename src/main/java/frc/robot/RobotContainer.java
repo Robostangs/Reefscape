@@ -217,6 +217,7 @@ public class RobotContainer {
                 xManip.povDown().whileTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.SmartStow());
+                xManip.povUp().whileTrue(new Spit());
 
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
@@ -225,7 +226,6 @@ public class RobotContainer {
 
                 xManip.rightBumper().toggleOnTrue(
                                 new HomeElevator().andThen(ScoringFactory.SmartStow()));
-                // xManip.leftBumper().whileTrue(new Spit());
         }
 
         private void configureSimBindings() {
