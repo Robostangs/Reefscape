@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.133647260273973,
+        "y": 1.973994006849315
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.674571917808219,
+        "y": 2.3646618150684935
+      },
+      "isLocked": false,
+      "linkedName": "Pro Feeder End"
+    },
+    {
+      "anchor": {
+        "x": 3.666267123287671,
+        "y": 3.1309717465753426
+      },
+      "prevControl": {
+        "x": 3.1210986815962634,
+        "y": 2.7517929049296908
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Pro 1L"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.6440677966101694,
+      "maxWaypointRelativePos": 0.9796610169491525,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 773.5,
+        "maxAngularAcceleration": 171.89,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.73,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 773.5,
+    "maxAngularAcceleration": 171.89,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -30.272298120507728
+  },
+  "reversed": false,
+  "folder": "Feeder to Reef Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -12.094757077012112
+  },
+  "useDefaultConstraints": true
+}
