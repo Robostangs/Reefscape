@@ -8,54 +8,33 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2355057838969805,
-        "y": 0.9802563245530707
+        "x": 1.202054794520548,
+        "y": 0.877119006849315
       },
       "isLocked": false,
       "linkedName": "Pro Feeder"
     },
     {
       "anchor": {
-        "x": 1.3222602739726028,
-        "y": 1.3128638698630142
+        "x": 2.6294948630136985,
+        "y": 1.8688142123287674
       },
       "prevControl": {
-        "x": 2.2736308570857444,
-        "y": 0.48558510193854376
-      },
-      "nextControl": {
-        "x": 0.6310787671232877,
-        "y": 1.913891267123288
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.133647260273973,
-        "y": 1.973994006849315
-      },
-      "prevControl": {
-        "x": 1.697902397260274,
-        "y": 2.0190710616438357
+        "x": 1.5626712328767127,
+        "y": 1.6133775684931504
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Pro Feeder End"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.8663101604278082,
-      "rotationDegrees": 150.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Schloop",
-      "waypointRelativePos": 1.722033898305082,
+      "waypointRelativePos": 0.85,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

@@ -99,7 +99,11 @@ public final class Constants {
     public static final double kMotionMagicVelocity = 2;
     public static final double kMotionMagicAcceleration = 5;
     public static final double kHardstopPosition = 0.315;
-    public static final double kAlgaeSetpoint = 0.075;
+    public static final double kAlgaeInSetpoint = 0;
+    public static final double kAlgaeOutSetpoint = 0.125;
+
+    public static final double kAlgaeFF = 0.3;
+    public static final double kIntakeSpeed = 0.6;
   }
 
   public static class EndeffectorConstants {
@@ -171,7 +175,7 @@ public final class Constants {
     public static final double kElevatorMaxCurrent = 40.0d;
     public static final double kElevatorRegStatorCurrentLimit = 40.0d;
     public static final double kElevatorHomeStatorCurrentLimit = 40.0d;
-    public static final double kElevatorHomeDutyCycle = -0.2;
+    public static final double kElevatorHomeDutyCycle = 0.2;
 
     public static final int kRightElevatorEncoderId = 3;
     public static final int kLeftElevatorEncoderId = 3;
@@ -280,7 +284,8 @@ public final class Constants {
       public static final double kElevatorEnd =  .6775;
       public static final double kArmSafePosition = 0.25;
       public static final double kELevatorAlgaepos = 0.91;
-      public static final double kArmAlgaePos = -0.75;
+      public static final double kArmAlgaePosStart = -0.75;
+    public static final double kArmAlgaePosEnd = 0;
     }
 
     public static class L3 {
@@ -426,6 +431,8 @@ public final class Constants {
         // Theoretical free speed (m/s) at 12 V applied output;
         // This needs to be tuned to your individual robot
         public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
+
+        public static final double kSpeedMPS = 4.73;
 
         // The maximum acceleration of the robot in meters per second squared.
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;

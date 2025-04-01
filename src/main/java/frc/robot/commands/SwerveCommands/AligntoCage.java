@@ -23,6 +23,8 @@ public class AligntoCage extends Command {
     CommandSwerveDrivetrain drivetrain;
 
     SwerveRequest.FieldCentricFacingAngle driveRequest;
+    SwerveRequest.RobotCentric driveRequet;
+
 
     Supplier<Double> translateX, translateY;
     Supplier<Rotation2d> getTargetRotation;
@@ -73,6 +75,7 @@ public class AligntoCage extends Command {
     public void initialize() {
         driveRequest = new SwerveRequest.FieldCentricFacingAngle();
         driveRequest.HeadingController = new PhoenixPIDController(6, 0, 1);
+
 
         // this is for tuning and now we can tune the PID controller
         SmartDashboard.putData("Align to Cage PID", driveRequest.HeadingController);

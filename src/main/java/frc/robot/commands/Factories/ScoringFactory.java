@@ -125,13 +125,30 @@ public class ScoringFactory {
      * 
      * @return A command to knock out algae
      */
-    public static Command ByeByeByeAlgae() {
+    public static Command ByeByeByeAlgaeL3() {
 
         return new SetElevatorPosition(Constants.ScoringConstants.L3.kELevatorAlgaepos)
                 .andThen(new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaePos)
                         .finallyDo(() -> ScoreState = ScoringPosition.Algaeeeee));
 
     }
+
+
+    public static Command ByeByeByeAlgaeL2(Trigger manipBumper) {
+
+        
+        return new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaePos);
+
+
+
+        // return new SetElevatorPosition(Constants.ScoringConstants.L2.kELevatorAlgaepos)
+        //         .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosStart)
+        //             .andThen(new WaitUntilCommand(manipBumper))
+        //             .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosEnd))
+        //                 .finallyDo(() -> ScoreState = ScoringPosition.Algaeeeee));
+
+    }
+
 
     /**
      * Returns {@code L2Position()} but then spits while the bumper is held

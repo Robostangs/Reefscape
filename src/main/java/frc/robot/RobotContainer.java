@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
@@ -164,23 +165,22 @@ public class RobotContainer {
                 xDrive.leftBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> false));
                 xDrive.rightBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> true));
 
-                xDrive.b().and(xDrive.povLeft()).toggleOnTrue(new Untake());
-                xDrive.b().toggleOnTrue(new RunIntake());
+                xDrive.rightTrigger().toggleOnTrue(IntakeFactory.algaeOut());
 
+                xDrive.b().toggleOnTrue(new RunIntake());
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
-                xDrive.a().toggleOnTrue(IntakeFactory.algaeNamNam());
+                xDrive.a().toggleOnTrue(IntakeFactory.algaeIn());
 
                 xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
                 xDrive.povRight().onTrue(new InstantCommand(
-                        (() -> useVision = !useVision )));
-                
+                                (() -> useVision = !useVision)));
 
                 // reset the field-centric hea ding on left bumper press
-                xDrive.rightTrigger().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+                // xDrive.rightTrigger().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
                 drivetrain.registerTelemetry(logger::telemeterize);
         }
@@ -201,18 +201,25 @@ public class RobotContainer {
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
-                        // ScoringFactory.L4PositionAuto()
-                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
-                );
+                                // ScoringFactory.L4PositionAuto()
+                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.y().toggleOnTrue(
                                 ScoringFactory.L2Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.x().toggleOnTrue(
-                        ScoringFactory.SourceIntake().andThen(ScoringFactory.SmartStow())
-                        );
+                                ScoringFactory.SourceIntake().andThen(ScoringFactory.SmartStow()));
 
-                xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgae());
+                xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgaeL3());
+                xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
+                                .ByeByeByeAlgaeL2(xManip.leftBumper())
+                                .andThen(
+                                    (CommandSwerveDrivetrain.getInstance()
+                                                                .applyRequest(() -> new SwerveRequest.RobotCentric()
+                                                                                .withVelocityY(
+                                                                                                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedMPS
+                                                                                                                * -0.4)))
+                                                                .withTimeout(0.3).onlyWhile(xManip.leftBumper())));
 
                 xManip.povDown().whileTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());
@@ -241,7 +248,5 @@ public class RobotContainer {
                                 .onTrue(AligntoReef.getAlignToReef(() -> false));
 
         }
-
-        
 
 }

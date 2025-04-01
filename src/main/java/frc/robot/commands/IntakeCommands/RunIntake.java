@@ -1,6 +1,7 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeWheels;
 
 public class RunIntake extends Command {
@@ -15,11 +16,14 @@ public class RunIntake extends Command {
         addRequirements(intake);
     }
     
+  public static Runnable AlgaeFF = () -> {
+      IntakeWheels.getInstance().runDutyCycleIntake(Constants.IntakeConstants.kAlgaeFF);
+  };
   @Override
   public void initialize() {
 
     intake.postStatus("Intaking");
-    intake.runDutyCycleIntake(0.6);
+    intake.runDutyCycleIntake(Constants.IntakeConstants.kIntakeSpeed);
 
   }
 
