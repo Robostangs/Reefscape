@@ -172,9 +172,11 @@ public class RobotContainer {
                 xDrive.a().toggleOnTrue(IntakeFactory.algaeIn());
 
                 xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
+
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
+
                 xDrive.povRight().onTrue(new InstantCommand(
                                 (() -> useVision = !useVision)));
 

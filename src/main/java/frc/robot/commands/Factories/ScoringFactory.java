@@ -119,8 +119,6 @@ public class ScoringFactory {
                         }));
     }
 
-
-
     /**
      * Returns a command that makes the elevator go to the L3 setpoint then move the
      * arm up ot knock out algae
@@ -137,9 +135,8 @@ public class ScoringFactory {
 
     public static Command ByeByeByeAlgaeL2() {
 
-        
-        return new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaePos);
-
+        return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd).andThen(
+                new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaePos));
         // return new
         // SetElevatorPosition(Constants.ScoringConstants.L2.kELevatorAlgaepos)
         // .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosStart)
