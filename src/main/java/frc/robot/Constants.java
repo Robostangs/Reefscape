@@ -8,6 +8,8 @@ import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.Vector;
 
 import com.ctre.phoenix6.CANBus;
@@ -45,6 +47,7 @@ import edu.wpi.first.units.measure.*;
  */
 public final class Constants {
   public static final String logDirectory = "";
+
 
   public static class ClimberConstants {
 
@@ -150,6 +153,13 @@ public final class Constants {
 
     public static final double kArmHumanPlayer = 165;
 
+    public static final double kArmDutyCycle = 0.1;
+
+  }
+  public static class AlgaeffectorConstants{
+    public static final int kalgaeffectorid = 55;
+    public static final double kAlgaeffectorDutyCyle = -0.7;
+    public static final double kAlgaeffectorSlurpCycle = 0.7;
   }
 
   public static class ElevatorConstants {
@@ -197,6 +207,10 @@ public final class Constants {
     public static final double kHomePosition = 0.97155;
     public static final double kSafeArmElevatorPosition =0.92;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
+    public static final double kElevatorZeroPose = 0.0;
+    public static final double kElevatorTargetPosition = 0.5;
+    public static final double ktestDutyCycle = 0.1;
+    
     public static final double kStartPos = 0.78;
   }
 
@@ -324,6 +338,10 @@ public final class Constants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with
     // the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
+    public static final double kMaxSpeedMetersPerSecond = AutoConstants.AutoSpeeds.kSpeedAt12Volts.baseUnitMagnitude();
+
+			// public static final double kMaxAngularSpeedMetersPerSecond = 4 * Math.PI;
+			public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond / 0.44;
     private static final Slot0Configs steerGains = new Slot0Configs()
         .withKP(100).withKI(0).withKD(0.5)
         .withKS(0.1).withKV(2.66).withKA(0)
@@ -350,6 +368,7 @@ public final class Constants {
     // When not Pro-licensed, Fused*/Sync* automatically fall back to Remote*
     private static final SteerFeedbackType kSteerFeedbackType = SteerFeedbackType.FusedCANcoder;
 
+    public static final double MAX_SPEED_METERS_PER_SECOND = 5.96;
     // The stator current at which the wheels start to slip;
     // This needs to be tuned to your individual robot
     private static final Current kSlipCurrent = Amps.of(120.0);

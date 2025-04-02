@@ -45,4 +45,3 @@ public class Algaeffector extends SubsystemBase {
     }
 
 }
-

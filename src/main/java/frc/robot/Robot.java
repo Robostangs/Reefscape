@@ -5,6 +5,7 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Percent;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
@@ -44,17 +45,33 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ArmCommands.SetArmDutyCycle;
+import frc.robot.commands.ArmCommands.SetArmPosition;
+import frc.robot.commands.ClimberCommands.Deploy;
+import frc.robot.commands.ClimberCommands.Reel;
+import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.commands.ElevatorCommands.SetElevatorDutyCycle;
+import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
+import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.IntakeCommands.Extend;
+import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
+import frc.robot.commands.SwerveCommands.PathToPoint;
+import frc.robot.subsystems.Algaeffector;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
+import pabeles.concurrency.ConcurrencyOps.Reset;
+
+
 
 public class Robot extends TimedRobotstangs {
 
@@ -69,7 +86,21 @@ public class Robot extends TimedRobotstangs {
   private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", AlertType.kError);
   private static Alert CANcoderAlert = new Alert("Can tweaking", AlertType.kError);
   private static Alert MotorAlert = new Alert("Can tweaking", AlertType.kError);
-
+  public boolean testConfigured = false;
+	public static SendableChooser<Command> SwerveCommands = new SendableChooser<>();
+  public static SendableChooser<Command> ElevatorCommands = new SendableChooser<>();
+  public static SendableChooser<Command> IntakeCommands = new SendableChooser<>();
+  public static SendableChooser<Command> EndeffectorCommands = new SendableChooser<>();
+  public static SendableChooser<Command> ArmCommands = new SendableChooser<>();
+  public static SendableChooser<Command> ClimberCommands = new SendableChooser<>();
+  public static SendableChooser<Command> AlgaeffectorCommands = new SendableChooser<>();
+  Command lastSwerve;
+  Command lastClimber;
+  Command lastIntake;
+  Command lastElevator;
+  Command lastEndaffector;
+  Command lastArm;
+  Command lastAlgaeffector;
   private static String autoName = "";
 
   // Autos
@@ -221,10 +252,178 @@ public class Robot extends TimedRobotstangs {
 
 
   }
+  @Override
+  public void testInit(){  
+    if (!testConfigured) {
+    //swerve drivetrain
+    SwerveCommands.setDefaultOption("Do nothin(basically reseting the gyro)",
+      CommandSwerveDrivetrain.getInstance()
+        .runOnce(() -> CommandSwerveDrivetrain.getInstance()
+          .resetPose(!Robot.isRed()
+          ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+          : FlippingUtil
+            .flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose)
+        )));
 
+    SwerveCommands.addOption("Drive forward",
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+      .withVelocityY(
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withName("Drive Forward"));
+    
+    SwerveCommands.addOption("Drive Backward",
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+      .withVelocityY(
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withName("Drive Backward"));
+        
+    SwerveCommands.addOption("Drive Left",
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+      .withVelocityX(
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withName("Drive Left"));
+    
+    SwerveCommands.addOption("Drive Right",
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+      .withVelocityX(
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withName("Drive Right"));
+    
+    SwerveCommands.addOption("Rotate",
+    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
+      .withRotationalRate(
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withName("Rotate"));
+
+      testTab.add("Swerve", SwerveCommands)
+        .withSize(2, 1)
+        .withPosition(0, 0);  
+    //Elevator
+    ElevatorCommands.setDefaultOption("nothin",  
+    Elevator.getInstance()
+        .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
+        
+
+    ElevatorCommands.addOption("Elevator up", new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));
+    ElevatorCommands.addOption("Elevator down", new SetElevatorDutyCycle(() -> -Constants.ElevatorConstants.ktestDutyCycle));
+    ElevatorCommands.addOption("L3", new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos));
+    ElevatorCommands.addOption("L2", new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd));
+    ElevatorCommands.addOption("L4", new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
+    ElevatorCommands.addOption("Stow", new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos));
+    ElevatorCommands.addOption("Home Elevator", new HomeElevator());
+    testTab.add("Elevator", ElevatorCommands)
+      .withSize(2, 1)
+      .withPosition(0, 1);
+    
+    
+    //Intake
+    IntakeCommands.setDefaultOption("nothin", new InstantCommand());
+    IntakePivot.getInstance()
+      .runOnce(() -> IntakePivot.getInstance().setPiviotDutyCycle(0));
+
+    IntakeCommands.addOption("Extend", new Extend());
+    IntakeCommands.addOption("Retract", new Retract());
+    IntakeCommands.addOption("RunIntake", new RunIntake());
+    IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
+    
+    testTab.add("IntakeCommadns", IntakeCommands)
+      .withSize(2, 1)
+      .withPosition(0, 2);
+    
+    //endeffector
+    EndeffectorCommands.setDefaultOption("nothin", new InstantCommand());
+    Endeffector.getInstance()
+      .runOnce(() -> Endeffector.getInstance().setEneffdector(0));
+
+    EndeffectorCommands.addOption("Spit", new Spit());
+    EndeffectorCommands.addOption("Slurp", new Slurp());
+    testTab.add("EndeffectorCommands", EndeffectorCommands)
+      .withSize(2, 1)
+      .withPosition(0, 3);
+    
+    //Arm
+    ArmCommands.setDefaultOption("Nothin", new InstantCommand());
+    Arm.getInstance()
+      .runOnce(() -> Arm.getInstance().setArmDutyCycle(0));
+
+    ArmCommands.addOption("postive", new SetArmDutyCycle(() -> Constants.ArmConstants.kArmDutyCycle));
+    ArmCommands.addOption("negative", new SetArmDutyCycle(() -> -Constants.ArmConstants.kArmDutyCycle));
+    ArmCommands.addOption("L4", new SetArmPosition(Constants.ScoringConstants.L4.kElevatorPos));
+    ArmCommands.addOption("L3", new SetArmPosition(Constants.ScoringConstants.L3.kElevatorPos));
+    ArmCommands.addOption("L2", new SetArmPosition(Constants.ScoringConstants.L2.kElevatorEnd));
+    testTab.add("ArmCommands", ArmCommands)
+      .withSize(2, 1)
+      .withPosition(0, 4);
+    //climber
+    ClimberCommands.setDefaultOption("Nothin", new InstantCommand());
+      Climber.getInstance()
+        .runOnce(() -> Climber.getInstance().runClimber(0));
+    ClimberCommands.addOption("Deploy", new Deploy(Constants.ClimberConstants.kExtensionDutyCycle));
+    ClimberCommands.addOption("Reel", new Reel(Constants.ClimberConstants.kReelDutyCycle));
+    testTab.add("ClimberCommands", ClimberCommands)
+      .withSize(2, 1)
+      .withPosition(0, 5);
+    //Algaeffector
+    AlgaeffectorCommands.setDefaultOption("Nothin", new InstantCommand());
+      Algaeffector.getInstance()
+        .runOnce(() -> Algaeffector.getInstance().setDutyCycle(0));
+    AlgaeffectorCommands.addOption("Slurp", new Slurp());
+    AlgaeffectorCommands.addOption("Spit", new Spit());
+    testTab.add("AlgaeffectorCommands", AlgaeffectorCommands)
+      .withSize(2, 1)
+      .withPosition(0, 6);
+      lastSwerve = SwerveCommands.getSelected();
+      lastArm = ArmCommands.getSelected();
+      lastElevator = ElevatorCommands.getSelected();
+      lastClimber = ClimberCommands.getSelected();
+      lastIntake = IntakeCommands.getSelected();
+      lastEndaffector = EndeffectorCommands.getSelected();
+      lastAlgaeffector = AlgaeffectorCommands.getSelected();
+    }
+    testConfigured = true;
+
+  }
+@Override
+  public void testPeriodic() {
+    
+		if (SwerveCommands.getSelected() != lastSwerve) {
+			SwerveCommands.getSelected().schedule();
+		}
+
+		if (ArmCommands.getSelected() != lastArm) {
+			ArmCommands.getSelected().schedule();
+		}
+    if (ElevatorCommands.getSelected() != lastElevator){
+      ElevatorCommands.getSelected().schedule();
+    }
+    if (ClimberCommands.getSelected() != lastClimber){
+      ClimberCommands.getSelected().schedule();
+    }
+    if (IntakeCommands.getSelected() != lastIntake){
+      IntakeCommands.getSelected().schedule();
+    }
+    if (EndeffectorCommands.getSelected() != lastEndaffector){
+      EndeffectorCommands.getSelected().schedule();
+    }
+    if (AlgaeffectorCommands.getSelected() != lastAlgaeffector){
+      AlgaeffectorCommands.getSelected().schedule();
+    }
+
+		
+    lastSwerve = SwerveCommands.getSelected();
+    lastArm = ArmCommands.getSelected();
+    lastElevator = ElevatorCommands.getSelected();
+    lastClimber = ClimberCommands.getSelected();
+    lastIntake = IntakeCommands.getSelected();
+    lastEndaffector = EndeffectorCommands.getSelected();
+    lastAlgaeffector = AlgaeffectorCommands.getSelected();
+
+  }
+
+    
+      
   @Override
   public void robotPeriodic() {
-
     SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
 
     // commands, running already-scheduled commands, removing finished or
@@ -239,8 +438,9 @@ public class Robot extends TimedRobotstangs {
     SmartDashboard.putString("Auto/Current Auto", autoName);
 
     CommandScheduler.getInstance().run();
-
   }
+
+   
 
   @Override
   public void driverStationConnected() {
@@ -347,16 +547,6 @@ public class Robot extends TimedRobotstangs {
     }
   // }
 
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-  }
-
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {
-  }
 
   /** This function is called once when the robot is first started up. */
   @Override
@@ -558,7 +748,6 @@ public class Robot extends TimedRobotstangs {
         gcAlert.set(false);
 
       }
-
     }
   }
 
