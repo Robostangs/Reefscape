@@ -3,16 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.404109589041096,
-        "y": 0.7569135273972597
+        "x": 2.6294948630136985,
+        "y": 0.7418878424657532
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.202054794520548,
-        "y": 0.877119006849315
+        "x": 2.3561534710512566,
+        "y": 0.8322849387219047
       },
       "isLocked": false,
       "linkedName": "Pro Feeder"
+    },
+    {
+      "anchor": {
+        "x": 1.6227739726027397,
+        "y": 1.2377354452054794
+      },
+      "prevControl": {
+        "x": 2.058815920672409,
+        "y": 0.6356120233557566
+      },
+      "nextControl": {
+        "x": 1.2864288264004675,
+        "y": 1.70218913194458
+      },
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,21 +36,26 @@
         "y": 1.8688142123287674
       },
       "prevControl": {
-        "x": 1.5626712328767127,
-        "y": 1.6133775684931504
+        "x": 1.7822737701958409,
+        "y": 2.2469054969407294
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Pro Feeder End"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6631016042780749,
+      "rotationDegrees": 157.11
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Schloop",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 1.830508474576269,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -60,7 +81,7 @@
   "folder": "Feeder Clean Up",
   "idealStartingState": {
     "velocity": 2.5,
-    "rotation": 150.0
+    "rotation": 157.1094483437517
   },
   "useDefaultConstraints": true
 }

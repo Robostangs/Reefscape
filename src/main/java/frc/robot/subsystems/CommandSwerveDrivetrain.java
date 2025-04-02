@@ -326,7 +326,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         if (!Robot.isSimulation()) {
 
 
-            // TODO Tune angular velocity threshold and TA
 
             LimelightHelpers.PoseEstimate fourPoseEsti, threePoseEsti;
             if (DriverStation.isDisabled()) {

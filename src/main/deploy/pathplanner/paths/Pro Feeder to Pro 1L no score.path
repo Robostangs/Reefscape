@@ -62,7 +62,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -28.910000000000004
+    "rotation": -12.094757077012112
   },
   "useDefaultConstraints": true
 }

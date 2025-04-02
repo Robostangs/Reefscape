@@ -5,8 +5,6 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Percent;
-
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -45,12 +43,10 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmCommands.SetArmDutyCycle;
 import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
-import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.SetElevatorDutyCycle;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
 import frc.robot.commands.EndeffectorCommands.Slurp;
@@ -60,8 +56,6 @@ import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
-import frc.robot.commands.SwerveCommands.PathToPoint;
-import frc.robot.subsystems.Algaeffector;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -69,7 +63,6 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
-import pabeles.concurrency.ConcurrencyOps.Reset;
 
 
 
@@ -317,9 +310,9 @@ public class Robot extends TimedRobotstangs {
     
     
     //Intake
-    IntakeCommands.setDefaultOption("nothin", new InstantCommand());
+    IntakeCommands.setDefaultOption("nothin",
     IntakePivot.getInstance()
-      .runOnce(() -> IntakePivot.getInstance().setPiviotDutyCycle(0));
+      .runOnce(() -> IntakePivot.getInstance().setPiviotDutyCycle(0)));
 
     IntakeCommands.addOption("Extend", new Extend());
     IntakeCommands.addOption("Retract", new Retract());
@@ -331,9 +324,9 @@ public class Robot extends TimedRobotstangs {
       .withPosition(0, 2);
     
     //endeffector
-    EndeffectorCommands.setDefaultOption("nothin", new InstantCommand());
+    EndeffectorCommands.setDefaultOption("nothin", 
     Endeffector.getInstance()
-      .runOnce(() -> Endeffector.getInstance().setEneffdector(0));
+      .runOnce(() -> Endeffector.getInstance().setEneffdector(0)));
 
     EndeffectorCommands.addOption("Spit", new Spit());
     EndeffectorCommands.addOption("Slurp", new Slurp());
@@ -342,36 +335,41 @@ public class Robot extends TimedRobotstangs {
       .withPosition(0, 3);
     
     //Arm
-    ArmCommands.setDefaultOption("Nothin", new InstantCommand());
+    ArmCommands.setDefaultOption("Nothin", 
     Arm.getInstance()
-      .runOnce(() -> Arm.getInstance().setArmDutyCycle(0));
+      .runOnce(() -> Arm.getInstance().setArmDutyCycle(0)));
 
     ArmCommands.addOption("postive", new SetArmDutyCycle(() -> Constants.ArmConstants.kArmDutyCycle));
     ArmCommands.addOption("negative", new SetArmDutyCycle(() -> -Constants.ArmConstants.kArmDutyCycle));
-    ArmCommands.addOption("L4", new SetArmPosition(Constants.ScoringConstants.L4.kElevatorPos));
-    ArmCommands.addOption("L3", new SetArmPosition(Constants.ScoringConstants.L3.kElevatorPos));
-    ArmCommands.addOption("L2", new SetArmPosition(Constants.ScoringConstants.L2.kElevatorEnd));
+    ArmCommands.addOption("L4", new SetArmPosition(Constants.ScoringConstants.L4.kArmScoringPosition));
+    ArmCommands.addOption("L3", new SetArmPosition(Constants.ScoringConstants.L3.kArmScoringPosition));
+    ArmCommands.addOption("L2", new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition));
+    ArmCommands.addOption("Stow", new SetArmPosition(Constants.ScoringConstants.Stow.kArmStowPos));
     testTab.add("ArmCommands", ArmCommands)
       .withSize(2, 1)
       .withPosition(0, 4);
     //climber
-    ClimberCommands.setDefaultOption("Nothin", new InstantCommand());
+    ClimberCommands.setDefaultOption("Nothin",
       Climber.getInstance()
-        .runOnce(() -> Climber.getInstance().runClimber(0));
-    ClimberCommands.addOption("Deploy", new Deploy(Constants.ClimberConstants.kExtensionDutyCycle));
-    ClimberCommands.addOption("Reel", new Reel(Constants.ClimberConstants.kReelDutyCycle));
+        .runOnce(() -> Climber.getInstance().runClimber(0)));
+    ClimberCommands.addOption("Deploy", new Deploy(true));
+    ClimberCommands.addOption("Reel", new Reel(true));
     testTab.add("ClimberCommands", ClimberCommands)
       .withSize(2, 1)
       .withPosition(0, 5);
+
     //Algaeffector
-    AlgaeffectorCommands.setDefaultOption("Nothin", new InstantCommand());
-      Algaeffector.getInstance()
-        .runOnce(() -> Algaeffector.getInstance().setDutyCycle(0));
-    AlgaeffectorCommands.addOption("Slurp", new Slurp());
-    AlgaeffectorCommands.addOption("Spit", new Spit());
-    testTab.add("AlgaeffectorCommands", AlgaeffectorCommands)
-      .withSize(2, 1)
-      .withPosition(0, 6);
+    // AlgaeffectorCommands.setDefaultOption("Nothin", new InstantCommand());
+    //   Algaeffector.getInstance()
+    //     .runOnce(() -> Algaeffector.getInstance().setDutyCycle(0));
+    // AlgaeffectorCommands.addOption("Slurp", new Slurp());
+    // AlgaeffectorCommands.addOption("Spit", new Spit());
+    // testTab.add("AlgaeffectorCommands", AlgaeffectorCommands)
+    //   .withSize(2, 1)
+    //   .withPosition(0, 6);
+
+
+
       lastSwerve = SwerveCommands.getSelected();
       lastArm = ArmCommands.getSelected();
       lastElevator = ElevatorCommands.getSelected();
@@ -502,9 +500,9 @@ public class Robot extends TimedRobotstangs {
       autoCommand = new PrintCommand("doing nothing!");
     }
 
-    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),
-        new HomeElevator().withTimeout(0.2),
-        (ScoringFactory.SmartStow()).withTimeout(0.3)
+    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2)
+        // new HomeElevator().withTimeout(0.2),
+        // (ScoringFactory.SmartStow()).withTimeout(0.3)
         );
 
     autoGroup.addCommands(

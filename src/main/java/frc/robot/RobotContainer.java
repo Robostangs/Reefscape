@@ -167,6 +167,7 @@ public class RobotContainer {
                 xDrive.rightTrigger().toggleOnTrue(IntakeFactory.algaeOut());
 
                 xDrive.b().toggleOnTrue(new RunIntake());
+
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
                 xDrive.a().toggleOnTrue(IntakeFactory.algaeIn());
@@ -179,9 +180,9 @@ public class RobotContainer {
 
                 xDrive.povRight().onTrue(new InstantCommand(
                                 (() -> useVision = !useVision)));
-
+                xDrive.povUp().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+                            
                 // reset the field-centric hea ding on left bumper press
-                // xDrive.rightTrigger().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
                 drivetrain.registerTelemetry(logger::telemeterize);
         }

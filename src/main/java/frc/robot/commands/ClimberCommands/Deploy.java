@@ -21,9 +21,7 @@ public class Deploy extends Command {
     this.smart = smart;
   }
 
-  public Deploy(double kextensiondutycycle) {
-    //TODO Auto-generated constructor stub
-}
+
 
 // Called when the command is initially scheduled.
   @Override

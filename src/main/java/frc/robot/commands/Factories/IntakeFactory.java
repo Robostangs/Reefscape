@@ -41,8 +41,8 @@ public class IntakeFactory {
     }
 
     public static Command algaeIn() {
-        return new Algaeintake();
-        // .alongWith(new Untake()).finallyDo(RunIntake.AlgaeFF);
+        return new Algaeintake().alongWith(new RunIntake()).finallyDo(RunIntake.AlgaeFF);
+        // .alongWith(new Untake())
     }
     /**
      * @return A command that extends the intake and runs the wheels

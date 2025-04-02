@@ -8,8 +8,6 @@ import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.*;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.Vector;
 
 import com.ctre.phoenix6.CANBus;
@@ -147,7 +145,7 @@ public final class Constants {
     public static final double kArmRootY = 2d;
     public static final double kArmRotationtoDegreeRatio = 2498d;
 
-    public static final double kArmRestSetpoint = -.25;
+    public static final double kArmRestSetpoint = -.246;
     public static final double kArmAcceleration = 10d;
     public static final double kArmRotortoSensorRatio = (159d / 15d) * (36d / 12d);
 
@@ -156,11 +154,7 @@ public final class Constants {
     public static final double kArmDutyCycle = 0.1;
 
   }
-  public static class AlgaeffectorConstants{
-    public static final int kalgaeffectorid = 55;
-    public static final double kAlgaeffectorDutyCyle = -0.7;
-    public static final double kAlgaeffectorSlurpCycle = 0.7;
-  }
+
 
   public static class ElevatorConstants {
     public static final int kRightElevatorMotorId = 36;

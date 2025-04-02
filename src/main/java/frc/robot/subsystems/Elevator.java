@@ -109,7 +109,6 @@ public class Elevator extends SubsystemBase {
         elevatorMotorRightConfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.ElevatorConstants.kElevatorCruiseVelocity;
         elevatorMotorRightConfigs.MotionMagic.MotionMagicAcceleration = Constants.ElevatorConstants.kElevatorAcceleration;
 
-        // TODO do peak reverse output and current limits
 
         elevatorMotorRightConfigs.MotorOutput.PeakReverseDutyCycle = Constants.ElevatorConstants.kElevatorPeakReverseDutyCycle;
         elevatorMotorRightConfigs.Feedback.SensorToMechanismRatio = Constants.ElevatorConstants.kRotationsToMeters;

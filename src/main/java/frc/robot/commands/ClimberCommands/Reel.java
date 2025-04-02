@@ -21,7 +21,6 @@ public class Reel extends Command {
   }
 
   public Reel(double kreeldutycycle) {
-    //TODO Auto-generated constructor stub
 }
 
 @Override

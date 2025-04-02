@@ -22,10 +22,6 @@ public class Algaeffector extends SubsystemBase {
         return mInstance;
     }
 
-    public void setDutyCycle(double AlgaeffectorDutyCycle){
-        algaeman.set(AlgaeffectorDutyCycle);
-    }
-    
     public void postStatus(String status) {
         SmartDashboard.putString("Algae/status", status);
 
@@ -36,8 +32,7 @@ public class Algaeffector extends SubsystemBase {
     }
 
     public void setEneffdector(double kalgaeffectordutycyle) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setEneffdector'");
+        algaeman.set(kalgaeffectordutycyle);
     }
 
     public void setEndeffectorBrake(){

@@ -45,7 +45,7 @@ public class ScoringFactory {
                         new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd))
                         .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition))
                         .finallyDo(() -> {
-                            ScoreState = ScoringPosition.L3;
+                            ScoreState = ScoringPosition.L2;
                         });
             } else {
                 return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStart).andThen(
