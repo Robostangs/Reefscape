@@ -302,9 +302,9 @@ public class Robot extends TimedRobotstangs {
       autoCommand = new PrintCommand("doing nothing!");
     }
 
-    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2)
-        // new HomeElevator().withTimeout(0.2),
-        // (ScoringFactory.SmartStow()).withTimeout(0.3)
+    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2),
+        new HomeElevator().withTimeout(0.2),
+        (ScoringFactory.SmartStow()).withTimeout(0.3)
         );
 
     autoGroup.addCommands(

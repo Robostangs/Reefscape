@@ -38,12 +38,25 @@ public class ScoringFactory {
      * @return A command to move the elevator and arm to the L2 scoring position.
      */
     public static Command L2Position() {
-        return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStart).andThen(
-                new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition))
-                .andThen(new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd)
+
+        return new DeferredCommand(() -> {
+            if (ScoreState.equals(ScoringPosition.L3) || ScoreState.equals(ScoringPosition.L4)) {
+                return new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition - 0.1).alongWith(
+                        new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd))
+                        .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition))
                         .finallyDo(() -> {
-                            ScoreState = ScoringPosition.L2;
-                        }));
+                            ScoreState = ScoringPosition.L3;
+                        });
+            } else {
+                return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStart).andThen(
+                        new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition))
+                        .andThen(new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd)
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.L2;
+                                }));
+            }
+        }, Set.of(Arm.getInstance(), Elevator.getInstance()));
+
     }
 
     /**
@@ -98,26 +111,15 @@ public class ScoringFactory {
     }
 
     public static Command L4PositionAuto() {
-        return new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos).andThen(new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
+        return new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos)
+                .andThen(new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
                 .andThen(new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
                         .finallyDo(() -> {
                             ScoreState = ScoringPosition.L4;
                         }));
     }
 
-    // new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
-    // .alongWith(
-    // new WaitUntilCommand(
-    // () -> Elevator.getInstance()
-    // .getElevatorPositionMeters() >
-    // Constants.ElevatorConstants.kSafeArmElevatorPosition)
-    // .onlyIf(() -> !Robot.isSimulation())
-    // .andThen(
-    // new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
-    // .finallyDo(() -> {
-    // ScoreState = ScoringPosition.L4;
-    // }));
-    // }
+
 
     /**
      * Returns a command that makes the elevator go to the L3 setpoint then move the
@@ -133,22 +135,19 @@ public class ScoringFactory {
 
     }
 
-
     public static Command ByeByeByeAlgaeL2() {
 
         
         return new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaePos);
 
-
-
-        // return new SetElevatorPosition(Constants.ScoringConstants.L2.kELevatorAlgaepos)
-        //         .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosStart)
-        //             .andThen(new WaitUntilCommand(manipBumper))
-        //             .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosEnd))
-        //                 .finallyDo(() -> ScoreState = ScoringPosition.Algaeeeee));
+        // return new
+        // SetElevatorPosition(Constants.ScoringConstants.L2.kELevatorAlgaepos)
+        // .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosStart)
+        // .andThen(new WaitUntilCommand(manipBumper))
+        // .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosEnd))
+        // .finallyDo(() -> ScoreState = ScoringPosition.Algaeeeee));
 
     }
-
 
     /**
      * Returns {@code L2Position()} but then spits while the bumper is held
