@@ -134,7 +134,7 @@ public class ScoringFactory {
     }
 
 
-    public static Command ByeByeByeAlgaeL2(Trigger manipBumper) {
+    public static Command ByeByeByeAlgaeL2() {
 
         
         return new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaePos);

@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 2.6294948630136985,
-        "y": 1.8688142123287674
+        "y": 0.7418878424657532
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1704195205479446,
-        "y": 2.259482020547946
+        "x": 2.76253170643067,
+        "y": 0.9535507780346624
       },
       "isLocked": false,
-      "linkedName": "Pro Feeder End"
+      "linkedName": "Pro Feeder"
     },
     {
       "anchor": {
-        "x": 3.666267123287671,
-        "y": 3.1309717465753426
+        "x": 3.7413955479452055,
+        "y": 3.1159460616438355
       },
       "prevControl": {
-        "x": 3.1210986815962634,
-        "y": 2.7517929049296908
+        "x": 3.5990090270410406,
+        "y": 2.8069773262156983
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,15 +47,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "L4 Score",
-      "waypointRelativePos": 0.010169491525423718,
+      "name": "L4 Position no money",
+      "waypointRelativePos": 0.11186440677966086,
       "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "L4 Position"
-        }
-      }
+      "command": null
     }
   ],
   "globalConstraints": {
@@ -74,7 +69,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -12.094757077012112
+    "rotation": -28.909183651147824
   },
   "useDefaultConstraints": true
 }

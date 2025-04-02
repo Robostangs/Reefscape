@@ -212,14 +212,7 @@ public class RobotContainer {
 
                 xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgaeL3());
                 xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
-                                .ByeByeByeAlgaeL2(xManip.leftBumper())
-                                .andThen(
-                                    (CommandSwerveDrivetrain.getInstance()
-                                                                .applyRequest(() -> new SwerveRequest.RobotCentric()
-                                                                                .withVelocityY(
-                                                                                                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedMPS
-                                                                                                                * -0.4)))
-                                                                .withTimeout(0.3).onlyWhile(xManip.leftBumper())));
+                                .ByeByeByeAlgaeL2());
 
                 xManip.povDown().whileTrue(new Slurp());
                 xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());

@@ -125,8 +125,8 @@ public final class Constants {
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
-    public static final double kArmP = 9000;
-    public static final double kArmI = 5000;
+    public static final double kArmP = 4000;
+    public static final double kArmI = 1500;
     public static final double kArmD = 250;
 
     public static final double kArmS = 4;
@@ -195,7 +195,7 @@ public final class Constants {
     public static final boolean kIsLeftInvert = true;
 
     public static final double kHomePosition = 0.97155;
-    public static final double kSafeArmElevatorPosition =0.941;
+    public static final double kSafeArmElevatorPosition =0.92;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
     public static final double kStartPos = 0.78;
   }
@@ -303,7 +303,7 @@ public final class Constants {
     }
 
     public static class Stow {
-      public static final double kElevatorPos = 0.925;
+      public static final double kElevatorPos = 0.935;
       public static final double kArmStowPos = ArmConstants.kArmRestSetpoint;
     }
 
