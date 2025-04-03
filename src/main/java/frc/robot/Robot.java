@@ -260,25 +260,25 @@ public class Robot extends TimedRobotstangs {
 
     SwerveCommands.addOption("Drive forward",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityY(
+      .withVelocityX(
           Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Drive Forward"));
     
     SwerveCommands.addOption("Drive Backward",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityY(
+      .withVelocityX(
           Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Drive Backward"));
         
     SwerveCommands.addOption("Drive Left",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityX(
+      .withVelocityY(
         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Drive Left"));
     
     SwerveCommands.addOption("Drive Right",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityX(
+      .withVelocityY(
         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
       .withName("Drive Right"));
     
