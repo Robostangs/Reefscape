@@ -261,31 +261,31 @@ public class Robot extends TimedRobotstangs {
     SwerveCommands.addOption("Drive forward",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
       .withVelocityX(
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
       .withName("Drive Forward"));
     
     SwerveCommands.addOption("Drive Backward",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
       .withVelocityX(
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+          -Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
       .withName("Drive Backward"));
         
     SwerveCommands.addOption("Drive Left",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
       .withVelocityY(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
       .withName("Drive Left"));
     
     SwerveCommands.addOption("Drive Right",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
       .withVelocityY(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
       .withName("Drive Right"));
     
     SwerveCommands.addOption("Rotate",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
       .withRotationalRate(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.1))
       .withName("Rotate"));
 
       testTab.add("Swerve", SwerveCommands)

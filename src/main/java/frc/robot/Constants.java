@@ -447,6 +447,9 @@ public final class Constants {
         // This needs to be tuned to your individual robot
         public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
 
+        public static final LinearVelocity kSpeedAt12VoltsPIT = MetersPerSecond.of(4.73*.1);
+
+
         public static final double kSpeedMPS = 4.73;
 
         // The maximum acceleration of the robot in meters per second squared.
