@@ -52,7 +52,7 @@
   "reversed": false,
   "folder": "Reef to Feeder Paths",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 1.0,
     "rotation": 89.45981646471772
   },
   "useDefaultConstraints": true
