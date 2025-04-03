@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7491537911551339,
-        "y": 6.427372523716517
+        "x": 2.3377447802947597,
+        "y": 6.342487718340611
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.201922171456473,
-        "y": 7.54123317173549
+        "x": 3.720081046686885,
+        "y": 6.440861256110752
       },
       "isLocked": false,
       "linkedName": "Open Feeder End"
@@ -20,8 +20,8 @@
         "y": 5.1293878424657535
       },
       "prevControl": {
-        "x": 3.32771699955578,
-        "y": 5.283227018381345
+        "x": 3.531364714110262,
+        "y": 5.60864321779476
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,14 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "L4 Score",
+      "waypointRelativePos": 0.48196079244031853,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.73,
     "maxAcceleration": 3.0,
@@ -62,7 +69,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -127.94955510801222
+    "rotation": -93.76980200962834
   },
   "useDefaultConstraints": true
 }

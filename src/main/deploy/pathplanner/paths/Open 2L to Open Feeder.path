@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.416806011124184,
-        "y": 6.32394536652521
+        "x": 3.9586091020742358,
+        "y": 6.909735347298034
       },
       "isLocked": false,
       "linkedName": "Open 2L"
     },
     {
       "anchor": {
-        "x": 2.2894919259207587,
-        "y": 7.332151576450892
+        "x": 2.5507931905021834,
+        "y": 7.4181576658024015
       },
       "prevControl": {
-        "x": 3.4682921749104123,
-        "y": 7.068155415528183
+        "x": 4.259521271151747,
+        "y": 7.132363451828602
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Ground Intake",
+      "waypointRelativePos": 0.43249544098143233,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.73,
     "maxAcceleration": 3.0,
@@ -41,8 +48,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -145.57714341902755
+    "velocity": 2.5,
+    "rotation": -167.465397448505
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
