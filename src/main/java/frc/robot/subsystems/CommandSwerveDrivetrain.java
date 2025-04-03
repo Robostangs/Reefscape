@@ -137,7 +137,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             SwerveDrivetrainConstants drivetrainConstants,
             SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
-        this.setVisionMeasurementStdDevs(Constants.VisionConstants.kPrecisionInMyVision);
+        this.setVisionMeasurementStdDevs(Constants.VisionConstants.kErrorInMyVision);
         if (Utils.isSimulation()) {
             startSimThread();
         }

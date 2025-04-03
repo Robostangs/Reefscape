@@ -285,7 +285,7 @@ public class Robot extends TimedRobotstangs {
     SwerveCommands.addOption("Rotate",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
       .withRotationalRate(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.1))
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond))
       .withName("Rotate"));
 
       testTab.add("Swerve", SwerveCommands)

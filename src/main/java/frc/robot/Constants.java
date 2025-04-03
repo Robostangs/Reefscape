@@ -210,7 +210,7 @@ public final class Constants {
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
-    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
+    public static final Vector<N3> kErrorInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightFour = "limelight-score";
     public static final String kLimelightThree = "limelight-right";
     // public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
@@ -403,7 +403,7 @@ public final class Constants {
 
       public static class AutoPoses {
         public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.degreesToRadians(180)));
-        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(180)));
+        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(0)));
         public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.degreesToRadians(180)));
 
       }
