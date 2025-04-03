@@ -376,6 +376,8 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             return false;
         }
 
+        SmartDashboard.putNumber("Error Distance", yoPoseEsti.pose.getTranslation().minus(this.getState().Pose.getTranslation()).getNorm());
+
         return RobotContainer.useVision;
     }
 

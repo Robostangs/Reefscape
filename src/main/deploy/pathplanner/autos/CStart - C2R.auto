@@ -13,7 +13,19 @@
         {
           "type": "named",
           "data": {
+            "name": "L4 Position regular"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stow"
           }
         }
       ]

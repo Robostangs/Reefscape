@@ -21,6 +21,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -227,11 +228,16 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
+      teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightThree, Constants.VisionConstants.kLimelightRightSideIP));
+
+
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
     NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
+    NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4PositionAuto());
+
 
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.4));
