@@ -103,7 +103,7 @@ public final class Constants {
     public static final double kAlgaeInSetpoint = 0;
     public static final double kAlgaeOutSetpoint = 0.125;
 
-    public static final double kAlgaeFF = 0.3;
+    public static final double kAlgaeFF = 0.4;
     public static final double kIntakeSpeed = 0.6;
   }
 
@@ -288,6 +288,7 @@ public final class Constants {
 
     public static class L2 {
       public static final double kElevatorStart = ElevatorConstants.kHomePosition;
+      public static final double kElevatorStartAlg = 1.247;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
       public static final double kArmSafePosition = 0.25;
@@ -295,6 +296,7 @@ public final class Constants {
       public static final double kArmAlgaePosStart = -0.75;
     public static final double kArmAlgaePosEnd = 0;
     }
+
 
     public static class L3 {
       public static final double kElevatorPos = 1.08;
@@ -469,7 +471,10 @@ public final class Constants {
     private static final double kSteerGearRatio = 21.428571428571427;
 
     //2*(what it acutally is/what it thinks)in meters
-    private static final Distance kWheelRadius = Inches.of(2*(4.37/4.42));
+
+    //acutual is 95
+    //it thik.12
+    private static final Distance kWheelRadius = Inches.of(2*(2.83/2.95));
 
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;
