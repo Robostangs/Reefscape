@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3837240518192413,
-        "y": 5.205856500552564
+        "x": 3.48705862786572,
+        "y": 6.512277821370088
       },
       "isLocked": false,
       "linkedName": "Open 1R"
     },
     {
       "anchor": {
-        "x": 2.2894919259207587,
-        "y": 7.332151576450892
+        "x": 2.5507931905021834,
+        "y": 7.4181576658024015
       },
       "prevControl": {
-        "x": 3.5812456119148877,
-        "y": 6.008443541799743
+        "x": 3.997626398744532,
+        "y": 7.154117341014362
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,8 +41,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -145.57714341902755
+    "velocity": 2.5,
+    "rotation": -167.465397448505
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",

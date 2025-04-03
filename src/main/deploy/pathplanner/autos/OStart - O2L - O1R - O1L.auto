@@ -13,79 +13,165 @@
         {
           "type": "named",
           "data": {
-            "name": "L4 Score"
+            "name": "Spit"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Open 2L to Open Feeder"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Open 2L to Open Feeder"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.3
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stow"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Open Clean Up"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Retract"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Open Feeder to Open 1R"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Ground Intake"
+            "name": "spit"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Open Clean Up"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Open 1R to Open Feeder"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.3
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stow"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Open Clean Up"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Retract"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Open Feeder to Open 1L"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Retract"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Open Feeder to Open 1R"
+            "name": "Spit"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "L4 Score"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Open 1R to Open Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Ground Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Open Clean Up"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Retract"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Open Feeder to Open 1L"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4 Score"
+            "name": "Stow"
           }
         }
       ]

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.023848684210526,
-        "y": 5.997450657894737
+        "x": 6.914660524265667,
+        "y": 5.874828263257114
       },
       "isLocked": false,
       "linkedName": "Open Start"
@@ -20,8 +20,8 @@
         "y": 5.144413527397259
       },
       "prevControl": {
-        "x": 5.310453482146769,
-        "y": 5.352989856542392
+        "x": 5.3217051064698815,
+        "y": 5.246965713612084
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,14 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "L4 Position",
+      "waypointRelativePos": 0.4556324602122015,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.73,
     "maxAcceleration": 3.0,
