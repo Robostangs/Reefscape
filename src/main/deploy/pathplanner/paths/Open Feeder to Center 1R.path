@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.176031261879582,
+        "x": 5.176031261879583,
         "y": 6.93050738909954
       },
       "isLocked": false,
@@ -62,7 +62,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -0.5289740990898217
+    "rotation": -93.76980200962834
   },
   "useDefaultConstraints": true
 }
