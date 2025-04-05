@@ -236,7 +236,7 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
     NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
-    NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4PositionAuto());
+    NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4Position());
 
 
 
@@ -378,7 +378,7 @@ public class Robot extends TimedRobotstangs {
 
       lastSwerve = SwerveCommands.getSelected();
       lastArm = ArmCommands.getSelected();
-      lastElevator = ElevatorCommands.getSelected();
+      lastElevator = new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle);
       lastClimber = ClimberCommands.getSelected();
       lastIntake = IntakeCommands.getSelected();
       lastEndaffector = EndeffectorCommands.getSelected();
