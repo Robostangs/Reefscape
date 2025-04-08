@@ -192,6 +192,18 @@
           "data": {
             "pathName": "Open Feeder to Open 1L L3"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stow"
+          }
         }
       ]
     }
