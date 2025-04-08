@@ -135,7 +135,7 @@ public class ScoringFactory {
 
     public static Command ByeByeByeAlgaeL2() {
 
-        return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd).andThen(
+        return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStartAlg).andThen(
                 new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaePos));
         // return new
         // SetElevatorPosition(Constants.ScoringConstants.L2.kELevatorAlgaepos)

@@ -137,7 +137,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             SwerveDrivetrainConstants drivetrainConstants,
             SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
-        this.setVisionMeasurementStdDevs(Constants.VisionConstants.kPrecisionInMyVision);
+        this.setVisionMeasurementStdDevs(Constants.VisionConstants.kErrorInMyVision);
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -347,7 +347,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             }
 
             if (isPosegoo(threePoseEsti)) {
-                this.addVisionMeasurement(threePoseEsti.pose, threePoseEsti.timestampSeconds);
+                // this.addVisionMeasurement(threePoseEsti.pose, threePoseEsti.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePoseEsti.pose);
             }
 
@@ -375,6 +375,8 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         if (yoPoseEsti.tagCount < 1) {
             return false;
         }
+
+        SmartDashboard.putNumber("Error Distance", yoPoseEsti.pose.getTranslation().minus(this.getState().Pose.getTranslation()).getNorm());
 
         return RobotContainer.useVision;
     }

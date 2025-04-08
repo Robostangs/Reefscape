@@ -21,6 +21,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -227,11 +228,16 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
+      teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightThree, Constants.VisionConstants.kLimelightRightSideIP));
+
+
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
     NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
+    NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4Position());
+
 
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.4));
@@ -260,32 +266,32 @@ public class Robot extends TimedRobotstangs {
 
     SwerveCommands.addOption("Drive forward",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityY(
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withVelocityX(
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
       .withName("Drive Forward"));
     
     SwerveCommands.addOption("Drive Backward",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityY(
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withVelocityX(
+          -Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
       .withName("Drive Backward"));
         
     SwerveCommands.addOption("Drive Left",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityX(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withVelocityY(
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
       .withName("Drive Left"));
     
     SwerveCommands.addOption("Drive Right",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityX(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+      .withVelocityY(
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
       .withName("Drive Right"));
     
     SwerveCommands.addOption("Rotate",
     CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
       .withRotationalRate(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)))
+        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond))
       .withName("Rotate"));
 
       testTab.add("Swerve", SwerveCommands)
@@ -372,7 +378,7 @@ public class Robot extends TimedRobotstangs {
 
       lastSwerve = SwerveCommands.getSelected();
       lastArm = ArmCommands.getSelected();
-      lastElevator = ElevatorCommands.getSelected();
+      lastElevator = new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle);
       lastClimber = ClimberCommands.getSelected();
       lastIntake = IntakeCommands.getSelected();
       lastEndaffector = EndeffectorCommands.getSelected();

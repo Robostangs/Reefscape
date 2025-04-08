@@ -103,7 +103,7 @@ public final class Constants {
     public static final double kAlgaeInSetpoint = 0;
     public static final double kAlgaeOutSetpoint = 0.125;
 
-    public static final double kAlgaeFF = 0.3;
+    public static final double kAlgaeFF = 0.4;
     public static final double kIntakeSpeed = 0.6;
   }
 
@@ -210,10 +210,10 @@ public final class Constants {
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
-    public static final Vector<N3> kPrecisionInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
+    public static final Vector<N3> kErrorInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightFour = "limelight-score";
     public static final String kLimelightThree = "limelight-right";
-    // public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
+    public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kLL4SeedMaxWz = 1;
@@ -288,6 +288,7 @@ public final class Constants {
 
     public static class L2 {
       public static final double kElevatorStart = ElevatorConstants.kHomePosition;
+      public static final double kElevatorStartAlg = 1.247;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
       public static final double kArmSafePosition = 0.25;
@@ -295,6 +296,7 @@ public final class Constants {
       public static final double kArmAlgaePosStart = -0.75;
     public static final double kArmAlgaePosEnd = 0;
     }
+
 
     public static class L3 {
       public static final double kElevatorPos = 1.08;
@@ -401,7 +403,7 @@ public final class Constants {
 
       public static class AutoPoses {
         public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.degreesToRadians(180)));
-        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(180)));
+        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(0)));
         public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.degreesToRadians(180)));
 
       }
@@ -445,6 +447,9 @@ public final class Constants {
         // This needs to be tuned to your individual robot
         public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
 
+        public static final LinearVelocity kSpeedAt12VoltsPIT = MetersPerSecond.of(4.73*.1);
+
+
         public static final double kSpeedMPS = 4.73;
 
         // The maximum acceleration of the robot in meters per second squared.
@@ -469,7 +474,10 @@ public final class Constants {
     private static final double kSteerGearRatio = 21.428571428571427;
 
     //2*(what it acutally is/what it thinks)in meters
-    private static final Distance kWheelRadius = Inches.of(2*(4.37/4.42));
+
+    //acutual is 95
+    //it thik.12
+    private static final Distance kWheelRadius = Inches.of(2*(2.83/2.95));
 
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;

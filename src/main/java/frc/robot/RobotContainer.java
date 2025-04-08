@@ -168,6 +168,12 @@ public class RobotContainer {
 
                 xDrive.b().toggleOnTrue(new RunIntake());
 
+                //TAGS:
+                /**
+                 *red: 6,7,8,9,10,11
+                 *blue: 17,18,19,20,21,22
+                 */
+
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract());
                 xDrive.a().toggleOnTrue(IntakeFactory.algaeIn());
