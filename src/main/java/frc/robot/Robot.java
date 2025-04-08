@@ -179,6 +179,8 @@ public class Robot extends TimedRobotstangs {
     thirdPieceRoLChooser.setDefaultOption("None", "");
     thirdPieceRoLChooser.addOption("Right", "R");
     thirdPieceRoLChooser.addOption("Left", "L");
+    thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - O1L");
+
 
     autoTab.add("Start Chooser", startChooser)
         .withSize(2, 1)
@@ -237,6 +239,9 @@ public class Robot extends TimedRobotstangs {
 
     NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
     NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4Position());
+
+    NamedCommands.registerCommand("L3 Position", ScoringFactory.L3PositionAuto());
+
 
 
 

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3377447802947597,
-        "y": 6.342487718340611
+        "x": 2.298929794520548,
+        "y": 6.030928938356165
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.2500413653111355,
-        "y": 6.1937529851255455
+        "x": 4.233781851942304,
+        "y": 5.1197250058632875
       },
       "isLocked": false,
       "linkedName": "Open Feeder End"
@@ -20,8 +20,8 @@
         "y": 5.294670376712329
       },
       "prevControl": {
-        "x": 3.902029032478166,
-        "y": 5.797892074918122
+        "x": 3.911622796915206,
+        "y": 5.486482221056107
       },
       "nextControl": null,
       "isLocked": false,
@@ -69,7 +69,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -93.76980200962834
+    "rotation": -150.0
   },
   "useDefaultConstraints": true
 }

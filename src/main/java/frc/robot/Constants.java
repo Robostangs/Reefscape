@@ -301,6 +301,9 @@ public final class Constants {
     public static class L3 {
       public static final double kElevatorPos = 1.08;
       public static final double kArmScoringPosition = .367;
+      public static final double kArmPosAuto = -0.635;
+
+      
       public static final double kELevatorAlgaepos = 1.18;
       public static final double kArmAlgaePos = -0.75;
     }

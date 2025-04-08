@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.563717504776202,
-        "y": 6.160523420442139
+        "x": 7.19730308219178,
+        "y": 6.24128852739726
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.914660524265667,
-        "y": 5.874828263257114
+        "x": 6.548246101681245,
+        "y": 5.955593370212235
       },
       "isLocked": false,
       "linkedName": "Open Start"
@@ -48,7 +48,7 @@
   "eventMarkers": [
     {
       "name": "L4 Position",
-      "waypointRelativePos": 0.4556324602122015,
+      "waypointRelativePos": 0.15254237288135575,
       "endWaypointRelativePos": null,
       "command": null
     }
