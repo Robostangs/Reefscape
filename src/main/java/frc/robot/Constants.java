@@ -104,7 +104,7 @@ public final class Constants {
     public static final double kAlgaeOutSetpoint = 0.125;
 
     public static final double kAlgaeFF = 0.4;
-    public static final double kIntakeSpeed = 0.6;
+    public static final double kIntakeSpeed = 0.;
   }
 
   public static class EndeffectorConstants {
@@ -199,7 +199,7 @@ public final class Constants {
     public static final boolean kIsLeftInvert = true;
 
     public static final double kHomePosition = 0.97155;
-    public static final double kSafeArmElevatorPosition =0.92;
+    public static final double kSafeArmElevatorPosition =0.895;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
     public static final double kElevatorZeroPose = 0.0;
     public static final double kElevatorTargetPosition = 0.5;
@@ -280,10 +280,9 @@ public final class Constants {
     public static final double spitTimeout = 1.5;
 
     public static class L1 {
-      public static final double kArmScoringPosition = .37;
-      public static final double kElevatorStart = 0.5;
-      public static final double kArmSafePosition = 0;
-      public static final double kElevatorEnd = 0;
+      public static final double kArmScoringPosition = -0.317;
+      public static final double kElevatorStart = 1.23;
+      
     }
 
     public static class L2 {

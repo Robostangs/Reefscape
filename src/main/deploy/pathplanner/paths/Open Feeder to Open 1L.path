@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.756421232876712,
-        "y": 5.1293878424657535
+        "x": 3.831549657534247,
+        "y": 5.024208047945206
       },
       "prevControl": {
-        "x": 3.5459921066672755,
-        "y": 5.264367777429188
+        "x": 3.6211205313248103,
+        "y": 5.15918798290864
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.3505056366047746,
+      "minWaypointRelativePos": 0.3254237288135594,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 2.0,
-        "maxAcceleration": 3.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -53,7 +53,7 @@
       "command": {
         "type": "named",
         "data": {
-          "name": "L4 Position regular"
+          "name": "L4 Position"
         }
       }
     }

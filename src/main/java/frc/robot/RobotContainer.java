@@ -209,14 +209,15 @@ public class RobotContainer {
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
-                                // ScoringFactory.L4PositionAuto()
-                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
+                                ScoringFactory.L4PositionAutoStupid()
+                                // ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
+                                );
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.y().toggleOnTrue(
                                 ScoringFactory.L2Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.x().toggleOnTrue(
-                                ScoringFactory.SourceIntake().andThen(ScoringFactory.SmartStow()));
+                                ScoringFactory.L1Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
 
                 xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgaeL3());
                 xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
