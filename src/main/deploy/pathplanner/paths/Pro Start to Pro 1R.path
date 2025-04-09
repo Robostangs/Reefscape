@@ -67,7 +67,7 @@
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 91.74426616692426
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

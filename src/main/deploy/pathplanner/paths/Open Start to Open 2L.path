@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.548246101681245,
-        "y": 5.955593370212235
+        "x": 6.614056500514653,
+        "y": 6.022064253622441
       },
       "isLocked": false,
       "linkedName": "Open Start"
@@ -20,8 +20,8 @@
         "y": 5.144413527397259
       },
       "prevControl": {
-        "x": 5.3217051064698815,
-        "y": 5.246965713612084
+        "x": 5.306009382858735,
+        "y": 5.276427843528189
       },
       "nextControl": null,
       "isLocked": false,
@@ -69,7 +69,7 @@
   "folder": "Start to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

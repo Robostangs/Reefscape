@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.17858372518461,
-        "y": 6.267605835677593
+        "x": 3.200536966577463,
+        "y": 4.485567312070468
       },
       "isLocked": false,
       "linkedName": "Open Feeder End"
@@ -20,8 +20,8 @@
         "y": 4.331500324099345
       },
       "prevControl": {
-        "x": 1.249679776974796,
-        "y": 3.900653472609183
+        "x": 3.0203576147587756,
+        "y": 4.521657964398167
       },
       "nextControl": null,
       "isLocked": false,

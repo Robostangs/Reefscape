@@ -123,7 +123,7 @@ public class IntakePivot extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // pivotMotor.setControl(pivotControl);
+        pivotMotor.setControl(pivotControl);
 
         // Robot.verifyMotor(pivotMotor);
 
