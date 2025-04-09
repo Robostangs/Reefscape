@@ -95,6 +95,7 @@ public class Robot extends TimedRobotstangs {
   Command lastEndaffector;
   Command lastArm;
   Command lastAlgaeffector;
+  SequentialCommandGroup autoGroup;
   private static String autoName = "";
 
   // Autos
@@ -115,7 +116,7 @@ public class Robot extends TimedRobotstangs {
   private static Alert nullAuto = new Alert("Null auto", AlertType.kWarning);
   private static Alert publishfail = new Alert("Publishing failed", AlertType.kError);
   private static Alert noAutoSelected = new Alert("No Auto Selected", AlertType.kWarning);
-  private static Alert ShittyAlert = new Alert("We going forward ", AlertType.kInfo);
+  private static Alert PissingAlert = new Alert("We going forward ", AlertType.kInfo);
   private Timer timer = new Timer();
 
   private String oldAutoName = "";
@@ -138,7 +139,9 @@ public class Robot extends TimedRobotstangs {
     disTab = Shuffleboard.getTab("Disabled");
 
     startChooser.setDefaultOption("Shit and Shit", "");
-    startChooser.addOption("Forward", "shitting");
+    startChooser.addOption("Forward", "Pissing");
+    startChooser.addOption("Dumb L4", "Shitting");
+
     startChooser.addOption("PTP to Center 2R ", "PTP");
     startChooser.addOption("Center", "CStart");
     startChooser.addOption("Open", "OStart");
@@ -179,7 +182,7 @@ public class Robot extends TimedRobotstangs {
     thirdPieceRoLChooser.setDefaultOption("None", "");
     thirdPieceRoLChooser.addOption("Right", "R");
     thirdPieceRoLChooser.addOption("Left", "L");
-    thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - O1L");
+    thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - C1L");
 
 
     autoTab.add("Start Chooser", startChooser)
@@ -478,15 +481,52 @@ public class Robot extends TimedRobotstangs {
         firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-    if (!autoName.equals(oldAutoName)) {
-      publishTrajectory(autoName);
-      oldAutoName = autoName;
-    }
 
+    
+        if (!autoName.equals(oldAutoName)) {
+          publishTrajectory(autoName);
+          oldAutoName = autoName;
+        }
+    
+    
   }
 
   @Override
   public void disabledExit() {
+
+    if (autoName.equals("Pissing")) {
+      drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
+      autoCommand = CommandSwerveDrivetrain.getInstance()
+          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*-0.5))
+          .withTimeout(.8);
+
+    } 
+    else if(autoName.equals("Shitting")){
+        drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
+        autoCommand = CommandSwerveDrivetrain.getInstance()
+            .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
+                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*-0.5))
+            .withTimeout(.75).andThen(ScoringFactory.L4Position().andThen(new Spit().withTimeout(0.5)).andThen(ScoringFactory.Stow()));
+  
+      
+    }
+    else if (!autoName.equals("")) {
+      autoCommand = new PathPlannerAuto(autoName);
+    } else {
+      autoCommand = new PrintCommand("doing nothing!");
+    }
+
+    autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2)
+        // new HomeElevator().withTimeout(0.2),
+        // (ScoringFactory.SmartStow()).withTimeout(0.3)
+        );
+
+    autoGroup.addCommands(
+        new InstantCommand(timer::restart),
+        new WaitUntilCommand(() -> timer.get() > pathDelay.getDouble(0)),
+        autoCommand,
+        new InstantCommand(timer::stop));
 
   }
 
@@ -497,30 +537,6 @@ public class Robot extends TimedRobotstangs {
     IntakePivot.getInstance().point3Intake();
     Climber.getInstance().zeroClimber();
     Elevator.getInstance().setHomePositionElevator();
-
-    if (autoName.equals("shitting")) {
-      drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? 180 : 0));
-      autoCommand = CommandSwerveDrivetrain.getInstance()
-          .applyRequest(() -> new SwerveRequest.RobotCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.5))
-          .withTimeout(1d);
-
-    } else if (!autoName.equals("")) {
-      autoCommand = new PathPlannerAuto(autoName);
-    } else {
-      autoCommand = new PrintCommand("doing nothing!");
-    }
-
-    SequentialCommandGroup autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2)
-        // new HomeElevator().withTimeout(0.2),
-        // (ScoringFactory.SmartStow()).withTimeout(0.3)
-        );
-
-    autoGroup.addCommands(
-        new InstantCommand(timer::restart),
-        new WaitUntilCommand(() -> timer.get() > pathDelay.getDouble(0)),
-        autoCommand,
-        new InstantCommand(timer::stop));
 
     autoGroup.schedule();
 
@@ -591,8 +607,8 @@ public class Robot extends TimedRobotstangs {
       return;
     }
 
-    if (autoName.equals("shitting")) {
-      ShittyAlert.set(true);
+    if (autoName.equals("Pissing")) {
+      PissingAlert.set(true);
     }
     // we are going to use the auto name so this is the last auto we published
     else {
@@ -629,7 +645,7 @@ public class Robot extends TimedRobotstangs {
       nullAuto.set(false);
       publishfail.set(false);
       noAutoSelected.set(false);
-      ShittyAlert.set(false);
+      PissingAlert.set(false);
     } catch (RuntimeException e) {
       // if we call it and we have a null auto name when we are publishing it
       System.out.println("Null Auto: " + autoName);

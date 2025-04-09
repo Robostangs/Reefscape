@@ -50,9 +50,14 @@
   "eventMarkers": [
     {
       "name": "Schloop",
-      "waypointRelativePos": 1.6868783156498666,
+      "waypointRelativePos": 1.6949152542372867,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Schloop"
+        }
+      }
     }
   ],
   "globalConstraints": {

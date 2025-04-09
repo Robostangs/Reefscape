@@ -36,7 +36,12 @@
       "name": "Ground Intake",
       "waypointRelativePos": 0.43249544098143233,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Ground Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {

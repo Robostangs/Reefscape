@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class 
-IntakeWheels extends SubsystemBase {
+public class IntakeWheels extends SubsystemBase {
     private TalonFX intakeMotor;
     private static IntakeWheels mInstance;
     private DigitalInput IntakeSensor;
