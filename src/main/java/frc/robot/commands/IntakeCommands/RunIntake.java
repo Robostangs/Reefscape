@@ -19,6 +19,9 @@ public class RunIntake extends Command {
   public static Runnable AlgaeFF = () -> {
       IntakeWheels.getInstance().runDutyCycleIntake(Constants.IntakeConstants.kAlgaeFF);
   };
+  public static Runnable AlgaeOut = () -> {
+    IntakeWheels.getInstance().runDutyCycleIntake(Constants.IntakeConstants.kAlgaeOut);
+};
   @Override
   public void initialize() {
 

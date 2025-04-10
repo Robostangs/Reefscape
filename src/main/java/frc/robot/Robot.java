@@ -21,7 +21,11 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoCamera;
+import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -65,8 +69,6 @@ import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
 
-
-
 public class Robot extends TimedRobotstangs {
 
   private final RobotContainer m_robotContainer;
@@ -81,7 +83,7 @@ public class Robot extends TimedRobotstangs {
   private static Alert CANcoderAlert = new Alert("Can tweaking", AlertType.kError);
   private static Alert MotorAlert = new Alert("Can tweaking", AlertType.kError);
   public boolean testConfigured = false;
-	public static SendableChooser<Command> SwerveCommands = new SendableChooser<>();
+  public static SendableChooser<Command> SwerveCommands = new SendableChooser<>();
   public static SendableChooser<Command> ElevatorCommands = new SendableChooser<>();
   public static SendableChooser<Command> IntakeCommands = new SendableChooser<>();
   public static SendableChooser<Command> EndeffectorCommands = new SendableChooser<>();
@@ -123,6 +125,8 @@ public class Robot extends TimedRobotstangs {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
+    CameraServer.startAutomaticCapture();
+
   }
 
   /**
@@ -184,7 +188,6 @@ public class Robot extends TimedRobotstangs {
     thirdPieceRoLChooser.addOption("Left", "L");
     thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - C1L");
 
-
     autoTab.add("Start Chooser", startChooser)
         .withSize(2, 1)
         .withPosition(0, 0);
@@ -233,9 +236,8 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
-      teleopTab.add("Coral Camera", new HttpCamera(Constants.VisionConstants.kLimelightThree, Constants.VisionConstants.kLimelightRightSideIP));
-
-
+    teleopTab.add("Daredevil",
+        new HttpCamera(Constants.VisionConstants.kEyeCameraName, Constants.VisionConstants.kEyeCameraIP));
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
@@ -244,9 +246,6 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4Position());
 
     NamedCommands.registerCommand("L3 Position", ScoringFactory.L3PositionAuto());
-
-
-
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.4));
 
@@ -257,132 +256,129 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Stow", ScoringFactory.SmartStow());
     NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.4));
 
-
   }
-  @Override
-  public void testInit(){  
-    if (!testConfigured) {
-    //swerve drivetrain
-    SwerveCommands.setDefaultOption("Do nothin(basically reseting the gyro)",
-      CommandSwerveDrivetrain.getInstance()
-        .runOnce(() -> CommandSwerveDrivetrain.getInstance()
-          .resetPose(!Robot.isRed()
-          ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
-          : FlippingUtil
-            .flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose)
-        )));
 
-    SwerveCommands.addOption("Drive forward",
-    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityX(
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
-      .withName("Drive Forward"));
-    
-    SwerveCommands.addOption("Drive Backward",
-    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityX(
-          -Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
-      .withName("Drive Backward"));
-        
-    SwerveCommands.addOption("Drive Left",
-    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityY(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
-      .withName("Drive Left"));
-    
-    SwerveCommands.addOption("Drive Right",
-    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
-      .withVelocityY(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
-      .withName("Drive Right"));
-    
-    SwerveCommands.addOption("Rotate",
-    CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
-      .withRotationalRate(
-        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond))
-      .withName("Rotate"));
+  @Override
+  public void testInit() {
+    if (!testConfigured) {
+      // swerve drivetrain
+      SwerveCommands.setDefaultOption("Do nothin(basically reseting the gyro)",
+          CommandSwerveDrivetrain.getInstance()
+              .runOnce(() -> CommandSwerveDrivetrain.getInstance()
+                  .resetPose(!Robot.isRed()
+                      ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+                      : FlippingUtil
+                          .flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose))));
+
+      SwerveCommands.addOption("Drive forward",
+          CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+              .withVelocityX(
+                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
+              .withName("Drive Forward"));
+
+      SwerveCommands.addOption("Drive Backward",
+          CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+              .withVelocityX(
+                  -Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
+              .withName("Drive Backward"));
+
+      SwerveCommands.addOption("Drive Left",
+          CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+              .withVelocityY(
+                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
+              .withName("Drive Left"));
+
+      SwerveCommands.addOption("Drive Right",
+          CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
+              .withVelocityY(
+                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
+              .withName("Drive Right"));
+
+      SwerveCommands.addOption("Rotate",
+          CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
+              .withRotationalRate(
+                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond))
+              .withName("Rotate"));
 
       testTab.add("Swerve", SwerveCommands)
-        .withSize(2, 1)
-        .withPosition(0, 0);  
-    //Elevator
-    ElevatorCommands.setDefaultOption("nothin",  
-    Elevator.getInstance()
-        .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
-        
+          .withSize(2, 1)
+          .withPosition(0, 0);
+      // Elevator
+      ElevatorCommands.setDefaultOption("nothin",
+          Elevator.getInstance()
+              .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
 
-    ElevatorCommands.addOption("Elevator up", new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));
-    ElevatorCommands.addOption("Elevator down", new SetElevatorDutyCycle(() -> -Constants.ElevatorConstants.ktestDutyCycle));
-    ElevatorCommands.addOption("L3", new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos));
-    ElevatorCommands.addOption("L2", new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd));
-    ElevatorCommands.addOption("L4", new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
-    ElevatorCommands.addOption("Stow", new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos));
-    ElevatorCommands.addOption("Home Elevator", new HomeElevator());
-    testTab.add("Elevator", ElevatorCommands)
-      .withSize(2, 1)
-      .withPosition(0, 1);
-    
-    
-    //Intake
-    IntakeCommands.setDefaultOption("nothin",
-    IntakePivot.getInstance()
-      .runOnce(() -> IntakePivot.getInstance().setPiviotDutyCycle(0)));
+      ElevatorCommands.addOption("Elevator up",
+          new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));
+      ElevatorCommands.addOption("Elevator down",
+          new SetElevatorDutyCycle(() -> -Constants.ElevatorConstants.ktestDutyCycle));
+      ElevatorCommands.addOption("L3", new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos));
+      ElevatorCommands.addOption("L2", new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd));
+      ElevatorCommands.addOption("L4", new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
+      ElevatorCommands.addOption("Stow", new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos));
+      ElevatorCommands.addOption("Home Elevator", new HomeElevator());
+      testTab.add("Elevator", ElevatorCommands)
+          .withSize(2, 1)
+          .withPosition(0, 1);
 
-    IntakeCommands.addOption("Extend", new Extend());
-    IntakeCommands.addOption("Retract", new Retract());
-    IntakeCommands.addOption("RunIntake", new RunIntake());
-    IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
-    
-    testTab.add("IntakeCommadns", IntakeCommands)
-      .withSize(2, 1)
-      .withPosition(0, 2);
-    
-    //endeffector
-    EndeffectorCommands.setDefaultOption("nothin", 
-    Endeffector.getInstance()
-      .runOnce(() -> Endeffector.getInstance().setEneffdector(0)));
+      // Intake
+      IntakeCommands.setDefaultOption("nothin",
+          IntakePivot.getInstance()
+              .runOnce(() -> IntakePivot.getInstance().setPiviotDutyCycle(0)));
 
-    EndeffectorCommands.addOption("Spit", new Spit());
-    EndeffectorCommands.addOption("Slurp", new Slurp());
-    testTab.add("EndeffectorCommands", EndeffectorCommands)
-      .withSize(2, 1)
-      .withPosition(0, 3);
-    
-    //Arm
-    ArmCommands.setDefaultOption("Nothin", 
-    Arm.getInstance()
-      .runOnce(() -> Arm.getInstance().setArmDutyCycle(0)));
+      IntakeCommands.addOption("Extend", new Extend());
+      IntakeCommands.addOption("Retract", new Retract());
+      IntakeCommands.addOption("RunIntake", new RunIntake());
+      IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
 
-    ArmCommands.addOption("postive", new SetArmDutyCycle(() -> Constants.ArmConstants.kArmDutyCycle));
-    ArmCommands.addOption("negative", new SetArmDutyCycle(() -> -Constants.ArmConstants.kArmDutyCycle));
-    ArmCommands.addOption("L4", new SetArmPosition(Constants.ScoringConstants.L4.kArmScoringPosition));
-    ArmCommands.addOption("L3", new SetArmPosition(Constants.ScoringConstants.L3.kArmScoringPosition));
-    ArmCommands.addOption("L2", new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition));
-    ArmCommands.addOption("Stow", new SetArmPosition(Constants.ScoringConstants.Stow.kArmStowPos));
-    testTab.add("ArmCommands", ArmCommands)
-      .withSize(2, 1)
-      .withPosition(0, 4);
-    //climber
-    ClimberCommands.setDefaultOption("Nothin",
-      Climber.getInstance()
-        .runOnce(() -> Climber.getInstance().runClimber(0)));
-    ClimberCommands.addOption("Deploy", new Deploy(true));
-    ClimberCommands.addOption("Reel", new Reel(true));
-    testTab.add("ClimberCommands", ClimberCommands)
-      .withSize(2, 1)
-      .withPosition(0, 5);
+      testTab.add("IntakeCommadns", IntakeCommands)
+          .withSize(2, 1)
+          .withPosition(0, 2);
 
-    //Algaeffector
-    // AlgaeffectorCommands.setDefaultOption("Nothin", new InstantCommand());
-    //   Algaeffector.getInstance()
-    //     .runOnce(() -> Algaeffector.getInstance().setDutyCycle(0));
-    // AlgaeffectorCommands.addOption("Slurp", new Slurp());
-    // AlgaeffectorCommands.addOption("Spit", new Spit());
-    // testTab.add("AlgaeffectorCommands", AlgaeffectorCommands)
-    //   .withSize(2, 1)
-    //   .withPosition(0, 6);
+      // endeffector
+      EndeffectorCommands.setDefaultOption("nothin",
+          Endeffector.getInstance()
+              .runOnce(() -> Endeffector.getInstance().setEneffdector(0)));
 
+      EndeffectorCommands.addOption("Spit", new Spit());
+      EndeffectorCommands.addOption("Slurp", new Slurp());
+      testTab.add("EndeffectorCommands", EndeffectorCommands)
+          .withSize(2, 1)
+          .withPosition(0, 3);
 
+      // Arm
+      ArmCommands.setDefaultOption("Nothin",
+          Arm.getInstance()
+              .runOnce(() -> Arm.getInstance().setArmDutyCycle(0)));
+
+      ArmCommands.addOption("postive", new SetArmDutyCycle(() -> Constants.ArmConstants.kArmDutyCycle));
+      ArmCommands.addOption("negative", new SetArmDutyCycle(() -> -Constants.ArmConstants.kArmDutyCycle));
+      ArmCommands.addOption("L4", new SetArmPosition(Constants.ScoringConstants.L4.kArmScoringPosition));
+      ArmCommands.addOption("L3", new SetArmPosition(Constants.ScoringConstants.L3.kArmScoringPosition));
+      ArmCommands.addOption("L2", new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition));
+      ArmCommands.addOption("Stow", new SetArmPosition(Constants.ScoringConstants.Stow.kArmStowPos));
+      testTab.add("ArmCommands", ArmCommands)
+          .withSize(2, 1)
+          .withPosition(0, 4);
+      // climber
+      ClimberCommands.setDefaultOption("Nothin",
+          Climber.getInstance()
+              .runOnce(() -> Climber.getInstance().runClimber(0)));
+      ClimberCommands.addOption("Deploy", new Deploy(true));
+      ClimberCommands.addOption("Reel", new Reel(true));
+      testTab.add("ClimberCommands", ClimberCommands)
+          .withSize(2, 1)
+          .withPosition(0, 5);
+
+      // Algaeffector
+      // AlgaeffectorCommands.setDefaultOption("Nothin", new InstantCommand());
+      // Algaeffector.getInstance()
+      // .runOnce(() -> Algaeffector.getInstance().setDutyCycle(0));
+      // AlgaeffectorCommands.addOption("Slurp", new Slurp());
+      // AlgaeffectorCommands.addOption("Spit", new Spit());
+      // testTab.add("AlgaeffectorCommands", AlgaeffectorCommands)
+      // .withSize(2, 1)
+      // .withPosition(0, 6);
 
       lastSwerve = SwerveCommands.getSelected();
       lastArm = ArmCommands.getSelected();
@@ -395,33 +391,33 @@ public class Robot extends TimedRobotstangs {
     testConfigured = true;
 
   }
-@Override
-  public void testPeriodic() {
-    
-		if (SwerveCommands.getSelected() != lastSwerve) {
-			SwerveCommands.getSelected().schedule();
-		}
 
-		if (ArmCommands.getSelected() != lastArm) {
-			ArmCommands.getSelected().schedule();
-		}
-    if (ElevatorCommands.getSelected() != lastElevator){
+  @Override
+  public void testPeriodic() {
+
+    if (SwerveCommands.getSelected() != lastSwerve) {
+      SwerveCommands.getSelected().schedule();
+    }
+
+    if (ArmCommands.getSelected() != lastArm) {
+      ArmCommands.getSelected().schedule();
+    }
+    if (ElevatorCommands.getSelected() != lastElevator) {
       ElevatorCommands.getSelected().schedule();
     }
-    if (ClimberCommands.getSelected() != lastClimber){
+    if (ClimberCommands.getSelected() != lastClimber) {
       ClimberCommands.getSelected().schedule();
     }
-    if (IntakeCommands.getSelected() != lastIntake){
+    if (IntakeCommands.getSelected() != lastIntake) {
       IntakeCommands.getSelected().schedule();
     }
-    if (EndeffectorCommands.getSelected() != lastEndaffector){
+    if (EndeffectorCommands.getSelected() != lastEndaffector) {
       EndeffectorCommands.getSelected().schedule();
     }
-    if (AlgaeffectorCommands.getSelected() != lastAlgaeffector){
+    if (AlgaeffectorCommands.getSelected() != lastAlgaeffector) {
       AlgaeffectorCommands.getSelected().schedule();
     }
 
-		
     lastSwerve = SwerveCommands.getSelected();
     lastArm = ArmCommands.getSelected();
     lastElevator = ElevatorCommands.getSelected();
@@ -432,8 +428,6 @@ public class Robot extends TimedRobotstangs {
 
   }
 
-    
-      
   @Override
   public void robotPeriodic() {
     SmartDashboard.putString("Scoring Enum", ScoringFactory.ScoreState.name());
@@ -451,8 +445,6 @@ public class Robot extends TimedRobotstangs {
 
     CommandScheduler.getInstance().run();
   }
-
-   
 
   @Override
   public void driverStationConnected() {
@@ -481,14 +473,11 @@ public class Robot extends TimedRobotstangs {
         firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
         + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
+    if (!autoName.equals(oldAutoName)) {
+      publishTrajectory(autoName);
+      oldAutoName = autoName;
+    }
 
-    
-        if (!autoName.equals(oldAutoName)) {
-          publishTrajectory(autoName);
-          oldAutoName = autoName;
-        }
-    
-    
   }
 
   @Override
@@ -498,29 +487,27 @@ public class Robot extends TimedRobotstangs {
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*-0.5))
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.5))
           .withTimeout(.8);
 
-    } 
-    else if(autoName.equals("Shitting")){
-        drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
-        autoCommand = CommandSwerveDrivetrain.getInstance()
-            .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-                Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*-0.5))
-            .withTimeout(.75).andThen(ScoringFactory.L4Position().andThen(new Spit().withTimeout(0.5)).andThen(ScoringFactory.Stow()));
-  
-      
-    }
-    else if (!autoName.equals("")) {
+    } else if (autoName.equals("Shitting")) {
+      drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
+      autoCommand = CommandSwerveDrivetrain.getInstance()
+          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
+              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.5))
+          .withTimeout(.75)
+          .andThen(ScoringFactory.L4Position().andThen(new Spit().withTimeout(0.5)).andThen(ScoringFactory.Stow()));
+
+    } else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
       autoCommand = new PrintCommand("doing nothing!");
     }
 
     autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2)
-        // new HomeElevator().withTimeout(0.2),
-        // (ScoringFactory.SmartStow()).withTimeout(0.3)
-        );
+    // new HomeElevator().withTimeout(0.2),
+    // (ScoringFactory.SmartStow()).withTimeout(0.3)
+    );
 
     autoGroup.addCommands(
         new InstantCommand(timer::restart),
@@ -567,11 +554,11 @@ public class Robot extends TimedRobotstangs {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    // if(LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour) != null){
-      SmartDashboard.putNumber("ID Seen", LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour));
-    }
+    // if(LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour)
+    // != null){
+    SmartDashboard.putNumber("ID Seen", LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour));
+  }
   // }
-
 
   /** This function is called once when the robot is first started up. */
   @Override
@@ -590,7 +577,6 @@ public class Robot extends TimedRobotstangs {
    * @param autoName what auto you want to publish
    */
   public static void publishTrajectory(String autoName) {
-
 
     PathPlannerAuto auto = new PathPlannerAuto(autoName);
     if (autoName == null) {
@@ -659,7 +645,6 @@ public class Robot extends TimedRobotstangs {
       e.printStackTrace();
     }
 
-    
     Robot.teleopField.getObject(Constants.SwerveConstants.AutoConstants.kFieldObjectName).setPoses(poses);
   }
 

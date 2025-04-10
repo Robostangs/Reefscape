@@ -38,7 +38,7 @@ public class IntakeFactory {
      * @return A command that extends the intake and runs the wheels
      */
     public static Command algaeOut() {
-        return new AlgaeOut();
+        return new AlgaeOut().finallyDo(RunIntake.AlgaeOut);
         // alongWith(new RunIntake()).finallyDo(RunIntake.AlgaeFF);
     }
 
