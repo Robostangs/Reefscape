@@ -103,8 +103,9 @@ public final class Constants {
     public static final double kAlgaeInSetpoint = 0;
     public static final double kAlgaeOutSetpoint = 0.125;
 
-    public static final double kAlgaeFF = 0.4;
-    public static final double kIntakeSpeed = 0.;
+    public static final double kAlgaeFF = 0.7;
+    public static final double kIntakeSpeed = 0.6;
+    public static final double kAlgaeIntake = 0.8;
   }
 
   public static class EndeffectorConstants {
@@ -199,7 +200,7 @@ public final class Constants {
     public static final boolean kIsLeftInvert = true;
 
     public static final double kHomePosition = 0.97155;
-    public static final double kSafeArmElevatorPosition =0.895;
+    public static final double kSafeArmElevatorPosition =0.924;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
     public static final double kElevatorZeroPose = 0.0;
     public static final double kElevatorTargetPosition = 0.5;

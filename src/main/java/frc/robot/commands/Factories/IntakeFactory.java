@@ -9,8 +9,10 @@ import frc.robot.commands.IntakeCommands.AlgaeOut;
 import frc.robot.commands.IntakeCommands.Algaeintake;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Heimlich;
+import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
+import frc.robot.commands.IntakeCommands.RunIntakeAlgae;
 import frc.robot.commands.IntakeCommands.Untake;
 
 public class IntakeFactory {
@@ -41,7 +43,7 @@ public class IntakeFactory {
     }
 
     public static Command algaeIn() {
-        return new Algaeintake().alongWith(new RunIntake()).finallyDo(RunIntake.AlgaeFF);
+        return new Algaeintake().alongWith(new RunIntakeAlgae()).finallyDo(RunIntake.AlgaeFF);
         // .alongWith(new Untake())
     }
     /**
