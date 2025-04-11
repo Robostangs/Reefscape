@@ -382,13 +382,24 @@ public class Robot extends TimedRobotstangs {
 
       lastSwerve = SwerveCommands.getSelected();
       lastArm = ArmCommands.getSelected();
-      lastElevator = new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle);
+      lastElevator = ElevatorCommands.getSelected();
       lastClimber = ClimberCommands.getSelected();
       lastIntake = IntakeCommands.getSelected();
       lastEndaffector = EndeffectorCommands.getSelected();
       lastAlgaeffector = AlgaeffectorCommands.getSelected();
     }
     testConfigured = true;
+
+  }
+
+  @Override
+  public void testExit() {
+    SwerveCommands.close();
+    ArmCommands.close();
+    ElevatorCommands.close();
+    ClimberCommands.close();
+    IntakeCommands.close();
+    EndeffectorCommands.close();
 
   }
 

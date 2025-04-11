@@ -216,7 +216,7 @@ public final class Constants {
     public static final Vector<N3> kErrorInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightFour = "limelight-score";
     public static final String kLimelightThree = "limelight-right";
-    public static final String kEyeCameraIP = "http://10.5.48.2:1181";
+    public static final String kEyeCameraIP = "http://10.5.48.11:5800/stream.mjpg";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kLL4SeedMaxWz = 1;
