@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.831549657534247,
-        "y": 5.024208047945206
+        "x": 3.7714469178082193,
+        "y": 5.0392337328767125
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.99726483636605,
-        "y": 6.789038443743644
+        "x": 3.937162096640022,
+        "y": 6.804064128675151
       },
       "isLocked": false,
       "linkedName": "Open 1L"
@@ -36,7 +36,12 @@
       "name": "Ground Intake",
       "waypointRelativePos": 0.4712574602122016,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Ground Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {

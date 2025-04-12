@@ -138,7 +138,7 @@ public class ScoringFactory {
         // .finallyDo(() -> {
         // ScoreState = ScoringPosition.L4;
         // }));
-        return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
+        return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos+0.05)
                 .alongWith(
                         new WaitUntilCommand(
                                 () -> Elevator.getInstance()

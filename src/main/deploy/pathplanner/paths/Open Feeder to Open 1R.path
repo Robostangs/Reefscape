@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.404109589041096,
-        "y": 5.685338184931506
+        "x": 2.7647260273972605,
+        "y": 5.985851883561644
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.711213692218811,
-        "y": 5.014099483519743
+        "x": 4.332245960458675,
+        "y": 5.2925811913604734
       },
       "isLocked": false,
       "linkedName": "Open Feeder End"
     },
     {
       "anchor": {
-        "x": 4.117037671232876,
+        "x": 4.041909246575343,
         "y": 5.189490582191781
       },
       "prevControl": {
-        "x": 3.877246274645628,
-        "y": 5.260201869287527
+        "x": 3.7993736215390093,
+        "y": 5.250124488450862
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.25762711864406784,
+      "minWaypointRelativePos": 0.1322033898305084,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -48,7 +48,7 @@
   "eventMarkers": [
     {
       "name": "L4 Score",
-      "waypointRelativePos": 0.09830508474576269,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

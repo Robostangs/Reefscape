@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.003553082191781,
-        "y": 5.024208047945206
+        "x": 5.108732876712329,
+        "y": 5.114362157534247
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8684549924851948,
-        "y": 6.789529867845981
+        "x": 3.9736347870057434,
+        "y": 6.879683977435022
       },
       "isLocked": false,
       "linkedName": "Open 2L"
@@ -53,7 +53,7 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.5,
+    "velocity": 1.5,
     "rotation": -150.0
   },
   "reversed": false,
