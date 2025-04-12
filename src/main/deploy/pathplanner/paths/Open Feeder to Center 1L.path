@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.298929794520548,
-        "y": 6.030928938356165
+        "x": 2.404109589041096,
+        "y": 5.685338184931506
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.200536966577463,
-        "y": 4.485567312070468
+        "x": 3.305716761098011,
+        "y": 4.1399765586458095
       },
       "isLocked": false,
       "linkedName": "Open Feeder End"
@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.23389830508474574,
+      "minWaypointRelativePos": 0.8033898305084743,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 2.0,

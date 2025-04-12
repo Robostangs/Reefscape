@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.524315068493151,
-        "y": 7.278060787671233
+        "x": 2.6144691780821914,
+        "y": 7.05267551369863
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2480605690910584,
-        "y": 7.235793118740626
+        "x": 1.803082191780822,
+        "y": 6.737136130136986
       },
       "isLocked": false,
       "linkedName": "Open Feeder"
     },
     {
       "anchor": {
-        "x": 1.712928082191781,
-        "y": 6.616930650684932
+        "x": 2.404109589041096,
+        "y": 5.685338184931506
       },
       "prevControl": {
-        "x": 1.6872370190654193,
-        "y": 7.106544040740879
-      },
-      "nextControl": {
-        "x": 1.7279378607974318,
-        "y": 6.330878316028479
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.298929794520548,
-        "y": 6.030928938356165
-      },
-      "prevControl": {
-        "x": 2.0040712896396733,
-        "y": 6.067953079027997
+        "x": 1.7279537671232876,
+        "y": 5.730415239726027
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "Schloop",
-      "waypointRelativePos": 1.6949152542372867,
+      "waypointRelativePos": 0.85,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -69,13 +53,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.5,
+    "velocity": 1.0,
     "rotation": -150.0
   },
   "reversed": false,
   "folder": "Feeder Clean Up",
   "idealStartingState": {
-    "velocity": 1.0,
+    "velocity": 2.5,
     "rotation": -150.0
   },
   "useDefaultConstraints": true

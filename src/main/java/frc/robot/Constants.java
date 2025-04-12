@@ -290,7 +290,7 @@ public final class Constants {
     }
 
     public static class L2 {
-      public static final double kElevatorStart = ElevatorConstants.kHomePosition;
+      public static final double kElevatorStart = ElevatorConstants.kHomePosition+.075;
       public static final double kElevatorStartAlg = 1.247;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
