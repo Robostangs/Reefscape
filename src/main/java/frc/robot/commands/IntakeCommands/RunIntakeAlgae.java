@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeWheels;
 
-public class RunIntake extends Command {
+public class RunIntakeAlgae extends Command {
 
     IntakeWheels intake;
 
     /**
      * A command that runs the intake wheels to intake the coral
      */
-    public RunIntake() {
+    public RunIntakeAlgae() {
         intake = IntakeWheels.getInstance();
         addRequirements(intake);
     }
@@ -19,14 +19,11 @@ public class RunIntake extends Command {
   public static Runnable AlgaeFF = () -> {
       IntakeWheels.getInstance().runDutyCycleIntake(Constants.IntakeConstants.kAlgaeFF);
   };
-  public static Runnable AlgaeOut = () -> {
-    IntakeWheels.getInstance().runDutyCycleIntake(Constants.IntakeConstants.kAlgaeOut);
-};
   @Override
   public void initialize() {
 
-    intake.postStatus("Intaking");
-    intake.runDutyCycleIntake(Constants.IntakeConstants.kIntakeSpeed);
+    intake.postStatus("Intaking Algae");
+    intake.runDutyCycleIntake(Constants.IntakeConstants.kAlgaeIntake);
 
   }
 
@@ -35,7 +32,7 @@ public class RunIntake extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    intake.postStatus("Coral In");
+    intake.postStatus("Algae In");
     intake.runDutyCycleIntake(0d);
 
 

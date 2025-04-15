@@ -347,7 +347,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             }
 
             if (isPosegoo(threePoseEsti)) {
-                // this.addVisionMeasurement(threePoseEsti.pose, threePoseEsti.timestampSeconds);
+                this.addVisionMeasurement(threePoseEsti.pose, threePoseEsti.timestampSeconds);
                 Robot.teleopField.getObject("Limelight Three Pose").setPose(threePoseEsti.pose);
             }
 

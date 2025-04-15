@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.071960616438356,
-        "y": 5.294670376712329
+        "x": 4.041909246575343,
+        "y": 5.189490582191781
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.48705862786572,
-        "y": 6.512277821370088
+        "x": 3.756421232876713,
+        "y": 6.181185787671233
       },
       "isLocked": false,
       "linkedName": "Open 1R"
     },
     {
       "anchor": {
-        "x": 2.5507931905021834,
-        "y": 7.4181576658024015
+        "x": 2.6144691780821914,
+        "y": 7.05267551369863
       },
       "prevControl": {
-        "x": 3.997626398744532,
-        "y": 7.154117341014362
+        "x": 3.455907534246575,
+        "y": 7.157855308219177
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,19 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Ground Intake",
+      "waypointRelativePos": 0.4711864406779661,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Ground Intake"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.73,
     "maxAcceleration": 3.0,
@@ -41,8 +53,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.5,
-    "rotation": -167.465397448505
+    "velocity": 1.5,
+    "rotation": -150.0
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",

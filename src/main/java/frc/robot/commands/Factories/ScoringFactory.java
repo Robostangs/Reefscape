@@ -9,6 +9,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
+import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
@@ -40,6 +41,7 @@ public class ScoringFactory {
     public static Command L2Position() {
 
         return new DeferredCommand(() -> {
+
             if (ScoreState.equals(ScoringPosition.L3) || ScoreState.equals(ScoringPosition.L4)) {
                 return new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition - 0.1).alongWith(
                         new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd))
@@ -48,12 +50,31 @@ public class ScoringFactory {
                             ScoreState = ScoringPosition.L2;
                         });
             } else {
-                return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStart).andThen(
-                        new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition))
-                        .andThen(new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd)
-                                .finallyDo(() -> {
-                                    ScoreState = ScoringPosition.L2;
-                                }));
+                if(ScoreState.equals(ScoringPosition.Stow)){
+                    return (new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStart).andThen(
+                        new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd)))
+                    .alongWith(
+                        new WaitUntilCommand(() -> Elevator.getInstance().getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                        .andThen(       
+                    new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition)))
+                        
+                                    .finallyDo(() -> {
+                                        ScoreState = ScoringPosition.L2;
+                                    });
+                }
+                else{
+                    return SmartStow().andThen((new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStart).andThen(
+                        new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd)))
+                    .alongWith(
+                        new WaitUntilCommand(() -> Elevator.getInstance().getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                        .andThen(       
+                    new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition)))
+                        
+                                    .finallyDo(() -> {
+                                        ScoreState = ScoringPosition.L2;
+                                    }));
+                }
+
             }
         }, Set.of(Arm.getInstance(), Elevator.getInstance()));
 
@@ -111,12 +132,51 @@ public class ScoringFactory {
     }
 
     public static Command L4PositionAuto() {
-        return new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos)
-                .andThen(new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
-                .andThen(new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
-                        .finallyDo(() -> {
-                            ScoreState = ScoringPosition.L4;
-                        }));
+        // return new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos)
+        // .andThen(new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
+        // .andThen(new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
+        // .finallyDo(() -> {
+        // ScoreState = ScoringPosition.L4;
+        // }));
+        return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos+0.05)
+                .alongWith(
+                        new WaitUntilCommand(
+                                () -> Elevator.getInstance()
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                                .onlyIf(() -> !Robot.isSimulation())
+                                .andThen(
+                                        new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.L4;
+                                }));
+    }
+
+    public static Command L4PositionAutoStupid() {
+        return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
+                .alongWith(
+                        new WaitUntilCommand(
+                                () -> Elevator.getInstance()
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                                .onlyIf(() -> !Robot.isSimulation())
+                                .andThen(
+                                        new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.L4;
+                                }));
+    }
+
+    public static Command L3PositionAuto() {
+        return new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos)
+                .alongWith(
+                        new WaitUntilCommand(
+                                () -> Elevator.getInstance()
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                                .onlyIf(() -> !Robot.isSimulation())
+                                .andThen(
+                                        new SetArmPosition(Constants.ScoringConstants.L3.kArmPosAuto))
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.L3;
+                                }));
     }
 
     /**
@@ -171,6 +231,25 @@ public class ScoringFactory {
     public static Command L3ScoreAuto() {
         return L3Position()
                 .andThen(new Spit().withTimeout(0.5));
+    }
+
+    public static Command L1Position() {
+        return new SetElevatorPosition(Constants.ScoringConstants.L1.kElevatorStart)
+                .alongWith(
+                        new WaitUntilCommand(
+                                () -> Elevator.getInstance()
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                                .onlyIf(() -> !Robot.isSimulation())
+                                .andThen(
+                                        new SetArmPosition(Constants.ScoringConstants.L1.kArmScoringPosition))
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.L3;
+                                }));
+    }
+
+    public static Command L1Score(Trigger manipBumper) {
+        return L1Position()
+                .andThen(new WaitUntilCommand(manipBumper)).andThen(new Slurp().onlyWhile(manipBumper));
     }
 
     // -0.643

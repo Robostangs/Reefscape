@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.756421232876712,
-        "y": 5.1293878424657535
+        "x": 3.7714469178082193,
+        "y": 5.0392337328767125
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9221364117085153,
-        "y": 6.894218238264192
+        "x": 3.937162096640022,
+        "y": 6.804064128675151
       },
       "isLocked": false,
       "linkedName": "Open 1L"
     },
     {
       "anchor": {
-        "x": 2.5507931905021834,
-        "y": 7.4181576658024015
+        "x": 2.6144691780821914,
+        "y": 7.05267551369863
       },
       "prevControl": {
-        "x": 2.8795015750344812,
-        "y": 7.835311834438845
+        "x": 3.200470890410959,
+        "y": 7.112778253424658
       },
       "nextControl": null,
       "isLocked": false,
@@ -36,7 +36,12 @@
       "name": "Ground Intake",
       "waypointRelativePos": 0.4712574602122016,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Ground Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -48,8 +53,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
-    "rotation": -167.465397448505
+    "velocity": 1.5,
+    "rotation": -150.0
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",

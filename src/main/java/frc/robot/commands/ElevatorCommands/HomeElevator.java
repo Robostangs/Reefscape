@@ -39,5 +39,4 @@ public class HomeElevator extends Command {
     public boolean isFinished() {
         return !elevator.getLimitSwitch();
     }
-
 }

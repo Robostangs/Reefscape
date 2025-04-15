@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3377447802947597,
-        "y": 6.342487718340611
+        "x": 2.7647260273972605,
+        "y": 5.985851883561644
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.720081046686885,
-        "y": 6.440861256110752
+        "x": 4.335917289491187,
+        "y": 4.6662927930907605
       },
       "isLocked": false,
       "linkedName": "Open Feeder End"
     },
     {
       "anchor": {
-        "x": 3.756421232876712,
-        "y": 5.1293878424657535
+        "x": 3.7714469178082193,
+        "y": 5.0392337328767125
       },
       "prevControl": {
-        "x": 3.531364714110262,
-        "y": 5.60864321779476
+        "x": 3.390164879890756,
+        "y": 5.318546239742641
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.3505056366047746,
+      "minWaypointRelativePos": 0.3254237288135594,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 2.0,
-        "maxAcceleration": 3.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -48,9 +48,14 @@
   "eventMarkers": [
     {
       "name": "L4 Score",
-      "waypointRelativePos": 0.48196079244031853,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "L4 Position"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -69,7 +74,7 @@
   "folder": "Feeder to Reef Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -93.76980200962834
+    "rotation": -150.0
   },
   "useDefaultConstraints": true
 }

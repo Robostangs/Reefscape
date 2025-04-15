@@ -101,10 +101,13 @@ public final class Constants {
     public static final double kMotionMagicAcceleration = 5;
     public static final double kHardstopPosition = 0.315;
     public static final double kAlgaeInSetpoint = 0;
-    public static final double kAlgaeOutSetpoint = 0.125;
+    public static final double kAlgaeOutSetpoint = 0.09;
 
-    public static final double kAlgaeFF = 0.4;
+    public static final double kAlgaeFF = 0.7;
+    public static final double kAlgaeOut = -0.2;
+
     public static final double kIntakeSpeed = 0.6;
+    public static final double kAlgaeIntake = 0.8;
   }
 
   public static class EndeffectorConstants {
@@ -199,7 +202,7 @@ public final class Constants {
     public static final boolean kIsLeftInvert = true;
 
     public static final double kHomePosition = 0.97155;
-    public static final double kSafeArmElevatorPosition =0.92;
+    public static final double kSafeArmElevatorPosition =0.924;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
     public static final double kElevatorZeroPose = 0.0;
     public static final double kElevatorTargetPosition = 0.5;
@@ -213,7 +216,7 @@ public final class Constants {
     public static final Vector<N3> kErrorInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightFour = "limelight-score";
     public static final String kLimelightThree = "limelight-right";
-    public static final String kLimelightRightSideIP = "http://10.5.48.12:5800/stream.mjpg";
+    public static final String kEyeCameraIP = "http://10.5.48.11:5800/stream.mjpg";
     public static final String kLimelightCoralName = "TheBEEPEE";
     public static final double kVisionAngularThreshold = 22.5;
     public static final double kLL4SeedMaxWz = 1;
@@ -224,6 +227,7 @@ public final class Constants {
     public static final double AmbiguityThreshold = 0.5;
     public static final double X_TOLERANCE_REEF_ALIGNMENT = 0;
     public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0;
+    public static final String kEyeCameraName = "Agamotto";
 
     
 
@@ -280,14 +284,13 @@ public final class Constants {
     public static final double spitTimeout = 1.5;
 
     public static class L1 {
-      public static final double kArmScoringPosition = .37;
-      public static final double kElevatorStart = 0.5;
-      public static final double kArmSafePosition = 0;
-      public static final double kElevatorEnd = 0;
+      public static final double kArmScoringPosition = -0.317;
+      public static final double kElevatorStart = 1.23;
+      
     }
 
     public static class L2 {
-      public static final double kElevatorStart = ElevatorConstants.kHomePosition;
+      public static final double kElevatorStart = ElevatorConstants.kHomePosition+.075;
       public static final double kElevatorStartAlg = 1.247;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
@@ -301,6 +304,9 @@ public final class Constants {
     public static class L3 {
       public static final double kElevatorPos = 1.08;
       public static final double kArmScoringPosition = .367;
+      public static final double kArmPosAuto = -0.635;
+
+      
       public static final double kELevatorAlgaepos = 1.18;
       public static final double kArmAlgaePos = -0.75;
     }
