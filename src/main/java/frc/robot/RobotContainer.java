@@ -209,7 +209,7 @@ public class RobotContainer {
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
-                                // ScoringFactory.L4PositionAuto()
+                                // ScoringFactory.L4Pos0itionAuto()
                                 ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
                                 );
                 xManip.b().toggleOnTrue(

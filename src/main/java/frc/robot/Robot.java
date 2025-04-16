@@ -260,6 +260,12 @@ public class Robot extends TimedRobotstangs {
 
   @Override
   public void testInit() {
+    SwerveCommands.close();
+    ArmCommands.close();
+    ElevatorCommands.close();
+    ClimberCommands.close();
+    IntakeCommands.close();
+    EndeffectorCommands.close();
     if (!testConfigured) {
       // swerve drivetrain
       SwerveCommands.setDefaultOption("Do nothin(basically reseting the gyro)",
