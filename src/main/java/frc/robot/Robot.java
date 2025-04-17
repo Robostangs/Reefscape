@@ -249,9 +249,9 @@ public class Robot extends TimedRobotstangs {
 
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.4));
 
-    NamedCommands.registerCommand("Ground Intake", new Extend());
+    NamedCommands.registerCommand("Ground Intake", new Extend(true));
     NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
-    NamedCommands.registerCommand("Intake", new RunIntake());
+    NamedCommands.registerCommand("Intake", new PrintCommand("Hopefully autos work"));
 
     NamedCommands.registerCommand("Stow", ScoringFactory.SmartStow());
     NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.4));
@@ -332,7 +332,7 @@ public class Robot extends TimedRobotstangs {
           IntakePivot.getInstance()
               .runOnce(() -> IntakePivot.getInstance().setPiviotDutyCycle(0)));
 
-      IntakeCommands.addOption("Extend", new Extend());
+      IntakeCommands.addOption("Extend", new Extend(false));
       IntakeCommands.addOption("Retract", new Retract());
       IntakeCommands.addOption("RunIntake", new RunIntake());
       IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
@@ -347,7 +347,7 @@ public class Robot extends TimedRobotstangs {
               .runOnce(() -> Endeffector.getInstance().setEneffdector(0)));
 
       EndeffectorCommands.addOption("Spit", new Spit());
-      EndeffectorCommands.addOption("Slurp", new Slurp());
+      EndeffectorCommands.addOption("Slurp", new Slurp(false));
       testTab.add("EndeffectorCommands", EndeffectorCommands)
           .withSize(2, 1)
           .withPosition(0, 3);

@@ -9,7 +9,6 @@ import frc.robot.commands.IntakeCommands.AlgaeOut;
 import frc.robot.commands.IntakeCommands.Algaeintake;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.Heimlich;
-import frc.robot.commands.IntakeCommands.ManualIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.RunIntakeAlgae;
@@ -21,7 +20,7 @@ public class IntakeFactory {
      * @return A command extends intake then runs the wheels and finally retracts
      */
     public static Command IntakeCoral() {
-        return new Extend().alongWith(new RunIntake())
+        return new Extend(false).alongWith(new RunIntake())
                 .finallyDo(Retract.Retract);
     }
 
@@ -31,7 +30,7 @@ public class IntakeFactory {
     public static Command SourceIntake() {
         return new SetElevatorPosition(Constants.ScoringConstants.Source.kElevatorPos).alongWith(
                 new SetArmPosition(Constants.ScoringConstants.Source.kArmSourcePosition))
-                .alongWith(new Slurp());
+                .alongWith(new Slurp(false));
     }
 
     /**

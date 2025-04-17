@@ -249,7 +249,7 @@ public class ScoringFactory {
 
     public static Command L1Score(Trigger manipBumper) {
         return L1Position()
-                .andThen(new WaitUntilCommand(manipBumper)).andThen(new Slurp().onlyWhile(manipBumper));
+                .andThen(new WaitUntilCommand(manipBumper)).andThen(new Slurp(true).onlyWhile(manipBumper));
     }
 
     // -0.643

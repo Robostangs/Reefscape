@@ -40,7 +40,7 @@ public class IntakeWheels extends SubsystemBase {
     }
 
     public void stopIntake() {
-        intakeMotor.stopMotor();
+        intakeMotor.set(0);
     }
 
     public boolean getIntakeSensor() {

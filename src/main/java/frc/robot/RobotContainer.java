@@ -126,12 +126,12 @@ public class RobotContainer {
         private void configureTestBindings() {
 
                 xTest.rightStick().whileTrue(new Spit());
-                xTest.leftStick().whileTrue(new Slurp());
+                xTest.leftStick().whileTrue(new Slurp(false));
 
                 xTest.a().toggleOnTrue(new HomeElevator());
 
                 xTest.x().toggleOnTrue(new Retract());
-                xTest.y().toggleOnTrue(new Extend());
+                xTest.y().toggleOnTrue(new Extend(false));
                 xTest.b().toggleOnTrue(new RunIntake());
 
                 xTest.povLeft().whileTrue(new HomeIntake());
@@ -223,7 +223,7 @@ public class RobotContainer {
                 xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
                                 .ByeByeByeAlgaeL2());
 
-                xManip.povDown().whileTrue(new Slurp());
+                xManip.povDown().whileTrue(new Slurp(false));
                 xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.SmartStow());
                 xManip.povUp().whileTrue(new Spit());

@@ -284,8 +284,8 @@ public final class Constants {
     public static final double spitTimeout = 1.5;
 
     public static class L1 {
-      public static final double kArmScoringPosition = -0.317;
-      public static final double kElevatorStart = 1.23;
+      public static final double kArmScoringPosition = -0.366;
+      public static final double kElevatorStart = 1.11;
       
     }
 
