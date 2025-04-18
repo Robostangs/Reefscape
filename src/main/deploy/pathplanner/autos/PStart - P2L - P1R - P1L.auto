@@ -57,12 +57,6 @@
                 "data": {
                   "pathName": "Pro Clean Up"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
           }
@@ -132,12 +126,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "Pro Clean Up"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
                 }
               }
             ]
