@@ -398,7 +398,7 @@ public final class Constants {
 
     // CAN bus that the devices are located on;
     // All swerve devices must share the same CAN bus
-    public static final CANBus kCANBus = new CANBus("Canivore", "./logs/example.hoot");
+    public static final CANBus kCANBus = new CANBus("canivore", "./logs/example.hoot");
 
     public static class AutoConstants {
       public static final PIDConstants translationPID = new PIDConstants(10, 0, 0);

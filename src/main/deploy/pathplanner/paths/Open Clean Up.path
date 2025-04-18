@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.4792380136986303,
-        "y": 7.202932363013699
+        "x": 2.298929794520548,
+        "y": 7.278060787671233
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6377996575342464,
-        "y": 6.9925727739726025
+        "x": 1.457491438356164,
+        "y": 7.067701198630137
       },
       "isLocked": false,
       "linkedName": "Open Feeder"
@@ -60,7 +60,7 @@
   "folder": "Feeder Clean Up",
   "idealStartingState": {
     "velocity": 2.5,
-    "rotation": -150.0
+    "rotation": -165.1735200296443
   },
   "useDefaultConstraints": true
 }

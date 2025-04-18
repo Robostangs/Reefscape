@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.4792380136986303,
-        "y": 7.202932363013699
+        "x": 2.298929794520548,
+        "y": 7.278060787671233
       },
       "prevControl": {
-        "x": 5.954638384225556,
-        "y": 5.832061010719358
+        "x": 5.774330165047473,
+        "y": 5.907189435376893
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -150.0
+    "rotation": -165.1735200296443
   },
   "reversed": false,
   "folder": "Reef to Feeder Paths",
