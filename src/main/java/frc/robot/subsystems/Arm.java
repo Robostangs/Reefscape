@@ -62,7 +62,7 @@ public class Arm extends SubsystemBase {
         armconfigs.MotionMagic.MotionMagicAcceleration = Constants.ArmConstants.kArmAcceleration;
 
         armconfigs.Feedback.FeedbackRemoteSensorID = Constants.ArmConstants.kArmEncoderId;
-        armconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+        armconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
         armconfigs.Feedback.RotorToSensorRatio = Constants.ArmConstants.kArmRotortoSensorRatio;
 
 
