@@ -4,32 +4,59 @@
 
 package frc.robot;
 
+<<<<<<< Updated upstream
 import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.math.Vector;
 
+=======
+>>>>>>> Stashed changes
 import com.ctre.phoenix6.CANBus;
-import com.ctre.phoenix6.configs.*;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.*;
-import com.ctre.phoenix6.swerve.*;
-import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
+import com.ctre.phoenix6.swerve.SwerveDrivetrain;
+import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants.ClosedLoopOutputType;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerFeedbackType;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
+import com.ctre.phoenix6.swerve.SwerveModuleConstantsFactory;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.units.measure.*;
+import edu.wpi.first.math.util.Units;
+import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.Volts;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.MomentOfInertia;
+import edu.wpi.first.units.measure.Voltage;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -157,7 +184,16 @@ public final class Constants {
     public static final double kArmDutyCycle = 0.1;
 
   }
+<<<<<<< Updated upstream
 
+=======
+  public static class AlgaeffectorConstants{
+    public static final int kalgaeffectorid = 55;
+    public static final double kAlgaeffectorDutyCyle = -0.7;
+    public static final double kAlgaeffectorSlurpCycle = 0.7;
+  }
+  
+>>>>>>> Stashed changes
 
   public static class ElevatorConstants {
     public static final int kRightElevatorMotorId = 36;
@@ -452,6 +488,8 @@ public final class Constants {
         // Theoretical free speed (m/s) at 12 V applied output;
         // This needs to be tuned to your individual robot
         public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
+        
+        public static final LinearVelocity Outreach = MetersPerSecond.of(4.73);
 
         public static final LinearVelocity kSpeedAt12VoltsPIT = MetersPerSecond.of(4.73*.1);
 
@@ -468,6 +506,8 @@ public final class Constants {
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = 3;
 
         public static final double kReefAdjustspeed = 0.25;
+
+        public static final double kOutreachEventSpeed = 0.125;
       }
     }
 
@@ -685,5 +725,11 @@ public final class Constants {
     }
 
   }
+
+    private static class LinearVelocityOutreach {
+
+        public LinearVelocityOutreach() {
+        }
+    }
 
 }

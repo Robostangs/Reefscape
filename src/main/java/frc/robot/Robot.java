@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+<<<<<<< Updated upstream
 import static edu.wpi.first.units.Units.MetersPerSecond;
+=======
+>>>>>>> Stashed changes
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -12,14 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.util.FlippingUtil;
-
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
@@ -30,6 +32,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -61,6 +64,10 @@ import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
+<<<<<<< Updated upstream
+=======
+import frc.robot.subsystems.Algaeffector;
+>>>>>>> Stashed changes
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -68,6 +75,11 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 
 public class Robot extends TimedRobotstangs {
 
@@ -77,6 +89,7 @@ public class Robot extends TimedRobotstangs {
 
   public static Field2d teleopField = new Field2d();
 
+  public static double kOutreachEventSpeed1 = 1;
   public static ShuffleboardTab autoTab, teleopTab, testTab, disTab;
 
   private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", AlertType.kError);
@@ -90,6 +103,7 @@ public class Robot extends TimedRobotstangs {
   public static SendableChooser<Command> ArmCommands = new SendableChooser<>();
   public static SendableChooser<Command> ClimberCommands = new SendableChooser<>();
   public static SendableChooser<Command> AlgaeffectorCommands = new SendableChooser<>();
+  public static SendableChooser<Double> kOutreachEventSpeed = new SendableChooser<>();
   Command lastSwerve;
   Command lastClimber;
   Command lastIntake;
@@ -307,12 +321,23 @@ public class Robot extends TimedRobotstangs {
               .withName("Rotate"));
 
       testTab.add("Swerve", SwerveCommands)
+<<<<<<< Updated upstream
           .withSize(2, 1)
           .withPosition(0, 0);
       // Elevator
       ElevatorCommands.setDefaultOption("nothin",
           Elevator.getInstance()
               .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
+=======
+        .withSize(2, 1)
+        .withPosition(0, 0);  
+
+    //Elevator
+    ElevatorCommands.setDefaultOption("nothin",  
+    Elevator.getInstance()
+        .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
+        
+>>>>>>> Stashed changes
 
       ElevatorCommands.addOption("Elevator up",
           new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));
@@ -481,6 +506,15 @@ public class Robot extends TimedRobotstangs {
 
   public void disabledInit() {
     setAllMotorsSafe();
+	kOutreachEventSpeed.setDefaultOption("Regular Speed", 1.0);
+  kOutreachEventSpeed.addOption("Slowest Speed", 0.25);
+  kOutreachEventSpeed.addOption("Slow Speed", 0.5);
+
+    disTab.add("Outreach ", kOutreachEventSpeed)
+        .withSize(2, 1)
+        .withPosition(0, 0)
+        .withWidget(BuiltInWidgets.kComboBoxChooser);
+      
   }
 
   @Override
@@ -561,6 +595,8 @@ public class Robot extends TimedRobotstangs {
     // }
 
     unpublishTrajectory();
+     RobotContainer.kOutreachEventSpeed = kOutreachEventSpeed.getSelected();
+
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

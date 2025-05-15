@@ -39,6 +39,14 @@ import frc.robot.RobotContainer;
 public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerConstants.TunerSwerveDrivetrain
         implements Subsystem {
     private static final double kSimLoopPeriod = 0.005; // 5 ms
+
+    public static Command getInstance(double kOutreachEventSpeed) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public static Command getInstance(double kOutreachEventSpeed) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
     // private SimSwerveDrivetrain m_simDrivetrain;

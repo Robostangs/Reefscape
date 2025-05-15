@@ -4,20 +4,25 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.*;
-
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.util.FlippingUtil;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ArmCommands.SetArmDutyCycle;
+import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
-import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
 import frc.robot.commands.ElevatorCommands.SetElevatorDutyCycle;
+import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
@@ -28,15 +33,17 @@ import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoReef;
+<<<<<<< Updated upstream
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+=======
+>>>>>>> Stashed changes
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import edu.wpi.first.wpilibj.Timer;
 
 public class RobotContainer {
         // max angular velocity
@@ -70,6 +77,8 @@ public class RobotContainer {
         public final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
         public static boolean useVision = true;
+        
+        public static double kOutreachEventSpeed = 1.0;
 
         public RobotContainer() {
                 if (Robot.isSimulation()) {
@@ -97,18 +106,22 @@ public class RobotContainer {
                                         drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond)
-                                                        * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25 : 1))
+                                                        * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25 : 1)
+                                                        * kOutreachEventSpeed)
                                                         .withVelocityY((-xDrive.getLeftX())
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
                                                                                         : 1)
+                                                                        *kOutreachEventSpeed
                                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
                                                         .withRotationalRate((-xDrive.getRightX())
                                                                         *
+                                                                        kOutreachEventSpeed*
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
                                                                                         : 1))
                                                         .withRotationalDeadband(
+                                                                
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                                                         * 0.05
                                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2)
