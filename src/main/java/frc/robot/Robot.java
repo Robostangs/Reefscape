@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-<<<<<<< Updated upstream
 import static edu.wpi.first.units.Units.MetersPerSecond;
-=======
->>>>>>> Stashed changes
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -25,14 +22,10 @@ import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoCamera;
-import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -64,10 +57,6 @@ import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
-<<<<<<< Updated upstream
-=======
-import frc.robot.subsystems.Algaeffector;
->>>>>>> Stashed changes
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -75,11 +64,8 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
-<<<<<<< Updated upstream
-=======
 
 
->>>>>>> Stashed changes
 
 public class Robot extends TimedRobotstangs {
 
@@ -321,23 +307,19 @@ public class Robot extends TimedRobotstangs {
               .withName("Rotate"));
 
       testTab.add("Swerve", SwerveCommands)
-<<<<<<< Updated upstream
           .withSize(2, 1)
           .withPosition(0, 0);
       // Elevator
       ElevatorCommands.setDefaultOption("nothin",
           Elevator.getInstance()
               .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
-=======
-        .withSize(2, 1)
-        .withPosition(0, 0);  
+ 
 
     //Elevator
     ElevatorCommands.setDefaultOption("nothin",  
     Elevator.getInstance()
         .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
         
->>>>>>> Stashed changes
 
       ElevatorCommands.addOption("Elevator up",
           new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));

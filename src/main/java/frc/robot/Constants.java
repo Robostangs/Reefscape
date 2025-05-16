@@ -4,15 +4,12 @@
 
 package frc.robot;
 
-<<<<<<< Updated upstream
 import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.math.Vector;
 
-=======
->>>>>>> Stashed changes
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -184,16 +181,8 @@ public final class Constants {
     public static final double kArmDutyCycle = 0.1;
 
   }
-<<<<<<< Updated upstream
 
-=======
-  public static class AlgaeffectorConstants{
-    public static final int kalgaeffectorid = 55;
-    public static final double kAlgaeffectorDutyCyle = -0.7;
-    public static final double kAlgaeffectorSlurpCycle = 0.7;
-  }
   
->>>>>>> Stashed changes
 
   public static class ElevatorConstants {
     public static final int kRightElevatorMotorId = 36;
