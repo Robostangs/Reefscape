@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.FlippingUtil;
@@ -517,8 +518,10 @@ public class Robot extends TimedRobotstangs {
           .andThen(ScoringFactory.L4Position().andThen(new Spit().withTimeout(0.5)).andThen(ScoringFactory.Stow()));
 
     } else if (autoName.equals("New")) {
-      autoCommand = AligntoReef.getDriveToReef(() -> true,18).andThen(ScoringFactory.L4Position()).andThen(new Spit().withTimeout(0.5))
-          .andThen(ScoringFactory.Stow());
+      autoCommand = AligntoReef.getDriveToReef(() -> true,22).andThen(ScoringFactory.L4Position()).andThen(new Spit().withTimeout(0.5))
+          .andThen(ScoringFactory.Stow()).alongWith(
+            AutoBuilder.pathfindThenFollowPath(Constants.SwerveConstants.AutoConstants.AutoPaths.kprocessoorcleanup, Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
+          ).andThen(AligntoReef.getDriveToReef(() -> true, 17));
 
     }else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);

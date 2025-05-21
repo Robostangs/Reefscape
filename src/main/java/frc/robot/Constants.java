@@ -8,6 +8,9 @@ import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.math.Vector;
 
 import com.ctre.phoenix6.CANBus;
@@ -20,6 +23,10 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -405,6 +412,30 @@ public final class Constants {
       public static final PIDConstants rotationPID = new PIDConstants(5, 0, 0
       );
 
+      public static class AutoPaths{
+        static List<Waypoint> waypointsProcessor = PathPlannerPath.waypointsFromPoses(
+          new Pose2d(new Translation2d(2.735, 0.967), new Rotation2d(Units.degreesToRadians( 157))),
+          new Pose2d(new Translation2d(1.683, 1.358), new Rotation2d(Units.degreesToRadians( 157))), 
+          new Pose2d(new Translation2d(2.735, 2.229), new Rotation2d(Units.degreesToRadians( -12)))
+          );
+
+
+
+        static PathConstraints constraints = new PathConstraints(
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.4,
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.4,
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.4,
+          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.4);
+
+        public static final PathPlannerPath kprocessoorcleanup = new PathPlannerPath(
+          waypointsProcessor
+          , constraints, null, new GoalEndState(1, new Rotation2d(Units.degreesToRadians(157)))
+);
+
+
+          List<Waypoint> waypointsOpen;
+
+      }
       public static final double kSlurpTimeout = 3d;
 
       public static class AutoPoses {
