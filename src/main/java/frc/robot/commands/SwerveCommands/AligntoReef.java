@@ -139,6 +139,29 @@ static {
 
   }
 
+
+  public static Pose2d getTargetPose(boolean isRight, int tagID) {
+    Pose2d targetPose = theMap.getTagPose(tagID).get().toPose2d();
+
+    // take the reef pose and move it to the right or left
+    if (isRight) {
+      targetPose = targetPose.transformBy(
+          new Transform2d(
+              new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                  Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetRight),
+              Rotation2d.fromDegrees(90)));
+    } else {
+      targetPose = targetPose.transformBy(
+          new Transform2d(
+              new Translation2d(Constants.VisionConstants.ReefAlign.kTagRelativeXOffset,
+                  Constants.VisionConstants.ReefAlign.kTagRelativeYOffsetLeft),
+              Rotation2d.fromDegrees(90)));
+    }
+
+    return targetPose;
+
+  }
+
   public static Pose2d getReefPose() {
 
 
@@ -171,5 +194,23 @@ static {
         Set.of(CommandSwerveDrivetrain.getInstance()));
 
   }
+
+
+  /**
+   * Aligns the robot to the reef using path planner based on what april tag you provide
+   * 
+   * @param isRight align to the right or left branch of the reef
+   */
+  public static Command getDriveToReef(BooleanSupplier isRight, int tagID) {
+
+    return new DeferredCommand(() -> {
+      Robot.teleopField.getObject("Auto Target").setPose(getTargetPose((isRight.getAsBoolean())));
+
+      return AutoBuilder.followPath(generatePath(getTargetPose(isRight.getAsBoolean(),tagID)));
+    },
+        Set.of(CommandSwerveDrivetrain.getInstance()));
+
+  }
+
 
 }

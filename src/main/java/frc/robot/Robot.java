@@ -61,6 +61,7 @@ import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
+import frc.robot.commands.SwerveCommands.AligntoReef;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -515,7 +516,11 @@ public class Robot extends TimedRobotstangs {
           .withTimeout(.75)
           .andThen(ScoringFactory.L4Position().andThen(new Spit().withTimeout(0.5)).andThen(ScoringFactory.Stow()));
 
-    } else if (!autoName.equals("")) {
+    } else if (autoName.equals("New")) {
+      autoCommand = AligntoReef.getDriveToReef(() -> true,18).andThen(ScoringFactory.L4Position()).andThen(new Spit().withTimeout(0.5))
+          .andThen(ScoringFactory.Stow());
+
+    }else if (!autoName.equals("")) {
       autoCommand = new PathPlannerAuto(autoName);
     } else {
       autoCommand = new PrintCommand("doing nothing!");
