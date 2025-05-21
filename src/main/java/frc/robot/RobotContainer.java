@@ -69,7 +69,7 @@ public class RobotContainer {
         public final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
         public static boolean useVision = true;
-        
+
         public static double kOutreachEventSpeed = 1.0;
 
         public RobotContainer() {
@@ -85,11 +85,14 @@ public class RobotContainer {
                         drivetrain.setDefaultCommand(
                                         drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                        .in(MetersPerSecond))
+                                                                        .in(MetersPerSecond)
+                                                        * kOutreachEventSpeed)
                                                         .withVelocityY((-xSim.getRawAxis(1))
                                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                                        .in(MetersPerSecond))
+                                                                                        .in(MetersPerSecond)
+                                                                        * kOutreachEventSpeed)
                                                         .withRotationalRate((xSim.getRawAxis(2))
+                                                                        * kOutreachEventSpeed
                                                                         *
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 } else {
@@ -103,17 +106,17 @@ public class RobotContainer {
                                                         .withVelocityY((-xDrive.getLeftX())
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
                                                                                         : 1)
-                                                                        *kOutreachEventSpeed
+                                                                        * kOutreachEventSpeed
                                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
                                                         .withRotationalRate((-xDrive.getRightX())
                                                                         *
-                                                                        kOutreachEventSpeed*
+                                                                        kOutreachEventSpeed *
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
                                                                                         : 1))
                                                         .withRotationalDeadband(
-                                                                
+
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                                                         * 0.05
                                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2)
@@ -173,10 +176,10 @@ public class RobotContainer {
 
                 xDrive.b().toggleOnTrue(new RunIntake());
 
-                //TAGS:
+                // TAGS:
                 /**
-                 *red: 6,7,8,9,10,11
-                 *blue: 17,18,19,20,21,22
+                 * red: 6,7,8,9,10,11
+                 * blue: 17,18,19,20,21,22
                  */
 
                 xDrive.y().toggleOnTrue(new Untake());
@@ -192,7 +195,7 @@ public class RobotContainer {
                 xDrive.povRight().onTrue(new InstantCommand(
                                 (() -> useVision = !useVision)));
                 xDrive.povUp().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-                            
+
                 // reset the field-centric hea ding on left bumper press
 
                 drivetrain.registerTelemetry(logger::telemeterize);
@@ -215,8 +218,7 @@ public class RobotContainer {
 
                 xManip.a().toggleOnTrue(
                                 // ScoringFactory.L4Pos0itionAuto()
-                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
-                                );
+                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.y().toggleOnTrue(

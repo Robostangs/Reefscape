@@ -65,8 +65,6 @@ import frc.robot.subsystems.Endeffector;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
 
-
-
 public class Robot extends TimedRobotstangs {
 
   private final RobotContainer m_robotContainer;
@@ -239,6 +237,17 @@ public class Robot extends TimedRobotstangs {
     teleopTab.add("Daredevil",
         new HttpCamera(Constants.VisionConstants.kEyeCameraName, Constants.VisionConstants.kEyeCameraIP));
 
+    kOutreachEventSpeed.setDefaultOption("Regular Speed", 1.0);
+    kOutreachEventSpeed.addOption("Slowest Speed", 0.25);
+    kOutreachEventSpeed.addOption("Slow Speed", 0.5);
+
+    // move this to somewhere where it doesn't crash
+    disTab.add("Outreach ", kOutreachEventSpeed)
+        .withSize(2, 1)
+        .withPosition(0, 0)
+        .withWidget(BuiltInWidgets.kComboBoxChooser);
+    // split button chooser is better
+
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
@@ -313,13 +322,11 @@ public class Robot extends TimedRobotstangs {
       ElevatorCommands.setDefaultOption("nothin",
           Elevator.getInstance()
               .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
- 
 
-    //Elevator
-    ElevatorCommands.setDefaultOption("nothin",  
-    Elevator.getInstance()
-        .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
-        
+      // Elevator
+      ElevatorCommands.setDefaultOption("nothin",
+          Elevator.getInstance()
+              .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
 
       ElevatorCommands.addOption("Elevator up",
           new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));
@@ -488,15 +495,7 @@ public class Robot extends TimedRobotstangs {
 
   public void disabledInit() {
     setAllMotorsSafe();
-	kOutreachEventSpeed.setDefaultOption("Regular Speed", 1.0);
-  kOutreachEventSpeed.addOption("Slowest Speed", 0.25);
-  kOutreachEventSpeed.addOption("Slow Speed", 0.5);
 
-    disTab.add("Outreach ", kOutreachEventSpeed)
-        .withSize(2, 1)
-        .withPosition(0, 0)
-        .withWidget(BuiltInWidgets.kComboBoxChooser);
-      
   }
 
   @Override
@@ -577,8 +576,7 @@ public class Robot extends TimedRobotstangs {
     // }
 
     unpublishTrajectory();
-     RobotContainer.kOutreachEventSpeed = kOutreachEventSpeed.getSelected();
-
+    RobotContainer.kOutreachEventSpeed = kOutreachEventSpeed.getSelected();
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
