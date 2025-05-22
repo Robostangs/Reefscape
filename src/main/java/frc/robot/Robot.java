@@ -147,6 +147,8 @@ public class Robot extends TimedRobotstangs {
     startChooser.setDefaultOption("Shit and Shit", "");
     startChooser.addOption("Forward", "Pissing");
     startChooser.addOption("Dumb L4", "Shitting");
+    startChooser.addOption("New!", "New");
+
 
     startChooser.addOption("PTP to Center 2R ", "PTP");
     startChooser.addOption("Center", "CStart");
@@ -519,7 +521,7 @@ public class Robot extends TimedRobotstangs {
 
     } else if (autoName.equals("New")) {
       autoCommand = AligntoReef.getDriveToReef(() -> true,22).andThen(ScoringFactory.L4Position()).andThen(new Spit().withTimeout(0.5))
-          .andThen(ScoringFactory.Stow()).alongWith(
+          .andThen(ScoringFactory.Stow()).andThen(
             AutoBuilder.pathfindThenFollowPath(Constants.SwerveConstants.AutoConstants.AutoPaths.kprocessoorcleanup, Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
           ).andThen(AligntoReef.getDriveToReef(() -> true, 17));
 

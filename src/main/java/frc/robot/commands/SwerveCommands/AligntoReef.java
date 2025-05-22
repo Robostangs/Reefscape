@@ -98,7 +98,7 @@ static {
         rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
 
         List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
-        zones.add(new ConstraintsZone(0.6, 1, endconstraints));
+        zones.add(new ConstraintsZone(0.8, 1, endconstraints));
         PathPlannerPath path = new PathPlannerPath(
                 waypoints,
                 rotationTargets,
