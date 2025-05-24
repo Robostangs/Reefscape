@@ -256,6 +256,17 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Stow", ScoringFactory.SmartStow());
     NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.4));
 
+    //Outreach event Speed turrnnnnnnnn upppppppp
+    kOutreachEventSpeed.setDefaultOption("Regular Speed", 1.0);
+  kOutreachEventSpeed.addOption("Slowest Speed", 0.25);
+  kOutreachEventSpeed.addOption("Slow Speed", 0.5);
+
+    disTab.add("Outreach ", kOutreachEventSpeed)
+        .withSize(2, 1)
+        .withPosition(0, 0)
+        .withWidget(BuiltInWidgets.kComboBoxChooser);
+      
+
   }
 
   @Override
@@ -488,15 +499,7 @@ public class Robot extends TimedRobotstangs {
 
   public void disabledInit() {
     setAllMotorsSafe();
-	kOutreachEventSpeed.setDefaultOption("Regular Speed", 1.0);
-  kOutreachEventSpeed.addOption("Slowest Speed", 0.25);
-  kOutreachEventSpeed.addOption("Slow Speed", 0.5);
-
-    disTab.add("Outreach ", kOutreachEventSpeed)
-        .withSize(2, 1)
-        .withPosition(0, 0)
-        .withWidget(BuiltInWidgets.kComboBoxChooser);
-      
+	
   }
 
   @Override
