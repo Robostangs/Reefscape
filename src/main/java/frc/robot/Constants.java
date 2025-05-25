@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import edu.wpi.first.math.Vector;
 
@@ -53,7 +54,6 @@ import edu.wpi.first.units.measure.*;
 public final class Constants {
   public static final String logDirectory = "";
 
-
   public static class ClimberConstants {
 
     public static final int kClimberMotorId = 46;
@@ -67,7 +67,6 @@ public final class Constants {
     // Reel Constants
     public static final double kReelDutyCycle = -0.7;
     public static final double kReelSafe = 15;
-
 
   }
 
@@ -127,6 +126,7 @@ public final class Constants {
     public static final double kEndeffectorSlurp = 0.85;
 
   }
+
   public static class AlgaeffectorConstants {
     public static final int kalgaeffectorid = 55;
     public static final double kAlgaeffectorDutyCyle = -0.7;
@@ -164,7 +164,6 @@ public final class Constants {
     public static final double kArmDutyCycle = 0.1;
 
   }
-
 
   public static class ElevatorConstants {
     public static final int kRightElevatorMotorId = 36;
@@ -209,12 +208,12 @@ public final class Constants {
     public static final boolean kIsLeftInvert = true;
 
     public static final double kHomePosition = 0.97155;
-    public static final double kSafeArmElevatorPosition =0.924;
+    public static final double kSafeArmElevatorPosition = 0.924;
     public static final double kElevatorPeakReverseDutyCycle = -0.7;
     public static final double kElevatorZeroPose = 0.0;
     public static final double kElevatorTargetPosition = 0.5;
     public static final double ktestDutyCycle = 0.1;
-    
+
     public static final double kStartPos = 0.78;
   }
 
@@ -236,12 +235,12 @@ public final class Constants {
     public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0;
     public static final String kEyeCameraName = "Agamotto";
 
-    
-
-    public static class ReefAlign{
+    public static class ReefAlign {
       public static final double kCentertoEndeffectorDistanceMeters = -.073;
-      public static final double kTagRelativeYOffsetRight = Units.inchesToMeters(6.5)+kCentertoEndeffectorDistanceMeters;
-      public static final double kTagRelativeYOffsetLeft = Units.inchesToMeters(-6.5)+kCentertoEndeffectorDistanceMeters;
+      public static final double kTagRelativeYOffsetRight = Units.inchesToMeters(6.5)
+          + kCentertoEndeffectorDistanceMeters;
+      public static final double kTagRelativeYOffsetLeft = Units.inchesToMeters(-6.5)
+          + kCentertoEndeffectorDistanceMeters;
 
       public static final double kTagRelativeXOffset = Units.inchesToMeters(10);
 
@@ -293,36 +292,34 @@ public final class Constants {
     public static class L1 {
       public static final double kArmScoringPosition = -0.366;
       public static final double kElevatorStart = 1.11;
-      
+
     }
 
     public static class L2 {
-      public static final double kElevatorStart = ElevatorConstants.kHomePosition+.075;
+      public static final double kElevatorStart = ElevatorConstants.kHomePosition + .075;
       public static final double kElevatorStartAlg = 1.247;
       public static final double kArmScoringPosition = .376;
-      public static final double kElevatorEnd =  .6775;
+      public static final double kElevatorEnd = .6775;
       public static final double kArmSafePosition = 0.25;
       public static final double kELevatorAlgaepos = 0.91;
       public static final double kArmAlgaePosStart = -0.75;
-    public static final double kArmAlgaePosEnd = 0;
+      public static final double kArmAlgaePosEnd = 0;
     }
-
 
     public static class L3 {
       public static final double kElevatorPos = 1.08;
       public static final double kArmScoringPosition = .367;
       public static final double kArmPosAuto = -0.635;
 
-      
       public static final double kELevatorAlgaepos = 1.18;
       public static final double kArmAlgaePos = -0.75;
     }
 
     public static class L4 {
-      public static final double kElevatorPos =  1.666;
+      public static final double kElevatorPos = 1.666;
       public static final double kArmScoringPosition = .358;
       public static final double kArmAutoScoringPosition = .329;
-    public static final double kArmPosAuto = -0.635;
+      public static final double kArmPosAuto = -0.635;
     }
 
     public static class Stow {
@@ -336,7 +333,7 @@ public final class Constants {
     }
 
     public static class Source {
-      public static final double kElevatorPos = ElevatorConstants.kHomePosition+0.355;
+      public static final double kElevatorPos = ElevatorConstants.kHomePosition + 0.355;
       public static final double kArmSourcePosition = -0.145;
     }
   }
@@ -349,8 +346,8 @@ public final class Constants {
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     public static final double kMaxSpeedMetersPerSecond = AutoConstants.AutoSpeeds.kSpeedAt12Volts.baseUnitMagnitude();
 
-			// public static final double kMaxAngularSpeedMetersPerSecond = 4 * Math.PI;
-			public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond / 0.44;
+    // public static final double kMaxAngularSpeedMetersPerSecond = 4 * Math.PI;
+    public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond / 0.44;
     private static final Slot0Configs steerGains = new Slot0Configs()
         .withKP(100).withKI(0).withKD(0.5)
         .withKS(0.1).withKV(2.66).withKA(0)
@@ -399,9 +396,9 @@ public final class Constants {
     // Configs for the Pigeon 2; leave this null to skip applying Pigeon 2 configs
     static final Pigeon2Configuration pigeonConfigs = null;
     // new Pigeon2Configuration()
-    //     .withMountPose(new MountPoseConfigs().withMountPosePitch(0.57)
-    //         .withMountPoseYaw(-91.79)
-    //         .withMountPoseRoll(0.7));
+    // .withMountPose(new MountPoseConfigs().withMountPosePitch(0.57)
+    // .withMountPoseYaw(-91.79)
+    // .withMountPoseRoll(0.7));
 
     // CAN bus that the devices are located on;
     // All swerve devices must share the same CAN bus
@@ -409,33 +406,49 @@ public final class Constants {
 
     public static class AutoConstants {
       public static final PIDConstants translationPID = new PIDConstants(10, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(5, 0, 0
-      );
+      public static final PIDConstants rotationPID = new PIDConstants(5, 0, 0);
 
-      public static class AutoPaths{
+      public static enum ReefSides {
+        Center1,
+        Center2,
+        Open1,
+        Open2,
+        Pro1,
+        Pro2
+      }
+
+      public static enum AutoStartPosition {
+        Center,
+        Open,
+        Pro
+      }
+
+      public static class AutoPaths {
         static List<Waypoint> waypointsProcessor = PathPlannerPath.waypointsFromPoses(
-          new Pose2d(new Translation2d(2.735, 0.967), new Rotation2d(Units.degreesToRadians( 157))),
-          new Pose2d(new Translation2d(1.683, 1.358), new Rotation2d(Units.degreesToRadians( 157))), 
-          new Pose2d(new Translation2d(2.735, 2.229), new Rotation2d(Units.degreesToRadians( -12)))
-          );
-
-
+            new Pose2d(new Translation2d(2.735, 0.967), new Rotation2d(Units.degreesToRadians(157))),
+            new Pose2d(new Translation2d(1.683, 1.358), new Rotation2d(Units.degreesToRadians(157))),
+            new Pose2d(new Translation2d(2.735, 2.229), new Rotation2d(Units.degreesToRadians(-12))));
 
         static PathConstraints constraints = new PathConstraints(
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.4,
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.4,
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.4,
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.4);
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.4,
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond * 0.4,
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared * 0.4,
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared * 0.4);
 
-        public static final PathPlannerPath kprocessoorcleanup = new PathPlannerPath(
-          waypointsProcessor
-          , constraints, null, new GoalEndState(1, new Rotation2d(Units.degreesToRadians(157)))
-);
+        public static final PathPlannerPath kProcessorCleanup = new PathPlannerPath(
+            waypointsProcessor, constraints, null, new GoalEndState(1, new Rotation2d(Units.degreesToRadians(157))));
 
+            static List<Waypoint> waypointsOpen = PathPlannerPath.waypointsFromPoses(
+              new Pose2d(new Translation2d(2.3, 7.278), new Rotation2d(Units.degreesToRadians(-165.174))),
+              new Pose2d(new Translation2d(2, 6.435), new Rotation2d(Units.degreesToRadians(-165.174))),
+              new Pose2d(new Translation2d(2.584, 6.046), new Rotation2d(Units.degreesToRadians(-150))));
 
-          List<Waypoint> waypointsOpen;
+        public static final PathPlannerPath kOpenCleanup = new PathPlannerPath(
+          waypointsOpen, constraints, null, new GoalEndState(1, new Rotation2d(Units.degreesToRadians(-150))));
+
 
       }
+
       public static final double kSlurpTimeout = 3d;
 
       public static class AutoPoses {
@@ -484,8 +497,7 @@ public final class Constants {
         // This needs to be tuned to your individual robot
         public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
 
-        public static final LinearVelocity kSpeedAt12VoltsPIT = MetersPerSecond.of(4.73*.1);
-
+        public static final LinearVelocity kSpeedAt12VoltsPIT = MetersPerSecond.of(4.73 * .1);
 
         public static final double kSpeedMPS = 4.73;
 
@@ -510,11 +522,11 @@ public final class Constants {
     private static final double kDriveGearRatio = 6.746031746031747;
     private static final double kSteerGearRatio = 21.428571428571427;
 
-    //2*(what it acutally is/what it thinks)in meters
+    // 2*(what it acutally is/what it thinks)in meters
 
-    //acutual is 95
-    //it thik.12
-    private static final Distance kWheelRadius = Inches.of(2*(2.83/2.95));
+    // acutual is 95
+    // it thik.12
+    private static final Distance kWheelRadius = Inches.of(2 * (2.83 / 2.95));
 
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;
@@ -623,7 +635,6 @@ public final class Constants {
        * Creates a CommandSwerveDrivetrain instance.
        * This should only be called once in your robot program,.
        */
-
 
       /**
        * Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected

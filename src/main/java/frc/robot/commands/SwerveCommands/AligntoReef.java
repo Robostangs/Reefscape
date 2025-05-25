@@ -103,11 +103,8 @@ static {
                 waypoints,
                 rotationTargets,
                 Collections.emptyList(),
-
                 zones,
-
                 Collections.emptyList(),
-
                 constraints,
                 null,
                 new GoalEndState(0.0, targetPose.getRotation()), false);
@@ -195,6 +192,7 @@ static {
 
   }
 
+  
 
   /**
    * Aligns the robot to the reef using path planner based on what april tag you provide

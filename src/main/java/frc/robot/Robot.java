@@ -522,7 +522,7 @@ public class Robot extends TimedRobotstangs {
     } else if (autoName.equals("New")) {
       autoCommand = AligntoReef.getDriveToReef(() -> true,22).andThen(ScoringFactory.L4Position()).andThen(new Spit().withTimeout(0.5))
           .andThen(ScoringFactory.Stow()).andThen(
-            AutoBuilder.pathfindThenFollowPath(Constants.SwerveConstants.AutoConstants.AutoPaths.kprocessoorcleanup, Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
+            AutoBuilder.pathfindThenFollowPath(Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup, Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
           ).andThen(AligntoReef.getDriveToReef(() -> true, 17));
 
     }else if (!autoName.equals("")) {

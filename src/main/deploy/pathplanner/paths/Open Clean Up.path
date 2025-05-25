@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.298929794520548,
+        "x": 2.3,
         "y": 7.278060787671233
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.457491438356164,
-        "y": 7.067701198630137
+        "x": 2.0999408552058476,
+        "y": 6.946698541239312
       },
       "isLocked": false,
       "linkedName": "Open Feeder"
     },
     {
       "anchor": {
-        "x": 2.584417808219178,
-        "y": 6.045954623287671
+        "x": 2.0091916232638876,
+        "y": 6.435
       },
       "prevControl": {
-        "x": 1.8331335616438351,
-        "y": 5.850620719178082
+        "x": 1.936137062481785,
+        "y": 6.6740879151043275
+      },
+      "nextControl": {
+        "x": 2.08224618404599,
+        "y": 6.195912084895673
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.584,
+        "y": 6.046
+      },
+      "prevControl": {
+        "x": 2.372133385580106,
+        "y": 6.178712236414929
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +64,7 @@
   "folder": "Feeder Clean Up",
   "idealStartingState": {
     "velocity": 2.5,
-    "rotation": -165.1735200296443
+    "rotation": -165.174
   },
   "useDefaultConstraints": true
 }
