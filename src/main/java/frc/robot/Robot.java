@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.FlippingUtil;
@@ -24,9 +23,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoCamera;
-import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -62,7 +58,6 @@ import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
-import frc.robot.commands.SwerveCommands.AligntoReef;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -158,7 +153,7 @@ public class Robot extends TimedRobotstangs {
     firstPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
     firstPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
     firstPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
-    firstPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
+    firstPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open2);
 
     firstPieceRoLChooser.setDefaultOption("None", false);
     firstPieceRoLChooser.setDefaultOption("Right", true);
@@ -170,7 +165,7 @@ public class Robot extends TimedRobotstangs {
     secondPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
     secondPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
     secondPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
-    secondPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
+    secondPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open2);
 
 
     secondPieceRoLChooser.setDefaultOption("None", false);
@@ -183,7 +178,7 @@ public class Robot extends TimedRobotstangs {
     thirdPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
     thirdPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
     thirdPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
-    thirdPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
+    thirdPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open2);
 
 
     thirdPieceRoLChooser.setDefaultOption("None", false);
@@ -479,6 +474,8 @@ public class Robot extends TimedRobotstangs {
 
   public void disabledInit() {
     setAllMotorsSafe();
+    AutoManager.clearAutoCommand();
+
   }
 
   @Override
@@ -526,7 +523,7 @@ public class Robot extends TimedRobotstangs {
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
     } else if(startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro){
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose);
-    } else {
+    } else if(startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Open){
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose);
     }
     
@@ -536,7 +533,6 @@ public class Robot extends TimedRobotstangs {
 
     autoGroup.schedule();
 
-    // autoCommand.schedule();
   }
 
   /** This function is called periodically during autonomous. */
@@ -544,13 +540,11 @@ public class Robot extends TimedRobotstangs {
   public void autonomousPeriodic() {
 
   }
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
-    // only in pits
-    // if (!DriverStation.isFMSAttached()) {
-    // ScoringFactory.Stow().schedule();
-    // }
 
     unpublishTrajectory();
 
@@ -563,11 +557,9 @@ public class Robot extends TimedRobotstangs {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    // if(LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour)
-    // != null){
-    SmartDashboard.putNumber("ID Seen", LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour));
+
   }
-  // }
+  
 
   /** This function is called once when the robot is first started up. */
   @Override

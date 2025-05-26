@@ -465,16 +465,16 @@ public final class Constants {
             new Pose2d(new Translation2d(2.584, 6.046), new Rotation2d(Units.degreesToRadians(-150))));
 
         public static final PathPlannerPath kOpenCleanup = new PathPlannerPath(
-            waypointsOpen, constraints, null, new GoalEndState(0, new Rotation2d(Units.degreesToRadians(-150))));
+            waypointsOpen, constraints, new IdealStartingState(0, new Rotation2d(Units.degreesToRadians(-165))), new GoalEndState(0, new Rotation2d(Units.degreesToRadians(-150))));
 
       }
 
       public static final double kSlurpTimeout = 3d;
 
       public static class AutoPoses {
-        public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.degreesToRadians(90)));
-        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(90)));
-        public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.degreesToRadians(90)));
+        public static final Pose2d kOpenPose = new Pose2d(7.2, 5.5, new Rotation2d(Units.degreesToRadians(90)));
+        public static final Pose2d kCenterPose = new Pose2d(7.2, 3.8, new Rotation2d(Units.degreesToRadians(90)));
+        public static final Pose2d kProPose = new Pose2d(7.2, 1.9, new Rotation2d(Units.degreesToRadians(90)));
 
       }
 

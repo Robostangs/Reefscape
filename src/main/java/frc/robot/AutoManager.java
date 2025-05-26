@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants.SwerveConstants.AutoConstants.ReefSides;
@@ -18,7 +19,8 @@ public class AutoManager {
     public final ArrayList<Map<Constants.SwerveConstants.AutoConstants.ReefSides, Boolean>> AutoScoringMap = new ArrayList<>();
     private final Constants.SwerveConstants.AutoConstants.AutoStartPosition start;
     private int pieces = 0;
-    private Command autoCommand = new PrintCommand("Default Auto Command");
+    int pathcount = 0;
+    private static Command autoCommand = new PrintCommand("Default Auto Command");
 
     /**
      * Constructor for AutoManager.
@@ -43,15 +45,21 @@ public class AutoManager {
                 pieces++;
             }
         }
+        SmartDashboard.putNumber("What piece auto", pieces);
         this.start = start;
         setAutoCommand();
     }
 
+    public static void clearAutoCommand(){
+        autoCommand = new PrintCommand("Default Auto Command");
+    }
     /**
      * Sets the autonomous command based on the starting position and scoring map.
      */
     public void setAutoCommand() {
         boolean isRight = false;
+
+
 
         if (start == Constants.SwerveConstants.AutoConstants.AutoStartPosition.shitinshit) {
             autoCommand = new PrintCommand("Pooping!!!!");
@@ -84,10 +92,12 @@ public class AutoManager {
                                         : Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup,
                                 Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
                                 .onlyIf(() -> start != Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center));
-                ;
+                pathcount++;
+                
 
             }
         }
+        SmartDashboard.putNumber("Path count", pathcount);
     }
 
     public Command getAutoCommand() {
