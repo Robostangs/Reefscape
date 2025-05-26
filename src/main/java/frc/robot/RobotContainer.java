@@ -248,6 +248,7 @@ public class RobotContainer {
 
                 new Trigger(() -> xSim.getRawButton(3))
                                 .onTrue(AligntoReef.getAlignToReef(() -> false));
+                                
 
         }
 

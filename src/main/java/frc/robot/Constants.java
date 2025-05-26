@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import static edu.wpi.first.units.Units.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +25,12 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.path.ConstraintsZone;
 import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.IdealStartingState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.RotationTarget;
 import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.math.Matrix;
@@ -414,13 +418,16 @@ public final class Constants {
         Open1,
         Open2,
         Pro1,
-        Pro2
+        Pro2,
+        none
       }
 
       public static enum AutoStartPosition {
         Center,
         Open,
-        Pro
+        Pro,
+        none,
+        shitinshit
       }
 
       public static class AutoPaths {
@@ -430,31 +437,44 @@ public final class Constants {
             new Pose2d(new Translation2d(2.735, 2.229), new Rotation2d(Units.degreesToRadians(-12))));
 
         static PathConstraints constraints = new PathConstraints(
-            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.4,
-            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond * 0.4,
-            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared * 0.4,
-            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared * 0.4);
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
+            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared);
 
-        public static final PathPlannerPath kProcessorCleanup = new PathPlannerPath(
-            waypointsProcessor, constraints, null, new GoalEndState(1, new Rotation2d(Units.degreesToRadians(157))));
+        static List<RotationTarget> rotationTargets = new ArrayList<>();
+        static {
+          rotationTargets.add(new RotationTarget(0.66, new Rotation2d(Units.degreesToRadians(157.11))));
+        }
+        static List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
+        
+                public static final PathPlannerPath kProcessorCleanup = new PathPlannerPath(
+                    waypointsProcessor,
+                    rotationTargets,
+                    Collections.emptyList(),
+                    zones,
+            Collections.emptyList(),
+            constraints,
+            new IdealStartingState(0, new Rotation2d(Units.degreesToRadians(157.11))),
+            new GoalEndState(0, new Rotation2d(Units.degreesToRadians(-12.01))),
+            false);
 
-            static List<Waypoint> waypointsOpen = PathPlannerPath.waypointsFromPoses(
-              new Pose2d(new Translation2d(2.3, 7.278), new Rotation2d(Units.degreesToRadians(-165.174))),
-              new Pose2d(new Translation2d(2, 6.435), new Rotation2d(Units.degreesToRadians(-165.174))),
-              new Pose2d(new Translation2d(2.584, 6.046), new Rotation2d(Units.degreesToRadians(-150))));
+        static List<Waypoint> waypointsOpen = PathPlannerPath.waypointsFromPoses(
+            new Pose2d(new Translation2d(2.3, 7.278), new Rotation2d(Units.degreesToRadians(-165.174))),
+            new Pose2d(new Translation2d(2, 6.435), new Rotation2d(Units.degreesToRadians(-165.174))),
+            new Pose2d(new Translation2d(2.584, 6.046), new Rotation2d(Units.degreesToRadians(-150))));
 
         public static final PathPlannerPath kOpenCleanup = new PathPlannerPath(
-          waypointsOpen, constraints, null, new GoalEndState(1, new Rotation2d(Units.degreesToRadians(-150))));
-
+            waypointsOpen, constraints, null, new GoalEndState(0, new Rotation2d(Units.degreesToRadians(-150))));
 
       }
 
       public static final double kSlurpTimeout = 3d;
 
       public static class AutoPoses {
-        public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.degreesToRadians(180)));
-        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(0)));
-        public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.degreesToRadians(180)));
+        public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.degreesToRadians(90)));
+        public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(90)));
+        public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.degreesToRadians(90)));
 
       }
 

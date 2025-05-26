@@ -101,15 +101,18 @@ public class Robot extends TimedRobotstangs {
   Command lastAlgaeffector;
   SequentialCommandGroup autoGroup;
   private static String autoName = "";
+  private static ArrayList<Map<Constants.SwerveConstants.AutoConstants.ReefSides, Boolean>> autoPoints = new ArrayList<>();
 
   // Autos
-  private SendableChooser<String> startChooser = new SendableChooser<>();
-  private SendableChooser<String> firstPieceChooser = new SendableChooser<>();
-  private SendableChooser<String> firstPieceRoLChooser = new SendableChooser<>();
-  private SendableChooser<String> secondPieceChooser = new SendableChooser<>();
-  private SendableChooser<String> secondPieceRoLChooser = new SendableChooser<>();
-  private SendableChooser<String> thirdPieceChooser = new SendableChooser<>();
-  private SendableChooser<String> thirdPieceRoLChooser = new SendableChooser<>();
+  private SendableChooser<Constants.SwerveConstants.AutoConstants.AutoStartPosition> startChooser = new SendableChooser<>();
+
+  private SendableChooser<Constants.SwerveConstants.AutoConstants.ReefSides> firstPieceChooser = new SendableChooser<>();
+  private SendableChooser<Constants.SwerveConstants.AutoConstants.ReefSides> secondPieceChooser = new SendableChooser<>();
+  private SendableChooser<Constants.SwerveConstants.AutoConstants.ReefSides> thirdPieceChooser = new SendableChooser<>();
+
+  private SendableChooser<Boolean> firstPieceRoLChooser = new SendableChooser<>();
+  private SendableChooser<Boolean> secondPieceRoLChooser = new SendableChooser<>();
+  private SendableChooser<Boolean> thirdPieceRoLChooser = new SendableChooser<>();
 
   static NetworkTableEntry pathDelay;
 
@@ -144,53 +147,48 @@ public class Robot extends TimedRobotstangs {
     testTab = Shuffleboard.getTab("Test");
     disTab = Shuffleboard.getTab("Disabled");
 
-    startChooser.setDefaultOption("Shit and Shit", "");
-    startChooser.addOption("Forward", "Pissing");
-    startChooser.addOption("Dumb L4", "Shitting");
-    startChooser.addOption("New!", "New");
+    startChooser.setDefaultOption("Shit and Shit", Constants.SwerveConstants.AutoConstants.AutoStartPosition.shitinshit);
+    startChooser.addOption("Center", Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center);
+    startChooser.addOption("Open", Constants.SwerveConstants.AutoConstants.AutoStartPosition.Open);
+    startChooser.addOption("Processor", Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro);
+
+    firstPieceChooser.setDefaultOption("none", Constants.SwerveConstants.AutoConstants.ReefSides.none);
+    firstPieceChooser.addOption("Center 1", Constants.SwerveConstants.AutoConstants.ReefSides.Center1);
+    firstPieceChooser.addOption("Center 2", Constants.SwerveConstants.AutoConstants.ReefSides.Center2);
+    firstPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
+    firstPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
+    firstPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
+    firstPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
+
+    firstPieceRoLChooser.setDefaultOption("None", false);
+    firstPieceRoLChooser.setDefaultOption("Right", true);
+    firstPieceRoLChooser.addOption("Left", false);
+
+    secondPieceChooser.setDefaultOption("None", Constants.SwerveConstants.AutoConstants.ReefSides.none);
+    secondPieceChooser.addOption("Center 1", Constants.SwerveConstants.AutoConstants.ReefSides.Center1);
+    secondPieceChooser.addOption("Center 2", Constants.SwerveConstants.AutoConstants.ReefSides.Center2);
+    secondPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
+    secondPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
+    secondPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
+    secondPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
 
 
-    startChooser.addOption("PTP to Center 2R ", "PTP");
-    startChooser.addOption("Center", "CStart");
-    startChooser.addOption("Open", "OStart");
-    startChooser.addOption("Processor", "PStart");
+    secondPieceRoLChooser.setDefaultOption("None", false);
+    secondPieceRoLChooser.addOption("Right", true);
+    secondPieceRoLChooser.addOption("Left", false);
 
-    firstPieceChooser.setDefaultOption("none", "");
-    firstPieceChooser.addOption("Center 1", " - C1");
-    firstPieceChooser.addOption("Center 2", " - C2");
-    firstPieceChooser.addOption("Pro 1", " - P1");
-    firstPieceChooser.addOption("Pro 2", " - P2");
-    firstPieceChooser.addOption("Open 1", " - O1");
-    firstPieceChooser.addOption("Open 2", " - O2");
+    thirdPieceChooser.setDefaultOption("None", Constants.SwerveConstants.AutoConstants.ReefSides.none);
+    thirdPieceChooser.addOption("Center 1", Constants.SwerveConstants.AutoConstants.ReefSides.Center1);
+    thirdPieceChooser.addOption("Center 2", Constants.SwerveConstants.AutoConstants.ReefSides.Center2);
+    thirdPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
+    thirdPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
+    thirdPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
+    thirdPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
 
-    firstPieceRoLChooser.setDefaultOption("None", "");
-    firstPieceRoLChooser.setDefaultOption("Right", "R");
-    firstPieceRoLChooser.addOption("Left", "L");
 
-    secondPieceChooser.setDefaultOption("None", "");
-    secondPieceChooser.addOption("Center 1", " - C1");
-    secondPieceChooser.addOption("Center 2", " - C2");
-    secondPieceChooser.addOption("Pro 1", " - P1");
-    secondPieceChooser.addOption("Pro 2", " - P2");
-    secondPieceChooser.addOption("Open 1", " - O1");
-    secondPieceChooser.addOption("Open 2", " - O2");
-
-    secondPieceRoLChooser.setDefaultOption("None", "");
-    secondPieceRoLChooser.addOption("Right", "R");
-    secondPieceRoLChooser.addOption("Left", "L");
-
-    thirdPieceChooser.setDefaultOption("None", "");
-    thirdPieceChooser.addOption("Center 1", " - C1");
-    thirdPieceChooser.addOption("Center 2", " - C2");
-    thirdPieceChooser.addOption("Pro 1", " - P1");
-    thirdPieceChooser.addOption("Pro 2", " - P2");
-    thirdPieceChooser.addOption("Open 1", " - O1");
-    thirdPieceChooser.addOption("Open 2", " - O2");
-
-    thirdPieceRoLChooser.setDefaultOption("None", "");
-    thirdPieceRoLChooser.addOption("Right", "R");
-    thirdPieceRoLChooser.addOption("Left", "L");
-    thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - C1L");
+    thirdPieceRoLChooser.setDefaultOption("None", false);
+    thirdPieceRoLChooser.addOption("Right", true);
+    thirdPieceRoLChooser.addOption("Left", false);
 
     autoTab.add("Start Chooser", startChooser)
         .withSize(2, 1)
@@ -229,10 +227,6 @@ public class Robot extends TimedRobotstangs {
     pathDelay = NetworkTableInstance.getDefault().getTable("Shuffleboard")
         .getSubTable(autoTab.getTitle())
         .getEntry("Path Delay");
-
-    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
-        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
-        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
     teleopTab.addNumber("Match Time", () -> Timer.getMatchTime())
         .withSize(3, 4)
@@ -490,47 +484,29 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
-    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() +
-        firstPieceRoLChooser.getSelected() + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
-        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
-
-    if (!autoName.equals(oldAutoName)) {
-      publishTrajectory(autoName);
-      oldAutoName = autoName;
-    }
 
   }
 
   @Override
   public void disabledExit() {
 
-    if (autoName.equals("Pissing")) {
-      drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
-      autoCommand = CommandSwerveDrivetrain.getInstance()
-          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.5))
-          .withTimeout(.8);
+    if(firstPieceChooser.getSelected() != null ||
+        secondPieceChooser.getSelected() != null ||
+        thirdPieceChooser.getSelected() != null) {
+    autoPoints.add(Map.of(
+        firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));
 
-    } else if (autoName.equals("Shitting")) {
-      drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
-      autoCommand = CommandSwerveDrivetrain.getInstance()
-          .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.5))
-          .withTimeout(.75)
-          .andThen(ScoringFactory.L4Position().andThen(new Spit().withTimeout(0.5)).andThen(ScoringFactory.Stow()));
-
-    } else if (autoName.equals("New")) {
-      autoCommand = AligntoReef.getDriveToReef(() -> true,22).andThen(ScoringFactory.L4Position()).andThen(new Spit().withTimeout(0.5))
-          .andThen(ScoringFactory.Stow()).andThen(
-            AutoBuilder.pathfindThenFollowPath(Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup, Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
-          ).andThen(AligntoReef.getDriveToReef(() -> true, 17));
-
-    }else if (!autoName.equals("")) {
-      autoCommand = new PathPlannerAuto(autoName);
-    } else {
-      autoCommand = new PrintCommand("doing nothing!");
+    if(secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.none){
+      autoPoints.add(Map.of(
+        secondPieceChooser.getSelected(), secondPieceRoLChooser.getSelected()));
+    }
+    if(thirdPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.none){
+      autoPoints.add(Map.of(
+        thirdPieceChooser.getSelected(), thirdPieceRoLChooser.getSelected()));
     }
 
+    autoCommand = new AutoManager(startChooser.getSelected(), autoPoints).getAutoCommand();
+  }
     autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2)
     // new HomeElevator().withTimeout(0.2),
     // (ScoringFactory.SmartStow()).withTimeout(0.3)
@@ -546,8 +522,14 @@ public class Robot extends TimedRobotstangs {
 
   public void autonomousInit() {
 
-    unpublishTrajectory();
-
+    if(startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center){
+      drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
+    } else if(startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro){
+      drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose);
+    } else {
+      drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose);
+    }
+    
     IntakePivot.getInstance().point3Intake();
     Climber.getInstance().zeroClimber();
     Elevator.getInstance().setHomePositionElevator();
