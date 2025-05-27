@@ -474,7 +474,6 @@ public class Robot extends TimedRobotstangs {
 
   public void disabledInit() {
     setAllMotorsSafe();
-    AutoManager.clearAutoCommand();
 
   }
 
@@ -541,6 +540,7 @@ public class Robot extends TimedRobotstangs {
 
   }
   public void autonomousExit() {
+
   }
 
   @Override

@@ -1,7 +1,6 @@
 package frc.robot;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -15,12 +14,11 @@ import frc.robot.commands.Factories.ScoringFactory;
 import frc.robot.commands.SwerveCommands.AligntoReef;
 
 public class AutoManager {
-    private final ArrayList<Constants.SwerveConstants.AutoConstants.ReefSides> sides = new ArrayList<>();
     public final ArrayList<Map<Constants.SwerveConstants.AutoConstants.ReefSides, Boolean>> AutoScoringMap = new ArrayList<>();
     private final Constants.SwerveConstants.AutoConstants.AutoStartPosition start;
     private int pieces = 0;
     int pathcount = 0;
-    private static Command autoCommand = new PrintCommand("Default Auto Command");
+    private Command autoCommand= new PrintCommand("Default Auto Command");
 
     /**
      * Constructor for AutoManager.
@@ -32,38 +30,42 @@ public class AutoManager {
      */
     public AutoManager(Constants.SwerveConstants.AutoConstants.AutoStartPosition start,
             ArrayList<Map<Constants.SwerveConstants.AutoConstants.ReefSides, Boolean>> sides) {
+        AutoScoringMap.clear();
         if (start == null) {
             throw new IllegalArgumentException("Start position cannot be null.");
         }
         if (sides == null) {
             throw new IllegalArgumentException("Sides list cannot be null.");
         }
+        this.start = start; 
 
-        for (Map<ReefSides, Boolean> side : sides) {
-            if (side != null) {
-                this.AutoScoringMap.add(side);
-                pieces++;
+
+            for (Map<ReefSides, Boolean> side : sides) {
+                if (side != null) {
+                    this.AutoScoringMap.add(side);
+                    pieces++;
+                }
             }
-        }
-        SmartDashboard.putNumber("What piece auto", pieces);
-        this.start = start;
-        setAutoCommand();
+            SmartDashboard.putNumber("What piece auto", pieces);
+            setAutoCommand();
+
+        
     }
 
-    public static void clearAutoCommand(){
+    public void clearAutoCommand() {
         autoCommand = new PrintCommand("Default Auto Command");
     }
+
     /**
      * Sets the autonomous command based on the starting position and scoring map.
      */
     public void setAutoCommand() {
         boolean isRight = false;
 
-
-
         if (start == Constants.SwerveConstants.AutoConstants.AutoStartPosition.shitinshit) {
             autoCommand = new PrintCommand("Pooping!!!!");
-        } else {
+        } 
+        else {
             for (int c = 0; c < AutoScoringMap.size(); c++) {
                 final int index = c;
 
@@ -93,7 +95,6 @@ public class AutoManager {
                                 Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
                                 .onlyIf(() -> start != Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center));
                 pathcount++;
-                
 
             }
         }
@@ -116,6 +117,7 @@ public class AutoManager {
             throw new IllegalArgumentException("Reef side cannot be null.");
         }
 
+    
         if (Robot.isRed()) {
             switch (side) {
                 case Center1:
