@@ -16,9 +16,11 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,6 +43,7 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+    private   StructArrayPublisher<SwerveModuleState> publisher;
     // private SimSwerveDrivetrain m_simDrivetrain;
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
@@ -143,6 +146,11 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         }
 
         configurePathPlanner();
+
+
+publisher = NetworkTableInstance.getDefault()
+                .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
+
 
     }
 
@@ -269,6 +277,9 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             });
         }
 
+        publisher.set(this.getState().ModuleStates);
+
+
         // for (SwerveModule<TalonFX, TalonFX, CANcoder> swerveModule : getModules()) {
         // if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
         // swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
@@ -325,8 +336,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         }
         if (!Robot.isSimulation()) {
 
-
-
             LimelightHelpers.PoseEstimate fourPoseEsti, threePoseEsti;
             if (DriverStation.isDisabled()) {
 
@@ -367,7 +376,6 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
     };
 
-
     private boolean isPosegoo(LimelightHelpers.PoseEstimate yoPoseEsti) {
         if (yoPoseEsti == null) {
             return false;
@@ -376,7 +384,8 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
             return false;
         }
 
-        SmartDashboard.putNumber("Error Distance", yoPoseEsti.pose.getTranslation().minus(this.getState().Pose.getTranslation()).getNorm());
+        SmartDashboard.putNumber("Error Distance",
+                yoPoseEsti.pose.getTranslation().minus(this.getState().Pose.getTranslation()).getNorm());
 
         return RobotContainer.useVision;
     }
