@@ -22,7 +22,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -35,7 +34,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +44,8 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
+import frc.robot.Stable.AutoManager;
+import frc.robot.Stable.ScoringTargets;
 import frc.robot.commands.ArmCommands.SetArmDutyCycle;
 import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ClimberCommands.Deploy;
@@ -97,7 +97,7 @@ public class Robot extends TimedRobotstangs {
   Command lastAlgaeffector;
   SequentialCommandGroup autoGroup;
   private static String autoName = "";
-  private static ArrayList<Map<Constants.SwerveConstants.AutoConstants.ReefSides, Boolean>> autoPoints = new ArrayList<>();
+  private static ArrayList<ScoringTargets> autoPoints = new ArrayList<>();
 
   // Autos
   private SendableChooser<Constants.SwerveConstants.AutoConstants.AutoStartPosition> startChooser = new SendableChooser<>();
@@ -122,7 +122,6 @@ public class Robot extends TimedRobotstangs {
   private static Alert PissingAlert = new Alert("We going forward ", AlertType.kInfo);
   private Timer timer = new Timer();
 
-  private String oldAutoName = "";
 
   public Robot() {
     m_robotContainer = new RobotContainer();
@@ -488,15 +487,15 @@ public class Robot extends TimedRobotstangs {
     if(firstPieceChooser.getSelected() != null ||
         secondPieceChooser.getSelected() != null ||
         thirdPieceChooser.getSelected() != null) {
-    autoPoints.add(Map.of(
+    autoPoints.add(new ScoringTargets( 
         firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));
 
     if(secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.none){
-      autoPoints.add(Map.of(
+      autoPoints.add(new ScoringTargets( 
         secondPieceChooser.getSelected(), secondPieceRoLChooser.getSelected()));
     }
     if(thirdPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.none){
-      autoPoints.add(Map.of(
+      autoPoints.add(new ScoringTargets( 
         thirdPieceChooser.getSelected(), thirdPieceRoLChooser.getSelected()));
     }
 

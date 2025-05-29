@@ -11,7 +11,6 @@ import static edu.wpi.first.units.Units.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import edu.wpi.first.math.Vector;
 
@@ -436,7 +435,7 @@ public final class Constants {
             new Pose2d(new Translation2d(1.683, 1.358), new Rotation2d(Units.degreesToRadians(157))),
             new Pose2d(new Translation2d(2.735, 2.229), new Rotation2d(Units.degreesToRadians(-12))));
 
-        static PathConstraints constraints = new PathConstraints(
+        public static PathConstraints constraints = new PathConstraints(
             Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
             Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond,
             Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared,
