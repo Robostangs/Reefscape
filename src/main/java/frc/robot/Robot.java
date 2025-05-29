@@ -142,43 +142,19 @@ public class Robot extends TimedRobotstangs {
     testTab = Shuffleboard.getTab("Test");
     disTab = Shuffleboard.getTab("Disabled");
 
-    startChooser.setDefaultOption("Shit and Shit", Constants.SwerveConstants.AutoConstants.AutoStartPosition.shitinshit);
-    startChooser.addOption("Center", Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center);
-    startChooser.addOption("Open", Constants.SwerveConstants.AutoConstants.AutoStartPosition.Open);
-    startChooser.addOption("Processor", Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro);
-
-    firstPieceChooser.setDefaultOption("none", Constants.SwerveConstants.AutoConstants.ReefSides.none);
-    firstPieceChooser.addOption("Center 1", Constants.SwerveConstants.AutoConstants.ReefSides.Center1);
-    firstPieceChooser.addOption("Center 2", Constants.SwerveConstants.AutoConstants.ReefSides.Center2);
-    firstPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
-    firstPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
-    firstPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
-    firstPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open2);
+    AutoManager.putStartChooser(startChooser);
+    AutoManager.putPieceChoosers(firstPieceChooser);
+    AutoManager.putPieceChoosers(secondPieceChooser);
+    AutoManager.putPieceChoosers(thirdPieceChooser);
 
     firstPieceRoLChooser.setDefaultOption("None", false);
     firstPieceRoLChooser.setDefaultOption("Right", true);
     firstPieceRoLChooser.addOption("Left", false);
 
-    secondPieceChooser.setDefaultOption("None", Constants.SwerveConstants.AutoConstants.ReefSides.none);
-    secondPieceChooser.addOption("Center 1", Constants.SwerveConstants.AutoConstants.ReefSides.Center1);
-    secondPieceChooser.addOption("Center 2", Constants.SwerveConstants.AutoConstants.ReefSides.Center2);
-    secondPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
-    secondPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
-    secondPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
-    secondPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open2);
-
 
     secondPieceRoLChooser.setDefaultOption("None", false);
     secondPieceRoLChooser.addOption("Right", true);
     secondPieceRoLChooser.addOption("Left", false);
-
-    thirdPieceChooser.setDefaultOption("None", Constants.SwerveConstants.AutoConstants.ReefSides.none);
-    thirdPieceChooser.addOption("Center 1", Constants.SwerveConstants.AutoConstants.ReefSides.Center1);
-    thirdPieceChooser.addOption("Center 2", Constants.SwerveConstants.AutoConstants.ReefSides.Center2);
-    thirdPieceChooser.addOption("Pro 1", Constants.SwerveConstants.AutoConstants.ReefSides.Pro1);
-    thirdPieceChooser.addOption("Pro 2", Constants.SwerveConstants.AutoConstants.ReefSides.Pro2);
-    thirdPieceChooser.addOption("Open 1", Constants.SwerveConstants.AutoConstants.ReefSides.Open1);
-    thirdPieceChooser.addOption("Open 2", Constants.SwerveConstants.AutoConstants.ReefSides.Open2);
 
 
     thirdPieceRoLChooser.setDefaultOption("None", false);
@@ -490,11 +466,11 @@ public class Robot extends TimedRobotstangs {
     autoPoints.add(new ScoringTargets( 
         firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));
 
-    if(secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.none){
+    if(secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None){
       autoPoints.add(new ScoringTargets( 
         secondPieceChooser.getSelected(), secondPieceRoLChooser.getSelected()));
     }
-    if(thirdPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.none){
+    if(thirdPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None){
       autoPoints.add(new ScoringTargets( 
         thirdPieceChooser.getSelected(), thirdPieceRoLChooser.getSelected()));
     }

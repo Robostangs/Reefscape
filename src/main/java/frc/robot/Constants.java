@@ -418,15 +418,16 @@ public final class Constants {
         Open2,
         Pro1,
         Pro2,
-        none
+        None
       }
 
       public static enum AutoStartPosition {
+        None,
         Center,
         Open,
         Pro,
-        none,
-        shitinshit
+        ShitinShit,
+        Mobility
       }
 
       public static class AutoPaths {
