@@ -85,7 +85,7 @@ public class AutoManager {
                 autoCommand = autoCommand.andThen(AligntoReef.getDriveToReef(
                         () -> finalIsRight,
                         getReefID(currentMap.keySet().iterator().next())).andThen(
-                                ScoringFactory.L4PositionAuto().withTimeout(1)))
+                                ScoringFactory.L4Position().withTimeout(1)))
                         .andThen(new Spit().withTimeout(0.4))
                         .andThen(ScoringFactory.SmartStow().withTimeout(1))
                         .andThen(AutoBuilder.pathfindThenFollowPath(
@@ -94,6 +94,7 @@ public class AutoManager {
                                         : Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup,
                                 Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
                                 .onlyIf(() -> start != Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center));
+
                 pathcount++;
 
             }
