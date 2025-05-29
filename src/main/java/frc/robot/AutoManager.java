@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -79,6 +80,7 @@ public class AutoManager {
                 } else {
                     isRight = false;
                 }
+                //TODO this:SimpleEntry
 
                 final boolean finalIsRight = isRight;
 
