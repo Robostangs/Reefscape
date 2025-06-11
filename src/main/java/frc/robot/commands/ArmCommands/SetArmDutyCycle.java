@@ -9,11 +9,10 @@ public class SetArmDutyCycle extends Command {
 
   Arm arm;
   DoubleSupplier speed;
-
-  /**
-   * A command that runs the arm at a duty cycle
-   * @param speed the percent to run the arm at
-   */
+/**
+ * this gets the input from manip and move the arm at that speed that is inputted
+ * @param speed this makes the 10% what is inputted
+ */
   public SetArmDutyCycle(DoubleSupplier speed) {
     arm = Arm.getInstance();
     addRequirements(arm);

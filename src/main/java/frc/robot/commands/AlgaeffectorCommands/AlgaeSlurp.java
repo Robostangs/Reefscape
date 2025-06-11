@@ -6,6 +6,12 @@ import frc.robot.subsystems.Algaeffector;
 
 public class AlgaeSlurp extends Command{
     Algaeffector Algaeslurpeffector;
+
+    /**
+     * this gets the algae from the endefactor in the storing spot at 70% power
+     * No paramter (set value)
+     */
+
     public AlgaeSlurp(){
         Algaeslurpeffector = Algaeffector.getInstance();
         addRequirements(Algaeslurpeffector);

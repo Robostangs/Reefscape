@@ -79,17 +79,17 @@ static {
         }
 
         PathConstraints constraints = new PathConstraints(
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.4,
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.4,
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.4,
-          Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.4);
+          Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.4,
+          Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.4,
+          Constants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.4,
+          Constants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.4);
 
 
                 PathConstraints endconstraints = new PathConstraints(
-                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.1,
-                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.1,
-                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.1,
-                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.1);
+                  Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.1,
+                  Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.1,
+                  Constants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.1,
+                  Constants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.1);
   
         
 

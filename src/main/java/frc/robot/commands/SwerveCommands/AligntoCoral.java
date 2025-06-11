@@ -66,15 +66,15 @@ public class AligntoCoral extends Command {
         if (Math.abs(LimelightHelpers.getTX(llName)) < 6) {
             driveRequest
                     .withVelocityX(translateX.get()
-                            * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
+                            * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
                     .withVelocityY(
-                            Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
+                            Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
         } else {
             driveRequest
                     .withVelocityX(translateX.get()
-                            * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
+                            * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond))
                     .withVelocityY(translateY.get()
-                            * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
+                            * Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond);
         }
         drivetrain.setControl(driveRequest);
 

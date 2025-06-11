@@ -272,38 +272,38 @@ public class Robot extends TimedRobotstangs {
           CommandSwerveDrivetrain.getInstance()
               .runOnce(() -> CommandSwerveDrivetrain.getInstance()
                   .resetPose(!Robot.isRed()
-                      ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
+                      ? Constants.AutoConstants.AutoPoses.kCenterPose
                       : FlippingUtil
-                          .flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose))));
+                          .flipFieldPose(Constants.AutoConstants.AutoPoses.kCenterPose))));
 
       SwerveCommands.addOption("Drive forward",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
               .withVelocityX(
-                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
+                  Constants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
               .withName("Drive Forward"));
 
       SwerveCommands.addOption("Drive Backward",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
               .withVelocityX(
-                  -Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
+                  -Constants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
               .withName("Drive Backward"));
 
       SwerveCommands.addOption("Drive Left",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
               .withVelocityY(
-                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
+                  Constants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
               .withName("Drive Left"));
 
       SwerveCommands.addOption("Drive Right",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
               .withVelocityY(
-                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
+                  Constants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
               .withName("Drive Right"));
 
       SwerveCommands.addOption("Rotate",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
               .withRotationalRate(
-                  Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond))
+                  Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond))
               .withName("Rotate"));
 
       testTab.add("Swerve", SwerveCommands)
@@ -504,14 +504,14 @@ public class Robot extends TimedRobotstangs {
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.5))
+              Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.5))
           .withTimeout(.8);
 
     } else if (autoName.equals("Shitting")) {
       drivetrain.resetRotation(Rotation2d.fromDegrees(isRed() ? -90 : 90));
       autoCommand = CommandSwerveDrivetrain.getInstance()
           .applyRequest(() -> new SwerveRequest.FieldCentric().withVelocityX(
-              Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.5))
+              Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * -0.5))
           .withTimeout(.75)
           .andThen(ScoringFactory.L4Position().andThen(new Spit().withTimeout(0.5)).andThen(ScoringFactory.Stow()));
 
@@ -597,7 +597,7 @@ public class Robot extends TimedRobotstangs {
 
     PathPlannerAuto auto = new PathPlannerAuto(autoName);
     if (autoName == null) {
-      teleopField.getObject(Constants.SwerveConstants.AutoConstants.kFieldObjectName)
+      teleopField.getObject(Constants.AutoConstants.kFieldObjectName)
           .setPose(new Pose2d(-5, -5, Rotation2d.fromDegrees(0)));
       lastAutoName = "null";
       noAutoSelected.set(true);
@@ -662,7 +662,7 @@ public class Robot extends TimedRobotstangs {
       e.printStackTrace();
     }
 
-    Robot.teleopField.getObject(Constants.SwerveConstants.AutoConstants.kFieldObjectName).setPoses(poses);
+    Robot.teleopField.getObject(Constants.AutoConstants.kFieldObjectName).setPoses(poses);
   }
 
   /**

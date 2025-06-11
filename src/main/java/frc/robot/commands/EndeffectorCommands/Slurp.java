@@ -9,9 +9,6 @@ public class Slurp extends Command {
     Endeffector endeffector;
     boolean L1;
 
-    /**
-     * A command that intakes from the endeffector
-     */
     public Slurp(boolean L1) {
         endeffector = Endeffector.getInstance();
         this.L1 = L1;

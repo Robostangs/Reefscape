@@ -3,15 +3,15 @@ package frc.robot.commands.ArmCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
-
 public class SetArmPosition extends Command {
   Arm arm;
   double rotations;
 
   /**
- * A command that set the arm to a setpoint and uses motion magic to get there
- * @param rotations the setpoint for the arm
- */
+   * sets the rotations for Motion Magic to be reached to
+   * @param rotations has a set position of where Motion Magic should be
+   */
+
   public SetArmPosition(double rotations) {
 
     this.rotations = rotations;

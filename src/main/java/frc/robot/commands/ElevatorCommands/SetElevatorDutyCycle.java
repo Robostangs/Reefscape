@@ -8,10 +8,7 @@ import frc.robot.subsystems.Elevator;
 public class SetElevatorDutyCycle extends Command {
   Elevator elevator;
   DoubleSupplier speed;
-  /**
-   * A command that runs the elevator at a duty cycle
-   * @param speed the percent to run the elevator at
-   */
+
   public SetElevatorDutyCycle(DoubleSupplier speed) {
     elevator = Elevator.getInstance();
     addRequirements(elevator);

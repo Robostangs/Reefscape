@@ -12,9 +12,10 @@ public class Deploy extends Command {
   double time;
 
   /**
-   * A command that connects the servo to the rachet then deploys the climber
-   * @param smart whether to stop when it reaches the setpoint or not
+   * this runs the climber at at least 107 degrees and if the timer has been going for more than 1 second
+   * @param smart 
    */
+
   public Deploy(boolean smart) {
     climber = Climber.getInstance();
     this.addRequirements(climber);

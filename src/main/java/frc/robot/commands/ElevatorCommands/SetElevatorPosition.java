@@ -7,15 +7,10 @@ package frc.robot.commands.ElevatorCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SetElevatorPosition extends Command {
   Elevator elevator;
   double position;
 
-  /** 
-   * A command that uses Motion Magic to set the elevator to the specified position
-   * @param position the setpoint for the elevator
-   */
   public SetElevatorPosition(double position) {
     elevator = Elevator.getInstance();
     addRequirements(elevator);

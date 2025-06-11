@@ -11,9 +11,9 @@ public class Reel extends Command {
   boolean smart;
 
   /**
-   * A command that reels the climber in
-   * @param smart whether to stop when it reaches the setpoint or not
+   * this takes the climber back in at a speed of 70%
    */
+
   public Reel(boolean smart) {
     climber = Climber.getInstance();
     this.addRequirements(climber);
