@@ -96,11 +96,11 @@ public class AligntoReef {
 
     List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
     // this is what the rotation of the actual robot should be
-    if (!Auto)
+    // if (!Auto)
       rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
 
     List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
-    zones.add(new ConstraintsZone(0.8, 1, endconstraints));
+    zones.add(new ConstraintsZone(0.5, 1, endconstraints));
     PathPlannerPath path = new PathPlannerPath(
         waypoints,
         rotationTargets,

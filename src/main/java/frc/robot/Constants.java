@@ -409,7 +409,7 @@ public final class Constants {
 
     public static class AutoConstants {
       public static final PIDConstants translationPID = new PIDConstants(10, 0, 0);
-      public static final PIDConstants rotationPID = new PIDConstants(5, 0, 0);
+      public static final PIDConstants rotationPID = new PIDConstants(9, 5, 0);
 
       public static enum ReefSides {
         Center1,

@@ -78,17 +78,18 @@ public class AutoManager {
 
                 autoCommand = autoCommand.andThen(AligntoReef.getDriveToReef(
                         () -> currentSide.isRight(),
-                        currentSide.getAprilTag()).alongWith(
+                        currentSide.getAprilTag()).andThen(
                                 ScoringFactory.L4Position().withTimeout(1)))
                         .andThen(new Spit().withTimeout(0.4))
                         .andThen(ScoringFactory.SmartStow().withTimeout(1))
-                        .andThen(AutoBuilder.pathfindThenFollowPath(
+                        .andThen(IntakeFactory.IntakeCoral()
+                        .alongWith(
+                        AutoBuilder.pathfindThenFollowPath(
                                 start == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro
                                         ? Constants.SwerveConstants.AutoConstants.AutoPaths.kProcessorCleanup
                                         : Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup,
-                                Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
-                                .alongWith(IntakeFactory.IntakeCoral())
-                                .onlyIf(() -> start != Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center));
+                                Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)))
+                                .onlyIf(() -> start != Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center);
 
                 pathcount++;
 

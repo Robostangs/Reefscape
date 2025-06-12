@@ -280,6 +280,10 @@ publisher = NetworkTableInstance.getDefault()
         publisher.set(this.getState().ModuleStates);
 
 
+        SmartDashboard.putNumber("Swerve/Theta in Rads", this.getState().Pose.getRotation().getRadians());
+
+
+
         // for (SwerveModule<TalonFX, TalonFX, CANcoder> swerveModule : getModules()) {
         // if (Robot.verifyMotor(swerveModule.getDriveMotor())) {
         // swerveModule.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
