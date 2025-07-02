@@ -6,6 +6,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class SetElevatorDutyCycle extends Command {
+
+  /*
+   * This reads the input from the manip controller and sets the elevator to that
+   * The elevator is first said to be in state of manual adjustment 
+   * Then gets the input from the joystick constantly
+   * When the code ends, the elevator moves at {@code elevatorDutyCycle} speed and its status is stopped
+   */
+
   Elevator elevator;
   DoubleSupplier speed;
 

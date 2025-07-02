@@ -8,6 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class SetElevatorPosition extends Command {
+
+  /*
+   * This allows the user to have the elevator go to a set point
+   * It starts with the goal position being set 
+   * Then it uses motion magic during the running of the code to effectively reach the target spot
+   * The elevator stops once it has reached its position
+   */
+
   Elevator elevator;
   double position;
 
