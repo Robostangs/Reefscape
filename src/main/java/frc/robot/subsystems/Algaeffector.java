@@ -32,6 +32,7 @@ public class Algaeffector extends SubsystemBase {
     }
 
     public void setEneffdector(double kalgaeffectordutycyle) {
+        
         algaeman.set(kalgaeffectordutycyle);
     }
 

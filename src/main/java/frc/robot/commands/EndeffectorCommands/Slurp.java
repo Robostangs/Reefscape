@@ -10,8 +10,9 @@ public class Slurp extends Command {
     boolean L1;
 
     /**
-     * A command that intakes from the endeffector
-     */
+     * This command controls the Endeffector subsystem to perform the "slurp" action, this is sucks the Coral into the endeffector.
+     * 
+      */
     public Slurp(boolean L1) {
         endeffector = Endeffector.getInstance();
         this.L1 = L1;
@@ -31,9 +32,7 @@ public class Slurp extends Command {
         if (!L1) {
             endeffector.setEneffdector(Constants.EndeffectorConstants.kEndeffectorSlurp);
         } else {
-            endeffector.setEneffdector(Constants.EndeffectorConstants.kEndeffectorSlurp-0.2
-            );
-
+            endeffector.setEneffdector(Constants.EndeffectorConstants.kEndeffectorSlurp - 0.2);
         }
 
     }

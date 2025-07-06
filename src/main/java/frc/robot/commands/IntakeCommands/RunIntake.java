@@ -4,6 +4,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeWheels;
 
+/**
+ * Command to activate the intake wheels for collecting coral.
+ * When scheduled, this command starts the intake at dutycycle.
+ * The intake continues running until the command is interrupted or canceled, if that happens,then
+ * the intake stops and the status is updated to indicate the coral is in.
+ */
 public class RunIntake extends Command {
 
     IntakeWheels intake;

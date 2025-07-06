@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -12,24 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.util.FlippingUtil;
-
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoCamera;
-import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -47,11 +43,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ArmCommands.SetArmDutyCycle;
 import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.Reel;
+import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.SetElevatorDutyCycle;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
 import frc.robot.commands.EndeffectorCommands.Slurp;
@@ -266,8 +262,10 @@ public class Robot extends TimedRobotstangs {
     ClimberCommands.close();
     IntakeCommands.close();
     EndeffectorCommands.close();
+    //pit test
     if (!testConfigured) {
-      // swerve drivetrain
+      // Swerve Drivetrain
+      //When pressed, the swerve drivetrain will reset the gyro and set the pose to the center of the field
       SwerveCommands.setDefaultOption("Do nothin(basically reseting the gyro)",
           CommandSwerveDrivetrain.getInstance()
               .runOnce(() -> CommandSwerveDrivetrain.getInstance()
@@ -275,37 +273,37 @@ public class Robot extends TimedRobotstangs {
                       ? Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose
                       : FlippingUtil
                           .flipFieldPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose))));
-
+      // An option on elastic when pressed will make the swerve drivetrain's wheels move forward
       SwerveCommands.addOption("Drive forward",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
               .withVelocityX(
                   Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
               .withName("Drive Forward"));
-
+      // An option on elastic when pressed will make the swerve drivetrain's wheels move backward
       SwerveCommands.addOption("Drive Backward",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
               .withVelocityX(
                   -Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
               .withName("Drive Backward"));
-
+      // An option on elastic when pressed will make the swerve drivetrain's wheels move left
       SwerveCommands.addOption("Drive Left",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
               .withVelocityY(
                   Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
               .withName("Drive Left"));
-
+      // An option on elastic when pressed will make the swerve drivetrain's wheels move right
       SwerveCommands.addOption("Drive Right",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.FieldCentric()
               .withVelocityY(
                   Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12VoltsPIT.in(MetersPerSecond)))
               .withName("Drive Right"));
-
+      // An option on elastic when pressed will make the swerve drivetrain's wheels rotate
       SwerveCommands.addOption("Rotate",
           CommandSwerveDrivetrain.getInstance().applyRequest(() -> new SwerveRequest.RobotCentric()
               .withRotationalRate(
                   Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond))
               .withName("Rotate"));
-
+      // The actual button on eleastic with its customizations
       testTab.add("Swerve", SwerveCommands)
           .withSize(2, 1)
           .withPosition(0, 0);
@@ -313,14 +311,19 @@ public class Robot extends TimedRobotstangs {
       ElevatorCommands.setDefaultOption("nothin",
           Elevator.getInstance()
               .runOnce(() -> Elevator.getInstance().setElevatorDutyCycle(0)));
-
+      // An option on elastic when pressed will make the elevator up in the given duty cycle
       ElevatorCommands.addOption("Elevator up",
           new SetElevatorDutyCycle(() -> Constants.ElevatorConstants.ktestDutyCycle));
+      // An option on elastic when pressed will make the elevator down in the given duty cycle
       ElevatorCommands.addOption("Elevator down",
           new SetElevatorDutyCycle(() -> -Constants.ElevatorConstants.ktestDutyCycle));
+        // An option on elastic when pressed will set the elevator to the L3 position
       ElevatorCommands.addOption("L3", new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos));
+      // An option on elastic when pressed will set the elevator to the L2 position
       ElevatorCommands.addOption("L2", new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorEnd));
+      // An option on elastic when pressed will set the elevator to the L4 position
       ElevatorCommands.addOption("L4", new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
+      // An option on elastic when pressed will set the elevator to the stow position
       ElevatorCommands.addOption("Stow", new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos));
       ElevatorCommands.addOption("Home Elevator", new HomeElevator());
       testTab.add("Elevator", ElevatorCommands)
@@ -328,50 +331,68 @@ public class Robot extends TimedRobotstangs {
           .withPosition(0, 1);
 
       // Intake
+      //sets the default option to nothin, which will set the pivot duty cycle to 0
       IntakeCommands.setDefaultOption("nothin",
           IntakePivot.getInstance()
               .runOnce(() -> IntakePivot.getInstance().setPiviotDutyCycle(0)));
-
+      // An option on elastic when pressed will set the intake pivot to extend
       IntakeCommands.addOption("Extend", new Extend(false));
+      //  An option on elastic when pressed will set the intake pivot to retract
       IntakeCommands.addOption("Retract", new Retract());
+      // An option on elastic when pressed will set the intake pivot to just run the motors
       IntakeCommands.addOption("RunIntake", new RunIntake());
+      // An option on elastic when pressed will set the intake pivot to home the intake
       IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
-
+      // The actual button on elastic with its customizations
       testTab.add("IntakeCommadns", IntakeCommands)
           .withSize(2, 1)
           .withPosition(0, 2);
 
       // endeffector
+      // sets the default option to nothin, which will set the endeffector duty cycle to 0
       EndeffectorCommands.setDefaultOption("nothin",
           Endeffector.getInstance()
               .runOnce(() -> Endeffector.getInstance().setEneffdector(0)));
-
+      // An option on elastic when pressed will set the endeffector to "spit" the coral out
       EndeffectorCommands.addOption("Spit", new Spit());
+      // An option on elastic when pressed will set the endeffector to "slurp" the coral in
       EndeffectorCommands.addOption("Slurp", new Slurp(false));
+      // The actual button on elastic with its customizations
       testTab.add("EndeffectorCommands", EndeffectorCommands)
           .withSize(2, 1)
           .withPosition(0, 3);
 
       // Arm
+      // sets the default option to nothin, which will set the arm duty cycle to 0
       ArmCommands.setDefaultOption("Nothin",
           Arm.getInstance()
               .runOnce(() -> Arm.getInstance().setArmDutyCycle(0)));
 
       ArmCommands.addOption("postive", new SetArmDutyCycle(() -> Constants.ArmConstants.kArmDutyCycle));
+      // An option on elastic when pressed will set the arm to go up
       ArmCommands.addOption("negative", new SetArmDutyCycle(() -> -Constants.ArmConstants.kArmDutyCycle));
+      //  An option on elastic when pressed will set the arm to go down
       ArmCommands.addOption("L4", new SetArmPosition(Constants.ScoringConstants.L4.kArmScoringPosition));
+      // An option on elastic when pressed will set the arm to the L3 position
       ArmCommands.addOption("L3", new SetArmPosition(Constants.ScoringConstants.L3.kArmScoringPosition));
+      // An option on elastic when pressed will set the arm to the L2 position
       ArmCommands.addOption("L2", new SetArmPosition(Constants.ScoringConstants.L2.kArmScoringPosition));
+      // An option on elastic when pressed will set the arm to the stow position
       ArmCommands.addOption("Stow", new SetArmPosition(Constants.ScoringConstants.Stow.kArmStowPos));
+      // The actual button on elastic with its customizations
       testTab.add("ArmCommands", ArmCommands)
           .withSize(2, 1)
           .withPosition(0, 4);
       // climber
+      //sets the default option to nothin, which will set the climber duty cycle to 0
       ClimberCommands.setDefaultOption("Nothin",
           Climber.getInstance()
               .runOnce(() -> Climber.getInstance().runClimber(0)));
+      // An option on elastic when pressed will deploy the climber(is a boolean)
       ClimberCommands.addOption("Deploy", new Deploy(true));
+      // An option on elastic when pressed will reel the climber(is a boolean)
       ClimberCommands.addOption("Reel", new Reel(true));
+      // The actually button with the features on elastic
       testTab.add("ClimberCommands", ClimberCommands)
           .withSize(2, 1)
           .withPosition(0, 5);

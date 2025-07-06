@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,6 +24,8 @@ public class Endeffector extends SubsystemBase {
     }
 
     public void setEneffdector(double endeffectorDutyCycle) {
+        
+
         endeffectorMotor.set(TalonSRXControlMode.PercentOutput, endeffectorDutyCycle); 
     }
 
@@ -31,6 +34,7 @@ public class Endeffector extends SubsystemBase {
 
     }
     public void setEndeffectorBrake() {
+        // Set the motor to brake mode
         endeffectorMotor.setNeutralMode(NeutralMode.Brake);
     }
     

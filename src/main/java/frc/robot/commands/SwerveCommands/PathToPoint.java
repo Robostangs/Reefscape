@@ -11,6 +11,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
+
+/*
+ * This command drives the robot from tis current position to a target pose,
+ * using set speed and acceleration limits.
+ */
 public class PathToPoint extends SequentialCommandGroup {
         private CommandSwerveDrivetrain drivetrain;
         private Pose2d targetPose;

@@ -17,7 +17,7 @@ import frc.robot.commands.IntakeCommands.Untake;
 public class IntakeFactory {
 
     /**
-     * @return A command extends intake then runs the wheels and finally retracts
+     * @return 
      */
     public static Command IntakeCoral() {
         return new Extend(false).alongWith(new RunIntake())
@@ -25,7 +25,7 @@ public class IntakeFactory {
     }
 
     /**
-     * @return A command that intakes from human player station
+     * @return A command that intakes from human player station 
      */
     public static Command SourceIntake() {
         return new SetElevatorPosition(Constants.ScoringConstants.Source.kElevatorPos).alongWith(

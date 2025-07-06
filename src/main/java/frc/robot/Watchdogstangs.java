@@ -4,13 +4,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.hal.NotifierJNI;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
-
 import java.io.Closeable;
 import java.util.PriorityQueue;
 import java.util.concurrent.locks.ReentrantLock;
+
+import edu.wpi.first.hal.NotifierJNI;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * A class that's a wrapper around a watchdog timer.
@@ -53,6 +53,7 @@ public class Watchdogstangs implements Closeable, Comparable<Watchdogstangs> {
    * @param callback This function is called when the timeout expires.
    */
   public Watchdogstangs(double timeoutSeconds, Runnable callback) {
+    
     m_timeoutSeconds = timeoutSeconds;
     m_callback = callback;
     m_tracer = new Tracerstangs();
@@ -64,6 +65,7 @@ public class Watchdogstangs implements Closeable, Comparable<Watchdogstangs> {
   }
 
   @Override
+  
   public boolean equals(Object obj) {
     return obj instanceof Watchdogstangs watchdog
         && Double.compare(m_expirationTimeSeconds, watchdog.m_expirationTimeSeconds) == 0;
@@ -87,6 +89,7 @@ public class Watchdogstangs implements Closeable, Comparable<Watchdogstangs> {
    * @return The time in seconds since the watchdog was last fed.
    */
   public double getTime() {
+    // This takes the system clock time and subtracts the start time to get the duration
     return Timer.getFPGATimestamp() - m_startTimeSeconds;
   }
 

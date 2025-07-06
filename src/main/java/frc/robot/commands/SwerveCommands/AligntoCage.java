@@ -18,6 +18,8 @@ import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import static edu.wpi.first.units.Units.*;
 
+
+// Aligns the robot to a specified cage position based on the given april tag ID.
 public class AligntoCage extends Command {
 
     CommandSwerveDrivetrain drivetrain;

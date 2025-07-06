@@ -15,6 +15,13 @@ import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import static edu.wpi.first.units.Units.*;
 
+/*
+ * This command alligns the robot to a coral on the field using a Limelight camera.
+ * It uses the Limelight to calculate the degree fo the turn and continues to turn.
+ * while moving, it adjusts the robot's angle to face the coral.
+ * This command never finsihes on its own and must be stopped manually (battery kill).
+ */
+
 public class AligntoCoral extends Command {
 
     CommandSwerveDrivetrain drivetrain;
@@ -24,6 +31,8 @@ public class AligntoCoral extends Command {
     Supplier<Double> translateX, translateY;
     Supplier<Rotation2d> getTargetRotation;
     String llName;
+
+    //
 
     public AligntoCoral() {
 

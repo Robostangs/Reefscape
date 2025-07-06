@@ -107,7 +107,7 @@ public class IntakePivot extends SubsystemBase {
     }
 
     public boolean isIntakeatSetpoint(boolean extendorretract) {
-
+        // extendorretract(boolean; true or false) is used to determine if the intake is at the extend or retract setpoint. And it does that by taking the position of the Motor and comparing it to the setpoint.
         if (extendorretract) {
             return pivotMotor.getPosition().getValueAsDouble() <= Constants.IntakeConstants.kExtendSetpoint + 4;
         } else {

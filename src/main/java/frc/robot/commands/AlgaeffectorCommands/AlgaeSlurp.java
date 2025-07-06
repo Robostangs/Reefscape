@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Algaeffector;
 
+// This command controls the Algaeffector subsystem to perform the "slurp" action, which activates the endeffector motor at a specified duty cycle to suck in the algae.
+
 public class AlgaeSlurp extends Command{
     Algaeffector Algaeslurpeffector;
     public AlgaeSlurp(){
@@ -18,6 +20,7 @@ public class AlgaeSlurp extends Command{
     public void execute(){
         Algaeslurpeffector.setEneffdector(Constants.AlgaeffectorConstants.kAlgaeffectorSlurpCycle);
     }
+    // This method is called when the command ends or is interrupted. It will set the endeffector to zero which will stop it.
     @Override
     public void end(boolean interrupted){
         Algaeslurpeffector.postStatus("Slurp");

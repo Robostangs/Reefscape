@@ -7,7 +7,8 @@ public class Heimlich extends Command {
 
   IntakePivot intake;
 /**
- * A command the sets the intake position be horizontally out 
+ * Command to move the intake pivot to a horizontal position
+ * which sets the intake horizontally outward for ejecting game pieces.
  */
   public Heimlich() {
     intake = IntakePivot.getInstance();

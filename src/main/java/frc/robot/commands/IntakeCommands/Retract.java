@@ -4,14 +4,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakePivot;
 import frc.robot.subsystems.IntakeWheels;
 
+/**
+
+ * This command moves the intake pivot to the retracted setpoint, stops the intake wheels,
+ * and applies the pivot brake. It is intended to keep the intake clear of the arm and
+ * out of the way during other operations.
+ */
 public class Retract extends Command {
 
   IntakePivot intake;
   IntakeWheels intakeWheels;
 
-  /**
-   * A command that sets the position of the intake to the retracted setpoint which is out of the way of the arm
-   */
+
   public Retract() {
     intake = IntakePivot.getInstance();
     intakeWheels = IntakeWheels.getInstance();

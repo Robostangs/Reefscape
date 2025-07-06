@@ -13,6 +13,10 @@ import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
+/*
+ * This command always adjusts the robot's position and orientation to align wih reef and coral by
+ * adjusting the robot's angle until it is perfectly aimed. And it does all of that by using vision input.
+ */
 public class ReefAdjust extends Command {
 
     CommandSwerveDrivetrain drivetrain;

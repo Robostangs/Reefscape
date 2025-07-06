@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -44,15 +45,10 @@ public class IntakeWheels extends SubsystemBase {
     }
 
     public boolean getIntakeSensor() {
+    // Returns true if the intake sensor is triggered (object detected).
         return IntakeSensor.get();
     }
 
 
-    
-    @Override
-    public void periodic() {
-        // Robot.verifyMotor(intakeMotor);
-
-    }
 
 }

@@ -3,6 +3,12 @@ package frc.robot.commands.IntakeCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeWheels;
 
+/**
+ * Command to reverse the intake wheels and eject coral from the robot.
+ * When scheduled, this command sets the intake wheels to run at a negative duty cycle,
+ * which pushs the coral out of the intake if needed. The command continues running until interrupted,
+ * then it stops the intake and updates the status.
+ */
 public class Untake extends Command{
 
     IntakeWheels intake;

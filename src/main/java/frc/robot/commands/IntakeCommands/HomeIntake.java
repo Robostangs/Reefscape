@@ -8,7 +8,8 @@ public class HomeIntake extends Command{
 
     IntakePivot intake;
     /**
-     * A command that runs the intake at a duty cycle and then when it ends sets the setpoint to the hardstop
+     * Command to home the intake by running it at a set duty cycle.
+     * When finished, it sets the intake to the hardstop position.
      */
     public HomeIntake() {
         intake = IntakePivot.getInstance();
