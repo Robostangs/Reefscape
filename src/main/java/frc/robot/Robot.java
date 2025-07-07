@@ -95,7 +95,7 @@ public class Robot extends TimedRobotstangs {
   Command lastEndaffector;
   Command lastArm;
   Command lastAlgaeffector;
-  SequentialCommandGroup autoGroup;
+  SequentialCommandGroup autoGroup = new SequentialCommandGroup(new PrintCommand("Auto Group"));
   private static String autoName = "";
   private static ArrayList<ScoringTargets> autoPoints = new ArrayList<>();
 
@@ -460,8 +460,8 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledExit() {
 
-    if(firstPieceChooser.getSelected() != null ||
-        secondPieceChooser.getSelected() != null ||
+    if(firstPieceChooser.getSelected() != null &&
+        secondPieceChooser.getSelected() != null &&
         thirdPieceChooser.getSelected() != null) {
     autoPoints.add(new ScoringTargets( 
         firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));
@@ -477,9 +477,9 @@ public class Robot extends TimedRobotstangs {
 
     autoCommand = new AutoManager(startChooser.getSelected(), autoPoints).getAutoCommand();
   }
-    autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2)
-    // new HomeElevator().withTimeout(0.2),
-    // (ScoringFactory.SmartStow()).withTimeout(0.3)
+    autoGroup = new SequentialCommandGroup(
+      new Retract().withTimeout(0.2)
+
     );
 
     autoGroup.addCommands(

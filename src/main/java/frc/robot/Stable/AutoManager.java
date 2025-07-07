@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
@@ -24,6 +28,8 @@ public class AutoManager {
     private int pieces = 0;
     int pathcount = 0;
     private Command autoCommand = new PrintCommand("Default Auto Command");
+
+    private PathPlannerAuto pathPlannerAuto = new PathPlannerAuto(autoCommand, new Pose2d());
 
     /**
      * Constructor for AutoManager.
@@ -104,6 +110,8 @@ public class AutoManager {
         }
     }
 
+
+    
     public static void putStartChooser(SendableChooser<Constants.SwerveConstants.AutoConstants.AutoStartPosition> chooser){
         for (Constants.SwerveConstants.AutoConstants.AutoStartPosition position : Constants.SwerveConstants.AutoConstants.AutoStartPosition.values()) {
             chooser.addOption(position.toString(), position);

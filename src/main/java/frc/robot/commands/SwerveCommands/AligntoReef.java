@@ -111,6 +111,8 @@ public class AligntoReef {
         null,
         new GoalEndState(0.0, targetPose.getRotation()), false);
 
+
+
     path.preventFlipping = true;
 
     return path;
@@ -263,9 +265,16 @@ public class AligntoReef {
   public static Command getDriveToReef(BooleanSupplier isRight, int tagID) {
 
     return new DeferredCommand(() -> {
-      Robot.teleopField.getObject("Auto Target").setPose(getTargetPose((isRight.getAsBoolean())));
 
-      return AutoBuilder.followPath(generatePath(getTargetPose(isRight.getAsBoolean(), tagID), true));
+      PathPlannerPath path = generatePathAuto(getTargetPose(isRight.getAsBoolean(), tagID));
+
+      Robot.teleopField.getObject("Auto Target").setPose(getTargetPose((isRight.getAsBoolean())));
+      Robot.teleopField.getObject("Current Path").setPoses(getTargetPose(isRight.getAsBoolean(), tagID));
+
+      Robot.teleopField.getObject("THE PATH").setPoses(path.getPathPoses());
+       
+
+      return AutoBuilder.followPath(path);
     },
         Set.of(CommandSwerveDrivetrain.getInstance()));
 
