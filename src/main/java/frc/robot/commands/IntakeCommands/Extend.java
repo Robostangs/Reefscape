@@ -26,8 +26,8 @@ public class Extend extends Command {
 
     intake.postStatus("DEPLOY DEPLOY DEPLOY");
     intake.setExtendPosition();
-    if(auto){
-    intakeWheels.runDutyCycleIntake(Constants.IntakeConstants.kIntakeSpeed);
+    if (auto) {
+      intakeWheels.runDutyCycleIntake(Constants.IntakeConstants.kIntakeSpeed);
     }
 
   }

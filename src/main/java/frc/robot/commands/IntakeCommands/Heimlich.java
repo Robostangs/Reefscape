@@ -29,7 +29,7 @@ public class Heimlich extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    intake.postStatus("Puked");
+    intake.postStatus("Vomited");
     intake.setIntakePivotBrake();
     intake.stopBar();
   }

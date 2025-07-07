@@ -1,15 +1,15 @@
 package frc.robot.commands.IntakeCommands;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakePivot;
+
 public class Algaeintake extends Command {
 
-
-//PStart - P2L - P1R - P1L
-
   IntakePivot intake;
-/**
- * A command the sets the intake position be horizontally out 
- */
+
+  /**
+   * A command the sets the intake position be horizontally out
+   */
   public Algaeintake() {
     intake = IntakePivot.getInstance();
     this.addRequirements(intake);
@@ -40,4 +40,3 @@ public class Algaeintake extends Command {
   }
 
 }
-

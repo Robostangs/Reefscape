@@ -129,9 +129,7 @@ public class IntakePivot extends SubsystemBase {
 
         SmartDashboard.putNumber("Intake/Setpoint", pivotControl.Position);
         SmartDashboard.putNumber("Intake/Position", pivotMotor.getPosition().getValueAsDouble());
-        // SmartDashboard.putBoolean("Intake/is at extend setpoint", isIntakeatSetpoint(true));
-        // SmartDashboard.putBoolean("Intake/is at retract setpoint", isIntakeatSetpoint(false));
-        // SmartDashboard.putNumber("Intake/Stator Current", pivotMotor.getStatorCurrent().getValueAsDouble());
+     
 
     }
 
