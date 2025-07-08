@@ -130,7 +130,12 @@ public class ScoringFactory {
                                     ScoreState = ScoringPosition.L4;
                                 }));
     }
-
+    /**
+     * Returns a command that makes the elevator go to the L4 setpoint then move the
+     * arm.
+     * 
+     * @return A command to go to the L4 setpoint
+     */
     public static Command L4PositionAuto() {
         // return new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos)
         // .andThen(new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
@@ -164,7 +169,11 @@ public class ScoringFactory {
                                     ScoreState = ScoringPosition.L4;
                                 }));
     }
-
+    /**
+     * Returns a command that makes the elevator and arm go to the L3 setpoints
+     * 
+     * @return A command to go to the setpoint for L3
+     */
     public static Command L3PositionAuto() {
         return new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos)
                 .alongWith(
@@ -192,7 +201,12 @@ public class ScoringFactory {
                         .finallyDo(() -> ScoreState = ScoringPosition.Algaeeeee));
 
     }
-
+    /**
+     * Returns a command that makes the elevator go to the L2 setpoint then move the
+     * arm up ot knock out algae
+     * 
+     * @return A command to knock out algae
+     */
     public static Command ByeByeByeAlgaeL2() {
 
         return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStartAlg).andThen(
@@ -227,12 +241,18 @@ public class ScoringFactory {
         return L3Position()
                 .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));
     }
-
+    /**
+     * Returns {@code L3Position()} but spits automatically
+     * 
+     * @return A command to position at L3 and then spit automatically
+     */
     public static Command L3ScoreAuto() {
         return L3Position()
                 .andThen(new Spit().withTimeout(0.5));
     }
-
+    /**
+     * A command to go to the L1 scoring Position with the arm and elevator.
+     */
     public static Command L1Position() {
         return new SetElevatorPosition(Constants.ScoringConstants.L1.kElevatorStart)
                 .alongWith(
@@ -246,13 +266,18 @@ public class ScoringFactory {
                                     ScoreState = ScoringPosition.L3;
                                 }));
     }
-
+    /**
+     * A command to score when @param manipBumper is pressed.
+     */
     public static Command L1Score(Trigger manipBumper) {
         return L1Position()
                 .andThen(new WaitUntilCommand(manipBumper)).andThen(new Slurp(true).onlyWhile(manipBumper));
     }
 
     // -0.643
+    /**
+     * Scores automatically at the l4 position.
+     */
     public static Command L4ScoreAuto() {
         return L4PositionAuto()
                 .andThen(new Spit().withTimeout(0.5));
@@ -270,7 +295,9 @@ public class ScoringFactory {
         return L4Position()
                 .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));
     }
-
+    /**
+     * Goes to the L4 scoring position with arm and elevator and scores automatically there.
+     */
     public static Command AutoL4Score() {
         return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
                 .alongWith(
@@ -279,7 +306,6 @@ public class ScoringFactory {
                                         .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
                                 .onlyIf(() -> !Robot.isSimulation())
                                 .andThen(
-                                        // TODO Find this setpoint
                                         new SetArmPosition(Constants.ScoringConstants.L4.kArmAutoScoringPosition))
                                 .finallyDo(() -> {
                                     ScoreState = ScoringPosition.L4;
@@ -376,19 +402,25 @@ public class ScoringFactory {
                 }));
 
     }
-
+    /**
+     * A shortcut to Stow()
+     */
     public static Runnable returnStow() {
         return () -> {
             SmartStow();
         };
     }
-
+    /**
+     * A shortcut to StowL2()
+     */
     public static Runnable returnStowL2() {
         return () -> {
             StowL2();
         };
     }
-
+    /**
+     * A shortcut to getSchloop()
+     */
     public static Runnable getSchloop() {
         return () -> {
             Schloop();

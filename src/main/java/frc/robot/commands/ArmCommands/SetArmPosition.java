@@ -19,13 +19,13 @@ public class SetArmPosition extends Command {
     addRequirements(arm);
 
   }
-
+  // Start of the command, sets the arm to the setpoint
   @Override
   public void initialize() {
     arm.setArmPosition(rotations);
     arm.postStatus("Arm going to this rotation:" + rotations);
   }
-
+  
   @Override
   public void execute() {
     arm.setArmMotionMagic();
