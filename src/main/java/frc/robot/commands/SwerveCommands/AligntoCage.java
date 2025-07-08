@@ -1,7 +1,5 @@
 package frc.robot.commands.SwerveCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -10,17 +8,20 @@ import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import static edu.wpi.first.units.Units.*;
 
+
+
+public class AligntoCage extends Command {
 
 // Aligns the robot to a specified cage position based on the given april tag ID.
-public class AligntoCage extends Command {
 
     CommandSwerveDrivetrain drivetrain;
 

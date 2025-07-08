@@ -19,6 +19,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 
 public class Arm extends SubsystemBase {
+
     //Creates the variables in the subsystem
     private static Arm mInstance;
     private TalonFX armMotor;
@@ -33,8 +34,9 @@ public class Arm extends SubsystemBase {
     private Alert armPastRotation;
     //Function to get the active instance of the Arm
     public static Arm getInstance() {
-        if (mInstance == null)
+        if (mInstance == null) {
             mInstance = new Arm();
+        }
         return mInstance;
     }
     // Define the variables in the subsystem.
@@ -44,7 +46,6 @@ public class Arm extends SubsystemBase {
         armControl = new MotionMagicTorqueCurrentFOC(Constants.ArmConstants.kArmRestSetpoint);
 
         armPastRotation = new Alert("Arm is past 1 rotation and will tweak if it goes to setpoint", AlertType.kWarning);
-
 
         armControl.Slot = 0;
         TalonFXConfiguration armconfigs = new TalonFXConfiguration();
@@ -64,7 +65,6 @@ public class Arm extends SubsystemBase {
         armconfigs.Feedback.FeedbackRemoteSensorID = Constants.ArmConstants.kArmEncoderId;
         armconfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
         armconfigs.Feedback.RotorToSensorRatio = Constants.ArmConstants.kArmRotortoSensorRatio;
-
 
         armMotor.getConfigurator().apply(armconfigs);
 
@@ -103,7 +103,7 @@ public class Arm extends SubsystemBase {
 
     /**
      * Function to set the arm to the angle given
-     * 
+     *
      * @param angle the angle to set the arm to in degrees
      */
     public void setArmPosition(double angle) {
@@ -116,15 +116,18 @@ public class Arm extends SubsystemBase {
     public void setArmDutyCycle(double armDutyCycle) {
         armMotor.set(armDutyCycle);
     }
-    /**
-     * Function called by periodic to set the arm position
-     * 
-     */
+
+    public boolean isArmSmart(double target) {
+        return (target > -180) || (target < 0);
+    }
+
     public void setArmPosition() {
         
         if (Robot.isSimulation()) {
             armEncoder.getSimState().setRawPosition(armControl.Position);
-            targetArm.setAngle(Units.rotationsToDegrees( armControl.Position));
+
+            targetArm.setAngle(Units.rotationsToDegrees(armControl.Position));
+            
         } else {
             arm.setAngle(armEncoder.getPosition().getValueAsDouble());
 
@@ -142,15 +145,13 @@ public class Arm extends SubsystemBase {
      /**
      * Checks if the arm is at the target position
      */
-    public boolean isArmAtTarget(){
-        if(Math.abs(armControl.Position - armEncoder.getPosition().getValueAsDouble()) < 0.01){
+    public boolean isArmAtTarget() {
+        if (Math.abs(armControl.Position - armEncoder.getPosition().getValueAsDouble()) < 0.01) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
-
     /**
      * Sets the arm to be controlled by motion magic
      */
@@ -163,18 +164,22 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         // Checks if the arm is past the rotation set.
-        if(armMotor.getPosition().getValueAsDouble() > 0.5){
+        if (armMotor.getPosition().getValueAsDouble() > 0.5) {
             armPastRotation.set(true);
-        }
-        else{
+        } else {
             armPastRotation.set(false);
-        
- 
-        setArmPosition();
-        // Outputs the target and actual arm angles to the SmartDashboard
-        SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
-        SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());   
+
+            setArmPosition();
+            SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
+            SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
+
+            //TODO see if we can do without this
+            // armControl.FeedForward = -40*(CommandSwerveDrivetrain.getInstance().getPigeon2().getAccelerationY().getValueAsDouble());
+            // SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
+            // SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
+            // SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
+            // SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
+        }
 
     }
-
-}}
+}

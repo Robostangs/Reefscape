@@ -11,14 +11,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakePivot extends SubsystemBase {
+
     private TalonFX pivotMotor;
     private static IntakePivot mInstance;
     MotionMagicTorqueCurrentFOC pivotControl;
 
-
     public static IntakePivot getInstance() {
-        if (mInstance == null)
+        if (mInstance == null) {
             mInstance = new IntakePivot();
+        }
         return mInstance;
     }
 
@@ -26,12 +27,11 @@ public class IntakePivot extends SubsystemBase {
 
         pivotMotor = new TalonFX(Constants.IntakeConstants.kPivotMotorId);
 
-
         TalonFXConfiguration pivotMotorConfigs = new TalonFXConfiguration();
 
         pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.kStatorCurrentLimit;
 
-        pivotMotorConfigs.Feedback.SensorToMechanismRatio =  Constants.IntakeConstants.kSensorToMechanismRatio;
+        pivotMotorConfigs.Feedback.SensorToMechanismRatio = Constants.IntakeConstants.kSensorToMechanismRatio;
 
         pivotMotorConfigs.Slot0.kP = Constants.IntakeConstants.kPivotP;
         pivotMotorConfigs.Slot0.kI = Constants.IntakeConstants.kPivotI;
@@ -43,8 +43,6 @@ public class IntakePivot extends SubsystemBase {
         pivotMotorConfigs.MotionMagic.MotionMagicCruiseVelocity = Constants.IntakeConstants.kMotionMagicVelocity;
         pivotMotorConfigs.MotionMagic.MotionMagicAcceleration = Constants.IntakeConstants.kMotionMagicAcceleration;
 
-
-        
         pivotMotor.getConfigurator().apply(pivotMotorConfigs);
 
         pivotControl = new MotionMagicTorqueCurrentFOC(pivotMotor.getPosition().getValueAsDouble());
@@ -59,7 +57,6 @@ public class IntakePivot extends SubsystemBase {
         point3Intake();
     };
 
-    
     public void point3Intake() {
         pivotMotor.setPosition(Constants.IntakeConstants.kHardstopPosition);
     }
@@ -79,12 +76,15 @@ public class IntakePivot extends SubsystemBase {
     public void setHeimlichPosition() {
         pivotControl.Position = Constants.IntakeConstants.kHeimlichSetpoint;
     }
-    public void setAlgaeIntakePosition(){
+
+    public void setAlgaeIntakePosition() {
         pivotControl.Position = Constants.IntakeConstants.kAlgaeInSetpoint;
     }
-    public void setAlgaeOutPosition(){
+
+    public void setAlgaeOutPosition() {
         pivotControl.Position = Constants.IntakeConstants.kAlgaeOutSetpoint;
     }
+
     public void postStatus(String status) {
         SmartDashboard.putString("Intake/status", status);
 
@@ -120,13 +120,11 @@ public class IntakePivot extends SubsystemBase {
         pivotMotor.set(pivotDutyCycle);
     }
 
-
     @Override
     public void periodic() {
         pivotMotor.setControl(pivotControl);
 
         // Robot.verifyMotor(pivotMotor);
-
         SmartDashboard.putNumber("Intake/Setpoint", pivotControl.Position);
         SmartDashboard.putNumber("Intake/Position", pivotMotor.getPosition().getValueAsDouble());
      

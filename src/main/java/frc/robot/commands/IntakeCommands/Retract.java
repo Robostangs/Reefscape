@@ -12,6 +12,14 @@ import frc.robot.subsystems.IntakeWheels;
  */
 public class Retract extends Command {
 
+
+  
+/**
+ * This command moves the intake pivot to the retracted setpoint, stops the intake wheels,
+ * and applies the pivot brake. It is intended to keep the intake clear of the arm and
+ * out of the way during other operations.
+ */
+
   IntakePivot intake;
   IntakeWheels intakeWheels;
 

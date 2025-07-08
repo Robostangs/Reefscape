@@ -34,14 +34,16 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Robot;
 
 
+
+public class AligntoReef {
+  
 /*
  * This command helps allign to the reef using the april tags on the field.
  * It makes a path based on the current pose of the robot and the target pose of the reef.
  * The reef position is slightly changed to go to the left or right side, based on what you choose.
  */
 
-public class AligntoReef {
-  
+
   private static final AprilTagFieldLayout theMap;
 static {
 

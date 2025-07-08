@@ -1,24 +1,25 @@
 package frc.robot.commands.SwerveCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
+
+public class ReefAdjust extends Command {
+
 /*
  * This command always adjusts the robot's position and orientation to align wih reef and coral by
  * adjusting the robot's angle until it is perfectly aimed. And it does all of that by using vision input.
  */
-public class ReefAdjust extends Command {
-
     CommandSwerveDrivetrain drivetrain;
 
     SwerveRequest.FieldCentricFacingAngle driveRequest;

@@ -1,19 +1,22 @@
 package frc.robot.commands.SwerveCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import static edu.wpi.first.units.Units.*;
+
+
+
+public class AligntoCoral extends Command {
 
 /*
  * This command alligns the robot to a coral on the field using a Limelight camera.
@@ -21,9 +24,6 @@ import static edu.wpi.first.units.Units.*;
  * while moving, it adjusts the robot's angle to face the coral.
  * This command never finsihes on its own and must be stopped manually (battery kill).
  */
-
-public class AligntoCoral extends Command {
-
     CommandSwerveDrivetrain drivetrain;
 
     SwerveRequest.FieldCentricFacingAngle driveRequest;
