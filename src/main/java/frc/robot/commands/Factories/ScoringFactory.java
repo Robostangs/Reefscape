@@ -131,10 +131,9 @@ public class ScoringFactory {
                                 }));
     }
     /**
-     * Returns a command that makes the elevator go to the L4 setpoint then move the
-     * arm.
+     * Returns a command that makes the elevator and arm go to the L4 setpoints
      * 
-     * @return A command to go to the L4 setpoint
+     * @return A command to go to the setpoint for L4
      */
     public static Command L4PositionAuto() {
         // return new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos)
@@ -156,19 +155,7 @@ public class ScoringFactory {
                                 }));
     }
 
-    public static Command L4PositionAutoStupid() {
-        return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
-                .alongWith(
-                        new WaitUntilCommand(
-                                () -> Elevator.getInstance()
-                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
-                                .onlyIf(() -> !Robot.isSimulation())
-                                .andThen(
-                                        new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
-                                .finallyDo(() -> {
-                                    ScoreState = ScoringPosition.L4;
-                                }));
-    }
+
     /**
      * Returns a command that makes the elevator and arm go to the L3 setpoints
      * 
@@ -190,7 +177,7 @@ public class ScoringFactory {
 
     /**
      * Returns a command that makes the elevator go to the L3 setpoint then move the
-     * arm up ot knock out algae
+     * arm up and knock out algae
      * 
      * @return A command to knock out algae
      */
@@ -203,7 +190,7 @@ public class ScoringFactory {
     }
     /**
      * Returns a command that makes the elevator go to the L2 setpoint then move the
-     * arm up ot knock out algae
+     * arm up and knock out algae
      * 
      * @return A command to knock out algae
      */
@@ -211,13 +198,6 @@ public class ScoringFactory {
 
         return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorStartAlg).andThen(
                 new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaePos));
-        // return new
-        // SetElevatorPosition(Constants.ScoringConstants.L2.kELevatorAlgaepos)
-        // .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosStart)
-        // .andThen(new WaitUntilCommand(manipBumper))
-        // .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaePosEnd))
-        // .finallyDo(() -> ScoreState = ScoringPosition.Algaeeeee));
-
     }
 
     /**
@@ -294,22 +274,6 @@ public class ScoringFactory {
     public static Command L4Score(Trigger manipBumper) {
         return L4Position()
                 .andThen(new WaitUntilCommand(manipBumper)).andThen(new Spit().onlyWhile(manipBumper));
-    }
-    /**
-     * Goes to the L4 scoring position with arm and elevator and scores automatically there.
-     */
-    public static Command AutoL4Score() {
-        return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
-                .alongWith(
-                        new WaitUntilCommand(
-                                () -> Elevator.getInstance()
-                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
-                                .onlyIf(() -> !Robot.isSimulation())
-                                .andThen(
-                                        new SetArmPosition(Constants.ScoringConstants.L4.kArmAutoScoringPosition))
-                                .finallyDo(() -> {
-                                    ScoreState = ScoringPosition.L4;
-                                }));
     }
 
     /**
