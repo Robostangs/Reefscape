@@ -256,7 +256,7 @@ public class ScoringFactory {
 
     // -0.643
     /**
-     * Scores automatically at the l4 position.
+     * Makes arm and elevator go to the L4 scoring position and then spit
      */
     public static Command L4ScoreAuto() {
         return L4PositionAuto()
