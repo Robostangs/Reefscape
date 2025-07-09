@@ -107,6 +107,7 @@ public class Arm extends SubsystemBase {
      * @param rotations the angle to set the arm to in degrees
      */
     public void setArmPosition(double rotations) {
+        armControl.Position = (rotations);
 
     }
     /**
