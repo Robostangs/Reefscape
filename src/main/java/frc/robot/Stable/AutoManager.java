@@ -88,13 +88,13 @@ public class AutoManager {
                                 ScoringFactory.L4Position().withTimeout(1)))
                         .andThen(new Spit().withTimeout(0.4))
                         .andThen(ScoringFactory.SmartStow().withTimeout(1))
-                        .andThen(IntakeFactory.IntakeCoral()
-                        .alongWith(
+                        // .andThen(IntakeFactory.IntakeCoral()
+                        .andThen(
                         AutoBuilder.pathfindThenFollowPath(
                                 start == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro
                                         ? Constants.SwerveConstants.AutoConstants.AutoPaths.kProcessorCleanup
                                         : Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup,
-                                Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)))
+                                Constants.SwerveConstants.AutoConstants.AutoPaths.constraints))
                                 .onlyIf(() -> start != Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center);
 
                 pathcount++;

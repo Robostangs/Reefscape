@@ -460,11 +460,12 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledExit() {
 
+    //TODO find error when you run a 2 piece and something is null
     if(firstPieceChooser.getSelected() != null &&
         secondPieceChooser.getSelected() != null &&
         thirdPieceChooser.getSelected() != null) {
     autoPoints.add(new ScoringTargets( 
-        firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));
+        firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));}
 
     if(secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None){
       autoPoints.add(new ScoringTargets( 
@@ -476,7 +477,7 @@ public class Robot extends TimedRobotstangs {
     }
 
     autoCommand = new AutoManager(startChooser.getSelected(), autoPoints).getAutoCommand();
-  }
+  
     autoGroup = new SequentialCommandGroup(
       new Retract().withTimeout(0.2)
 

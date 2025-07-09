@@ -31,6 +31,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class AligntoReef {
@@ -97,7 +98,7 @@ public class AligntoReef {
     List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
     // this is what the rotation of the actual robot should be
     // if (!Auto)
-      rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
+    rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
 
     List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
     zones.add(new ConstraintsZone(0.5, 1, endconstraints));
@@ -111,8 +112,6 @@ public class AligntoReef {
         null,
         new GoalEndState(0.0, targetPose.getRotation()), false);
 
-
-
     path.preventFlipping = true;
 
     return path;
@@ -124,13 +123,22 @@ public class AligntoReef {
 
     // start pose should be your X and Y but the rotation should be where your
     // heading to
-    Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
-        currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
+    SmartDashboard.putNumber("Current transltion start",
+        (currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg)
+            .getDegrees()));
+
+    SmartDashboard.putNumber("Current transltion end",
+        (targetPose.getRotation().plus(Rotation2d.kCCW_90deg)).getDegrees());
+
+    Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(), 
+    currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg)
+    );
 
     // ending pose should be the reef X and Y but the rotation should be where your
     // heading to
-    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
-        targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
+    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(), 
+    targetPose.getRotation().plus(Rotation2d.kCCW_90deg)
+    );
 
     List<Waypoint> waypoints;
 
@@ -272,7 +280,6 @@ public class AligntoReef {
       Robot.teleopField.getObject("Current Path").setPoses(getTargetPose(isRight.getAsBoolean(), tagID));
 
       Robot.teleopField.getObject("THE PATH").setPoses(path.getPathPoses());
-       
 
       return AutoBuilder.followPath(path);
     },
