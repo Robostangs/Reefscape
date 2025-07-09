@@ -6,17 +6,17 @@ import frc.robot.subsystems.Arm;
 
 public class SetArmPosition extends Command {
   Arm arm;
-  double angle;
+  double rotations;
 
 /**
- * A command that sets the arm to a target angle
- * Motion magic is used to move the arm to the target angle smoothly
+ * A command that sets the arm to a target rotation
+ * Motion magic is used to move the arm to the setpoint smoothly.
  * 
- * @param angle the setpoint for the arm
+ * @param rotations the setpoint for the arm
  */
-  public SetArmPosition(double angle) {
+  public SetArmPosition(double rotations) {
 
-    this.angle = angle;
+    this.rotations = rotations;
     arm = Arm.getInstance();
     addRequirements(arm);
 
@@ -24,8 +24,8 @@ public class SetArmPosition extends Command {
   // Start of the command, sets the arm to the setpoint
   @Override
   public void initialize() {
-    arm.setArmPosition(angle);
-    arm.postStatus("Arm going to this angle:" + angle);
+    arm.setArmPosition(rotations);
+    arm.postStatus("Arm going to this rotation:" + rotations);
   }
   
   @Override
@@ -37,7 +37,7 @@ public class SetArmPosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.postStatus("Arm at this rotation:" + angle);
+    arm.postStatus("Arm at this rotation:" + rotations);
 
   }
 

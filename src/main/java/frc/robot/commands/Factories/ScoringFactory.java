@@ -81,7 +81,7 @@ public class ScoringFactory {
     }
 
     /**
-     * Returns a command that executes the following commands:
+     * Returns a command that executes the following commands (for teleop):
      * <p>
      * <ul>
      * <li>Move the elevator to the L3 position.</li>
@@ -105,7 +105,7 @@ public class ScoringFactory {
     }
 
     /**
-     * Returns a command that executes the following commands:
+     * Returns a command that executes the following commands (for teleop):
      * *
      * <p>
      * <ul>
@@ -131,17 +131,19 @@ public class ScoringFactory {
                                 }));
     }
     /**
-     * Returns a command that makes the elevator and arm go to the L4 setpoints
+     * Returns a command that executes the following (for auto):
+     * <p>
+     * <ul>
+     * <li>Move the elevator to the L4 position.</li>
+     * <li>Wait until the elevator is high enough to safely move the arm.</li>
+     * <li>Move the arm to the L4 scoring position.</li>
+     * </ul>
+     * <p>
      * 
-     * @return A command to go to the setpoint for L4
+     * @return A command to move the elevator and arm to the L3 scoring position.
      */
     public static Command L4PositionAuto() {
-        // return new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos)
-        // .andThen(new SetArmPosition(Constants.ScoringConstants.L4.kArmPosAuto))
-        // .andThen(new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos)
-        // .finallyDo(() -> {
-        // ScoreState = ScoringPosition.L4;
-        // }));
+
         return new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos+0.05)
                 .alongWith(
                         new WaitUntilCommand(
@@ -157,9 +159,16 @@ public class ScoringFactory {
 
 
     /**
-     * Returns a command that makes the elevator and arm go to the L3 setpoints
+     * Returns a command that executes the following commands (for auto):
+     * <p>
+     * <ul>
+     * <li>Move the elevator to the L3 position.</li>
+     * <li>Wait until the elevator is high enough to safely move the arm.</li>
+     * <li>Move the arm to the L3 scoring position.</li>
+     * </ul>
+     * <p>
      * 
-     * @return A command to go to the setpoint for L3
+     * @return A command to move the elevator and arm to the L3 scoring position.
      */
     public static Command L3PositionAuto() {
         return new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorPos)
@@ -231,7 +240,16 @@ public class ScoringFactory {
                 .andThen(new Spit().withTimeout(0.5));
     }
     /**
-     * A command to go to the L1 scoring Position with the arm and elevator.
+     * Returns a command that executes the following commands:
+     * <p>
+     * <ul>
+     * <li>Move the elevator to the L1 position. (for teleop)</li>
+     * <li>Wait until the elevator is high enough to safely move the arm.</li>
+     * <li>Move the arm to the L1 scoring position.</li>
+     * </ul>
+     * <p>
+     * 
+     * @return A command to move the elevator and arm to the L3 scoring position.
      */
     public static Command L1Position() {
         return new SetElevatorPosition(Constants.ScoringConstants.L1.kElevatorStart)
@@ -254,19 +272,26 @@ public class ScoringFactory {
                 .andThen(new WaitUntilCommand(manipBumper)).andThen(new Slurp(true).onlyWhile(manipBumper));
     }
 
-    // -0.643
+ 
     /**
-     * Makes arm and elevator go to the L4 scoring position and then spit
+     * Returns a command that executes the following commands (for auto):
+     * <p>
+     * <ul>
+     * <li>Move the elevator to the L4 position.</li>
+     * <li>Wait until the elevator is high enough to safely move the arm.</li>
+     * <li>Move the arm to the L4 scoring position.</li>
+     * </ul>
+     * <p>
+     * 
+     * @return A command to move the elevator and arm to the L4 scoring position.
      */
     public static Command L4ScoreAuto() {
         return L4PositionAuto()
                 .andThen(new Spit().withTimeout(0.5));
     }
 
-    // -0.643
-
     /**
-     * Returns {@code L4Position()} but then spits while the bumper is held
+     * Returns {@code L4Position()} but then spits while the bumper is held (for teleop)
      * 
      * @param manipBumper The Manip bumper
      * @return A command to position at L4 and then spit

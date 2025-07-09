@@ -103,11 +103,10 @@ public class Arm extends SubsystemBase {
 
     /**
      * Function to set the arm to the angle given
-     *
-     * @param angle the angle to set the arm to in degrees
+     * 
+     * @param rotations the angle to set the arm to in degrees
      */
-    public void setArmPosition(double angle) {
-        armControl.Position = (angle);
+    public void setArmPosition(double rotations) {
 
     }
     /**
@@ -133,7 +132,11 @@ public class Arm extends SubsystemBase {
 
         }
     }
-    //Go to set position zero  
+    /**
+     * 
+     * 
+     * @return A command to move the elevator and arm to the L3 scoring position.
+     */ 
     public Runnable gotoZero = () -> {
         armMotor.setControl(new MotionMagicTorqueCurrentFOC(0.15));
     };
