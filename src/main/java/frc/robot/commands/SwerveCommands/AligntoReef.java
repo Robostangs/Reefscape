@@ -58,6 +58,8 @@ public class AligntoReef {
 
     Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
 
+
+
     // start pose should be your X and Y but the rotation should be where your
     // heading to
     Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
@@ -123,22 +125,21 @@ public class AligntoReef {
 
     // start pose should be your X and Y but the rotation should be where your
     // heading to
-    SmartDashboard.putNumber("Current transltion start",
-        (currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg)
-            .getDegrees()));
+    SmartDashboard.putNumber("Autos/Current Pose Calculated", currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle()
+.minus(Rotation2d.k180deg).getDegrees());
 
-    SmartDashboard.putNumber("Current transltion end",
-        (targetPose.getRotation().plus(Rotation2d.kCCW_90deg)).getDegrees());
+    SmartDashboard.putNumber("Autos/End Pose Calculated", targetPose.getRotation().plus(Rotation2d.kCCW_90deg).getDegrees());
 
-    Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(), 
-    currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg)
-    );
+    SmartDashboard.putNumber("Autos/Current Pose ", currentPose.getTranslation().getAngle().getDegrees());
+
+    SmartDashboard.putNumber("Autos/End Pose ", targetPose.getRotation().getDegrees());
+    Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
+        currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
 
     // ending pose should be the reef X and Y but the rotation should be where your
     // heading to
-    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(), 
-    targetPose.getRotation().plus(Rotation2d.kCCW_90deg)
-    );
+    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
+        targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
 
     List<Waypoint> waypoints;
 

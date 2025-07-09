@@ -122,7 +122,6 @@ public class Robot extends TimedRobotstangs {
   private static Alert PissingAlert = new Alert("We going forward ", AlertType.kInfo);
   private Timer timer = new Timer();
 
-
   public Robot() {
     m_robotContainer = new RobotContainer();
     CameraServer.startAutomaticCapture();
@@ -151,11 +150,9 @@ public class Robot extends TimedRobotstangs {
     firstPieceRoLChooser.setDefaultOption("Right", true);
     firstPieceRoLChooser.addOption("Left", false);
 
-
     secondPieceRoLChooser.setDefaultOption("None", false);
     secondPieceRoLChooser.addOption("Right", true);
     secondPieceRoLChooser.addOption("Left", false);
-
 
     thirdPieceRoLChooser.setDefaultOption("None", false);
     thirdPieceRoLChooser.addOption("Right", true);
@@ -204,7 +201,6 @@ public class Robot extends TimedRobotstangs {
         .withPosition(3, 0)
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
-
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
@@ -454,32 +450,39 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void disabledPeriodic() {
 
-
   }
 
   @Override
   public void disabledExit() {
 
-    //TODO find error when you run a 2 piece and something is null
-    if(firstPieceChooser.getSelected() != null &&
-        secondPieceChooser.getSelected() != null &&
-        thirdPieceChooser.getSelected() != null) {
-    autoPoints.add(new ScoringTargets( 
-        firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));}
+    // TODO find error when you run a 2 piece and something is null
+    if (
+        firstPieceChooser.getSelected() != null) {
+      autoPoints.add(new ScoringTargets(
+          firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));
+    }
 
-    if(secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None){
-      autoPoints.add(new ScoringTargets( 
-        secondPieceChooser.getSelected(), secondPieceRoLChooser.getSelected()));
+    if (secondPieceChooser.getSelected() != null &&
+        secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None) {
+      autoPoints.add(new ScoringTargets(
+          secondPieceChooser.getSelected(), secondPieceRoLChooser.getSelected()));
     }
-    if(thirdPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None){
-      autoPoints.add(new ScoringTargets( 
-        thirdPieceChooser.getSelected(), thirdPieceRoLChooser.getSelected()));
+    if (thirdPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None &&
+        thirdPieceChooser.getSelected() != null) {
+      autoPoints.add(new ScoringTargets(
+          thirdPieceChooser.getSelected(), thirdPieceRoLChooser.getSelected()));
     }
+
+    if(      startChooser.getSelected() != null 
+    ){
 
     autoCommand = new AutoManager(startChooser.getSelected(), autoPoints).getAutoCommand();
-  
+    }
+    else{
+      autoCommand = new PrintCommand("TS aint there homie");
+    }
     autoGroup = new SequentialCommandGroup(
-      new Retract().withTimeout(0.2)
+        new Retract().withTimeout(0.2)
 
     );
 
@@ -493,14 +496,14 @@ public class Robot extends TimedRobotstangs {
 
   public void autonomousInit() {
 
-    if(startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center){
+    if (startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center) {
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
-    } else if(startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro){
+    } else if (startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro) {
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose);
-    } else if(startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Open){
+    } else if (startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Open) {
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose);
     }
-    
+
     IntakePivot.getInstance().point3Intake();
     Climber.getInstance().zeroClimber();
     Elevator.getInstance().setHomePositionElevator();
@@ -514,6 +517,7 @@ public class Robot extends TimedRobotstangs {
   public void autonomousPeriodic() {
 
   }
+
   public void autonomousExit() {
 
   }
@@ -534,7 +538,6 @@ public class Robot extends TimedRobotstangs {
   public void teleopPeriodic() {
 
   }
-  
 
   /** This function is called once when the robot is first started up. */
   @Override
