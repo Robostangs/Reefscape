@@ -14,6 +14,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ArmCommands.SetArmDutyCycle;
 import frc.robot.commands.ClimberCommands.Deploy;
+import frc.robot.commands.ClimberCommands.ManualAdjustClimber;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
@@ -203,8 +204,13 @@ public class RobotContainer {
                                                 new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
                                                                 0)));
 
+                // new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
+                //                 .whileTrue(new SetArmDutyCycle(() -> xManip.getLeftY() / 2));
+
+                
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
-                                .whileTrue(new SetArmDutyCycle(() -> xManip.getLeftY() / 2));
+                                .whileTrue(new ManualAdjustClimber(() -> xManip.getLeftY() / 2));
+
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 

@@ -364,7 +364,8 @@ public class Robot extends TimedRobotstangs {
             IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
 
             // The actual button on elastic with its customizations
-            testTab.add("IntakeCommadns", IntakeCommands)
+            testTab.add("IntakeCommadns", IntakeCommands)    
+
                     .withSize(2, 1)
                     .withPosition(0, 2);
 
@@ -601,6 +602,7 @@ public class Robot extends TimedRobotstangs {
     public void teleopInit() {
  
 
+      Climber.getInstance().setServoAngle(0);
         unpublishTrajectory();
 
         // This makes sure that the autonomous stops running when

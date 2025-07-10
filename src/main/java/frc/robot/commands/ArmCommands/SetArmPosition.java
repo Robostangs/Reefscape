@@ -10,9 +10,8 @@ public class SetArmPosition extends Command {
 
 /**
  * A command that sets the arm to a target rotation
- * Motion magic is used to move the arm to the setpoint smoothly.
  * 
- * @param rotations the setpoint for the arm
+ * @param rotations the target rotation for motion magic
  */
   public SetArmPosition(double rotations) {
 
@@ -41,10 +40,10 @@ public class SetArmPosition extends Command {
 
   }
 
-  // Returns true when the command should end.
+  // Returns true when the arm is within the tolerence 
   @Override
   public boolean isFinished() {
-    return arm.isArmAtTarget();
+    return arm.isArmAtTarget(0.01);
   }
 
 }

@@ -52,7 +52,8 @@ public final class Constants {
     public static final int kClimberMotorId = 46;
     public static final int kServoId = 9;
     public static final double kGearboxRotationsToMechanismMeters = 1d;
-
+    public static final int servoRatchetPosition=107;
+    public static final double timeToRatchet=1;
     // Deploy Constants
     public static final double kMaxExtension = 147;
     public static final double kExtensionDutyCycle = 0.5;

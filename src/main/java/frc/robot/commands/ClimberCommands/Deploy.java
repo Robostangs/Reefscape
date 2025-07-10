@@ -27,7 +27,7 @@ public class Deploy extends Command {
   @Override
   public void initialize() {
     climber.postStatus("Deploying Climber");
-    climber.setServoAngle(107);
+    climber.setServoAngle(Constants.ClimberConstants.servoRatchetPosition);
 
     time = Timer.getFPGATimestamp();
 
@@ -37,7 +37,7 @@ public class Deploy extends Command {
   public void execute() {
 
     double currTime = Timer.getFPGATimestamp();
-    if (climber.getServoPosition() >= 107 &&  currTime-time > 1) {
+    if (climber.getServoPosition() >= Constants.ClimberConstants.servoRatchetPosition &&  currTime-time > Constants.ClimberConstants.timeToRatchet) {
       climber.runClimber(Constants.ClimberConstants.kExtensionDutyCycle);
     }
 
@@ -50,7 +50,7 @@ public class Deploy extends Command {
     climber.runClimber(0d);
     climber.postStatus("Climber Deployed");
     climber.setServoAngle(0);
-    climber.setBrake();
+    
   }
 
   // Returns true when the command should end.

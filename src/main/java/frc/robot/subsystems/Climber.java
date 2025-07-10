@@ -11,9 +11,8 @@ import frc.robot.Constants;
 public class Climber extends SubsystemBase {
     private static Climber mInstance;
     private TalonFX climberMotor;
-    private Servo cliServo;
+    private Servo climbServo;
 
-    
     public static Climber getInstance() {
         if (mInstance == null)
             mInstance = new Climber();
@@ -21,7 +20,7 @@ public class Climber extends SubsystemBase {
     }
 
     public Climber() {
-        cliServo = new Servo(Constants.ClimberConstants.kServoId);
+        climbServo = new Servo(Constants.ClimberConstants.kServoId);
         climberMotor = new TalonFX(Constants.ClimberConstants.kClimberMotorId);
 
         TalonFXConfiguration climberMotorConfigs = new TalonFXConfiguration();
@@ -33,28 +32,19 @@ public class Climber extends SubsystemBase {
     }
 
     public double getServoPosition() {
-        return cliServo.getAngle();
+        return climbServo.getAngle();
     }
 
     public void runClimber(double climberDutyCycle) {
         climberMotor.set(climberDutyCycle);
     }
 
-    public void setServoAngle(double servoDutyCycle) {
-        cliServo.setAngle(servoDutyCycle);
-
+    public void setServoAngle(double servoAngle) {
+        climbServo.setAngle(servoAngle);
     }
 
     public Runnable zeroClimberPosition = () -> {
         climberMotor.setPosition(0);
-    };
-
-    public Runnable zeroServo = () -> {
-        cliServo.setAngle(0);
-    };
-
-    public Runnable goToservpos = () -> {
-        cliServo.setAngle(107);
     };
 
     public void zeroClimber() {
@@ -67,9 +57,6 @@ public class Climber extends SubsystemBase {
 
     }
 
-    public void setBrake() {
-    }
-
     public double getClimberPosition() {
         return climberMotor.getPosition().getValueAsDouble();
     }
@@ -77,8 +64,7 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
 
-
-        SmartDashboard.putNumber("Climber/Kraken Position", climberMotor.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("Climber/Kraken Position", getClimberPosition());
     }
 
 }

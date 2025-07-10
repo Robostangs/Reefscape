@@ -148,9 +148,10 @@ public class Arm extends SubsystemBase {
     
      /**
      * Checks if the arm is at the target position
+     * @param tolerence the maximum rotations the arm can be to be considered finished
      */
-    public boolean isArmAtTarget() {
-        if (Math.abs(armControl.Position - armEncoder.getPosition().getValueAsDouble()) < 0.01) {
+    public boolean isArmAtTarget(double tolerence) {
+        if (Math.abs(armControl.Position - armEncoder.getPosition().getValueAsDouble()) < tolerence) {
             return true;
         } else {
             return false;
