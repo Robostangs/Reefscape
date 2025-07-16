@@ -415,12 +415,7 @@ public final class Constants {
 
       }
 
-      public static class AlignConstants {
-
-        public static final double feedforwardX = 5;
-        public static final double feedforwardY = 5;
-
-      }
+      
 
       private final static MomentOfInertia kRobotMomentOfInertia = KilogramSquareMeters.of(0.01);
 
@@ -687,4 +682,17 @@ public final class Constants {
 
   }
 
+  public static class AlignConstants {
+
+    public static final double feedforwardX = 5;
+    public static final double feedforwardY = 5;
+
+    public static enum AlignType {
+      AlignToCoral,
+      AlignToCageTop,
+      AlignToCageMiddle,
+      AlignToCageBottom
+    }
+
+  }
 }

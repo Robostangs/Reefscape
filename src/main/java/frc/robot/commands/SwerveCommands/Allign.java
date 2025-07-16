@@ -6,40 +6,52 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import static edu.wpi.first.units.Units.MetersPerSecond;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
+import static edu.wpi.first.units.Units.*;
+
+public class Allign extends Command {
+    CommandSwerveDrivetrain drivetrain;
 
 
-public class AligntoCoral extends Command {
+    SwerveRequest.FieldCentricFacingAngle driveRequest;
+    Constants.AlignConstants.AlignType alignType;
+    Supplier<Double> translateX, translateY;
+    Supplier<Rotation2d> getTargetRotation;
+    Constants.AlignConstants.AlignType cageID;
+    String llName;
 
-/*
- * This command alligns the robot to a coral on the field using a Limelight camera.
- * It uses the Limelight to calculate the degree fo the turn and continues to turn.
- * while moving, it adjusts the robot's angle to face the coral.
- * This command never finsihes on its own and must be stopped manually (battery kill).
- */
-    private final CommandSwerveDrivetrain drivetrain;
+    public Allign(Constants.AlignConstants.AlignType alignType) {
+        drivetrain = CommandSwerveDrivetrain.getInstance();
 
-    private SwerveRequest.FieldCentricFacingAngle driveRequest;
 
-    private final Supplier<Double> translateX, translateY;
-    private final Supplier<Rotation2d> getTargetRotation;
-    private final String llName;
-
-    //
-
-    public AligntoCoral() {
-
+        this.addRequirements(drivetrain);
+        if (alignType == Constants.AlignConstants.AlignType.AlignToCoral) {
+            AlligntoCoral();
+        }
+    };
+    
+    public Allign(Constants.AlignConstants.AlignType alignType, Supplier<Double> translateX, Supplier<Double> translateY, Constants.AlignConstants.AlignType cageID) {
         drivetrain = CommandSwerveDrivetrain.getInstance();
 
         this.addRequirements(drivetrain);
+        if (alignType == Constants.AlignConstants.AlignType.AlignToCoral) {
+            AlligntoCoral();
+        }
+        else if (alignType == Constants.AlignConstants.AlignType.AlignToCageTop) {
+            AlligntoCage(translateX, translateY, cageID);
+        }
+    };
 
+    public void AlligntoCoral() {
         this.translateX = () -> 0d;
         this.translateY = () -> 0d;
         llName = Constants.VisionConstants.kLimelightCoralName;
@@ -50,7 +62,14 @@ public class AligntoCoral extends Command {
             double degreeOffset = LimelightHelpers.getTX(llName);
             return new Rotation2d(degreeOffset);
         };
+    }
 
+    public void AlligntoCage(Supplier<Double> translateX, Supplier<Double> translateY, Constants.AlignConstants.AlignType cageID) {
+        this.translateX = translateX;
+        this.translateY = translateY;
+        this.cageID = cageID;
+
+        this.setName("Align to Cage");
     }
 
     @Override
@@ -105,4 +124,5 @@ public class AligntoCoral extends Command {
         }
 
     }
+    
 }

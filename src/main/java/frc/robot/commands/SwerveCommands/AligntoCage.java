@@ -22,7 +22,6 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 public class AligntoCage extends Command {
 
 // Aligns the robot to a specified cage position based on the given april tag ID.
-
     CommandSwerveDrivetrain drivetrain;
 
     SwerveRequest.FieldCentricFacingAngle driveRequest;
