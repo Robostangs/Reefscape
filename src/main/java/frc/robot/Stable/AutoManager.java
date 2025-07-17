@@ -41,7 +41,6 @@ public class AutoManager {
      */
     public AutoManager(Constants.SwerveConstants.AutoConstants.AutoStartPosition start,
             ArrayList<ScoringTargets> sides) {
-        AutoScoringSides.clear();
         if (start == null) {
             throw new IllegalArgumentException("Start position cannot be null.");
         }
@@ -49,10 +48,11 @@ public class AutoManager {
             throw new IllegalArgumentException("Sides list cannot be null.");
         }
         this.start = start;
+        AutoScoringSides.clear();
 
         for (ScoringTargets side : sides) {
             if (side != null) {
-                this.AutoScoringSides.add(side);
+                AutoScoringSides.add(side);
                 pieces++;
             }
         }

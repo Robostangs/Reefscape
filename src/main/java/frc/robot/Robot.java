@@ -495,7 +495,7 @@ public class Robot extends TimedRobotstangs {
   }
 
   public void autonomousInit() {
-
+    autoPoints.clear();
     if (startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center) {
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
     } else if (startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro) {

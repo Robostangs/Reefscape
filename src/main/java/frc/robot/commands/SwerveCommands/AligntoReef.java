@@ -99,7 +99,6 @@ public class AligntoReef {
 
     List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
     // this is what the rotation of the actual robot should be
-    // if (!Auto)
     rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
 
     List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
@@ -133,13 +132,14 @@ public class AligntoReef {
     SmartDashboard.putNumber("Autos/Current Pose ", currentPose.getTranslation().getAngle().getDegrees());
 
     SmartDashboard.putNumber("Autos/End Pose ", targetPose.getRotation().getDegrees());
+    
     Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
         currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
 
     // ending pose should be the reef X and Y but the rotation should be where your
     // heading to
-    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
-        targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
+    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),  Rotation2d.fromDegrees(
+        targetPose.getRotation().plus(Rotation2d.kCCW_90deg).getDegrees()));
 
     List<Waypoint> waypoints;
 
@@ -148,12 +148,14 @@ public class AligntoReef {
     if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
       waypoints = PathPlannerPath.waypointsFromPoses(
           startPose, endPose);
+
+      
     }
     // if the robot rotation is off by a lot then we should add a point before so we
     // have time to rotate
     else {
       waypoints = PathPlannerPath.waypointsFromPoses(startPose,
-          endPose.transformBy(new Transform2d(Units.inchesToMeters(18), 0, Rotation2d.kZero)), endPose);
+          endPose.transformBy(new Transform2d(Units.inchesToMeters(-18), 0, Rotation2d.kZero)), endPose);
     }
 
     PathConstraints constraints = new PathConstraints(
@@ -170,10 +172,10 @@ public class AligntoReef {
 
     List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
     // this is what the rotation of the actual robot should be
-    rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
+    rotationTargets.add(new RotationTarget(0.7, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
 
     List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
-    zones.add(new ConstraintsZone(0.95, 1, endconstraints));
+    zones.add(new ConstraintsZone(0.7, 1, endconstraints));
     PathPlannerPath path = new PathPlannerPath(
         waypoints,
         rotationTargets,

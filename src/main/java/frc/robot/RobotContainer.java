@@ -164,8 +164,8 @@ public class RobotContainer {
                 // xDrive.leftBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> false));
                 // xDrive.rightBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> true));
 
-                xDrive.leftBumper().toggleOnTrue(AligntoReef.getDriveToReef(() -> false,22));
-                xDrive.rightBumper().toggleOnTrue(AligntoReef.getDriveToReef(() -> false,17));
+                xDrive.leftBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> false));
+                xDrive.rightBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> true));
 
 
                 xDrive.rightTrigger().toggleOnTrue(IntakeFactory.algaeOut());
