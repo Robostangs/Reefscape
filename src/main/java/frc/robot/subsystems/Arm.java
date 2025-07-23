@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -105,10 +106,11 @@ public class Arm extends SubsystemBase {
      * Function to set the arm to the angle given
      * 
      * @param rotations the angle to set the arm to in degrees
+     * @return 
      */
     public void setArmPosition(double rotations) {
         armControl.Position = (rotations);
-
+            
     }
     /**
      * Sets the arm motor to a specific duty cycle
@@ -169,21 +171,18 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         // Checks if the arm is past the rotation set.
+        
         if (armMotor.getPosition().getValueAsDouble() > 0.5) {
             armPastRotation.set(true);
         } else {
             armPastRotation.set(false);
-
+            if(Robot.isSimulation()){
+                arm.setAngle(Units.rotationsToDegrees(armEncoder.getPosition().getValueAsDouble()));
+            }
             setArmPosition();
             SmartDashboard.putNumber("Arm/target arm angle", armControl.Position);
             SmartDashboard.putNumber("Arm/actual arm angle", armEncoder.getPosition().getValueAsDouble());
 
-            //TODO see if we can do without this
-            // armControl.FeedForward = -40*(CommandSwerveDrivetrain.getInstance().getPigeon2().getAccelerationY().getValueAsDouble());
-            // SmartDashboard.putNumber("Arm-Test/", armMotor.getTorqueCurrent().getValueAsDouble());
-            // SmartDashboard.putNumber("Arm-Test/Torque current", armMotor.getTorqueCurrent().getValueAsDouble());
-            // SmartDashboard.putNumber("Arm-Test/Velocity", armMotor.getVelocity().getValueAsDouble());
-            // SmartDashboard.putNumber("Arm-Test/Acceleration", armMotor.getAcceleration().getValueAsDouble());
         }
 
     }

@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import edu.wpi.first.wpilibj.Timer;
@@ -249,11 +250,10 @@ public class RobotContainer {
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
 
-                new Trigger(() -> xSim.getRawButton(2)).onTrue(
-                                AligntoReef.getAlignToReef(() -> true));
-
+                new Trigger(() -> xSim.getRawButton(2))
+                                .onTrue(new SetArmPosition(Constants.ScoringConstants.L4.kArmScoringPosition));
                 new Trigger(() -> xSim.getRawButton(3))
-                                .onTrue(AligntoReef.getAlignToReef(() -> false));
+                                .onTrue(new SetArmPosition(Constants.ScoringConstants.Stow.kArmStowPos));
 
         }
 
