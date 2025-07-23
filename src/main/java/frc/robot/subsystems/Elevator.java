@@ -18,8 +18,12 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class Elevator extends SubsystemBase {
+    /*
+     * 
+     */
 
     private static Elevator mInstance;
 
@@ -28,7 +32,7 @@ public class Elevator extends SubsystemBase {
     private TalonFX elevatorMotorLeft;
 
     private MotionMagicTorqueCurrentFOC elevatorMotionMagic;
-    // private double elevatorPositionMeters;
+    private double elevatorPositionMeters;
 
     // simulated elevator
     private ElevatorSim simElevatorTarget;
@@ -234,13 +238,13 @@ public class Elevator extends SubsystemBase {
         }
     }
 
-    // public void updateElevatorPosition() {
-    //     if (Robot.isSimulation()) {
-    //         elevatorPositionMeters = simElevatorTarget.getPositionMeters();
-    //     } else {
-    //         elevatorPositionMeters = elevatorMotorRight.getPosition().getValueAsDouble();
-    //     }
-    // }
+    public void updateElevatorPosition() {
+        if (Robot.isSimulation()) {
+            elevatorPositionMeters = simElevatorTarget.getPositionMeters();
+        } else {
+            elevatorPositionMeters = elevatorMotorRight.getPosition().getValueAsDouble();
+        }
+    }
 
     public double getElevatorPositionMeters() {
         return elevatorMotorRight.getPosition().getValueAsDouble();

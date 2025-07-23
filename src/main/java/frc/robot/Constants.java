@@ -287,7 +287,7 @@ public final class Constants {
       public static final double kElevatorStart = 1.11;
       
     }
-
+      public static final double kElevatorStart = ElevatorConstants.kHomePosition + 0.075;
     public static class L2 {
       public static final double kElevatorStart = ElevatorConstants.kHomePosition+.075;
       public static final double kElevatorStartAlg = 1.247;
