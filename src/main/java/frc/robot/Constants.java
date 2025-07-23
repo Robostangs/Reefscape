@@ -282,12 +282,14 @@ public final class Constants {
 
     public static final double spitTimeout = 1.5;
 
+    public static final double kElevatorStart = ElevatorConstants.kHomePosition + 0.075;
+
     public static class L1 {
       public static final double kArmScoringPosition = -0.366;
       public static final double kElevatorStart = 1.11;
       
     }
-      public static final double kElevatorStart = ElevatorConstants.kHomePosition + 0.075;
+    
     public static class L2 {
       public static final double kElevatorStart = ElevatorConstants.kHomePosition+.075;
       public static final double kElevatorStartAlg = 1.247;

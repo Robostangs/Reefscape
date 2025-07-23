@@ -247,7 +247,9 @@ public class RobotContainer {
                                 AligntoReef.getAlignToReef(() -> true));
 
                 new Trigger(() -> xSim.getRawButton(3))
-                                .onTrue(ScoringFactory.L4Position());
+                                .onTrue(new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
+                new Trigger(() -> xSim.getRawButton(4))
+                                .onTrue(new SetElevatorPosition(Constants.ScoringConstants.kElevatorStart));
 
         }
 

@@ -93,7 +93,7 @@ public class Elevator extends SubsystemBase {
                 Constants.ElevatorConstants.kMinExtension, Constants.ElevatorConstants.kMaxExtension, false,
                 0d);
 
-        profileElevator_mechanism = new Mechanism2d(20, 3);
+        profileElevator_mechanism = new Mechanism2d(20, 0.5); //changed height from 3
         profileElevatorBaseRoot = profileElevator_mechanism.getRoot("Profile Elevator Root", 2, 0);
         m_profileElevatorMech2d = profileElevatorBaseRoot.append(
                 new MechanismLigament2d("Elevator",
@@ -214,7 +214,7 @@ public class Elevator extends SubsystemBase {
         simElevatorProfile.update(0.02);
 
         m_profileElevatorMech2d.setLength(
-                simElevatorTarget.getPositionMeters());
+                simElevatorProfile.getPositionMeters());
 
     }
 
@@ -261,16 +261,18 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
 
-        // Robot.verifyMotor(elevatorMotorLeft);
-        // Robot.verifyMotor(elevatorMotorRight);
-        
-        // if (Robot.isSimulation()) {
-        //     updateSimElevatorTarget();
-        // } else {
-        //     updateSimElevatorProfile();
-        // }
+        updateElevatorPosition();
 
-        // updateElevatorPosition();
+        Robot.verifyMotor(elevatorMotorLeft);
+        Robot.verifyMotor(elevatorMotorRight);
+        
+        if (Robot.isSimulation()) {
+            updateSimElevatorTarget();
+        } else {
+            updateSimElevatorProfile();
+        }
+
+        updateElevatorPosition();
 
 
         // SmartDashboard.putNumber("Elevator-Test/Torque current",
