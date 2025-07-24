@@ -13,8 +13,10 @@ public class ManualAdjustClimber extends Command {
     DoubleSupplier dutyCycle;
     double time;
     /**
-     * A command that runs the climber at a duty cycle
+     * this deploys the climber at what ever speed is inputted by the controller at 50% speed
+     * @param dutyCycle this makes the speed of the input 50%
      */
+
     public ManualAdjustClimber(DoubleSupplier dutyCycle) {
         climber = Climber.getInstance();
         this.dutyCycle = dutyCycle;

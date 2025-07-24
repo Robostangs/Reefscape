@@ -69,9 +69,9 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kManipControllerPort = 1;
 
-    public static final double kDriverDeadband = Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+    public static final double kDriverDeadband = Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
         .baseUnitMagnitude() * 0.07;
-    public static final double rotationalDeadband = Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+    public static final double rotationalDeadband = Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
         * 0.07;
 
   }
@@ -114,7 +114,6 @@ public final class Constants {
   public static class EndeffectorConstants {
 
     public static final int kEndeffectorMotorId = 3;
-    public static final int kEndeffectorSensorId = 0;
 
     public static final double kEndeffectorSpit = -0.9;
 
@@ -284,12 +283,14 @@ public final class Constants {
 
     public static final double spitTimeout = 1.5;
 
+    public static final double kElevatorStart = ElevatorConstants.kHomePosition + 0.075;
+
     public static class L1 {
       public static final double kArmScoringPosition = -0.366;
       public static final double kElevatorStart = 1.11;
       
     }
-
+    
     public static class L2 {
       public static final double kElevatorStart = ElevatorConstants.kHomePosition+.075;
       public static final double kElevatorStartAlg = 1.247;
@@ -335,6 +336,77 @@ public final class Constants {
     }
   }
 
+  public static class AutoConstants {
+    public static final PIDConstants translationPID = new PIDConstants(10, 0, 0);
+    public static final PIDConstants rotationPID = new PIDConstants(5, 0, 0
+    );
+
+    public static final double kSlurpTimeout = 3d;
+
+    public static class AutoPoses {
+      public static final Pose2d kOpenPose = new Pose2d(7.557, 7.479, new Rotation2d(Units.degreesToRadians(180)));
+      public static final Pose2d kCenterPose = new Pose2d(7.557, 4.023, new Rotation2d(Units.degreesToRadians(0)));
+      public static final Pose2d kProPose = new Pose2d(7.557, 0.685, new Rotation2d(Units.degreesToRadians(180)));
+
+    }
+
+    public static class AlignConstants {
+
+      public static final double feedforwardX = 5;
+      public static final double feedforwardY = 5;
+
+    }
+
+    private final static MomentOfInertia kRobotMomentOfInertia = KilogramSquareMeters.of(0.01);
+
+    private final static ModuleConfig kModuleConfig = new ModuleConfig(
+        Constants.SwerveConstants.kWheelRadius,
+        Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts,
+        1.916,
+        DCMotor.getKrakenX60Foc(1).withReduction(Constants.SwerveConstants.kDriveGearRatio),
+        Amps.of(120),
+        1);
+    private final static Translation2d[] kModulePositions = {
+        new Translation2d(Inches.of(12.125), Inches.of(12.125)),
+        new Translation2d(Inches.of(12.125), Inches.of(-12.125)),
+        new Translation2d(Inches.of(-12.125), Inches.of(12.125)),
+        new Translation2d(Inches.of(-12.125), Inches.of(-12.125)),
+    };
+
+    // double massKG, double MOI, ModuleConfig moduleConfig, Translation2d...
+    // moduleOffsets) {
+    public static final RobotConfig robotConfig = new RobotConfig(
+        69d,
+        kRobotMomentOfInertia.baseUnitMagnitude(),
+        kModuleConfig,
+        kModulePositions);
+
+    public static final String kFieldObjectName = "Auto";
+
+    public static class AutoSpeeds {
+
+      // Theoretical free speed (m/s) at 12 V applied output;
+      // This needs to be tuned to your individual robot
+      public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.73);
+
+      public static final LinearVelocity kSpeedAt12VoltsPIT = MetersPerSecond.of(4.73*.1);
+
+
+      public static final double kSpeedMPS = 4.73;
+
+      // The maximum acceleration of the robot in meters per second squared.
+      public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+
+      // The maximum angular speed of the robot in radians per second.
+      public static final double kMaxAngularSpeedRadiansPerSecond = 13.5;
+
+      // The maximum angular acceleration of the robot in radians per second squared.
+      public static final double kMaxAngularAccelerationRadiansPerSecondSquared = 3;
+
+      public static final double kReefAdjustspeed = 0.25;
+    }
+  }
+  
   public static class SwerveConstants {
     // Both sets of gains need to be tuned to your individual robot.
 
@@ -508,7 +580,7 @@ public final class Constants {
         .withSteerMotorClosedLoopOutput(kSteerClosedLoopOutput)
         .withDriveMotorClosedLoopOutput(kDriveClosedLoopOutput)
         .withSlipCurrent(kSlipCurrent)
-        .withSpeedAt12Volts(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts)
+        .withSpeedAt12Volts(Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts)
         .withDriveMotorType(kDriveMotorType)
         .withSteerMotorType(kSteerMotorType)
         .withFeedbackSource(kSteerFeedbackType)

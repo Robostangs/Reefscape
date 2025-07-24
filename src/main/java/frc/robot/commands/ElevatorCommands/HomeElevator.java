@@ -5,12 +5,14 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
 public class HomeElevator extends Command {
+    /*
+     * The elevator is sent to its home position once 
+     * set at a speed of {@code kElevatorHomeDutyCycle}
+     * once it reaches the spot {@code kHomePosition}, it will stop moving
+     */
 
     Elevator elevator;
 
-    /**
-     * Runs the elevator at a duty cycle until it hits limit switch
-     */
     public HomeElevator() {
         elevator = Elevator.getInstance();
 

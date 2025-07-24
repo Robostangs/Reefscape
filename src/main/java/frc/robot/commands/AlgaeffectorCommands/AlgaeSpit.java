@@ -9,8 +9,13 @@ import frc.robot.subsystems.Algaeffector;
 
 
 public class AlgaeSpit extends Command {
-   Algaeffector algaeffector;
+    Algaeffector algaeffector;
 
+    /**
+     * this gets the algae out of the algae effector at a speed of 70% speed in the other way
+     * No parameter (set value)
+     */
+    
     public AlgaeSpit(){
         algaeffector = Algaeffector.getInstance();
         addRequirements(algaeffector);

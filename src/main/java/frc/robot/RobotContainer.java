@@ -45,10 +45,10 @@ public class RobotContainer {
 
         /* Setting up bindings for necessary control of the swerve drive platform */
         private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-                        .withDeadband(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                        .withDeadband(Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                         .in(MetersPerSecond) * 0.1)
                         .withRotationalDeadband(
-                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+                                        Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                         * 0.1) // Add a
                                                                // 10%
                                                                // deadband
@@ -56,7 +56,7 @@ public class RobotContainer {
                                                                                  // motors
 
         private final Telemetry logger = new Telemetry(
-                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond));
+                        Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond));
 
         private final CommandXboxController xDrive = new CommandXboxController(
                         OperatorConstants.kDriverControllerPort);
@@ -85,38 +85,38 @@ public class RobotContainer {
                 if (Robot.isSimulation()) {
                         drivetrain.setDefaultCommand(
                                         drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
-                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                        * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond))
                                                         .withVelocityY((-xSim.getRawAxis(1))
-                                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                        * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
                                                         .withRotationalRate((xSim.getRawAxis(2))
                                                                         *
-                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                                                                        Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 } else {
                         drivetrain.setDefaultCommand(
                                         // Drivetrain will execute this command periodically
                                         drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
-                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                        * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond)
                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25 : 1))
                                                         .withVelocityY((-xDrive.getLeftX())
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
                                                                                         : 1)
-                                                                        * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                                        * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
                                                         .withRotationalRate((-xDrive.getRightX())
                                                                         *
-                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+                                                                        Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
                                                                                         : 1))
                                                         .withRotationalDeadband(
-                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+                                                                        Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                                                         * 0.05
                                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2)
                                                                                                         ? 0.25
                                                                                                         : 1))
-                                                        .withDeadband(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
+                                                        .withDeadband(Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond) * 0.05
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2)
                                                                                         ? 0.25

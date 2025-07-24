@@ -451,9 +451,8 @@ public class Robot extends TimedRobotstangs {
         ElevatorCommands.close();
         ClimberCommands.close();
         IntakeCommands.close();
-        EndeffectorCommands.close();
+        EndeffectorCommands.close(); }
 
-    }
 
     @Override
     public void testPeriodic() {
@@ -489,7 +488,20 @@ public class Robot extends TimedRobotstangs {
         lastEndaffector = EndeffectorCommands.getSelected();
         lastAlgaeffector = AlgaeffectorCommands.getSelected();
 
+    unpublishTrajectory();
+
+    IntakePivot.getInstance().point3Intake();
+    Climber.getInstance().zeroClimber();
+    Elevator.getInstance().setHomePositionElevator();
+
+    autoGroup.schedule();
+
+    // autoCommand.schedule();
     }
+
+
+
+
 
     @Override
     public void robotPeriodic() {
@@ -726,9 +738,10 @@ public class Robot extends TimedRobotstangs {
             return true;
         } else {
             return false;
+  }
 
         }
-    }
+    
 
     public static void verifyMotors(TalonFX... falcons) {
         for (TalonFX falcon : falcons) {

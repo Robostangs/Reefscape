@@ -15,6 +15,7 @@ public class Deploy extends Command {
    * A command that connects the servo to the rachet then deploys the climber onto the hanging cage
    * @param smart whether to stop when it reaches the setpoint or not
    */
+
   public Deploy(boolean smart) {
     climber = Climber.getInstance();
     this.addRequirements(climber);
