@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.SwerveCommands.AligntoReef;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import static edu.wpi.first.units.Units.MetersPerSecond;
@@ -77,37 +79,39 @@ public class AutoManager {
 
                 ScoringTargets currentSide = AutoScoringSides.get(index);
 
-                // autoCommand = autoCommand.andThen(AligntoReef.getDriveToReef(
-                // () -> currentSide.isRight(),
-                // currentSide.getAprilTag()).alongWith(
-                // ScoringFactory.L4PositionAuto().withTimeout(0.2)))
-                // .andThen(new Spit().withTimeout(0.4))
-                // .andThen(ScoringFactory.SmartStow().withTimeout(1))
-                // .andThen(IntakeFactory.IntakeCoral().withTimeout(2)
-                // .alongWith(
-                // AutoBuilder.pathfindThenFollowPath(
-                // start == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro
-                // ? Constants.SwerveConstants.AutoConstants.AutoPaths.kProcessorCleanup
-                // : Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup,
-                // Constants.SwerveConstants.AutoConstants.AutoPaths.constraints))
-                // .onlyIf(() -> start !=
-                // Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center))
-                // .andThen(new Retract().withTimeout(0.5));
-
                 autoCommand = autoCommand.andThen(AligntoReef.getDriveToReef(
                         () -> currentSide.isRight(),
-                        currentSide.getAprilTag()).andThen(
-                                ScoringFactory.L4Position().withTimeout(5)))
+                        currentSide.getAprilTag()).alongWith(
+                                ScoringFactory.L4PositionAuto()))
                         .andThen(new Spit().withTimeout(0.4))
-                        .andThen(ScoringFactory.SmartStow().withTimeout(1))
-                        .andThen(AutoBuilder.pathfindThenFollowPath(
+                        .andThen(ScoringFactory.SmartStow().withTimeout(0.2))
+                        .andThen(
+                        
+                        (AutoBuilder.pathfindThenFollowPath(
                                 start == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro
                                         ? Constants.SwerveConstants.AutoConstants.AutoPaths.kProcessorCleanup
                                         : Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup,
                                 Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
+                        
                                 .raceWith(
-                                        IntakeFactory.IntakeCoral()))
-                        .onlyIf(() -> start != Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center);
+                                        IntakeFactory.IntakeCoral())))
+                        .andThen(new Retract().withTimeout(0.5));
+
+                // autoCommand = autoCommand.andThen(AligntoReef.getDriveToReef(
+                // () -> currentSide.isRight(),
+                // currentSide.getAprilTag()).andThen(
+                // ScoringFactory.L4Position().withTimeout(5)))
+                // .andThen(new Spit().withTimeout(0.5))
+                // .andThen(ScoringFactory.SmartStow().withTimeout(1))
+                // .andThen(AutoBuilder.pathfindThenFollowPath(
+                // start == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro
+                // ? Constants.SwerveConstants.AutoConstants.AutoPaths.kProcessorCleanup
+                // : Constants.SwerveConstants.AutoConstants.AutoPaths.kOpenCleanup,
+                // Constants.SwerveConstants.AutoConstants.AutoPaths.constraints)
+                // .raceWith(
+                // IntakeFactory.IntakeCoral()))
+                // .onlyIf(() -> start !=
+                // Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center);
 
                 pathcount++;
 

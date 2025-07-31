@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7346746575342467,
-        "y": 0.967273116438356
+        "x": 3.681,
+        "y": 1.658454623287671
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.485447639614928,
-        "y": 0.9476289432808123
+        "x": 3.4811705666344395,
+        "y": 1.5082274700802736
       },
       "isLocked": false,
-      "linkedName": "Pro Feeder"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.6828767123287671,
-        "y": 1.3579409246575347
+        "x": 2.058518835616438,
+        "y": 0.7869648972602739
       },
       "prevControl": {
-        "x": 2.1740820493704267,
-        "y": 0.7677238156304703
+        "x": 2.9446895017619017,
+        "y": 0.20766729869100276
       },
       "nextControl": {
-        "x": 1.2611331707693807,
-        "y": 1.8646948930675025
+        "x": 1.8237355376428868,
+        "y": 0.9404448147256599
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.6227739726027397,
+        "y": 1.5532748287671234
+      },
+      "prevControl": {
+        "x": 1.0343948253382562,
+        "y": 1.1899695731197233
+      },
+      "nextControl": {
+        "x": 1.8354905056081101,
+        "y": 1.6846204666321682
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +52,8 @@
         "y": 2.229430650684932
       },
       "prevControl": {
-        "x": 1.7785753294393443,
-        "y": 2.4716836519057277
+        "x": 2.5807303793269742,
+        "y": 1.879300465258412
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,6 +69,17 @@
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
+    {
+      "name": "Stow",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Stow"
+        }
+      }
+    },
     {
       "name": "Schloop",
       "waypointRelativePos": 1.830508474576269,

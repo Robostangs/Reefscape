@@ -138,18 +138,18 @@ public class AligntoReef {
 
     // if the robot rotation isn't that off from the target rotation then it should
     // be a simple path
-    // if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
+    if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
       waypoints = PathPlannerPath.waypointsFromPoses(
           startPose, endPose);
 
       
-    // }
+    }
     // if the robot rotation is off by a lot then we should add a point before so we
     // have time to rotate
-    // else {
-    //   waypoints = PathPlannerPath.waypointsFromPoses(startPose,
-    //       endPose.transformBy(new Transform2d(Units.inchesToMeters(-18), 0, Rotation2d.kZero)), endPose);
-    // }
+    else {
+      waypoints = PathPlannerPath.waypointsFromPoses(startPose,
+          endPose.transformBy(new Transform2d(Units.inchesToMeters(-10), 0, Rotation2d.kZero)), endPose);
+    }
 
     PathConstraints constraints = new PathConstraints(
         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
@@ -165,7 +165,7 @@ public class AligntoReef {
 
     List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
     // this is what the rotation of the actual robot should be
-    rotationTargets.add(new RotationTarget(0.75, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
+    rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
 
     List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
     zones.add(new ConstraintsZone(0.7, 1, endconstraints));

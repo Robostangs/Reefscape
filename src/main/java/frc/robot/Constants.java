@@ -25,6 +25,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.path.ConstraintsZone;
+import com.pathplanner.lib.path.EventMarker;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.IdealStartingState;
 import com.pathplanner.lib.path.PathConstraints;
@@ -41,6 +42,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.*;
+import frc.robot.commands.Factories.ScoringFactory;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -222,7 +224,7 @@ public final class Constants {
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
-    public static final Vector<N3> kErrorInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
+    public static final Vector<N3> kErrorInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(20));
     public static final String kLimelightFour = "limelight-score";
     public static final String kLimelightThree = "limelight-right";
     public static final String kEyeCameraIP = "http://10.5.48.11:5800/stream.mjpg";
@@ -432,9 +434,11 @@ public final class Constants {
 
       public static class AutoPaths {
         static List<Waypoint> waypointsProcessor = PathPlannerPath.waypointsFromPoses(
-            new Pose2d(new Translation2d(2.735, 0.967), new Rotation2d(Units.degreesToRadians(157))),
-            new Pose2d(new Translation2d(1.683, 1.358), new Rotation2d(Units.degreesToRadians(157))),
-            new Pose2d(new Translation2d(2.735, 2.229), new Rotation2d(Units.degreesToRadians(-12))));
+            new Pose2d(new Translation2d(3.68, 1.658), new Rotation2d(Units.degreesToRadians(-143))),
+            new Pose2d(new Translation2d(2.06, 0.787), new Rotation2d(Units.degreesToRadians(146.83))),
+            new Pose2d(new Translation2d(1.62, 1.55), new Rotation2d(Units.degreesToRadians(31.7))),
+            new Pose2d(new Translation2d(2.735, 2.23), new Rotation2d(Units.degreesToRadians(66.266)))
+            );
 
         public static PathConstraints constraints = new PathConstraints(
             Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond),
@@ -447,13 +451,21 @@ public final class Constants {
           rotationTargets.add(new RotationTarget(0.66, new Rotation2d(Units.degreesToRadians(157.11))));
         }
         static List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
+        static List<EventMarker> eventMarkers = new ArrayList<EventMarker>();
+        static{
+          // eventMarkers.add(new EventMarker("Stow", 0,ScoringFactory.SmartStow()));
+          eventMarkers.add(new EventMarker("Schloop", 1.83, ScoringFactory.Schloop()));
+        }
         
-                public static final PathPlannerPath kProcessorCleanup = new PathPlannerPath(
+
+                public static final PathPlannerPath kProcessorCleanup = 
+                new PathPlannerPath(
                     waypointsProcessor,
                     rotationTargets,
                     Collections.emptyList(),
                     zones,
-            Collections.emptyList(),
+                   eventMarkers
+            ,
             constraints,
             new IdealStartingState(0, new Rotation2d(Units.degreesToRadians(157.11))),
             new GoalEndState(0, new Rotation2d(Units.degreesToRadians(-12.01))),
@@ -474,7 +486,7 @@ public final class Constants {
       public static class AutoPoses {
         public static final Pose2d kOpenPose = new Pose2d(7.2, 5.5, new Rotation2d(Units.degreesToRadians(90)));
         public static final Pose2d kCenterPose = new Pose2d(7.2, 3.8, new Rotation2d(Units.degreesToRadians(90)));
-        public static final Pose2d kProPose = new Pose2d(7.2, 1.9, new Rotation2d(Units.degreesToRadians(90)));
+        public static final Pose2d kProPose = new Pose2d(7.3, 1.9, new Rotation2d(Units.degreesToRadians(90)));
 
       }
 

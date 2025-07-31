@@ -444,54 +444,56 @@ public class Robot extends TimedRobotstangs {
 
   public void disabledInit() {
     setAllMotorsSafe();
+    CommandScheduler.getInstance().cancelAll();
 
   }
 
   @Override
   public void disabledPeriodic() {
-
   }
 
   @Override
   public void disabledExit() {
 
     // TODO find error when you run a 2 piece and something is null
+    
     if (
-        firstPieceChooser.getSelected() != null) {
-      autoPoints.add(new ScoringTargets(
-          firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));
-    }
+      firstPieceChooser.getSelected() != null) {
+    autoPoints.add(new ScoringTargets(
+        firstPieceChooser.getSelected(), firstPieceRoLChooser.getSelected()));
+  }
 
-    if (secondPieceChooser.getSelected() != null &&
-        secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None) {
-      autoPoints.add(new ScoringTargets(
-          secondPieceChooser.getSelected(), secondPieceRoLChooser.getSelected()));
-    }
-    if (thirdPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None &&
-        thirdPieceChooser.getSelected() != null) {
-      autoPoints.add(new ScoringTargets(
-          thirdPieceChooser.getSelected(), thirdPieceRoLChooser.getSelected()));
-    }
+  if (secondPieceChooser.getSelected() != null &&
+      secondPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None) {
+    autoPoints.add(new ScoringTargets(
+        secondPieceChooser.getSelected(), secondPieceRoLChooser.getSelected()));
+  }
+  if (thirdPieceChooser.getSelected() != Constants.SwerveConstants.AutoConstants.ReefSides.None &&
+      thirdPieceChooser.getSelected() != null) {
+    autoPoints.add(new ScoringTargets(
+        thirdPieceChooser.getSelected(), thirdPieceRoLChooser.getSelected()));
+  }
 
-    if(      startChooser.getSelected() != null 
-    ){
+  if(      startChooser.getSelected() != null 
+  ){
 
-    autoCommand = new AutoManager(startChooser.getSelected(), autoPoints).getAutoCommand();
-    }
-    else{
-      autoCommand = new PrintCommand("TS aint there homie");
-    }
-    autoGroup = new SequentialCommandGroup(
-        new Retract().withTimeout(0.2)
+  autoCommand = new AutoManager(startChooser.getSelected(), autoPoints).getAutoCommand();
+  }
+  else{
+    autoCommand = new PrintCommand("TS aint there homie");
+  }
+  autoGroup = new SequentialCommandGroup(
+      new Retract().withTimeout(0.2)
 
-    );
+  );
 
-    autoGroup.addCommands(
-        new InstantCommand(timer::restart),
-        new WaitUntilCommand(() -> timer.get() > pathDelay.getDouble(0)),
-        autoCommand,
-        new InstantCommand(timer::stop));
+  autoGroup.addCommands(
+      new InstantCommand(timer::restart),
+      new WaitUntilCommand(() -> timer.get() > pathDelay.getDouble(0)),
+      autoCommand,
+      new InstantCommand(timer::stop));
 
+  
   }
 
   public void autonomousInit() {
@@ -499,7 +501,7 @@ public class Robot extends TimedRobotstangs {
     if (startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Center) {
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kCenterPose);
     } else if (startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Pro) {
-      drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose);
+      // drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kProPose);
     } else if (startChooser.getSelected() == Constants.SwerveConstants.AutoConstants.AutoStartPosition.Open) {
       drivetrain.resetPose(Constants.SwerveConstants.AutoConstants.AutoPoses.kOpenPose);
     }
