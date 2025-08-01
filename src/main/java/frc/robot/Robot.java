@@ -21,11 +21,6 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoCamera;
-import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -125,7 +120,6 @@ public class Robot extends TimedRobotstangs {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
-    CameraServer.startAutomaticCapture();
 
   }
 
@@ -236,8 +230,6 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
-    teleopTab.add("Daredevil",
-        new HttpCamera(Constants.VisionConstants.kEyeCameraName, Constants.VisionConstants.kEyeCameraIP));
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
@@ -375,16 +367,6 @@ public class Robot extends TimedRobotstangs {
       testTab.add("ClimberCommands", ClimberCommands)
           .withSize(2, 1)
           .withPosition(0, 5);
-
-      // Algaeffector
-      // AlgaeffectorCommands.setDefaultOption("Nothin", new InstantCommand());
-      // Algaeffector.getInstance()
-      // .runOnce(() -> Algaeffector.getInstance().setDutyCycle(0));
-      // AlgaeffectorCommands.addOption("Slurp", new Slurp());
-      // AlgaeffectorCommands.addOption("Spit", new Spit());
-      // testTab.add("AlgaeffectorCommands", AlgaeffectorCommands)
-      // .withSize(2, 1)
-      // .withPosition(0, 6);
 
       lastSwerve = SwerveCommands.getSelected();
       lastArm = ArmCommands.getSelected();
