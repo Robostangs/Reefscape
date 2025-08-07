@@ -3,6 +3,7 @@ package frc.robot.commands.ElevatorCommands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
 public class SetElevatorDutyCycle extends Command {
@@ -35,7 +36,7 @@ public class SetElevatorDutyCycle extends Command {
 
   @Override
   public void end(boolean interrupted) {
-      elevator.setElevatorDutyCycle(0.03);
+      elevator.setElevatorDutyCycle(Constants.ElevatorConstants.kFeedForward);
       
     
     elevator.postStatus("Elevator Stopped");

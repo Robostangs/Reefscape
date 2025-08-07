@@ -124,6 +124,7 @@ public final class Constants {
     public static final int kalgaeffectorid = 55;
     public static final double kAlgaeffectorDutyCyle = -0.7;
     public static final double kAlgaeffectorSlurpCycle = 0.7;
+    public static final double kAlgaeffectorFeedForward = 0;
   }
 
   public static class ArmConstants {
@@ -209,6 +210,9 @@ public final class Constants {
     public static final double ktestDutyCycle = 0.1;
     
     public static final double kStartPos = 0.78;
+    //TODO: get the values in testing
+    public static final double kSafeArmElevatorAlgaeeffectorPosition = 0.925;
+    public static final double kFeedForward = 0;
   }
 
   // WE ARE WELDEDkg
@@ -293,13 +297,17 @@ public final class Constants {
     
     public static class L2 {
       public static final double kElevatorStart = ElevatorConstants.kHomePosition+.075;
+      //TODO: get the values in testing
+      public static final double kArmAlgaeffectorPos=.376;//add something here
+      public static final double kElevatorAlgaeffectorPos=0.9;//add something here
+
       public static final double kElevatorStartAlg = 1.247;
       public static final double kArmScoringPosition = .376;
       public static final double kElevatorEnd =  .6775;
       public static final double kArmSafePosition = 0.25;
       public static final double kELevatorAlgaepos = 0.91;
       public static final double kArmAlgaePosStart = -0.75;
-    public static final double kArmAlgaePosEnd = 0;
+      public static final double kArmAlgaePosEnd = 0;
     }
 
 
@@ -311,6 +319,9 @@ public final class Constants {
       
       public static final double kELevatorAlgaepos = 1.18;
       public static final double kArmAlgaePos = -0.75;
+      //TODO: get the values in testing
+      public static final double kArmAlgaeffectorPos = 0;
+      public static final double kElevatorAlgaeffectorPos = 0;
     }
 
     public static class L4 {

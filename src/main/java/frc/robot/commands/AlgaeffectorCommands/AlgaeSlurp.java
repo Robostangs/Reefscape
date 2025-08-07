@@ -30,7 +30,7 @@ public class AlgaeSlurp extends Command{
     @Override
     public void end(boolean interrupted){
         Algaeslurpeffector.postStatus("Slurp");
-        Algaeslurpeffector.setEneffdector(0);
+        Algaeslurpeffector.setEneffdector(Constants.AlgaeffectorConstants.kAlgaeffectorFeedForward);
         Algaeslurpeffector.setEndeffectorBrake();
     }
     @Override

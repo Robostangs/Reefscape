@@ -1,3 +1,4 @@
+//#region Actual Stuff
 package frc.robot.commands.Factories;
 
 import java.util.Set;
@@ -7,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.commands.AlgaeffectorCommands.AlgaeSlurp;
+import frc.robot.commands.AlgaeffectorCommands.AlgaeSpit;
 import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
 import frc.robot.commands.EndeffectorCommands.Slurp;
@@ -335,6 +338,8 @@ public class ScoringFactory {
                 new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos));
     }
 
+
+
     /**
      * Returns a command that decides whether to stow at L2 or perform a regular
      * stow based on the current scoring position.
@@ -415,4 +420,48 @@ public class ScoringFactory {
             Schloop();
         };
     }
+
+
+
+
+
+
+//#region Algae
+
+    public static Command GetAlgaeFromL2(Trigger manipTrigger){
+        return  AlgaeffectorL2Position().alongWith(new WaitUntilCommand(manipTrigger)).andThen(new AlgaeSlurp().onlyWhile(manipTrigger));
+    }
+    
+    public static Command AlgaeffectorL2Position(){
+        return new SetElevatorPosition(Constants.ScoringConstants.L2.kArmAlgaeffectorPos)
+        .alongWith(new WaitUntilCommand(
+                        () -> Elevator.getInstance()
+                                .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorAlgaeeffectorPosition)
+                        .onlyIf(() -> !Robot.isSimulation())
+                        .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaeffectorPos))
+        );
+    }
+
+    public static Command GetAlgaeFromL3(Trigger manipTrigger){
+        return  AlgaeffectorL3Position()
+        .alongWith(new WaitUntilCommand(manipTrigger))
+            .andThen(new AlgaeSlurp().onlyWhile(manipTrigger));
+        
+    }
+    public static Command SpitAlgaeffector(){
+        return new AlgaeSpit();
+    }
+    
+    public static Command AlgaeffectorL3Position(){
+        return new SetElevatorPosition(Constants.ScoringConstants.L3.kArmAlgaeffectorPos)
+        .alongWith(new WaitUntilCommand(
+                        () -> Elevator.getInstance()
+                                .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorAlgaeeffectorPosition)
+                        .onlyIf(() -> !Robot.isSimulation())
+                        .andThen(new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaeffectorPos))
+        );
+    }
+
+    
 }
+//#endregion
