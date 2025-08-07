@@ -84,13 +84,13 @@ public class RobotContainer {
 
                 if (Robot.isSimulation()) {
                         drivetrain.setDefaultCommand(
-                                        drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
+                                        drivetrain.applyRequest(() -> drive.withVelocityX((-xSim.getRawAxis(0))
                                                         * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond))
-                                                        .withVelocityY((-xSim.getRawAxis(1))
+                                                        .withVelocityY((xSim.getRawAxis(1))
                                                                         * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
-                                                        .withRotationalRate((xSim.getRawAxis(2))
+                                                        .withRotationalRate((-xSim.getRawAxis(2))
                                                                         *
                                                                         Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 } else {
