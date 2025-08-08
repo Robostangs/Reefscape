@@ -81,7 +81,7 @@ public final class Constants {
     public static final int kIntakeSensorId = 8;
 
     public static final double kExtendSetpoint = -0.085;
-    public static final double kRetractSetpoint = 0.246;
+    public static final double kRetractSetpoint = 0.243;
     public static final double kHeimlichSetpoint = 0.013;
 
     public static final double kPivotP = 1000;

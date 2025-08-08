@@ -40,6 +40,7 @@ public class Deploy extends Command {
     if (climber.getServoPosition() >= 107 &&  currTime-time > 1) {
       climber.runClimber(Constants.ClimberConstants.kExtensionDutyCycle);
     }
+    
 
   }
 
