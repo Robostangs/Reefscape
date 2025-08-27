@@ -41,6 +41,7 @@ public class Deploy extends Command {
     if (climber.getServoPosition() >= Constants.ClimberConstants.servoRatchetPosition &&  currTime-time > Constants.ClimberConstants.timeToRatchet) {
       climber.runClimber(Constants.ClimberConstants.kExtensionDutyCycle);
     }
+    
 
   }
 

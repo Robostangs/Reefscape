@@ -118,140 +118,149 @@ public class Robot extends TimedRobotstangs {
 
     private String oldAutoName = "";
 
-    public Robot() {
-        m_robotContainer = new RobotContainer();
-        CameraServer.startAutomaticCapture();
+  public Robot() {
+    m_robotContainer = new RobotContainer();
 
-    }
+  }
 
-    /**
-     * This autonomous runs the autonomous command selected by your
-     * {@link RobotContainer} class.
-     */
-    @Override
-    public void robotInit() {
+  /**
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
+   */
+  @Override
+  public void robotInit() {
 
-        SmartDashboard.putData("Field", teleopField);
-        teleopTab = Shuffleboard.getTab("Teleoperated");
-        autoTab = Shuffleboard.getTab("Autonomous");
-        testTab = Shuffleboard.getTab("Test");
-        disTab = Shuffleboard.getTab("Disabled");
+    SmartDashboard.putData("Field", teleopField);
+    teleopTab = Shuffleboard.getTab("Teleoperated");
+    autoTab = Shuffleboard.getTab("Autonomous");
+    testTab = Shuffleboard.getTab("Test");
+    disTab = Shuffleboard.getTab("Disabled");
 
-        startChooser.setDefaultOption("Shit and Shit", "");
-        startChooser.addOption("Forward", "Pissing");
-        startChooser.addOption("Dumb L4", "Shitting");
+    startChooser.setDefaultOption("Shit and Shit", "");
+    startChooser.addOption("Forward", "Pissing");
+    startChooser.addOption("Dumb L4", "Shitting");
 
-        startChooser.addOption("PTP to Center 2R ", "PTP");
-        startChooser.addOption("Center", "CStart");
-        startChooser.addOption("Open", "OStart");
-        startChooser.addOption("Processor", "PStart");
+    startChooser.addOption("PTP to Center 2R ", "PTP");
+    startChooser.addOption("Center", "CStart");
+    startChooser.addOption("Open", "OStart");
+    startChooser.addOption("Processor", "PStart");
 
-        firstPieceChooser.setDefaultOption("none", "");
-        firstPieceChooser.addOption("Center 1", " - C1");
-        firstPieceChooser.addOption("Center 2", " - C2");
-        firstPieceChooser.addOption("Pro 1", " - P1");
-        firstPieceChooser.addOption("Pro 2", " - P2");
-        firstPieceChooser.addOption("Open 1", " - O1");
-        firstPieceChooser.addOption("Open 2", " - O2");
+    firstPieceChooser.setDefaultOption("none", "");
+    firstPieceChooser.addOption("Center 1", " - C1");
+    firstPieceChooser.addOption("Center 2", " - C2");
+    firstPieceChooser.addOption("Pro 1", " - P1");
+    firstPieceChooser.addOption("Pro 2", " - P2");
+    firstPieceChooser.addOption("Open 1", " - O1");
+    firstPieceChooser.addOption("Open 2", " - O2");
 
-        firstPieceRoLChooser.setDefaultOption("None", "");
-        firstPieceRoLChooser.setDefaultOption("Right", "R");
-        firstPieceRoLChooser.addOption("Left", "L");
+    firstPieceRoLChooser.setDefaultOption("None", "");
+    firstPieceRoLChooser.setDefaultOption("Right", "R");
+    firstPieceRoLChooser.addOption("Left", "L");
 
-        secondPieceChooser.setDefaultOption("None", "");
-        secondPieceChooser.addOption("Center 1", " - C1");
-        secondPieceChooser.addOption("Center 2", " - C2");
-        secondPieceChooser.addOption("Pro 1", " - P1");
-        secondPieceChooser.addOption("Pro 2", " - P2");
-        secondPieceChooser.addOption("Open 1", " - O1");
-        secondPieceChooser.addOption("Open 2", " - O2");
+    secondPieceChooser.setDefaultOption("None", "");
+    secondPieceChooser.addOption("Center 1", " - C1");
+    secondPieceChooser.addOption("Center 2", " - C2");
+    secondPieceChooser.addOption("Pro 1", " - P1");
+    secondPieceChooser.addOption("Pro 2", " - P2");
+    secondPieceChooser.addOption("Open 1", " - O1");
+    secondPieceChooser.addOption("Open 2", " - O2");
 
-        secondPieceRoLChooser.setDefaultOption("None", "");
-        secondPieceRoLChooser.addOption("Right", "R");
-        secondPieceRoLChooser.addOption("Left", "L");
+    secondPieceRoLChooser.setDefaultOption("None", "");
+    secondPieceRoLChooser.addOption("Right", "R");
+    secondPieceRoLChooser.addOption("Left", "L");
 
-        thirdPieceChooser.setDefaultOption("None", "");
-        thirdPieceChooser.addOption("Center 1", " - C1");
-        thirdPieceChooser.addOption("Center 2", " - C2");
-        thirdPieceChooser.addOption("Pro 1", " - P1");
-        thirdPieceChooser.addOption("Pro 2", " - P2");
-        thirdPieceChooser.addOption("Open 1", " - O1");
-        thirdPieceChooser.addOption("Open 2", " - O2");
+    thirdPieceChooser.setDefaultOption("None", "");
+    thirdPieceChooser.addOption("Center 1", " - C1");
+    thirdPieceChooser.addOption("Center 2", " - C2");
+    thirdPieceChooser.addOption("Pro 1", " - P1");
+    thirdPieceChooser.addOption("Pro 2", " - P2");
+    thirdPieceChooser.addOption("Open 1", " - O1");
+    thirdPieceChooser.addOption("Open 2", " - O2");
 
-        thirdPieceRoLChooser.setDefaultOption("None", "");
-        thirdPieceRoLChooser.addOption("Right", "R");
-        thirdPieceRoLChooser.addOption("Left", "L");
-        thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - C1L");
+    thirdPieceRoLChooser.setDefaultOption("None", "");
+    thirdPieceRoLChooser.addOption("Right", "R");
+    thirdPieceRoLChooser.addOption("Left", "L");
+    thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - C1L");
 
-        autoTab.add("Start Chooser", startChooser)
-                .withSize(2, 1)
-                .withPosition(0, 0);
+    autoTab.add("Start Chooser", startChooser)
+        .withSize(2, 1)
+        .withPosition(0, 0);
 
-        autoTab.add("First Piece Chooser", firstPieceChooser)
-                .withSize(2, 1)
-                .withPosition(0, 1);
+    autoTab.add("First Piece Chooser", firstPieceChooser)
+        .withSize(2, 1)
+        .withPosition(0, 1);
 
-        autoTab.add("First Piece Right or Left", firstPieceRoLChooser)
-                .withSize(1, 1)
-                .withPosition(2, 1);
+    autoTab.add("First Piece Right or Left", firstPieceRoLChooser)
+        .withSize(1, 1)
+        .withPosition(2, 1);
 
-        autoTab.add("Second Piece Chooser", secondPieceChooser)
-                .withSize(2, 1)
-                .withPosition(0, 2);
+    autoTab.add("Second Piece Chooser", secondPieceChooser)
+        .withSize(2, 1)
+        .withPosition(0, 2);
 
-        autoTab.add("Second Piece Right or Left", secondPieceRoLChooser)
-                .withSize(1, 1)
-                .withPosition(2, 2);
+    autoTab.add("Second Piece Right or Left", secondPieceRoLChooser)
+        .withSize(1, 1)
+        .withPosition(2, 2);
 
-        autoTab.add("Third Piece Chooser", thirdPieceChooser)
-                .withSize(2, 1)
-                .withPosition(0, 3);
+    autoTab.add("Third Piece Chooser", thirdPieceChooser)
+        .withSize(2, 1)
+        .withPosition(0, 3);
 
-        autoTab.add("Third Piece Right or Left", thirdPieceRoLChooser)
-                .withSize(1, 1)
-                .withPosition(2, 3);
+    autoTab.add("Third Piece Right or Left", thirdPieceRoLChooser)
+        .withSize(1, 1)
+        .withPosition(2, 3);
 
-        autoTab.add("Path Delay", 0)
-                .withSize(3, 1)
-                .withPosition(4, 4)
-                .withWidget(BuiltInWidgets.kNumberSlider)
-                .withProperties(Map.of("min_value", 0, "max_value", 15, "block increment", 15, "Divisions", 6));
+    autoTab.add("Path Delay", 0)
+        .withSize(3, 1)
+        .withPosition(4, 4)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 15, "block increment", 15, "Divisions", 6));
 
-        pathDelay = NetworkTableInstance.getDefault().getTable("Shuffleboard")
-                .getSubTable(autoTab.getTitle())
-                .getEntry("Path Delay");
+    pathDelay = NetworkTableInstance.getDefault().getTable("Shuffleboard")
+        .getSubTable(autoTab.getTitle())
+        .getEntry("Path Delay");
 
-        autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
-                + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
-                + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
+    autoName = startChooser.getSelected() + firstPieceChooser.getSelected() + firstPieceRoLChooser.getSelected()
+        + secondPieceChooser.getSelected() + secondPieceRoLChooser.getSelected()
+        + thirdPieceChooser.getSelected() + thirdPieceRoLChooser.getSelected();
 
-        teleopTab.addNumber("Match Time", () -> Timer.getMatchTime())
-                .withSize(3, 4)
-                .withPosition(3, 0)
-                .withWidget("Match Time")
-                .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
+    teleopTab.addNumber("Match Time", () -> Timer.getMatchTime())
+        .withSize(3, 4)
+        .withPosition(3, 0)
+        .withWidget("Match Time")
+        .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
-        teleopTab.add("Daredevil",
-                new HttpCamera(Constants.VisionConstants.kEyeCameraName, Constants.VisionConstants.kEyeCameraIP));
 
-        NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
-        NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
+    NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
+    NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
-        NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
-        NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4Position());
+    NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
+    NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4Position());
 
-        NamedCommands.registerCommand("L3 Position", ScoringFactory.L3PositionAuto());
+    NamedCommands.registerCommand("L3 Position", ScoringFactory.L3PositionAuto());
 
-        NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.4));
+    NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.4));
 
-        NamedCommands.registerCommand("Ground Intake", new Extend(true));
-        NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
-        NamedCommands.registerCommand("Intake", new PrintCommand("Hopefully autos work"));
+    NamedCommands.registerCommand("Ground Intake", new Extend(true));
+    NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
+    NamedCommands.registerCommand("Intake", new PrintCommand("Hopefully autos work"));
 
-        NamedCommands.registerCommand("Stow", ScoringFactory.SmartStow());
-        NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.4));
+    NamedCommands.registerCommand("Stow", ScoringFactory.SmartStow());
+    NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.4));
 
-    }
+  }
+
+   @Override
+  public void testExit() {
+    SwerveCommands.close();
+    ArmCommands.close();
+    ElevatorCommands.close();
+    ClimberCommands.close();
+    IntakeCommands.close();
+    EndeffectorCommands.close();
+
+  }
+
 
     @Override
     public void testInit() {
@@ -444,14 +453,6 @@ public class Robot extends TimedRobotstangs {
 
     }
 
-    @Override
-    public void testExit() {
-        SwerveCommands.close();
-        ArmCommands.close();
-        ElevatorCommands.close();
-        ClimberCommands.close();
-        IntakeCommands.close();
-        EndeffectorCommands.close(); }
 
 
     @Override
