@@ -28,8 +28,10 @@ import frc.robot.commands.IntakeCommands.Retract;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.Untake;
 import frc.robot.commands.SwerveCommands.AligntoReef;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -79,46 +81,51 @@ public class RobotContainer {
                         configureManipBindings();
                         configureTestBindings();
                 }
+                double multi = 1;
+                // Shuffleboard.getTab("Disabled").add("Multipler", 1).getEntry().getDouble(0);
 
                 if (Robot.isSimulation()) {
                         drivetrain.setDefaultCommand(
                                         drivetrain.applyRequest(() -> drive.withVelocityX((xSim.getRawAxis(0))
                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                        .in(MetersPerSecond))
+                                                                        .in(MetersPerSecond)
+                                                        * multi)
                                                         .withVelocityY((-xSim.getRawAxis(1))
                                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
-                                                                                        .in(MetersPerSecond))
+                                                                                        .in(MetersPerSecond)
+                                                                        * multi)
                                                         .withRotationalRate((xSim.getRawAxis(2))
                                                                         *
-                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
+                                                                        Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
+                                                                        * multi)));
                 } else {
                         drivetrain.setDefaultCommand(
                                         // Drivetrain will execute this command periodically
                                         drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond)
-                                                        * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25 : 1))
+                                                        * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25 : multi))
                                                         .withVelocityY((-xDrive.getLeftX())
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
-                                                                                        : 1)
+                                                                                        : multi)
                                                                         * Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                                         .in(MetersPerSecond))
                                                         .withRotationalRate((-xDrive.getRightX())
                                                                         *
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2) ? 0.25
-                                                                                        : 1))
+                                                                                        : multi))
                                                         .withRotationalDeadband(
                                                                         Constants.SwerveConstants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                                                         * 0.05
                                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2)
                                                                                                         ? 0.25
-                                                                                                        : 1))
+                                                                                                        : multi))
                                                         .withDeadband(Constants.SwerveConstants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond) * 0.05
                                                                         * ((xDrive.getLeftTriggerAxis() > 0.2)
                                                                                         ? 0.25
-                                                                                        : 1))));
+                                                                                        : multi))));
                 }
 
         }
@@ -168,10 +175,10 @@ public class RobotContainer {
 
                 xDrive.b().toggleOnTrue(new RunIntake());
 
-                //TAGS:
+                // TAGS:
                 /**
-                 *red: 6,7,8,9,10,11
-                 *blue: 17,18,19,20,21,22
+                 * red: 6,7,8,9,10,11
+                 * blue: 17,18,19,20,21,22
                  */
 
                 xDrive.y().toggleOnTrue(new Untake());
@@ -187,7 +194,7 @@ public class RobotContainer {
                 xDrive.povRight().onTrue(new InstantCommand(
                                 (() -> useVision = !useVision)));
                 xDrive.povUp().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-                            
+
                 // reset the field-centric hea ding on left bumper press
 
                 drivetrain.registerTelemetry(logger::telemeterize);
@@ -210,8 +217,7 @@ public class RobotContainer {
 
                 xManip.a().toggleOnTrue(
                                 // ScoringFactory.L4Pos0itionAuto()
-                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
-                                );
+                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.y().toggleOnTrue(

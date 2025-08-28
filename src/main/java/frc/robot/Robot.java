@@ -230,6 +230,13 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
+    disTab.add("Multiplier", 1)
+    .withSize(3, 1)
+    .withPosition(4, 4)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min_value", 0.01, "max_value", 1, "block increment", 0.5, "Divisions", 6));
+
+
 
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
