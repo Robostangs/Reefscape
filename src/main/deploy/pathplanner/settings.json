@@ -3,9 +3,10 @@
   "robotLength": 0.9144,
   "holonomicMode": true,
   "pathFolders": [
+    "Feeder Clean Up",
     "Feeder to Reef Paths",
     "Goofy Paths",
-    "Feeder Clean Up",
+    "Barge Autos",
     "Reef to Feeder Paths",
     "Stack Paths",
     "Start to Reef Paths"
@@ -13,6 +14,7 @@
   "autoFolders": [
     "Center Start",
     "Misc & 1 Pieces",
+    "Barge Autos",
     "Open Start",
     "Pro Start"
   ],

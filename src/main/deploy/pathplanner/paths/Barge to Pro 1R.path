@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.805475260416666,
+        "y": 6.106
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.805475260416667,
+        "y": 6.106
+      },
+      "isLocked": false,
+      "linkedName": "Barge Shoot Point"
+    },
+    {
+      "anchor": {
+        "x": 3.981806506849315,
+        "y": 3.0107662671232878
+      },
+      "prevControl": {
+        "x": 5.141082208806818,
+        "y": 0.49971368963068263
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Pro 1R"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.73,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 773.5,
+    "maxAngularAcceleration": 171.89,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -30.94109300719591
+  },
+  "reversed": false,
+  "folder": "Barge Autos",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 93.23149628996728
+  },
+  "useDefaultConstraints": true
+}

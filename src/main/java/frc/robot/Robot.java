@@ -140,6 +140,7 @@ public class Robot extends TimedRobotstangs {
         startChooser.setDefaultOption("Shit and Shit", "");
         startChooser.addOption("Forward", "Pissing");
         startChooser.addOption("Dumb L4", "Shitting");
+        startChooser.addOption("Barge Auto", "CStart - BRG - P1R - BRG - O2R");
 
         startChooser.addOption("PTP to Center 2R ", "PTP");
         startChooser.addOption("Center", "CStart");
@@ -157,6 +158,8 @@ public class Robot extends TimedRobotstangs {
         firstPieceRoLChooser.setDefaultOption("None", "");
         firstPieceRoLChooser.setDefaultOption("Right", "R");
         firstPieceRoLChooser.addOption("Left", "L");
+        firstPieceRoLChooser.addOption("Barge", " - BRG");
+
 
         secondPieceChooser.setDefaultOption("None", "");
         secondPieceChooser.addOption("Center 1", " - C1");
@@ -169,6 +172,8 @@ public class Robot extends TimedRobotstangs {
         secondPieceRoLChooser.setDefaultOption("None", "");
         secondPieceRoLChooser.addOption("Right", "R");
         secondPieceRoLChooser.addOption("Left", "L");
+        secondPieceRoLChooser.addOption("Barge", " - BRG");
+
 
         thirdPieceChooser.setDefaultOption("None", "");
         thirdPieceChooser.addOption("Center 1", " - C1");
@@ -182,6 +187,8 @@ public class Robot extends TimedRobotstangs {
         thirdPieceRoLChooser.addOption("Right", "R");
         thirdPieceRoLChooser.addOption("Left", "L");
         thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - C1L");
+        thirdPieceRoLChooser.addOption("Barge", " - BRG");
+
 
         autoTab.add("Start Chooser", startChooser)
                 .withSize(2, 1)
@@ -239,6 +246,9 @@ public class Robot extends TimedRobotstangs {
 
         NamedCommands.registerCommand("L4 Position", ScoringFactory.L4PositionAuto());
         NamedCommands.registerCommand("L4 Position regular", ScoringFactory.L4Position());
+
+        NamedCommands.registerCommand("Barge Shoot", ScoringFactory.SpitAlgaeffector().andThen(ScoringFactory.SmartStow()).withTimeout(2));
+        NamedCommands.registerCommand("Algae Intake", ScoringFactory.AlgaeffectorIntake().withTimeout(2));
 
         NamedCommands.registerCommand("L3 Position", ScoringFactory.L3PositionAuto());
 
