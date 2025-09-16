@@ -450,8 +450,8 @@ public class ScoringFactory {
         
     }
     public static Command SpitAlgaeffector(){
-        return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorAlgaeffectorPos)
-            .alongWith(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaeffectorPos))
+        return new SetElevatorPosition(Constants.ScoringConstants.Barge.kElevatorPos)
+            .alongWith(new SetArmPosition(Constants.ScoringConstants.Barge.kArmPosition))
                 .andThen(new AlgaeSpit());
       
     }

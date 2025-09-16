@@ -323,6 +323,10 @@ public final class Constants {
       public static final double kArmAlgaeffectorPos = 0;
       public static final double kElevatorAlgaeffectorPos = 0;
     }
+    public static class Barge {
+      public static final double kElevatorPos = 1.08;
+      public static final double kArmPosition = .367;
+    }
 
     public static class L4 {
       public static final double kElevatorPos =  1.666;
