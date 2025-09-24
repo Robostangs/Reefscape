@@ -251,9 +251,9 @@ public class RobotContainer {
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2))
-                                .onTrue(new SetArmPosition(Constants.ScoringConstants.L4.kArmScoringPosition));
+                                .onTrue(new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
                 new Trigger(() -> xSim.getRawButton(3))
-                                .onTrue(new SetArmPosition(Constants.ScoringConstants.Stow.kArmStowPos));
+                                .onTrue(new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos));
 
         }
 
