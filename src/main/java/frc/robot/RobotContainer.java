@@ -35,7 +35,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import edu.wpi.first.wpilibj.Timer;
@@ -229,6 +228,10 @@ public class RobotContainer {
                 xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgaeL3());
                 xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
                                 .ByeByeByeAlgaeL2());
+                // xManip.y().and(xManip.leftTrigger(0.2)).toggleOnTrue(ScoringFactory.SpitAlgaeffector()
+                //                 );
+                // xManip.b().and(xManip.leftTrigger(0.2)).toggleOnTrue(ScoringFactory.IntakeAlgaeffector()
+                                // );
 
                 xManip.povDown().whileTrue(new Slurp(false));
                 xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());

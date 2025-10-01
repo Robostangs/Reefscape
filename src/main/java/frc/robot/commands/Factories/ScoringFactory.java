@@ -14,6 +14,7 @@ import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
 import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
+import frc.robot.commands.IntakeCommands.Algaeintake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
@@ -450,6 +451,9 @@ public class ScoringFactory {
     }
     public static Command SpitAlgaeffector(){
         return new AlgaeSpit();
+    }
+    public static Command IntakeAlgaeffector(){
+        return new Algaeintake();
     }
     
     public static Command AlgaeffectorL3Position(){

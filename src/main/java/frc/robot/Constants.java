@@ -82,7 +82,7 @@ public final class Constants {
     public static final int kIntakeSensorId = 8;
 
     public static final double kExtendSetpoint = -0.085;
-    public static final double kRetractSetpoint = 0.213;
+    public static final double kRetractSetpoint = 0.213-.05;
     public static final double kHeimlichSetpoint = 0.013;
 
     public static final double kPivotP = 1000;
@@ -107,7 +107,7 @@ public final class Constants {
     public static final double kAlgaeFF = 0.7;
     public static final double kAlgaeOut = -0.2;
 
-    public static final double kIntakeSpeed = 0.6;
+    public static final double kIntakeSpeed = 0.5;
     public static final double kAlgaeIntake = 0.8;
   }
 
