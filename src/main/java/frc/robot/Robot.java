@@ -140,8 +140,10 @@ public class Robot extends TimedRobotstangs {
         startChooser.setDefaultOption("Shit and Shit", "");
         startChooser.addOption("Forward", "Pissing");
         startChooser.addOption("Dumb L4", "Shitting");
-        startChooser.addOption("Barge Auto", "CStart - BRG - P1R - BRG - O2R");
+        startChooser.addOption("Barge P1R,O2R", "CStart - BRG - P1R - BRG - O2R - BRG");
+        startChooser.addOption("Barge O2R,C2L", "CStart - BRG - O2R - BRG - C2L - BRG");
 
+        
         startChooser.addOption("PTP to Center 2R ", "PTP");
         startChooser.addOption("Center", "CStart");
         startChooser.addOption("Open", "OStart");

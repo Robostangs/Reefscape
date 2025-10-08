@@ -1,0 +1,73 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Start to Barge"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Barge Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Barge to Open 2R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Algae Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Open 2R to Barge"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Barge Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Barge to Center 2L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Algae Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 2L to barge"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Barge Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Center Start",
+  "choreoAuto": false
+}

@@ -37,7 +37,7 @@ public class Algaeffector extends SubsystemBase {
     }
 
     public void setEndeffectorBrake(){
-        algaeman.setNeutralMode(NeutralModeValue.Brake);
+        algaeman.setNeutralMode(NeutralModeValue.Brake); 
     }
     
 }
