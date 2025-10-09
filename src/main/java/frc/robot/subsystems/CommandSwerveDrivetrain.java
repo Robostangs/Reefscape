@@ -16,6 +16,7 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
@@ -445,7 +447,11 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds),
                 visionMeasurementStdDevs);
     }
-
+    public void stopDrivetrain(){
+        this.setControl(new SwerveRequest.ApplyRobotSpeeds().withSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(0,0,0),
+        this.getPose().getRotation())));
+    }
+   
     public void configurePathPlanner() {
         AutoBuilder.configure(
                 () -> this.getState().Pose,
@@ -479,4 +485,5 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         }
         return mDrivetrain;
     }
+    
 }

@@ -20,6 +20,9 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.therekrab.autopilot.APConstraints;
+import com.therekrab.autopilot.APProfile;
+import com.therekrab.autopilot.Autopilot;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,7 +49,8 @@ import edu.wpi.first.units.measure.*;
 public final class Constants {
   public static final String logDirectory = "";
 
-
+ 
+  
   public static class ClimberConstants {
 
     public static final int kClimberMotorId = 46;
@@ -243,6 +247,7 @@ public final class Constants {
       public static final double kTagRelativeXOffset = Units.inchesToMeters(10);
 
     }
+    
 
   }
 
@@ -365,7 +370,21 @@ public final class Constants {
 
       public static final double feedforwardX = 5;
       public static final double feedforwardY = 5;
-
+      
+    }
+    public static class AutopilotConstants{
+      private static final APConstraints kConstraints = new APConstraints()
+        .withAcceleration(5.0)
+        .withJerk(2.0);
+      private static final APProfile kProfile = new APProfile(kConstraints)
+        .withErrorXY(Centimeters.of(2))
+        .withErrorTheta(Degrees.of(0.5))
+        .withBeelineRadius(Centimeters.of(8));
+      public static final Autopilot kAutopilot = new Autopilot(kProfile);
+      public static final double kP = 4;
+    public static final double kI = 0;
+    public static final double kD = 0;
+  
     }
 
     private final static MomentOfInertia kRobotMomentOfInertia = KilogramSquareMeters.of(0.01);

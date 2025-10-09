@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
+import com.therekrab.autopilot.APTarget;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,6 +17,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 import static edu.wpi.first.units.Units.*;
 
+// THIS IS UNUSED, USE ALIGNTOREEF
 public class Allign extends Command {
     CommandSwerveDrivetrain drivetrain;
 
@@ -26,6 +28,7 @@ public class Allign extends Command {
     Supplier<Rotation2d> getTargetRotation;
     Constants.AlignConstants.AlignType cageID;
     String llName;
+    APTarget target;
 
     public Allign(Constants.AlignConstants.AlignType alignType) {
         drivetrain = CommandSwerveDrivetrain.getInstance();
