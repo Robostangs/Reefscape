@@ -107,7 +107,7 @@ public final class Constants {
     public static final double kAlgaeFF = 0.7;
     public static final double kAlgaeOut = -0.2;
 
-    public static final double kIntakeSpeed = 0.5;
+    public static final double kIntakeSpeed = 0.67;
     public static final double kAlgaeIntake = 0.8;
   }
 
