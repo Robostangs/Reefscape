@@ -526,12 +526,15 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
 
               double appliedRot = Math.abs(diff) > Units.degreesToRadians(2) ? (diff * Constants.AutoConstants.AutopilotConstants.kP_ROT) : 0;
               SmartDashboard.putNumber("currentRot", pose.getRotation().getDegrees());
+              Robot.teleopField.getObject("Autopilot Pose").setPose(target.getReference());
               SmartDashboard.putNumber("headingTarget", headingReference);
               SmartDashboard.putNumber("sub", diff);
               SmartDashboard.putNumber("appliedRot", appliedRot);
 
-              this.setControl(m_request);
-        })
+              this.setControl(m_request
+              .withVelocityX(output.vx())
+              .withVelocityY(output.vy())
+              .withTargetDirection(output.targetAngle()));        })
         .until(() -> 
         Constants.AutoConstants.AutopilotConstants.kAutopilot.atTarget(this.getPose(), target)
         )
