@@ -6,6 +6,7 @@ package frc.robot.commands.SwerveCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -17,6 +18,9 @@ import java.util.Set;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.ConstraintsZone;
 import com.pathplanner.lib.path.GoalEndState;
@@ -24,107 +28,111 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.RotationTarget;
 import com.pathplanner.lib.path.Waypoint;
+import com.therekrab.autopilot.APTarget;
+import com.therekrab.autopilot.Autopilot.APResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-
-
 public class AligntoReef {
-  
-/*
- * This command helps allign to the reef using the april tags on the field.
- * It makes a path based on the current pose of the robot and the target pose of the reef.
- * The reef position is slightly changed to go to the left or right side, based on what you choose.
- */
 
+  /*
+   * This command helps allign to the reef using the april tags on the field.
+   * It makes a path based on the current pose of the robot and the target pose of
+   * the reef.
+   * The reef position is slightly changed to go to the left or right side, based
+   * on what you choose.
+   */
 
   private static final AprilTagFieldLayout theMap;
-static {
+  static {
 
-  AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
+    AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
 
-   theMap = AprilTagFieldLayout.loadField(map);
-}
+    theMap = AprilTagFieldLayout.loadField(map);
+  }
+
   /**
-     * Generates a path to the reef
-     * <p>
-     * NOTE: The rotations of that poses in this method are NOT
-     * the rotation of the robot but the rotation that the robot
-     * should be going to be heading towards(the control points in path planner)
-     * 
-     * @param targetPose the target pose to generate a path to
-     * 
-     */
-    public static PathPlannerPath generatePath(Pose2d targetPose) {
+   * Generates a path to the reef
+   * <p>
+   * NOTE: The rotations of that poses in this method are NOT
+   * the rotation of the robot but the rotation that the robot
+   * should be going to be heading towards(the control points in path planner)
+   * 
+   * @param targetPose the target pose to generate a path to
+   * 
+   */
+  public static PathPlannerPath generatePath(Pose2d targetPose) {
 
-        Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
+    Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
 
-        // start pose should be your X and Y but the rotation should be where your
-        // heading to
-        Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
-                currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
+    // start pose should be your X and Y but the rotation should be where your
+    // heading to
+    Pose2d startPose = new Pose2d(currentPose.getX(), currentPose.getY(),
+        currentPose.getTranslation().minus(targetPose.getTranslation()).getAngle().minus(Rotation2d.k180deg));
 
-        // ending pose should be the reef X and Y but the rotation should be where your heading to
-        Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
-                targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
+    // ending pose should be the reef X and Y but the rotation should be where your
+    // heading to
+    Pose2d endPose = new Pose2d(targetPose.getX(), targetPose.getY(),
+        targetPose.getRotation().plus(Rotation2d.kCCW_90deg));
 
-        List<Waypoint> waypoints;
+    List<Waypoint> waypoints;
 
-        //if the robot rotation isn't that off from the target rotation then it should be a simple path 
-        if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
-            waypoints = PathPlannerPath.waypointsFromPoses(
-                    startPose, endPose);
-        } 
-        //if the robot rotation is off by a lot then we should add a point before so we have time to rotate
-        else {
-            waypoints = PathPlannerPath.waypointsFromPoses(startPose,
-                    endPose.transformBy(new Transform2d(Units.inchesToMeters(18), 0, Rotation2d.kZero)), endPose);
-        }
-
-        PathConstraints constraints = new PathConstraints(
-          Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.4,
-          Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.4,
-          Constants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.4,
-          Constants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.4);
-
-
-                PathConstraints endconstraints = new PathConstraints(
-                  Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond)*0.1,
-                  Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond*0.1,
-                  Constants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared*0.1,
-                  Constants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared*0.1);
-  
-        
-
-        List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
-        //this is what the rotation of the actual robot should be 
-        rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
-
-        List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
-        zones.add(new ConstraintsZone(0.6, 1, endconstraints));
-        PathPlannerPath path = new PathPlannerPath(
-                waypoints,
-                rotationTargets,
-                Collections.emptyList(),
-
-                zones,
-
-                Collections.emptyList(),
-
-                constraints,
-                null,
-                new GoalEndState(0.0, targetPose.getRotation()), false);
-
-        path.preventFlipping = true;
-
-        return path;
+    // if the robot rotation isn't that off from the target rotation then it should
+    // be a simple path
+    if (Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getDegrees()) < 45) {
+      waypoints = PathPlannerPath.waypointsFromPoses(
+          startPose, endPose);
     }
+    // if the robot rotation is off by a lot then we should add a point before so we
+    // have time to rotate
+    else {
+      waypoints = PathPlannerPath.waypointsFromPoses(startPose,
+          endPose.transformBy(new Transform2d(Units.inchesToMeters(18), 0, Rotation2d.kZero)), endPose);
+    }
+
+    PathConstraints constraints = new PathConstraints(
+        Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.4,
+        Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond * 0.4,
+        Constants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared * 0.4,
+        Constants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared * 0.4);
+
+    PathConstraints endconstraints = new PathConstraints(
+        Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond) * 0.1,
+        Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond * 0.1,
+        Constants.AutoConstants.AutoSpeeds.kMaxAccelerationMetersPerSecondSquared * 0.1,
+        Constants.AutoConstants.AutoSpeeds.kMaxAngularAccelerationRadiansPerSecondSquared * 0.1);
+
+    List<RotationTarget> rotationTargets = new ArrayList<RotationTarget>();
+    // this is what the rotation of the actual robot should be
+    rotationTargets.add(new RotationTarget(0.8, endPose.getRotation().plus(Rotation2d.fromDegrees(270))));
+
+    List<ConstraintsZone> zones = new ArrayList<ConstraintsZone>();
+    zones.add(new ConstraintsZone(0.6, 1, endconstraints));
+    PathPlannerPath path = new PathPlannerPath(
+        waypoints,
+        rotationTargets,
+        Collections.emptyList(),
+
+        zones,
+
+        Collections.emptyList(),
+
+        constraints,
+        null,
+        new GoalEndState(0.0, targetPose.getRotation()), false);
+
+    path.preventFlipping = true;
+
+    return path;
+  }
 
   public static Pose2d getTargetPose(boolean isRight) {
     Pose2d targetPose = getReefPose();
@@ -149,7 +157,6 @@ static {
   }
 
   public static Pose2d getReefPose() {
-
 
     Pose2d currentPose = CommandSwerveDrivetrain.getInstance().getState().Pose;
 
@@ -180,5 +187,15 @@ static {
         Set.of(CommandSwerveDrivetrain.getInstance()));
 
   }
+
+  public static Command autopilotAlign(BooleanSupplier isRight) {
+
+    return new DeferredCommand(() -> {
+      return CommandSwerveDrivetrain.getInstance().align(new APTarget(getTargetPose(isRight.getAsBoolean())));
+    },
+      Set.of(CommandSwerveDrivetrain.getInstance()));
+
+  }
+
 
 }

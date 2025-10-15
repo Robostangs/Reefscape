@@ -25,9 +25,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Robot;
 public class AutopilotAlign extends Command {
-    private final APTarget m_target;
+    private  APTarget m_target;
     private static final AprilTagFieldLayout theMap;
-    private final boolean isRight;
+    private  boolean isRight;
     static {
 
       AprilTagFields map = AprilTagFields.k2025ReefscapeWelded;
@@ -44,7 +44,7 @@ public class AutopilotAlign extends Command {
   
     public AutopilotAlign(boolean isRight) {
       this.isRight = isRight;
-      m_target = new APTarget(getTargetPose(isRight));
+      
       
 
       m_drivetrain = CommandSwerveDrivetrain.getInstance();
@@ -72,7 +72,8 @@ public class AutopilotAlign extends Command {
   
     @Override
     public boolean isFinished() {
-      return Constants.AutoConstants.AutopilotConstants.kAutopilot.atTarget(m_drivetrain.getPose(), m_target);
+      return 
+      Constants.AutoConstants.AutopilotConstants.kAutopilot.atTarget(m_drivetrain.getPose(), m_target);
     }
   
     @Override

@@ -2,20 +2,29 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Optional;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.PathPlannerLogging;
+import com.therekrab.autopilot.APTarget;
+import com.therekrab.autopilot.Autopilot.APResult;
+import edu.wpi.first.math.util.Units;
 
+import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -33,6 +42,8 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+;
+
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -485,5 +496,46 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         }
         return mDrivetrain;
     }
+    
+
+
+  public Command align(APTarget target) {
+    return this.run(
+            () -> {
+              SwerveRequest.FieldCentricFacingAngle m_request = new SwerveRequest.FieldCentricFacingAngle()
+                    .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance)
+                    .withDriveRequestType(DriveRequestType.Velocity)
+                    .withHeadingPID(Constants.AutoConstants.AutopilotConstants.kP, Constants.AutoConstants.AutopilotConstants.kI, Constants.AutoConstants.AutopilotConstants.kD);
+              SmartDashboard.putNumberArray("TARGET_POSE", new double[]{ target.getReference().getMeasureX().baseUnitMagnitude(), target.getReference().getMeasureY().baseUnitMagnitude(), target.getReference().getRotation().getDegrees() });
+
+              ChassisSpeeds robotRelativeSpeeds = this.getState().Speeds;
+              Pose2d pose = this.getPose();
+
+              APResult output = Constants.AutoConstants.AutopilotConstants.kAutopilot.calculate(pose, robotRelativeSpeeds, target);
+
+              /* these speeds are field relative */
+              double veloX = output.vx().in(MetersPerSecond);
+              double veloY = output.vy().in(MetersPerSecond);
+              double headingReference = output.targetAngle().getRadians();
+              double diff = headingReference-pose.getRotation().getRadians();
+              if (diff > Math.PI) {
+                diff -= 360;
+              } else if (diff < -Math.PI) {
+                diff += 360;
+              }
+
+              double appliedRot = Math.abs(diff) > Units.degreesToRadians(2) ? (diff * Constants.AutoConstants.AutopilotConstants.kP_ROT) : 0;
+              SmartDashboard.putNumber("currentRot", pose.getRotation().getDegrees());
+              SmartDashboard.putNumber("headingTarget", headingReference);
+              SmartDashboard.putNumber("sub", diff);
+              SmartDashboard.putNumber("appliedRot", appliedRot);
+
+              this.setControl(m_request);
+        })
+        .until(() -> 
+        Constants.AutoConstants.AutopilotConstants.kAutopilot.atTarget(this.getPose(), target)
+        )
+        .finallyDo(() -> this.stopDrivetrain());
+  }
     
 }

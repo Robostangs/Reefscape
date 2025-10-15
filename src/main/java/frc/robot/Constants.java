@@ -383,6 +383,7 @@ public final class Constants {
       public static final Autopilot kAutopilot = new Autopilot(kProfile);
       public static final double kP = 4;
     public static final double kI = 0;
+    public static final double kP_ROT =1.75;
     public static final double kD = 0;
   
     }

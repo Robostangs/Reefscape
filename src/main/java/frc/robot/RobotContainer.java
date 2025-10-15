@@ -255,7 +255,7 @@ public class RobotContainer {
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2))
-                                .onTrue(new AutopilotAlign(true));
+                                .onTrue(AligntoReef.autopilotAlign(()->true));
                 
 
         }
