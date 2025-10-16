@@ -57,6 +57,7 @@ public class RobotContainer {
         private final Telemetry logger = new Telemetry(
                         Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond));
 
+        
         private final CommandXboxController xDrive = new CommandXboxController(
                         OperatorConstants.kDriverControllerPort);
 
@@ -65,6 +66,9 @@ public class RobotContainer {
 
         private final CommandXboxController xTest = new CommandXboxController(
                         2);
+        
+        private final CommandXboxController xPID = new CommandXboxController(
+                                3);
 
         private final GenericHID xSim = new GenericHID(2);
 
@@ -79,6 +83,7 @@ public class RobotContainer {
                         configureDriverBindings();
                         configureManipBindings();
                         configureTestBindings();
+                        configurePIDBindings();
                 }
 
                 if (Robot.isSimulation()) {
@@ -121,6 +126,20 @@ public class RobotContainer {
                                                                                         ? 0.25
                                                                                         : 1))));
                 }
+
+        }
+        private void configurePIDBindings() {
+
+                new Trigger(() -> Math.abs(xPID.getLeftY()) > 0.1)
+                .whileTrue(new SetElevatorDutyCycle(() -> xPID.getLeftY() / 2));
+
+
+                new Trigger(() -> Math.abs(xPID.getRightY()) > 0.1)
+                .whileTrue(new SetArmDutyCycle(() -> xPID.getRightY() / 2));
+
+                xPID.a().toggleOnTrue(new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
+                xPID.b().toggleOnTrue(new SetArmPosition(Constants.ScoringConstants.L3.kArmScoringPosition));
+
 
         }
 
@@ -225,9 +244,12 @@ public class RobotContainer {
                 xManip.x().toggleOnTrue(
                                 ScoringFactory.L1Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
 
-                xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgaeL3());
-                xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
-                                .ByeByeByeAlgaeL2());
+                xManip.rightTrigger(0.1).and(xManip.b()).onTrue(ScoringFactory.ByeByeByeAlgaeL3());
+                xManip.rightTrigger(0.1).and(xManip.x()).onTrue(ScoringFactory.GetAlgaeFromL2(xManip.leftBumper()));
+                xManip.rightTrigger(0.1).and(xManip.y()).onTrue(ScoringFactory.GetAlgaeFromL3(xManip.leftBumper()));
+                xManip.rightTrigger(0.1).and(xManip.a()).onTrue(ScoringFactory.AlgaeBargeScore(xManip.leftBumper()));
+                // xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
+                //                 .ByeByeByeAlgaeL2());
                 // xManip.y().and(xManip.leftTrigger(0.2)).toggleOnTrue(ScoringFactory.SpitAlgaeffector()
                 //                 );
                 // xManip.b().and(xManip.leftTrigger(0.2)).toggleOnTrue(ScoringFactory.IntakeAlgaeffector()
@@ -245,6 +267,9 @@ public class RobotContainer {
 
                 xManip.rightBumper().toggleOnTrue(
                                 new HomeElevator().andThen(ScoringFactory.SmartStow()));
+
+                
+                
         }
 
         private void configureSimBindings() {

@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.DeferredCommand;
 public class ScoringFactory {
 
     public enum ScoringPosition {
-        L1, L2, L3, L4, Stow, Schloop, Algaeeeee, Source
+        L1, L2, L3, L4, Stow, Schloop, Algaeeeee, Source, Barge, L2Algae, L3Algae
     }
 
     static Alert stowAlert = new Alert("Can't go to stow", Alert.AlertType.kError);
@@ -440,6 +440,9 @@ public class ScoringFactory {
                                 .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorAlgaeeffectorPosition)
                         .onlyIf(() -> !Robot.isSimulation())
                         .andThen(new SetArmPosition(Constants.ScoringConstants.L2.kArmAlgaeffectorPos))
+                        .finallyDo(() -> {
+                            ScoreState = ScoringPosition.L2Algae;
+                        })
         );
     }
 
@@ -463,7 +466,40 @@ public class ScoringFactory {
                                 .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorAlgaeeffectorPosition)
                         .onlyIf(() -> !Robot.isSimulation())
                         .andThen(new SetArmPosition(Constants.ScoringConstants.L3.kArmAlgaeffectorPos))
+                        .finallyDo(() -> {
+                            ScoreState = ScoringPosition.L3Algae;
+                        })
         );
+    }
+
+    public static Command AlgaeffectorStow(){
+        return new SetArmPosition(Constants.ArmConstants.kArmRestSetpoint).andThen(
+            new SetElevatorPosition(Constants.ScoringConstants.Stow.kElevatorPos));
+    }
+
+    public static Command AlgaeeffectorBargePosition() {
+        return new SetElevatorPosition(Constants.ScoringConstants.Barge.kElevatorPos)
+                .alongWith(
+                        new WaitUntilCommand(
+                                () -> Elevator.getInstance()
+                                        .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorPosition)
+                                .onlyIf(() -> !Robot.isSimulation())
+                                .andThen(
+                                        new SetArmPosition(Constants.ScoringConstants.Barge.kArmBargePos))
+                                .finallyDo(() -> {
+                                    ScoreState = ScoringPosition.Barge;
+                                    
+                                }));
+    }
+
+    public static Command AlgaeBargeScore(Trigger manipTrigger) {
+        return
+        AlgaeeffectorBargePosition()
+        .alongWith(new WaitUntilCommand(manipTrigger))
+            .andThen(new AlgaeSpit().onlyWhile(manipTrigger));
+
+
+        
     }
 
     

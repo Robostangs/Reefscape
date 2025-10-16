@@ -331,6 +331,12 @@ public final class Constants {
     public static final double kArmPosAuto = -0.635;
     }
 
+    public static class Barge {
+      //TODO get the values in testing
+      public static final double kElevatorPos = 0;
+      public static final double kArmBargePos = ArmConstants.kArmRestSetpoint;
+    }
+
     public static class Stow {
       public static final double kElevatorPos = 0.935;
       public static final double kArmStowPos = ArmConstants.kArmRestSetpoint;
