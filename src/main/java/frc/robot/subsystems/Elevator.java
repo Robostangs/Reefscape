@@ -282,7 +282,8 @@ public class Elevator extends SubsystemBase {
         // SmartDashboard.putNumber("Elevator-Test/Acceleration",
         // elevatorMotorRight.getAcceleration().getValueAsDouble());
 
-        // SmartDashboard.putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
+        SmartDashboard.
+        putBoolean("Elevator-Test/Limit Switch ", limitSwitchElevator.get());
 
         // SmartDashboard.putNumber("Elevator/Velocity", getVelocity());
         // SmartDashboard.putNumber("Elevator/torque current", getTorqueCurrent());

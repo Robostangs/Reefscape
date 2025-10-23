@@ -434,7 +434,7 @@ public class ScoringFactory {
     }
     
     public static Command AlgaeffectorL2Position(){
-        return new SetElevatorPosition(Constants.ScoringConstants.L2.kArmAlgaeffectorPos)
+        return new SetElevatorPosition(Constants.ScoringConstants.L2.kElevatorAlgaeffectorPos)
         .alongWith(new WaitUntilCommand(
                         () -> Elevator.getInstance()
                                 .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorAlgaeeffectorPosition)
@@ -460,7 +460,7 @@ public class ScoringFactory {
     }
     
     public static Command AlgaeffectorL3Position(){
-        return new SetElevatorPosition(Constants.ScoringConstants.L3.kArmAlgaeffectorPos)
+        return new SetElevatorPosition(Constants.ScoringConstants.L3.kElevatorAlgaeffectorPos)
         .alongWith(new WaitUntilCommand(
                         () -> Elevator.getInstance()
                                 .getElevatorPositionMeters() > Constants.ElevatorConstants.kSafeArmElevatorAlgaeeffectorPosition)
@@ -478,7 +478,7 @@ public class ScoringFactory {
     }
 
     public static Command AlgaeeffectorBargePosition() {
-        return new SetElevatorPosition(Constants.ScoringConstants.Barge.kElevatorPos)
+        return new SetElevatorPosition(Constants.ScoringConstants.Barge.kElevatorBargePos)
                 .alongWith(
                         new WaitUntilCommand(
                                 () -> Elevator.getInstance()

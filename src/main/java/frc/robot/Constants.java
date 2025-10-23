@@ -82,7 +82,7 @@ public final class Constants {
     public static final int kIntakeSensorId = 8;
 
     public static final double kExtendSetpoint = -0.085;
-    public static final double kRetractSetpoint = 0.213-.05;
+    public static final double kRetractSetpoint = 0.201;
     public static final double kHeimlichSetpoint = 0.013;
 
     public static final double kPivotP = 1000;
@@ -100,7 +100,7 @@ public final class Constants {
     public static final double kSensorToMechanismRatio = 42;
     public static final double kMotionMagicVelocity = 2;
     public static final double kMotionMagicAcceleration = 5;
-    public static final double kHardstopPosition = 0.315;
+    public static final double kHardstopPosition = 0.205;
     public static final double kAlgaeInSetpoint = 0;
     public static final double kAlgaeOutSetpoint = 0.09;
 
@@ -123,15 +123,16 @@ public final class Constants {
   public static class AlgaeffectorConstants {
     public static final int kalgaeffectorid = 55;
     public static final double kAlgaeffectorDutyCyle = -0.7;
-    public static final double kAlgaeffectorSlurpCycle = 0.7;
+    public static final double kAlgaeffectorSlurpCycle = 1;
     public static final double kAlgaeffectorFeedForward = 0;
   }
 
   public static class ArmConstants {
     public static final int kArmMotorId = 24;
 
-    public static final double kArmP = 4000;
-    public static final double kArmI = 1500;
+    public static final double kArmP = 2500
+    ;
+    public static final double kArmI = 1000;
     public static final double kArmD = 250;
 
     public static final double kArmS = 4;
@@ -164,7 +165,7 @@ public final class Constants {
     public static final int kRightElevatorMotorId = 36;
     public static final int kLeftElevatorMotorId = 35;
 
-    public static final double kElevatorP = 5000;
+    public static final double kElevatorP = 8000;
     public static final double kElevatorI = 20;
     public static final double kElevatorD = 220;
     public static final double kElevatorV = 0;
@@ -317,11 +318,12 @@ public final class Constants {
       public static final double kArmPosAuto = -0.635;
 
       
+      
       public static final double kELevatorAlgaepos = 1.18;
       public static final double kArmAlgaePos = -0.75;
       //TODO: get the values in testing
-      public static final double kArmAlgaeffectorPos = 0;
-      public static final double kElevatorAlgaeffectorPos = 0;
+      public static final double kArmAlgaeffectorPos = -.058;
+      public static final double kElevatorAlgaeffectorPos = 1.539-0.2;
     }
 
     public static class L4 {
@@ -333,7 +335,7 @@ public final class Constants {
 
     public static class Barge {
       //TODO get the values in testing
-      public static final double kElevatorPos = 0;
+      public static final double kElevatorBargePos = 0;
       public static final double kArmBargePos = ArmConstants.kArmRestSetpoint;
     }
 

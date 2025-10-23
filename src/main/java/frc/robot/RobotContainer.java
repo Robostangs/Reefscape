@@ -12,6 +12,8 @@ import com.pathplanner.lib.util.FlippingUtil;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.SetArmPosition;
+import frc.robot.commands.AlgaeffectorCommands.AlgaeSlurp;
+import frc.robot.commands.AlgaeffectorCommands.AlgaeSpit;
 import frc.robot.commands.ArmCommands.SetArmDutyCycle;
 import frc.robot.commands.ClimberCommands.Deploy;
 import frc.robot.commands.ClimberCommands.ManualAdjustClimber;
@@ -23,6 +25,7 @@ import frc.robot.commands.EndeffectorCommands.Slurp;
 import frc.robot.commands.EndeffectorCommands.Spit;
 import frc.robot.commands.Factories.IntakeFactory;
 import frc.robot.commands.Factories.ScoringFactory;
+import frc.robot.commands.IntakeCommands.AlgaeOut;
 import frc.robot.commands.IntakeCommands.Extend;
 import frc.robot.commands.IntakeCommands.HomeIntake;
 import frc.robot.commands.IntakeCommands.Retract;
@@ -57,7 +60,6 @@ public class RobotContainer {
         private final Telemetry logger = new Telemetry(
                         Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond));
 
-        
         private final CommandXboxController xDrive = new CommandXboxController(
                         OperatorConstants.kDriverControllerPort);
 
@@ -66,9 +68,9 @@ public class RobotContainer {
 
         private final CommandXboxController xTest = new CommandXboxController(
                         2);
-        
+
         private final CommandXboxController xPID = new CommandXboxController(
-                                3);
+                        3);
 
         private final GenericHID xSim = new GenericHID(2);
 
@@ -128,18 +130,29 @@ public class RobotContainer {
                 }
 
         }
+
         private void configurePIDBindings() {
 
                 new Trigger(() -> Math.abs(xPID.getLeftY()) > 0.1)
-                .whileTrue(new SetElevatorDutyCycle(() -> xPID.getLeftY() / 2));
-
+                                .whileTrue(new SetElevatorDutyCycle(() -> xPID.getLeftY() / 2));
 
                 new Trigger(() -> Math.abs(xPID.getRightY()) > 0.1)
-                .whileTrue(new SetArmDutyCycle(() -> xPID.getRightY() / 2));
+                                .whileTrue(new SetArmDutyCycle(() -> xPID.getRightY() / 2));
 
-                xPID.a().toggleOnTrue(new SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
-                xPID.b().toggleOnTrue(new SetArmPosition(Constants.ScoringConstants.L3.kArmScoringPosition));
+                // xPID.a().toggleOnTrue(new
+                // SetElevatorPosition(Constants.ScoringConstants.L4.kElevatorPos));
+                xPID.y().toggleOnTrue(new SetArmPosition(Constants.ScoringConstants.L3.kArmScoringPosition));
+                xPID.x().toggleOnTrue(new SetArmPosition(Constants.ScoringConstants.Stow.kArmStowPos));
+                // xPID.x().toggleOnTrue(new AlgaeSlurp());
 
+                xPID.a().toggleOnTrue(
+                                // ScoringFactory.L4Pos0itionAuto()
+                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
+                xPID.b().toggleOnTrue(
+                                ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
+
+                xPID.rightBumper().toggleOnTrue(
+                                new HomeElevator().andThen(ScoringFactory.SmartStow()));
 
         }
 
@@ -188,10 +201,10 @@ public class RobotContainer {
 
                 xDrive.b().toggleOnTrue(new RunIntake());
 
-                //TAGS:
+                // TAGS:
                 /**
-                 *red: 6,7,8,9,10,11
-                 *blue: 17,18,19,20,21,22
+                 * red: 6,7,8,9,10,11
+                 * blue: 17,18,19,20,21,22
                  */
 
                 xDrive.y().toggleOnTrue(new Untake());
@@ -207,7 +220,7 @@ public class RobotContainer {
                 xDrive.povRight().onTrue(new InstantCommand(
                                 (() -> useVision = !useVision)));
                 xDrive.povUp().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-                            
+
                 // reset the field-centric hea ding on left bumper press
 
                 drivetrain.registerTelemetry(logger::telemeterize);
@@ -224,19 +237,17 @@ public class RobotContainer {
                                                                 0)));
 
                 // new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
-                //                 .whileTrue(new SetArmDutyCycle(() -> xManip.getLeftY() / 2));
+                // .whileTrue(new SetArmDutyCycle(() -> xManip.getLeftY() / 2));
 
-                
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
-                                .whileTrue(new ManualAdjustClimber(() -> xManip.getLeftY() / 2));
+                                .whileTrue(new SetArmDutyCycle(() -> xManip.getLeftY() / 2));
 
                 new Trigger(() -> Math.abs(xManip.getRightY()) > 0.1)
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
                                 // ScoringFactory.L4Pos0itionAuto()
-                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
-                                );
+                                ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.b().toggleOnTrue(
                                 ScoringFactory.L3Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow()));
                 xManip.y().toggleOnTrue(
@@ -249,16 +260,16 @@ public class RobotContainer {
                 xManip.rightTrigger(0.1).and(xManip.y()).onTrue(ScoringFactory.GetAlgaeFromL3(xManip.leftBumper()));
                 xManip.rightTrigger(0.1).and(xManip.a()).onTrue(ScoringFactory.AlgaeBargeScore(xManip.leftBumper()));
                 // xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
-                //                 .ByeByeByeAlgaeL2());
+                // .ByeByeByeAlgaeL2());
                 // xManip.y().and(xManip.leftTrigger(0.2)).toggleOnTrue(ScoringFactory.SpitAlgaeffector()
-                //                 );
+                // );
                 // xManip.b().and(xManip.leftTrigger(0.2)).toggleOnTrue(ScoringFactory.IntakeAlgaeffector()
-                                // );
+                // );
 
-                xManip.povDown().whileTrue(new Slurp(false));
+                xManip.povDown().whileTrue(new AlgaeSpit());
                 xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());
                 xManip.povLeft().toggleOnTrue(ScoringFactory.SmartStow());
-                xManip.povUp().whileTrue(new Spit());
+                xManip.povUp().whileTrue(new AlgaeSlurp());
 
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
@@ -268,8 +279,6 @@ public class RobotContainer {
                 xManip.rightBumper().toggleOnTrue(
                                 new HomeElevator().andThen(ScoringFactory.SmartStow()));
 
-                
-                
         }
 
         private void configureSimBindings() {
