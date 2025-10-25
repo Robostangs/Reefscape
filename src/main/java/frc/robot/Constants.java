@@ -55,7 +55,7 @@ public final class Constants {
     public static final int servoRatchetPosition=107;
     public static final double timeToRatchet=1;
     // Deploy Constants
-    public static final double kMaxExtension = 147;
+    public static final double kMaxExtension = 140;
     public static final double kExtensionDutyCycle = 0.5;
 
     // Reel Constants

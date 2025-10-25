@@ -181,6 +181,7 @@ public class RobotContainer {
 
                 xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
+                
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
