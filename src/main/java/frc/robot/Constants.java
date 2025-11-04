@@ -55,12 +55,12 @@ public final class Constants {
     public static final int servoRatchetPosition=107;
     public static final double timeToRatchet=1;
     // Deploy Constants
-    public static final double kMaxExtension = 140;
+    public static final double kMaxExtension = 120;
     public static final double kExtensionDutyCycle = 0.5;
 
     // Reel Constants
     public static final double kReelDutyCycle = -0.7;
-    public static final double kReelSafe = 15;
+    public static final double kReelSafe = 10;
 
 
   }
@@ -212,11 +212,16 @@ public final class Constants {
     public static final double kStartPos = 0.78;
     //TODO: get the values in testing
     public static final double kSafeArmElevatorAlgaeeffectorPosition = 0.925;
-    public static final double kFeedForward = 0;
+    public static final double kFeedForward = 0.03;
   }
 
   // WE ARE WELDEDkg
   public static class VisionConstants {
+
+    public static final int[] kRedIDS = {1,2,3,4,5,14,15,16,12,13,19,20,18,21,17,22 };
+    public static final int[] kBlueIDS = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
+
+
     public static final Vector<N3> kErrorInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightFour = "limelight-score";
     public static final String kLimelightThree = "limelight-right";

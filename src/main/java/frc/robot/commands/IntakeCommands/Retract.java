@@ -22,11 +22,14 @@ public class Retract extends Command {
 
   IntakePivot intake;
   IntakeWheels intakeWheels;
+  boolean reg;
 
 
-  public Retract() {
+  public 
+    Retract(boolean reg) {
     intake = IntakePivot.getInstance();
     intakeWheels = IntakeWheels.getInstance();
+    this.reg = reg;
     this.addRequirements(intake);
 
   }
@@ -38,7 +41,12 @@ public class Retract extends Command {
   @Override
   public void initialize() {
     intake.postStatus("FALLING BACK");
+    if(reg){
     intake.setRetractPosition();
+    }
+    else{
+      intake.setRetractPositionNotReg();
+    }
     intakeWheels.stopIntake();
 
     
