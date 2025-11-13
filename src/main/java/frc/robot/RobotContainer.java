@@ -250,12 +250,12 @@ public class RobotContainer {
 
         private void configureSimBindings() {
 
-                new Trigger(() -> xSim.getRawButtonPressed(1)).onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
+                new Trigger(() -> xSim.getRawButtonPressed(1)).toggleOnTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
 
                 new Trigger(() -> xSim.getRawButton(2))
-                                .onTrue(AligntoReef.autopilotAlign(()->true));
+                                .toggleOnTrue(AligntoReef.autopilotAlign(()->true));
                 
 
         }

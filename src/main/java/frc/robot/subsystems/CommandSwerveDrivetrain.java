@@ -497,48 +497,4 @@ public class CommandSwerveDrivetrain extends Constants.SwerveConstants.TunerCons
         return mDrivetrain;
     }
     
-
-
-  public Command align(APTarget target) {
-    return this.run(
-            () -> {
-              SwerveRequest.FieldCentricFacingAngle m_request = new SwerveRequest.FieldCentricFacingAngle()
-                    .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance)
-                    .withDriveRequestType(DriveRequestType.Velocity)
-                    .withHeadingPID(Constants.AutoConstants.AutopilotConstants.kP, Constants.AutoConstants.AutopilotConstants.kI, Constants.AutoConstants.AutopilotConstants.kD);
-              SmartDashboard.putNumberArray("TARGET_POSE", new double[]{ target.getReference().getMeasureX().baseUnitMagnitude(), target.getReference().getMeasureY().baseUnitMagnitude(), target.getReference().getRotation().getDegrees() });
-
-              ChassisSpeeds robotRelativeSpeeds = this.getState().Speeds;
-              Pose2d pose = this.getPose();
-
-              APResult output = Constants.AutoConstants.AutopilotConstants.kAutopilot.calculate(pose, robotRelativeSpeeds, target);
-
-              /* these speeds are field relative */
-              double veloX = output.vx().in(MetersPerSecond);
-              double veloY = output.vy().in(MetersPerSecond);
-              double headingReference = output.targetAngle().getRadians();
-              double diff = headingReference-pose.getRotation().getRadians();
-              if (diff > Math.PI) {
-                diff -= 360;
-              } else if (diff < -Math.PI) {
-                diff += 360;
-              }
-
-              double appliedRot = Math.abs(diff) > Units.degreesToRadians(2) ? (diff * Constants.AutoConstants.AutopilotConstants.kP_ROT) : 0;
-              SmartDashboard.putNumber("currentRot", pose.getRotation().getDegrees());
-              Robot.teleopField.getObject("Autopilot Pose").setPose(target.getReference());
-              SmartDashboard.putNumber("headingTarget", headingReference);
-              SmartDashboard.putNumber("sub", diff);
-              SmartDashboard.putNumber("appliedRot", appliedRot);
-
-              this.setControl(m_request
-              .withVelocityX(output.vx())
-              .withVelocityY(output.vy())
-              .withTargetDirection(output.targetAngle()));        })
-        .until(() -> 
-        Constants.AutoConstants.AutopilotConstants.kAutopilot.atTarget(this.getPose(), target)
-        )
-        .finallyDo(() -> this.stopDrivetrain());
-  }
-    
 }

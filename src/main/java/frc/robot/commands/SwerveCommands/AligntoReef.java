@@ -172,6 +172,51 @@ public class AligntoReef {
     }
   }
 
+  public static Command align(APTarget target ) {
+
+    CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
+    return drivetrain.run(
+            () -> {
+              SwerveRequest.FieldCentricFacingAngle m_request = new SwerveRequest.FieldCentricFacingAngle()
+                    .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance)
+                    .withDriveRequestType(DriveRequestType.Velocity)
+                    .withHeadingPID(Constants.AutoConstants.AutopilotConstants.kP, Constants.AutoConstants.AutopilotConstants.kI, Constants.AutoConstants.AutopilotConstants.kD);
+              SmartDashboard.putNumberArray("TARGET_POSE", new double[]{ target.getReference().getMeasureX().baseUnitMagnitude(), target.getReference().getMeasureY().baseUnitMagnitude(), target.getReference().getRotation().getDegrees() });
+
+              ChassisSpeeds robotRelativeSpeeds = drivetrain.getState().Speeds;
+              Pose2d pose = drivetrain.getPose();
+
+              APResult output = Constants.AutoConstants.AutopilotConstants.kAutopilot.calculate(pose, robotRelativeSpeeds, target);
+
+              /* these speeds are field relative */
+              double veloX = output.vx().in(MetersPerSecond);
+              double veloY = output.vy().in(MetersPerSecond);
+              double headingReference = output.targetAngle().getRadians();
+              double diff = headingReference-pose.getRotation().getRadians();
+              if (diff > Math.PI) {
+                diff -= 360;
+              } else if (diff < -Math.PI) {
+                diff += 360;
+              }
+
+              double appliedRot = Math.abs(diff) > Units.degreesToRadians(2) ? (diff * Constants.AutoConstants.AutopilotConstants.kP_ROT) : 0;
+              SmartDashboard.putNumber("currentRot", pose.getRotation().getDegrees());
+              Robot.teleopField.getObject("Autopilot Pose").setPose(target.getReference());
+              SmartDashboard.putNumber("headingTarget", headingReference);
+              SmartDashboard.putNumber("sub", diff);
+              SmartDashboard.putNumber("appliedRot", appliedRot);
+
+              drivetrain.setControl(m_request
+              .withVelocityX(output.vx())
+              .withVelocityY(output.vy())
+              .withTargetDirection(output.targetAngle()));        })
+        .until(() -> 
+        Constants.AutoConstants.AutopilotConstants.kAutopilot.atTarget(drivetrain.getPose(), target)
+        )
+        .finallyDo(() -> drivetrain.stopDrivetrain());
+  }
+
+
   /**
    * Aligns the robot to the reef using path planner
    * 
@@ -191,11 +236,12 @@ public class AligntoReef {
   public static Command autopilotAlign(BooleanSupplier isRight) {
 
     return new DeferredCommand(() -> {
-      return CommandSwerveDrivetrain.getInstance().align(new APTarget(getTargetPose(isRight.getAsBoolean())));
+      return align(new APTarget(getTargetPose(isRight.getAsBoolean())));
     },
       Set.of(CommandSwerveDrivetrain.getInstance()));
 
   }
+
 
 
 }
