@@ -250,16 +250,6 @@ public class Robot extends TimedRobotstangs {
 
   }
 
-   @Override
-  public void testExit() {
-    SwerveCommands.close();
-    ArmCommands.close();
-    ElevatorCommands.close();
-    ClimberCommands.close();
-    IntakeCommands.close();
-    EndeffectorCommands.close();
-
-  }
 
 
     @Override
@@ -373,7 +363,7 @@ public class Robot extends TimedRobotstangs {
             IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
 
             // The actual button on elastic with its customizations
-            testTab.add("IntakeCommadns", IntakeCommands)    
+            testTab.add("IntakeCommands", IntakeCommands)    
 
                     .withSize(2, 1)
                     .withPosition(0, 2);
@@ -474,6 +464,7 @@ public class Robot extends TimedRobotstangs {
         if (IntakeCommands.getSelected() != lastIntake) {
             IntakeCommands.getSelected().schedule();
         }
+
         if (EndeffectorCommands.getSelected() != lastEndaffector) {
             EndeffectorCommands.getSelected().schedule();
         }
@@ -491,14 +482,19 @@ public class Robot extends TimedRobotstangs {
 
     unpublishTrajectory();
 
-    IntakePivot.getInstance().point3Intake();
-    Climber.getInstance().zeroClimber();
-    Elevator.getInstance().setHomePositionElevator();
-
-    autoGroup.schedule();
-
-    // autoCommand.schedule();
     }
+
+    
+   @Override
+   public void testExit() {
+     SwerveCommands.close();
+     ArmCommands.close();
+     ElevatorCommands.close();
+     ClimberCommands.close();
+     IntakeCommands.close();
+     EndeffectorCommands.close();
+ 
+   }
 
 
 
