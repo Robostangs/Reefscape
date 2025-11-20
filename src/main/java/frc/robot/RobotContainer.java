@@ -129,6 +129,7 @@ public class RobotContainer {
                                                                                         : 1))));
                 }
 
+                logger.initSwerveLog();
         }
 
         private void configurePIDBindings() {
@@ -163,7 +164,7 @@ public class RobotContainer {
 
                 xTest.a().toggleOnTrue(new HomeElevator());
 
-                xTest.x().toggleOnTrue(new Retract());
+                xTest.x().toggleOnTrue(new Retract(true));
                 xTest.y().toggleOnTrue(new Extend(false));
                 xTest.b().toggleOnTrue(new RunIntake());
 
@@ -208,11 +209,12 @@ public class RobotContainer {
                  */
 
                 xDrive.y().toggleOnTrue(new Untake());
-                xDrive.x().toggleOnTrue(new Retract());
-                xDrive.a().toggleOnTrue(IntakeFactory.algaeIn());
+                xDrive.x().toggleOnTrue(new Retract(true));
+                xDrive.a().toggleOnTrue(new Retract(false));
 
                 xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
+                
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));

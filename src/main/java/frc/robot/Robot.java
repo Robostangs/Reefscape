@@ -240,24 +240,16 @@ public class Robot extends TimedRobotstangs {
     NamedCommands.registerCommand("Spit", new Spit().withTimeout(0.4));
 
     NamedCommands.registerCommand("Ground Intake", new Extend(true));
-    NamedCommands.registerCommand("Retract", new Retract().withTimeout(0.5));
+    NamedCommands.registerCommand("Retract", new Retract(true).withTimeout(0.5));
     NamedCommands.registerCommand("Intake", new PrintCommand("Hopefully autos work"));
 
     NamedCommands.registerCommand("Stow", ScoringFactory.SmartStow());
     NamedCommands.registerCommand("Schloop", ScoringFactory.Schloop().withTimeout(0.4));
 
-  }
 
-   @Override
-  public void testExit() {
-    SwerveCommands.close();
-    ArmCommands.close();
-    ElevatorCommands.close();
-    ClimberCommands.close();
-    IntakeCommands.close();
-    EndeffectorCommands.close();
 
   }
+
 
 
     @Override
@@ -362,7 +354,7 @@ public class Robot extends TimedRobotstangs {
             IntakeCommands.addOption("Extend", new Extend(false));
 
             //  An option on elastic when pressed will set the intake pivot to retract
-            IntakeCommands.addOption("Retract", new Retract());
+            IntakeCommands.addOption("Retract", new Retract(true));
 
             // An option on elastic when pressed will set the intake pivot to just run the motors
             IntakeCommands.addOption("RunIntake", new RunIntake());
@@ -371,7 +363,7 @@ public class Robot extends TimedRobotstangs {
             IntakeCommands.addOption("Home Intake", new HomeIntake().withTimeout(3));
 
             // The actual button on elastic with its customizations
-            testTab.add("IntakeCommadns", IntakeCommands)    
+            testTab.add("IntakeCommands", IntakeCommands)    
 
                     .withSize(2, 1)
                     .withPosition(0, 2);
@@ -472,6 +464,7 @@ public class Robot extends TimedRobotstangs {
         if (IntakeCommands.getSelected() != lastIntake) {
             IntakeCommands.getSelected().schedule();
         }
+
         if (EndeffectorCommands.getSelected() != lastEndaffector) {
             EndeffectorCommands.getSelected().schedule();
         }
@@ -489,14 +482,19 @@ public class Robot extends TimedRobotstangs {
 
     unpublishTrajectory();
 
-    IntakePivot.getInstance().point3Intake();
-    Climber.getInstance().zeroClimber();
-    Elevator.getInstance().setHomePositionElevator();
-
-    autoGroup.schedule();
-
-    // autoCommand.schedule();
     }
+
+    
+   @Override
+   public void testExit() {
+     SwerveCommands.close();
+     ArmCommands.close();
+     ElevatorCommands.close();
+     ClimberCommands.close();
+     IntakeCommands.close();
+     EndeffectorCommands.close();
+ 
+   }
 
 
 
@@ -577,7 +575,7 @@ public class Robot extends TimedRobotstangs {
             autoCommand = new PrintCommand("doing nothing!");
         }
 
-        autoGroup = new SequentialCommandGroup(new Retract().withTimeout(0.2)
+        autoGroup = new SequentialCommandGroup(new Retract(true).withTimeout(0.2)
 
         );
 
@@ -591,6 +589,10 @@ public class Robot extends TimedRobotstangs {
 
     public void autonomousInit() {
 
+
+
+
+
         unpublishTrajectory();
 
         IntakePivot.getInstance().point3Intake();
@@ -600,6 +602,7 @@ public class Robot extends TimedRobotstangs {
         autoGroup.schedule();
 
     }
+
 
     /**
      * This function is called periodically during autonomous.

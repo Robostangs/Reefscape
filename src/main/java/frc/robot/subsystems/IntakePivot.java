@@ -72,6 +72,9 @@ public class IntakePivot extends SubsystemBase {
     public void setRetractPosition() {
         pivotControl.Position = Constants.IntakeConstants.kRetractSetpoint;
     }
+    public void setRetractPositionNotReg() {
+        pivotControl.Position = Constants.IntakeConstants.kHardstopPosition;
+    }
 
     public void setHeimlichPosition() {
         pivotControl.Position = Constants.IntakeConstants.kHeimlichSetpoint;
