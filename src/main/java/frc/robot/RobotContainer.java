@@ -122,6 +122,7 @@ public class RobotContainer {
                                                                                         : 1))));
                 }
 
+                logger.initSwerveLog();
         }
 
         private void configureTestBindings() {
