@@ -47,8 +47,8 @@ public class RobotContainer {
                         .withRotationalDeadband(
                                         Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
                                                         * 0.1) // Add a 10% deadband
-                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors      
-        /*Making a telemetry object (logger) */                                                                         
+                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors    
+                          
         private final Telemetry logger = new Telemetry(
                         Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond));
         //Setting up different controllers for driver, manipulator, and testing

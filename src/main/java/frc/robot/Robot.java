@@ -70,12 +70,17 @@ public class Robot extends TimedRobotstangs {
 
     public static Field2d teleopField = new Field2d();
 
+    //Shuffleboard tabs
     public static ShuffleboardTab autoTab, teleopTab, testTab, disTab;
 
+    //Alerts
     private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", AlertType.kError);
     private static Alert CANcoderAlert = new Alert("Can tweaking", AlertType.kError);
     private static Alert MotorAlert = new Alert("Can tweaking", AlertType.kError);
+
     public boolean testConfigured = false;
+
+    //Pit Test Choosers
     public static SendableChooser<Command> SwerveCommands = new SendableChooser<>();
     public static SendableChooser<Command> ElevatorCommands = new SendableChooser<>();
     public static SendableChooser<Command> IntakeCommands = new SendableChooser<>();
@@ -83,13 +88,7 @@ public class Robot extends TimedRobotstangs {
     public static SendableChooser<Command> ArmCommands = new SendableChooser<>();
     public static SendableChooser<Command> ClimberCommands = new SendableChooser<>();
     public static SendableChooser<Command> AlgaeffectorCommands = new SendableChooser<>();
-    Command lastSwerve;
-    Command lastClimber;
-    Command lastIntake;
-    Command lastElevator;
-    Command lastEndaffector;
-    Command lastArm;
-    Command lastAlgaeffector;
+    Command lastSwerve,lastClimber,lastIntake,lastElevator, lastEndaffector, lastArm, lastAlgaeffector;
     SequentialCommandGroup autoGroup;
     private static String autoName = "";
 
@@ -108,6 +107,8 @@ public class Robot extends TimedRobotstangs {
 
     private static GcStatsCollector gscollect = new GcStatsCollector();
     private static String lastAutoName;
+    
+    //Alerts
     private static Alert nullAuto = new Alert("Null auto", AlertType.kWarning);
     private static Alert publishfail = new Alert("Publishing failed", AlertType.kError);
     private static Alert noAutoSelected = new Alert("No Auto Selected", AlertType.kWarning);
@@ -135,6 +136,7 @@ public class Robot extends TimedRobotstangs {
     testTab = Shuffleboard.getTab("Test");
     disTab = Shuffleboard.getTab("Disabled");
 
+    //Auto Choosers
     startChooser.setDefaultOption("Shit and Shit", "");
     startChooser.addOption("Forward", "Pissing");
     startChooser.addOption("Dumb L4", "Shitting");
@@ -181,6 +183,7 @@ public class Robot extends TimedRobotstangs {
     thirdPieceRoLChooser.addOption("Left", "L");
     thirdPieceRoLChooser.addOption("Open 4 piece", "OStart - O2L - O1R - O1L - C1L");
 
+    //Putting the Choosers in the Shuffleboard Tab
     autoTab.add("Start Chooser", startChooser)
         .withSize(2, 1)
         .withPosition(0, 0);
@@ -229,7 +232,7 @@ public class Robot extends TimedRobotstangs {
         .withWidget("Match Time")
         .withProperties(Map.of("red_start_time", 15, "yellow_start_time", 30));
 
-
+    // Adding Path Planner Commands
     NamedCommands.registerCommand("L3 Score", ScoringFactory.L3ScoreAuto().andThen(ScoringFactory.SmartStow()));
     NamedCommands.registerCommand("L4 Score", ScoringFactory.L4ScoreAuto().andThen(ScoringFactory.SmartStow()));
 
@@ -255,6 +258,7 @@ public class Robot extends TimedRobotstangs {
 
     @Override
     public void testInit() {
+        // Close commands
         SwerveCommands.close();
         ArmCommands.close();
         ElevatorCommands.close();
@@ -365,7 +369,6 @@ public class Robot extends TimedRobotstangs {
 
             // The actual button on elastic with its customizations
             testTab.add("IntakeCommands", IntakeCommands)    
-
                     .withSize(2, 1)
                     .withPosition(0, 2);
 
@@ -431,7 +434,7 @@ public class Robot extends TimedRobotstangs {
                     .withSize(2, 1)
                     .withPosition(0, 5);
 
-
+            // Making the last commands the selected ones
             lastSwerve = SwerveCommands.getSelected();
             lastArm = ArmCommands.getSelected();
             lastElevator = ElevatorCommands.getSelected();
