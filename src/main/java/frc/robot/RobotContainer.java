@@ -40,23 +40,18 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import edu.wpi.first.wpilibj.Timer;
 
 public class RobotContainer {
-        // max angular velocity
-
         /* Setting up bindings for necessary control of the swerve drive platform */
         private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
                         .withDeadband(Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                         .in(MetersPerSecond) * 0.1)
                         .withRotationalDeadband(
                                         Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond
-                                                        * 0.1) // Add a
-                                                               // 10%
-                                                               // deadband
-                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive
-                                                                                 // motors
-
+                                                        * 0.1) // Add a 10% deadband
+                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors      
+        /*Making a telemetry object (logger) */                                                                         
         private final Telemetry logger = new Telemetry(
                         Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts.in(MetersPerSecond));
-
+        //Setting up different controllers for driver, manipulator, and testing
         private final CommandXboxController xDrive = new CommandXboxController(
                         OperatorConstants.kDriverControllerPort);
 
@@ -68,11 +63,15 @@ public class RobotContainer {
 
         private final GenericHID xSim = new GenericHID(2);
 
+        //Setting up the drivetrain subsystem
         public final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
+        //Setting up static variable useVision if we use vision
         public static boolean useVision = true;
 
         public RobotContainer() {
+                // if we are in sim mode, use actually sim bindings
+                // if not
                 if (Robot.isSimulation()) {
                         configureSimBindings();
                 } else {
@@ -80,7 +79,8 @@ public class RobotContainer {
                         configureManipBindings();
                         configureTestBindings();
                 }
-
+                // if the robot is in sim mode, then it will use sim arrow keys for driving
+                // if not it will use actual driving controls
                 if (Robot.isSimulation()) {
                         drivetrain.setDefaultCommand(
                                         drivetrain.applyRequest(() -> drive.withVelocityX((-xSim.getRawAxis(0))
@@ -94,7 +94,6 @@ public class RobotContainer {
                                                                         Constants.AutoConstants.AutoSpeeds.kMaxAngularSpeedRadiansPerSecond)));
                 } else {
                         drivetrain.setDefaultCommand(
-                                        // Drivetrain will execute this command periodically
                                         drivetrain.applyRequest(() -> drive.withVelocityX((-xDrive.getLeftY())
                                                         * Constants.AutoConstants.AutoSpeeds.kSpeedAt12Volts
                                                                         .in(MetersPerSecond)
@@ -124,6 +123,7 @@ public class RobotContainer {
 
         }
 
+        // Configuration of test bindings
         private void configureTestBindings() {
 
                 xTest.rightStick().whileTrue(new Spit());
@@ -150,8 +150,9 @@ public class RobotContainer {
 
         }
 
+        // Configuration of driver bindings
         private void configureDriverBindings() {
-
+                //Rumble the controller between 20 and 25 seconds
                 new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
                                 .onTrue(
                                                 new RunCommand(() -> xDrive.getHID().setRumble(RumbleType.kBothRumble,
@@ -168,35 +169,33 @@ public class RobotContainer {
                 xDrive.rightTrigger().toggleOnTrue(IntakeFactory.algaeOut());
 
                 xDrive.b().toggleOnTrue(new RunIntake());
-
-                //TAGS:
-                /**
-                 *red: 6,7,8,9,10,11
-                 *blue: 17,18,19,20,21,22
-                 */
-
                 xDrive.y().toggleOnTrue(new Untake());
                 xDrive.x().toggleOnTrue(new Retract(true));
                 xDrive.a().toggleOnTrue(new Retract(false));
 
-                xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
-
                 
+
+                //reset the pose of the robot to the reset spot (in front of the reef)
+                // if we are red, then flip the reset pose.
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
                                 Robot.isRed() ? FlippingUtil.flipFieldPose(Constants.ScoringConstants.kResetPose)
                                                 : Constants.ScoringConstants.kResetPose)));
-
+                //toggle the variable useVision 
+                // if true use limelight data, if not then dont
                 xDrive.povRight().onTrue(new InstantCommand(
                                 (() -> useVision = !useVision)));
+
+                //resets the rotation of the robot
                 xDrive.povUp().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
                             
-                // reset the field-centric hea ding on left bumper press
+                xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 drivetrain.registerTelemetry(logger::telemeterize);
         }
 
+        // Configuration of manip bindings
         private void configureManipBindings() {
-
+                //Rumble the controller between 20 and 25 seconds
                 new Trigger(() -> Timer.getMatchTime() < 25).and(() -> Timer.getMatchTime() > 20)
                                 .onTrue(
                                                 new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
@@ -204,9 +203,6 @@ public class RobotContainer {
                                 .onFalse(
                                                 new RunCommand(() -> xManip.getHID().setRumble(RumbleType.kBothRumble,
                                                                 0)));
-
-                // new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
-                //                 .whileTrue(new SetArmDutyCycle(() -> xManip.getLeftY() / 2));
 
                 
                 new Trigger(() -> Math.abs(xManip.getLeftY()) > 0.1)
@@ -216,7 +212,6 @@ public class RobotContainer {
                                 .whileTrue(new SetElevatorDutyCycle(() -> -xManip.getRightY() / 2));
 
                 xManip.a().toggleOnTrue(
-                                // ScoringFactory.L4Pos0itionAuto()
                                 ScoringFactory.L4Score(xManip.leftBumper()).andThen(ScoringFactory.SmartStow())
                                 );
                 xManip.b().toggleOnTrue(
@@ -229,10 +224,7 @@ public class RobotContainer {
                 xManip.b().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory.ByeByeByeAlgaeL3());
                 xManip.y().and(xManip.rightTrigger(0.2)).toggleOnTrue(ScoringFactory
                                 .ByeByeByeAlgaeL2());
-                // xManip.y().and(xManip.leftTrigger(0.2)).toggleOnTrue(ScoringFactory.SpitAlgaeffector()
-                //                 );
-                // xManip.b().and(xManip.leftTrigger(0.2)).toggleOnTrue(ScoringFactory.IntakeAlgaeffector()
-                                // );
+    
 
                 xManip.povDown().whileTrue(new Slurp(false));
                 xManip.povRight().toggleOnTrue(ScoringFactory.Schloop());
@@ -242,12 +234,12 @@ public class RobotContainer {
                 xManip.rightStick().toggleOnTrue(new Deploy(true));
                 xManip.leftStick().toggleOnTrue(new Reel(true));
 
-                // xManip.povUp().onTrue(Elevator.getInstance().runOnce(Elevator.getInstance().setHomePositionElevator));
 
                 xManip.rightBumper().toggleOnTrue(
                                 new HomeElevator().andThen(ScoringFactory.SmartStow()));
         }
 
+        // Configuration of sim bindings
         private void configureSimBindings() {
 
                 new Trigger(() -> xSim.getRawButtonPressed(1)).onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
