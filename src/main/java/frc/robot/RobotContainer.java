@@ -14,7 +14,6 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.SetArmPosition;
 import frc.robot.commands.ArmCommands.SetArmDutyCycle;
 import frc.robot.commands.ClimberCommands.Deploy;
-import frc.robot.commands.ClimberCommands.ManualAdjustClimber;
 import frc.robot.commands.ClimberCommands.Reel;
 import frc.robot.commands.ElevatorCommands.HomeElevator;
 import frc.robot.commands.ElevatorCommands.SetElevatorPosition;
@@ -159,15 +158,15 @@ public class RobotContainer {
                                 .onFalse(
                                                 new RunCommand(() -> xDrive.setRumble(RumbleType.kBothRumble, 0)));
 
-                xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
+                // xDrive.rightStick().toggleOnTrue(IntakeFactory.IntakeCoral());
                 xDrive.leftStick().toggleOnTrue(new HomeIntake());
 
-                xDrive.leftBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> false));
-                xDrive.rightBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> true));
+                // xDrive.leftBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> false));
+                // xDrive.rightBumper().toggleOnTrue(AligntoReef.getAlignToReef(() -> true));
 
-                xDrive.rightTrigger().toggleOnTrue(IntakeFactory.algaeOut());
+                // xDrive.rightTrigger().toggleOnTrue(IntakeFactory.algaeOut());
 
-                xDrive.b().toggleOnTrue(new RunIntake());
+                // xDrive.b().toggleOnTrue(new RunIntake());
 
                 //TAGS:
                 /**
@@ -175,11 +174,11 @@ public class RobotContainer {
                  *blue: 17,18,19,20,21,22
                  */
 
-                xDrive.y().toggleOnTrue(new Untake());
-                xDrive.x().toggleOnTrue(new Retract(true));
-                xDrive.a().toggleOnTrue(new Retract(false));
+                // xDrive.y().toggleOnTrue(new Untake());
+                // xDrive.x().toggleOnTrue(new Retract(true));
+                // xDrive.a().toggleOnTrue(new Retract(false));
 
-                xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
+                // xDrive.povLeft().toggleOnTrue(Climber.getInstance().runOnce(Climber.getInstance().zeroClimberPosition));
 
                 
                 xDrive.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.resetPose(
