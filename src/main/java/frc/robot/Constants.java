@@ -285,6 +285,10 @@ public final class Constants {
     // reset pose
     public static final Pose2d kResetPose = new Pose2d(3.23, 4, new Rotation2d(Units.degreesToRadians(270)));
 
+
+    //temp reset pose
+    public static final Pose2d kResetPoset = new Pose2d(3.17, 4.011, new Rotation2d(Units.degreesToRadians(270)));
+
     // Cage poses
     public static final Pose2d kCageTop = new Pose2d(8.8, 7.3, new Rotation2d(0d));
     public static final Pose2d kCageMiddle = new Pose2d(8.76, 6.150, new Rotation2d(0d));
