@@ -21,10 +21,15 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N3;
@@ -45,7 +50,7 @@ import edu.wpi.first.units.measure.*;
  */
 public final class Constants {
   public static final String logDirectory = "";
-
+  public static final AprilTagFieldLayout kAprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
   public static class ClimberConstants {
 
@@ -221,7 +226,7 @@ public final class Constants {
     public static final int[] kRedIDS = {1,2,3,4,5,14,15,16,12,13,19,20,18,21,17,22 };
     public static final int[] kBlueIDS = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
 
-
+    public static final String kPhotonCamName="DeadpoolX";
     public static final Vector<N3> kErrorInMyVision = VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(100));
     public static final String kLimelightFour = "limelight-score";
     public static final String kLimelightThree = "limelight-right";
@@ -237,6 +242,7 @@ public final class Constants {
     public static final double X_TOLERANCE_REEF_ALIGNMENT = 0;
     public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0;
     public static final String kEyeCameraName = "Agamotto";
+    public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
 
     
 

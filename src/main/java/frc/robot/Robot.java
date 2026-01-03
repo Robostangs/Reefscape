@@ -72,7 +72,7 @@ public class Robot extends TimedRobotstangs {
 
     //Shuffleboard tabs
     public static ShuffleboardTab autoTab, teleopTab, testTab, disTab;
-
+    
     //Alerts
     private static Alert gcAlert = new Alert("MEMORY TWEAKING FIX RN", AlertType.kError);
     private static Alert CANcoderAlert = new Alert("Can tweaking", AlertType.kError);
@@ -116,11 +116,12 @@ public class Robot extends TimedRobotstangs {
     private Timer timer = new Timer();
 
     private String oldAutoName = "";
+    // Vision
+    public Vision vision = new Vision(drivetrain);
+    public Robot() {
+        m_robotContainer = new RobotContainer();
 
-  public Robot() {
-    m_robotContainer = new RobotContainer();
-
-  }
+    }
 
   /**
    * This autonomous runs the autonomous command selected by your
@@ -514,6 +515,7 @@ public class Robot extends TimedRobotstangs {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         gscollect.update();
+        vision.periodic();
         teleopField.setRobotPose(drivetrain.getState().Pose);
 
         SmartDashboard.putString("Auto/Current Auto", autoName);
@@ -634,8 +636,7 @@ public class Robot extends TimedRobotstangs {
      */
     @Override
     public void teleopPeriodic() {
-   
-        SmartDashboard.putNumber("ID Seen", LimelightHelpers.getFiducialID(Constants.VisionConstants.kLimelightFour));
+        
     }
 
     /**
