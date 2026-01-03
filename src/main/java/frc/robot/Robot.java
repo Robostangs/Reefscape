@@ -67,6 +67,8 @@ public class Robot extends TimedRobotstangs {
     private final RobotContainer m_robotContainer;
 
     private CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
+    private Vision vision;
+
 
     public static Field2d teleopField = new Field2d();
 
@@ -117,7 +119,6 @@ public class Robot extends TimedRobotstangs {
 
     private String oldAutoName = "";
     // Vision
-    public Vision vision = new Vision(drivetrain);
     public Robot() {
         m_robotContainer = new RobotContainer();
 
@@ -129,6 +130,10 @@ public class Robot extends TimedRobotstangs {
    */
   @Override
   public void robotInit() {
+
+    vision = new Vision(drivetrain::addVisionMeasurement);
+    
+
 
     // Making the dashboard on Elastic
     SmartDashboard.putData("Field", teleopField);
