@@ -131,7 +131,7 @@ public class Robot extends TimedRobotstangs {
   @Override
   public void robotInit() {
 
-    vision = new Vision(drivetrain::addVisionMeasurement);
+    vision = new Vision(drivetrain);
     
 
 
