@@ -34,6 +34,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.measure.*;
 
 /**
@@ -242,7 +243,8 @@ public final class Constants {
     public static final double X_TOLERANCE_REEF_ALIGNMENT = 0;
     public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0;
     public static final String kEyeCameraName = "Agamotto";
-    public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+ 
+    public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(10.84), Units.inchesToMeters(4.23), Units.inchesToMeters(8.3)), new Rotation3d(Units.degreesToRadians(90), Units.degreesToRadians(26.616), Units.degreesToRadians(-90)));
 
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
