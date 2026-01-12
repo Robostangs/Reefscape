@@ -44,16 +44,15 @@ public class AutopilotAlign extends Command {
   
     public AutopilotAlign(boolean isRight) {
       this.isRight = isRight;
-      
-      
-
       m_drivetrain = CommandSwerveDrivetrain.getInstance();
       addRequirements(m_drivetrain);
+      this.m_target=new APTarget(getTargetPose(isRight));
     }
   
     @Override
     public void initialize() {
       /* no-op */
+      
     }
   
     @Override
